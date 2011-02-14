@@ -1,0 +1,216 @@
+.directions td {
+  font-size : 11px;
+  text-align : justify;
+}
+
+#results .header {
+  font-size : 16px;
+  font-weight : bold;
+  margin-bottom : .25em;
+}
+
+#results .gs-result {
+  margin-bottom : 1em;
+  padding-left : 5px;
+}
+
+#results div.gs-watermark {
+  display : none;
+}
+
+#results ol {
+  list-style : decimal;
+  margin-left : 20px;
+  padding-left : 20px;
+}
+
+#cursor {
+  padding-left : 5px;
+}
+
+#extTips .x-window-body ul {
+  list-style : disc;
+  margin-left : 10px;
+  padding-left : 10px;
+}
+
+#extHelpOL td {
+  font-size:11px;
+  vertical-align:top;
+}
+#extHelpOL .x-window-body ol {
+  list-style : decimal;
+  margin-left : 10px;
+  padding-left : 10px;
+}
+#extHelpOL .x-window-mc {
+   background-color: white;
+}
+
+#extHelpGE td {
+  font-size:11px;
+  vertical-align:top;
+}
+#extHelpGE .x-window-body ol {
+  list-style : decimal;
+  margin-left : 10px;
+  padding-left : 10px;
+}
+#extHelpGE .x-window-mc {
+   background-color: white;
+}
+
+#extAbout td {
+  font-size:12px;
+  vertical-align:top;
+}
+#extAbout .x-window-mc {
+   background-color: white;
+}
+
+.buttonIcon {
+  background-repeat:no-repeat;
+}
+
+.olControlScaleLine {
+  background-color: #ffffff;
+  font: 9px arial,helvetica,tahoma,sans-serif !important;
+  padding: 2px;
+  bottom : 43px !important;
+  right: 3px !important;
+  left: auto !important;
+}
+
+.olControlScale {
+  font: 10px arial,helvetica,tahoma,sans-serif !important;
+  background-color: #ffffff;
+}
+
+.olControlLoadingPanel {
+  background-image:url(../js/loadingPanel/theme/default/img/loading.gif);
+  position: relative;
+  width: 195px;
+  height: 11px;
+  background-position:center;
+  background-repeat:no-repeat;
+  display: none;
+}
+
+.legendText {
+  font-size:11px;
+}
+
+.timeline-band-layer {
+  font-size:11px;
+}
+
+.timeline-band-events {
+  font-size:11px;
+}
+
+#timePanel {
+  position   : absolute;
+}
+#timePanel .x-panel-body {
+  background : transparent;
+}
+
+#timeSlider .x-slider-thumb {
+  background-image:url(../img/slider-thumb.png);
+}
+.timeSlider {
+  padding-left:20px;
+  background-image:url(../img/bg.png);
+}
+
+.firstTime {
+  font-size:10px;
+  text-align:left;
+  background-image:url(../img/bg.png);
+}
+.middleTime {
+  font-size:10px;
+  text-align:center;
+  background-image:url(../img/bg.png);
+}
+.lastTime {
+  font-size:10px;
+  text-align:right;
+  background-image:url(../img/bg.png);
+}
+
+.x-table-layout-cell {
+  width:200px;
+}
+
+.dateRangeHdr {
+  font-size:11px;
+}
+
+.datePicker {
+  margin-left:10px;
+}
+
+.olControlLoadingPanel {
+  background-image:url(../js/loadingPanel/theme/default/img/rel_interstitial_loading.gif);
+  position: relative;
+  width: 220px;
+  height: 19px;
+  background-position:center;
+  background-repeat:no-repeat;
+  display: none;
+}
+
+.addButton { background-image: url(../img/addPlus.png) !important; }
+
+.typeraster { background-image: url(../img/raster.png) !important; }
+.typerasterGray { background-image: url(../img/raster-gray.png) !important; }
+.typerasterRed { background-image: url(../img/raster-red.png) !important; }
+
+.typegrid { background-image: url(../img/grid.png) !important; }
+.typegridGray { background-image: url(../img/grid-gray.png) !important; }
+.typegridRed { background-image: url(../img/grid-red.png) !important; }
+
+.typeline { background-image: url(../img/line.gif) !important; }
+.typelineGray { background-image: url(../img/line-gray.gif) !important; }
+.typelineRed { background-image: url(../img/line-red.png) !important; }
+
+.typedefault { background-image: url(../img/layers.png) !important; }
+.typedefaultGray { background-image: url(../img/layers-gray.png) !important; }
+.typedefaultRed { background-image: url(../img/layers-red.png) !important; }
+
+.typepoly { background-image: url(../img/polygon.gif) !important; }
+.typepolyGray { background-image: url(../img/polygon-gray.gif) !important; }
+.typepolyRed { background-image: url(../img/polygon-red.png) !important; }
+
+.typept { background-image: url(../img/point.gif) !important; }
+.typeptGray { background-image: url(../img/point-gray.gif) !important; }
+.typeptRed { background-image: url(../img/point-red.png) !important; }
+
+.typelayergroup { background-image: url(../img/layers.png) !important; }
+.typelayergroupGray { background-image: url(../img/layers-gray.png) !important; }
+.typelayergroupRed { background-image: url(../img/layers-red.png) !important; }
+
+#myAutoComplete {
+    width:15em; /* set width here or else widget will expand to fit its container */
+    padding-bottom:2em;
+}
+.match {
+    font-weight:bold;
+}
+
+.olControlMousePosition {
+  background-color: #ffffff;
+  bottom: 17px !important;
+  font: 10px arial,helvetica,tahoma,sans-serif !important;
+}
+
+.featureCellHref {
+  text-decoration: underline;
+  color: blue;
+}
+.x-form-check-wrap {overflow-x:hidden; !important;}
+
+.olLayerGoogleCopyright {
+  visibility : hidden; !important;
+}

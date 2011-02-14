@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI qw(:standard);
+use LWP::UserAgent;
+
+# does NOT support POST!
+
+# get the url
+my $query = new CGI;
+
+# get the target & get rid of crap
+my $p = $query->url(-query=>1);
+$p = substr($p,index($p,'?')+1);
+$p =~ s/%3A/:/g;
+$p =~ s/%2F/\//g;
+$p =~ s/%3F/?/g;
+$p =~ s/%2C/,/g;
+$p =~ s/%26/&/g;
+$p =~ s/%3D/=/g;
+$p =~ s/;/&/g;
+$p =~ s/keywords=//g;
+
+# setup the user agent
+my $ua = LWP::UserAgent->new((timeout => 30));
+
+# get the page
+my $response = $ua->get($p);
+
+# return the page if OK
+print $query->header($response->content_type);
+if ($response->is_success) {
+  print $response->content;
+}
