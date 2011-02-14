@@ -1,0 +1,102 @@
+#!/usr/bin/perl
+
+use strict;
+use CGI qw(:standard);
+use XML::Simple qw(:strict);
+use LWP::UserAgent;
+
+my $session     = time().rand();
+my $scratch_dir = "/var/www/html/temp/GeoServer_extract/$session";
+my $web_dir     = "/temp/GeoServer_extract/$session";
+mkdir $scratch_dir;
+
+# Get the POST data.
+my $t;
+read (STDIN,$t,$ENV{CONTENT_LENGTH});
+
+# spin up the cgi
+my $query = new CGI;
+
+my $t2 = <<EOXML;
+<layers>
+  <layer name="foo" baseURL="http://somewhere">
+    <metadata>http://metadata1/myfile.foo</metadata>
+    <metadata>http://metadata2/myfile.bar</metadata>
+  </layer>
+  <layer name="mom" baseURL="http://somewhereelse">
+    <metadata>http://metadata1/yourfile.foo</metadata>
+    <metadata>http://metadata2/yourfile.bar</metadata>
+  </layer>
+</layers>
+EOXML
+
+# Bail if no data was passed as POST.
+if (length($t) <= 0) {
+  exit;
+}
+
+# Read data into XML object.
+my $xml = XML::Simple->new();
+my $doc = $xml->XMLin($t,forcearray => 1,KeyAttr => []);
+
+my $ua = LWP::UserAgent->new((timeout => 100));
+
+print $query->header('text/plain');
+
+foreach (@{$doc->{layer}}) {
+  my %h = %{$_};
+  if (!(unsafeXML($h{baseURL}) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
+    next;
+  }
+  mkdir "$scratch_dir/".unsafeXML($h{name});
+  my $r = $ua->get(unsafeXML($h{baseURL}));
+  if ($r->is_success) {
+    if (unsafeXML($h{baseURL}) =~ /outputformat=SHAPE-ZIP/) {
+      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.zip';
+      print F $r->content;
+      close F;
+      my $cmd = "cd \"$scratch_dir/".unsafeXML($h{name})."\" ; unzip \"".unsafeXML($h{name}).'.zip'."\" ; rm -f \"".unsafeXML($h{name}).'.zip"';
+      `$cmd`;
+    }
+    elsif (unsafeXML($h{baseURL}) =~ /\/kml\?/) {
+      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml';
+      print F $r->content;
+      close F;
+    }
+    else {
+      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.tif';
+      print F $r->content;
+      close F;
+    }
+  }
+  foreach (@{$h{metadata}}) {
+    my $u = unsafeXML($_);
+    if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
+      next;
+    }
+    my @p = split(/\//,$u);
+    $r = $ua->get($u);
+    if ($r->is_success) {
+      open F,">$scratch_dir/".unsafeXML($h{name})."/$p[$#p]";
+      print F $r->content;
+      close F;
+    }
+  }
+}
+my $zipName = $doc->{zip}[0]{name};
+$zipName =~ s/\.zip//gi;
+
+my $cmd = "cd $scratch_dir ; zip -r $zipName.zip *";
+`$cmd`;
+
+print "$web_dir/$zipName.zip\n";
+
+sub unsafeXML {
+  my $s = pop;
+  $s =~ s/___EQ___/=/g;
+  $s =~ s/___AMP___/&/g;
+  $s =~ s/___LT___/</g;
+  $s =~ s/___GT___/>/g;
+  $s =~ s/___QUOT___/"/g;
+  return $s;
+}
