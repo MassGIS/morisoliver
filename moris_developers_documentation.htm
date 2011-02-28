@@ -1,17 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
-
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <meta name=Generator content="Microsoft Word 11 (filtered)">
 <title>MORIS Developers Documentation</title>
-<style>
+<style type="text/css">
 <!--
  /* Style Definitions */
  p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0pt;
-	margin-bottom:.0001pt;
 	font-size:12.0pt;
-	font-family:"Times New Roman";}
+	font-family:"Times New Roman",serif;}
 a:link, span.MsoHyperlink
 	{color:blue;
 	text-decoration:underline;}
@@ -20,22 +19,17 @@ a:visited, span.MsoHyperlinkFollowed
 	text-decoration:underline;}
 p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
 	{margin:0pt;
-	margin-bottom:.0001pt;
 	font-size:10.0pt;
-	font-family:"Courier New";}
+	font-family:"Courier New",serif;}
 pre
 	{margin:0pt;
-	margin-bottom:.0001pt;
 	font-size:10.0pt;
-	font-family:"Courier New";}
+	font-family:"Courier New",serif;}
 span.EmailStyle24
-	{font-family:Arial;
+	{font-family:Arial,sans-serif;
 	color:windowtext;}
 @page Section1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 65.95pt 72.0pt 65.95pt;}
-div.Section1
-	{page:Section1;}
+	{margin:72.0pt 65.95pt 72.0pt 65.95pt;}
 -->
 </style>
 
@@ -45,20 +39,20 @@ div.Section1
 
 <div class=Section1>
 
-<p class=MsoPlainText><b><span style='font-family:Arial'>MORIS Developers
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>MORIS Developers
 Documentation </span></b></p>
-<p class=MsoPlainText><span style='font-family:Arial'>Last Updated: 2/8/2011<br/>
-For questions about this documentation contact <a href=mailto:Aleda.Freeman@state.ma.us>Aleda.Freeman@state.ma.us</a><br/>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 2/8/2011<br/>
+For questions about this documentation contact <a href="mailto:Aleda.Freeman@state.ma.us">Aleda.Freeman@state.ma.us</a><br/>
 <br/>Please note:  MORIS is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php">OLIVER</a> (the MassGIS Online Data Viewer) and <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">SPOLIVER</a> (the State Police Online Data Viewer). This user guide applies to all of these applications, so you may substitute OLIVER, SPOLIVER, etc. for MORIS as you read this guide.
 
 </span></p>
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><b><span style='font-family:Arial'>Background</span></b></p>
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>Background</span></b></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>This document explains
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>This document explains
 the technology behind the new MORIS online data viewer. 
 The code is:
 
@@ -74,65 +68,60 @@ Public License for more details.  In addition to the terms of the GNU General Pu
 licensee agrees to be subject to this Additional Term: Licensee shall notify and provide
 <a target="_blank" href="http://www.tsne.org">Third Sector New England</a> and the <a target="_blank"
  href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership</a> via email to 
-<a href=mailto:info@tsne.org?subject=MORIS_OLIVER_code>info@tsne.org</a> and 
-<a href=mailto:info@massoceanpoartnership.org?subject=MORIS_OLIVER_code>info@massoceanpartnership.org</a>, 
+<a href="mailto:info@tsne.org?subject=MORIS_OLIVER_code">info@tsne.org</a> and 
+<a href="mailto:info@massoceanpoartnership.org?subject=MORIS_OLIVER_code">info@massoceanpartnership.org</a>, 
 with a copy of all "modified versions" of the earlier work that is subject this license or a work "based on"
  the earlier work that is subject to this license.
 
 <a target="_blank" href="http://morisoliver.googlecode.com/files/morisoliver-2.14.2011.zip">Download the MORIS code</a>.</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'><a target="_blank" href="http://www.openlayers.org/">OpenLayers</a>/<a
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'><a target="_blank" href="http://www.openlayers.org/">OpenLayers</a>/<a
 target="_blank" href="http://www.geoext.org/">GeoExt</a> MORIS  
 is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, the <a target="_blank" href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership (MOP)</a>, <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>.
 
 The viewer is configurable and so currently there are several similar viewers
 sharing the same code base. We currently have these variations: </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>MORIS: <u><span style='color:blue'><a
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>MORIS: <u><span style='color:blue'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/moris.php</a>
 </span></u></span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>OLIVER: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/oliver.php</span></u></span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>OLIVER: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/oliver.php</span></u></span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>SPOLIVER: <u><span style='color:blue'><a
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>SPOLIVER: <u><span style='color:blue'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">http://maps.massgis.state.ma.us/map_ol/spoliver.php</a></span></u></span></p>
 
 <p class=MsoNormal style='margin-right:-65.95pt;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Arial'>State Facilities OLIVER: <u><span
+style='font-size:10.0pt;font-family:Arial,sans-serif'>State Facilities OLIVER: <u><span
 style='color:blue'>http://maps.massgis.state.ma.us/<a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/state_facilities.php">map</a>_ol/state_facilities.php</span></u></span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><b><span style='font-family:Arial'>Configuration</span></b></p>
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>Configuration</span></b></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>The viewer is configured to
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The viewer is configured to
 get maps and map data from an <a target="_blank" href="http://www.opengeospatial.org/">Open
 Geospatial Consortium</a> (OGC) web map service (WMS) and web features service (WFS).  Currently the MassGIS
 GeoServer-based WMS/WFS at giswebservices.massgis.state.ma.us is used. </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><u><span style='font-family:Arial'>Configuration by
+<p class=MsoPlainText><u><span style='font-family:Arial,sans-serif'>Configuration by
 Permalink</span></u></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>The viewer can create
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The viewer can create
 permalinks that will open the viewer with certain initial layers, extent,
 basemap and units.  A smaple permalink is as follows:
-<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&coordUnit=dms&measureUnit=m&base=googleSatellite&center=-7897982.7773914,5212245.1294279&zoom=5">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&coordUnit=dms&measureUnit=m&base=googleSatellite&center=-7897982.7773914,5212245.1294279&zoom=5</a>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&amp;coordUnit=dms&amp;measureUnit=m&amp;base=googleSatellite&amp;center=-7897982.7773914,5212245.1294279&amp;zoom=5">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&amp;coordUnit=dms&amp;measureUnit=m&amp;base=googleSatellite&amp;center=-7897982.7773914,5212245.1294279&amp;zoom=5</a>
 This permalink shows two 
 default layers Lighthouses and Shipping Lanes, in the lyrs parameter. The
 bbox parameter describes the extent with lower left and upper right
@@ -146,35 +135,35 @@ style='color:red'> </span>The center parameter describes the center point (here
 in Google coordinates) and the zoom parameter is the zoom level for Google
 maps. </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>A permalink created from
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>A permalink created from
 the Custom basemap which is MA State Plane Mainland NAD 83 meters would look
 different: </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'><a
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.09525604193553,42.2612051836535,-70.80159027675701,42.42132857832588&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=245436.67601356,899131.92358809&amp;zoom=5.489809203863493">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.09525604193553,42.2612051836535,-70.80159027675701,42.42132857832588&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=245436.67601356,899131.92358809&amp;zoom=5.489809203863493</a></span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>The lyrs and bbox
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The lyrs and bbox
 parameter values are the same, but the base is different (and I also changed
 the coordUnit to match the base). The center parameter is now described in MA
 State Plane Mainland NAD 83 meters coordinate system (the coordinates used match
 the base map used). </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>It would be possible to
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>It would be possible to
 construct permalinks ahead of time for a group of geographic areas (for example
 counties) without having to manually zoom to those areas in the viewer and ask
 for the permalinks. </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>Note that the value of
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Note that the value of
 the lyrs parameter is the title of the layer. This is not the same as the
 GeoServer title. This title comes from the folderset XML file. For MORIS this
 folderset is <a target="_blank" href="http://maps.massgis.state.ma.us/temp/moris_folderset.xml">http://maps.massgis.state.ma.us/temp/moris_folderset.xml</a>.
@@ -186,39 +175,39 @@ two permalinks both use the massgis:GISDATA.LANDUSE_POLY GeoServer layer,
 however they use different styles. However, the GeoServer style name is not
 used in the permalink, rather the title from the XML folderset.</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>Permalink
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>Permalink
 1971 landuse:</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'><a
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156</a></span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>Permalink
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>Permalink
 1999 landuse:</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'><a
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156</a>
 </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>In the URLs spaces have
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>In the URLs spaces have
 been URL encoded to the value %20. The title used in the 1971 example is Land
 Use 1971 21 Classes and in the 1999 example is Land Use 1999 21 Classes.
 These can be see in the <a
 target="_blank" href="http://maps.massgis.state.ma.us/temp/oliver_folderset.xml">http://maps.massgis.state.ma.us/temp/oliver_folderset.xml</a>
 </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>The XML folderset needs
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The XML folderset needs
 to have unique titles for each layer/style combination.  It is not possible
 therefore to create a permalink for a layer/style combination that is not
 represented in the folderset XML document.  This is a necessary limitation based
@@ -226,25 +215,21 @@ on the way the viewer was constructed. However, lines can easily be added to
 the folderset XML document.  See below for more information on the folderset
 XML document. </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><u><span style='font-family:Arial'>Configuration of the
-.php </span></u></p>
+<p class=MsoPlainText><u><span style='font-family:Arial,sans-serif'>Configuration of the .php </span></u></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>In addition, the .php
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>In addition, the .php
 files listed above have some configuration parameters that can or do make the
 viewers different from each other: </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>- <u>Folderset of datalayers</u> </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <u>Folderset of datalayers</u> </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial'>Which folders and datalayers in the Available data layers
-window is configurable. 
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>Which folders and datalayers in the Available data layers window is configurable.
 
 Point the foldersetLoc variable to a web-accessible XML file. Study <a
 target="_blank" href="http://maps.massgis.state.ma.us/temp/moris_folderset.xml">http://maps.massgis.state.ma.us/temp/moris_folderset.xml</a> or <a
@@ -347,35 +332,39 @@ on your own server it would be wise to point to local copies of these
 libraries. Edit 
 
 these values:
+
+</span>
+
 <br/>
-<pre><span style='font-family:Arial'>&lt;<span class=start-tag>script</span><span
+<pre><span style='font-family:Arial,sans-serif'>&lt;<span class=start-tag>script</span><span
 class=attribute-name> type</span>=<span class=attribute-value>&quot;text/javascript&quot; </span><span
 class=attribute-name>src</span>=&quot;<a
-target="_blank" href="view-source:http://openlayers.org/api/OpenLayers.js">http://openlayers.org/api/OpenLayers.js</a>&quot;&gt;&lt;/<span
-class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial'>&nbsp;</span></pre><pre><span
-style='font-family:Arial'>&lt;<span class=start-tag>link</span><span
+target="_blank" href="http://openlayers.org/api/OpenLayers.js">http://openlayers.org/api/OpenLayers.js</a>&quot;&gt;&lt;/<span
+class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial,sans-serif'>&nbsp;</span></pre><pre><span
+style='font-family:Arial,sans-serif'>&lt;<span class=start-tag>link</span><span
 class=attribute-name> rel</span>=<span class=attribute-value>&quot;stylesheet&quot; </span><span
 class=attribute-name>type</span>=<span class=attribute-value>&quot;text/css&quot; </span><span
 class=attribute-name>href</span>=&quot;<a
-target="_blank" href="view-source:http://www.sencha.com/deploy/dev/resources/css/ext-all.css">http://www.sencha.com/deploy/dev/resources/css/ext-all.css</a>&quot; <span
+target="_blank" href="http://www.sencha.com/deploy/dev/resources/css/ext-all.css">http://www.sencha.com/deploy/dev/resources/css/ext-all.css</a>&quot; <span
 class=attribute-name>/</span>&gt;</span></pre><pre><span class=attribute-name><span
-style='font-family:Arial'>src</span></span><span style='font-family:Arial'>=&quot;<a
-target="_blank" href="view-source:http://www.sencha.com/deploy/dev/adapter/ext/ext-base.js">http://www.sencha.com/deploy/dev/adapter/ext/ext-base.js</a>&quot;&gt;&lt;/<span
-class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial'>&lt;<span
+style='font-family:Arial,sans-serif'>src</span></span><span style='font-family:Arial,sans-serif'>=&quot;<a
+target="_blank" href="http://www.sencha.com/deploy/dev/adapter/ext/ext-base.js">http://www.sencha.com/deploy/dev/adapter/ext/ext-base.js</a>&quot;&gt;&lt;/<span
+class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial,sans-serif'>&lt;<span
 class=start-tag>script</span><span class=attribute-name> type</span>=<span
 class=attribute-value>&quot;text/javascript&quot; </span><span
 class=attribute-name>src</span>=&quot;<a
-target="_blank" href="view-source:http://www.sencha.com/deploy/dev/ext-all.js">http://www.sencha.com/deploy/dev/ext-all.js</a>&quot;&gt;&lt;/<span
-class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial'>&nbsp;</span></pre><pre><span
-style='font-family:Arial'>&lt;<span class=start-tag>script</span><span
+target="_blank" href="http://www.sencha.com/deploy/dev/ext-all.js">http://www.sencha.com/deploy/dev/ext-all.js</a>&quot;&gt;&lt;/<span
+class=end-tag>script</span>&gt;</span></pre><pre><span style='font-family:Arial,sans-serif'>&nbsp;</span></pre><pre><span
+style='font-family:Arial,sans-serif'>&lt;<span class=start-tag>script</span><span
 class=attribute-name> src</span>=&quot;<a
-target="_blank" href="view-source:http://proj4js.org/lib/proj4js-compressed.js">http://proj4js.org/lib/proj4js-compressed.js</a>&quot;&gt;&lt;/<span
+target="_blank" href="http://proj4js.org/lib/proj4js-compressed.js">http://proj4js.org/lib/proj4js-compressed.js</a>&quot;&gt;&lt;/<span
 class=end-tag>script</span>&gt;</span></pre>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>- <u>GetCapabilities
-cache location </u></span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>- <u>GetCapabilities cache location </u></span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>
 
 In order for the client application to work more efficiently, MassGIS runs a Perl script called slice_getcaps.pl
 as a preproduction step. The slice_getcaps.pl script takes the output of the GetCapabilities request to the 
@@ -384,127 +373,105 @@ target="_blank" href="http://giswebservices.massgis.state.ma.us/geoserver/wms?re
 title="http://giswebservices.massgis.state.ma.us/geoserver/wms?request=GetCapabilities&amp;service=WMS&amp;version=1.1.1">http://giswebservic
 es.massgis.state.ma.us/geoserver/wms?request=<span
 class=searchhit><span style='color:windowtext;text-decoration:none'>GetCapabilities</span></span>&amp;service=WMS&amp;version=1.1.1</a>) 
-and applies some logic to slice the information into separate pieces and include style information 
+<span style='font-family:Arial,sans-serif'>and applies some logic to slice the information into separate pieces and include style information 
 and scale dependencies with those styles. The location of the output of the slice_getcaps.pl script can be 
 modified in the xmlCacheLoc variable. Also a getCapsBbox.js Javascript file in that cache dir is used so this 
-line should be modified: &lt;<span
+line should be modified: </span>&lt;<span
 class=start-tag>script</span><span class=attribute-name> type</span>=<span
-class=attribute-value>&quot;text/javascript&quot; </span></span></pre><pre><span
-class=attribute-name><span style='font-family:Arial'>src</span></span><span
-style='font-family:Arial'>=&quot;<a target="_blank" href="view-source:http://maps.massgis.state.ma.us/temp/OL_MORIS_cache/getCapsBbox.js?1296487021">/temp/OL_MORIS_cache/getCapsBbox.js?1296487021</a>&quot;&gt;&lt;/<span
+class=attribute-value>&quot;text/javascript&quot; </span></span><pre><span
+class=attribute-name><span style='font-family:Arial,sans-serif'>src</span></span><span
+style='font-family:Arial,sans-serif'>=&quot;<a target="_blank" href="http://maps.massgis.state.ma.us/temp/OL_MORIS_cache/getCapsBbox.js?1296487021">/temp/OL_MORIS_cache/getCapsBbox.js?1296487021</a>&quot;&gt;&lt;/<span
 class=end-tag>script</span>&gt;</span></pre>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'><a target="_blank" href="http://morisoliver.googlecode.com/files/morisoliver-2.14.2011.zip">Download</a> all the scripts mentioned
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a target="_blank" href="http://morisoliver.googlecode.com/files/morisoliver-2.14.2011.zip">Download</a> all the scripts mentioned
 in this documentation.</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><b><span style='font-family:Arial'>OS types and versions
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>OS types and versions
 + Browser types and versions</span></b></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>Green text indicates that
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Green text indicates that
 the client application (MORIS, OLIVER, etc) worked as expected.
 
 Red text indicates severe
 problems with the client application functionality. </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>In Jan 2011
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>In Jan 2011
 these OS/browsers/versions were tested:</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>Firefox
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
 3.5.2 / Windows 2000 OK</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>Firefox
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
 3.6.13 / Windows XP OK</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>IE
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
 6.0 / Windows 2000 OK</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>IE
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
 8.0 / Windows XP OK </span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>IE
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
 9.0 beta / Windows 7 OK </span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:red'>Google
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google
 Chrome 8.0 / Windows XP - identify doesn't seem to be working, but the mapping
 works</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:red'>Safari
-5.0.3 / Windows XP</span><span style='font-size:10.0pt;font-family:Arial'> - <span
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari
+5.0.3 / Windows XP</span><span style='font-size:10.0pt;font-family:Arial,sans-serif'> - <span
 style='color:red'>no map at all</span></span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:red'>Opera
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Opera
 11.01 / Windows XP - identify doesn't seem to be working, but the mapping works</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>In August 2010 these
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>In August 2010 these
 OS/browsers/versions were tested:</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial'>&nbsp;</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:green'>Firefox
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
 3.6.8 / Mac OS X (v 10.6.4) good</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:green'>Firefox 3.6.8 / Windows XP</span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox 3.6.8 / Windows XP</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Firefox 2.0.0.20 / Windows 2000 - identify
-doesn't seem to be working, but the mapping works (sort of, some black) </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Firefox 2.0.0.20 / Windows 2000 - identify doesn't seem to be working, but the mapping works (sort of, some black) </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:green'>IE 8.0 / Windows XP</span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE 8.0 / Windows XP</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:green'>IE 6.0 / Windows 2000 </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE 6.0 / Windows 2000 </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Google Chrome 5.0.375.125 / Mac OS X (v 10.6.4) -
-no map at all</span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google Chrome 5.0.375.125 / Mac OS X (v 10.6.4) - no map at all</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Google Chrome 5.0.375.125 / Windows XP - identify
-doesn't seem to be working, but the mapping works </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google Chrome 5.0.375.125 / Windows XP - identify doesn't seem to be working, but the mapping works </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Opera 10.6 / Windows XP </span><span
-style='font-size:10.0pt;font-family:Arial'>- <span style='color:red'>identify
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Opera 10.6 / Windows XP </span><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <span style='color:red'>identify
 doesn't seem to be working, but the mapping works </span></span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Safari 5.0.1 / Mac OS X (v 10.6.4) - no map at all</span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari 5.0.1 / Mac OS X (v 10.6.4) - no map at all</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Safari 5.0.1 / Windows XP - app windows are all
-messed up </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari 5.0.1 / Windows XP - app windows are all messed up </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:red'>Maxthon 3.0.15 / Windows XP - identify doesn't
-seem to be working, but the mapping works </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Maxthon 3.0.15 / Windows XP - identify doesn't seem to be working, but the mapping works </span></p>
 
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial;color:red'>Amaya
-11.3.1 / Windows XP - no map at all</span></p>
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Amaya 11.3.1 / Windows XP - no map at all</span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:green'>SeaMonkey 2.0.6 / Windows XP </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>SeaMonkey 2.0.6 / Windows XP </span></p>
 
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;
-font-family:Arial;color:green'>Flock 2.6.1 / Windows XP </span></p>
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Flock 2.6.1 / Windows XP </span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial'>&nbsp;</span></p>
-
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 </div>
-
 </body>
-
 </html>
