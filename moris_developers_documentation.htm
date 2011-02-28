@@ -41,9 +41,9 @@ span.EmailStyle24
 
 <p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>MORIS Developers
 Documentation </span></b></p>
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 2/8/2011<br/>
-For questions about this documentation contact <a href="mailto:Aleda.Freeman@state.ma.us">Aleda.Freeman@state.ma.us</a><br/>
-<br/>Please note:  MORIS is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php">OLIVER</a> (the MassGIS Online Data Viewer) and <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">SPOLIVER</a> (the State Police Online Data Viewer). This user guide applies to all of these applications, so you may substitute OLIVER, SPOLIVER, etc. for MORIS as you read this guide.
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 2/8/2011<br>
+For questions about this documentation contact <a href="mailto:Aleda.Freeman@state.ma.us">Aleda.Freeman@state.ma.us</a><br>
+<br>Please note:  MORIS is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php">OLIVER</a> (the MassGIS Online Data Viewer) and <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">SPOLIVER</a> (the State Police Online Data Viewer). This user guide applies to all of these applications, so you may substitute OLIVER, SPOLIVER, etc. for MORIS as you read this guide.
 
 </span></p>
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
@@ -239,60 +239,60 @@ The available values for the parameter type include pt, line, polygon, raster an
 (this refers to a GeoServer layergroup which is a collection of layers and styles grouped together under
 one name). 
 
-<br/><br/>
-- <u>Initial datalayers</u><br/> 
+<br><br>
+- <u>Initial datalayers</u><br> 
 Which datalayers show when the application is launched can be configured using the defaultLyrs variable.
 The variable holds a list of layers consisting of the WMS name and the title (which will be shown in the 
 Active data layers window). The titles of the datalayers listed in the .php must match titles in the folderset. 
 The datalayers will draw in opposite order from the list. In other words, the first datalayer in the list will be the bottom-most datalayer drawn on the map. 
 
-<br/><br/>
-- <u>Initial extent</u><br/>The initial extent or geographic area that shows when the application is launched can be configured in the
+<br><br>
+- <u>Initial extent</u><br>The initial extent or geographic area that shows when the application is launched can be configured in the
 defaultBbox variable. The units should be specified in decimal degrees, with the lower left coordinate then 
 upper right coordinate, with commas separating all numbers. Sample:
 [-71.863711,41.028298,-69.174525,43.075512]
 
-<br/><br/>- <u>Maximum extent</u><br/>
+<br><br>- <u>Maximum extent</u><br>
 
 The maximum extent or geographic area (the farthest out that the user can zoom) can be configured in the
 maxBbox variable. The units should be specified in decimal degrees, with the lower left coordinate then
 upper right coordinate, with commas separating all numbers. Sample:
 [-71.863711,41.028298,-69.174525,43.075512]
 
-<br/><br/>- <u>Initial basemap</u><br/>
+<br><br>- <u>Initial basemap</u><br>
 
 The initial basemap can be configured in the defaultBase variable. The available values currently are: 
 custom,googleSatellite,googlePhysical,openStreetMap.
 Currently custom is Massachusetts State 
 Plane Mainland NAD83 meters. 
 
-<br/><br/>- <u>Initial coordinate system</u><br/>
+<br><br>- <u>Initial coordinate system</u><br>
 
 The initial coordinate system can be configured in the defaultCoordUnit variable. The available values 
 currently are: 'dms','dd','m'.
 
-<br/><br/>- <u>Default measure units</u><br/>
+<br><br>- <u>Default measure units</u><br>
 The default measure units can be configured in the defaultMeasureUnit variable. The available values 
 currently are 'm','mi','nm','yd','ft'. 
 
-<br/><br/>- <u>Browser title</u><br/>
+<br><br>- <u>Browser title</u><br>
 The value in the browser's title bar can be configured in the siteTitle variable. The value of this variable is 
 also used in the value of the Help menu, About choice. 
 
-<br/><br/>- <u>Site URL</u><br/>
+<br><br>- <u>Site URL</u><br>
 The site URL should be configured in the siteURL variable. For example, if the application is launched from 
 <a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/moris.php</a>, this should also be the value in the siteURL variable. 
 The siteURL variable is a component of the permalink URL.
 
-<br/><br/>- <u>Help links</u><br/>
+<br><br>- <u>Help links</u><br>
 The value of the help links (under the Help menu, Help choice) can be configured in the helpUrl1 and helpUrl2 variable. helpUrl1 points to an HTML document and helpUrl2 points to a PDF document as indicated on the user interface.
 
-<br/><br/>- <u>About link</u><br/>The value of the info in Help menu / About choice dialog box can be configured in the moreInfoHTML 
+<br><br>- <u>About link</u><br>The value of the info in Help menu / About choice dialog box can be configured in the moreInfoHTML 
 variable. The value of the variable should be HTML and can include tables, image tags and links. The
 moreInfoWidth variable can be used to specify the width of the info box. 
 
-<br/><br/>- <u>WMS/WFS/WCS/KML location</u><br/>
+<br><br>- <u>WMS/WFS/WCS/KML location</u><br>
 
 The viewers at maps.masasgis.state.ma.us point to the MassGIS GeoServer-backed web mapping services. 
 However, this can be changed. The variables wfsUrl, wmsUrl, wcsUrl, kmlUrl, namespaceUrl, and 
@@ -301,7 +301,7 @@ map projection is not configurable at this time, additional code modification wo
 Custom map projection from MA State Plane Mainland NAD83 meters (EPSG 26986) to another projection. 
 
 
-<br/><br/>- <u>proxy location</u><br/>
+<br><br>- <u>proxy location</u><br>
 
 Because of the browser <a
 target="_blank" href="http://en.wikipedia.org/wiki/Same_origin_policy">same-origin policy</a> a proxy script is required for the client (currently served from 
@@ -309,13 +309,13 @@ maps.massgis.state.ma.us) to request XML data from giswebservices.massgis.state.
 client application on your own, modify the value of the proxyLoc variable. Currently MassGIS uses a 
 Python script called proxy.cgi. 
 
-<br/><br/>- <u>Bing usage</u><br/>
+<br><br>- <u>Bing usage</u><br>
   The client application uses the Microsoft Bing service for geocoding. MassGIS has a Perl script called get 
 that assists in this. To change this setting, edit the value of the proxyLocBing variable.Also, edit the value
 of the bingKey variable to hold the key for your Bing registration. Make sure the bingDisabled variable is set
 to true if using Bing. 
 
-<br/><br/>- <u>Zip service</u><br/>
+<br><br>- <u>Zip service</u><br>
 
 The client application uses a Perl script called mkzip to zip up the extracted data and supporting metadata 
 and additional files into a .zip file if the users chooses that option. To change the location of the mkzip script 
@@ -324,7 +324,7 @@ recommended that a script clean out the contents of the mkzipLoc periodically. T
 should be set to the server name where the application is hosted. It is used to build a link to downloadable 
 files. 
 
-<br/><br/>- <u>OpenLayers, ExtJS and Proj4JS links</u><br/>
+<br><br>- <u>OpenLayers, ExtJS and Proj4JS links</u><br>
 
 
 If running this application
@@ -335,7 +335,7 @@ these values:
 
 </span>
 
-<br/>
+<br>
 <pre><span style='font-family:Arial,sans-serif'>&lt;<span class=start-tag>script</span><span
 class=attribute-name> type</span>=<span class=attribute-value>&quot;text/javascript&quot; </span><span
 class=attribute-name>src</span>=&quot;<a
