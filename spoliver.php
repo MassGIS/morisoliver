@@ -79,8 +79,8 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
     <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
-    <script type="text/javascript" src="http:///maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="http:///maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
     <script type="text/javascript" src="js/wizard/CardLayout.js"></script>
     <script type="text/javascript" src="js/wizard/Wizard.js"></script>
     <script type="text/javascript" src="js/wizard/Header.js"></script>
