@@ -45,7 +45,8 @@ print $query->header('text/plain');
 
 foreach (@{$doc->{layer}}) {
   my %h = %{$_};
-  if (!(unsafeXML($h{baseURL}) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
+  # the urls in the following line should match the geoserver and metadata-webserver host names
+  if (!(unsafeXML($h{baseURL}) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us|170.63.166.213|170.63.166.214)/)) {
     next;
   }
   mkdir "$scratch_dir/".unsafeXML($h{name});
@@ -87,6 +88,12 @@ my $zipName = $doc->{zip}[0]{name};
 $zipName =~ s/\.zip//gi;
 
 my $cmd = "cd $scratch_dir ; zip -r $zipName.zip *";
+`$cmd`;
+
+my $rmcmd = "cd $scratch_dir ; ls | grep -v .zip | tr \\\\n \\\\0 | xargs -0 rm -rf";
+`$rmcmd`;
+
+my $cmd = "setfacl -m u:afreeman:rwx $scratch_dir; setfacl -m u:afreeman:rw $scratch_dir/*.zip";
 `$cmd`;
 
 print "$web_dir/$zipName.zip\n";
