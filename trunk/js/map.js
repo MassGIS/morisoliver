@@ -398,6 +398,16 @@ Ext.onReady(function() {
   setMapCoord(defaultCoordUnit);
 
   // snazzy line measure controls
+  
+  var resetMeasureTally = function () {
+	// reseting measureTally is done in numerous places, even when measure not being used.
+	// check if measure used, if so, reset.
+	if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 	{
+		Ext.getCmp('measureTally').reset();
+	}
+	
+  };
+  
   var mouseMovements = 0;
   OpenLayers.Control.Measure.prototype.EVENT_TYPES = ['measure','measurepartial','measuredynamic'];
   lengthControl = new OpenLayers.Control.Measure(
@@ -482,13 +492,13 @@ Ext.onReady(function() {
   lengthControl.events.on({
     measurepartial : function(evt) {
       if (hasMeasure) {
-        Ext.getCmp('measureTally').reset();
+        resetMeasureTally();
         hasMeasure = false;
       }
     }
     ,measuredynamic : function(evt) {
       if (hasMeasure) {
-        Ext.getCmp('measureTally').reset();
+        resetMeasureTally();
         hasMeasure = false;
       }
       var measure = evt.total;
@@ -528,6 +538,8 @@ Ext.onReady(function() {
       }
     }
   });
+  
+  // end measure controls
 
   map = new OpenLayers.Map('',{
     controls : [
@@ -789,8 +801,14 @@ Ext.onReady(function() {
     ,labelCls    : 'legendText'
   });
 
-  var olToolbar = new Ext.Toolbar({
-    items: [
+  
+
+  
+  
+  var topToolBar_items = [];
+  
+	// navigation functionality.  (zoom in, out, pan, max extent, active extent, forward, backwards, zoom to scale)
+	topToolBar_items.push(
       new GeoExt.Action({
          control      : new OpenLayers.Control.ZoomBox()
         ,map          : map
@@ -965,7 +983,12 @@ Ext.onReady(function() {
           }
         ]
       }
-      ,'-'
+	 );
+
+	if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
+	// identify tool functionality
+	  topToolBar_items.push(
+      '-'
       ,new GeoExt.Action({
          tooltip      : 'Identify features by drawing a box'
         ,text         : 'Identify'
@@ -981,7 +1004,7 @@ Ext.onReady(function() {
           // nuke any measurements
           lengthControl.deactivate();
           areaControl.deactivate();
-          Ext.getCmp('measureTally').reset();
+          resetMeasureTally();
           layerRuler.removeFeatures(layerRuler.features);
         }
       })
@@ -997,7 +1020,12 @@ Ext.onReady(function() {
           }
         }
       })
-      ,'-'
+	  );
+	}
+	  
+	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
+	  // bing search functionality
+      topToolBar_items.push( '-'
       ,{
          xtype     : 'textfield'
         ,emptyText : 'Search for a location'
@@ -1124,9 +1152,14 @@ Ext.onReady(function() {
           geoLocateLonLat = undefined;
           geoLocateBnds = undefined;
         }
-      }
-      ,'->'
-      ,{
+      });
+	}
+
+      topToolBar_items.push('->');
+
+	if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
+	// export data functionality
+	  topToolBar_items.push({
          text        : 'Export data'
         ,tooltip     : 'Launch the data export wizard'
         ,iconCls     : 'buttonIcon'
@@ -1873,8 +1906,10 @@ Ext.onReady(function() {
           });
           wizGetData.show();
         }
-      }
-      ,{
+      });
+	}
+	  
+      topToolBar_items.push({
          text : 'Help'
         ,iconCls      : 'buttonIcon'
         ,icon         : 'img/help.png'
@@ -1996,173 +2031,177 @@ Ext.onReady(function() {
           ]
         })
       }
-    ]
+     );
+  
+  var olMapPanel_topToolBar = new Ext.Toolbar({
+    items: topToolBar_items
   });
 
-  olMapPanel = new GeoExt.MapPanel({
-     region : 'center'
-    ,id     : 'mappanel'
-    ,xtype  : 'gx_mappanel'
-    ,map    : map
-    ,layers : olLayerStore
-    ,zoom   : 1
-    ,split  : true
-    ,tbar   : olToolbar
-    ,bbar   : [
-      new Ext.Toolbar.Button({
-         text         : '&nbsp;Measure'
-        ,iconCls      : 'buttonIcon'
-        ,icon         : 'img/measure20.gif'
-        ,toggleGroup  : 'navigation'
-        ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
-        ,allowDepress : false
-        ,menu : [
-          {
-             text    : 'By length'
-            ,iconCls : 'buttonIcon'
-            ,icon    : 'img/layer-shape-line.png'
-            ,handler : function() {
-              areaControl.deactivate();
-              lengthControl.activate();
-              layerRuler.removeFeatures(layerRuler.features);
-              Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
-              Ext.getCmp('measureTally').reset();
-              measureType = 'length';
-            }
-          }
-          ,{
-             text    : 'By area'
-            ,iconCls : 'buttonIcon'
-            ,icon    : 'img/layer-shape-polygon.png'
-            ,handler : function() {
-              lengthControl.deactivate();
-              areaControl.activate();
-              layerRuler.removeFeatures(layerRuler.features);
-              Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
-              Ext.getCmp('measureTally').reset();
-              measureType = 'area';
-            }
-          }
-          ,{
-             text    : 'Units'
-            ,iconCls : 'buttonIcon'
-            ,icon    : 'img/compass-icon.png'
-            ,menu    : [
-              {
-                 text    : 'meters'
-                ,group   : 'measureUnits'
-                ,checked : defaultMeasureUnit == 'm'
-                ,handler : function() {
-                  Ext.getCmp('measureTally').emptyText = '0 m';
-                  if (measureType == 'area') {
-                    Ext.getCmp('measureTally').emptyText += '^2';
-                  }
-                  Ext.getCmp('measureTally').reset();
-                  measureUnits = 'm';
-                  lengthControl.cancel();
-                  areaControl.cancel();
-                  layerRuler.removeFeatures(layerRuler.features);
-                }
-              }
-              ,{
-                 text    : 'miles'
-                ,group   : 'measureUnits'
-                ,checked : defaultMeasureUnit == 'mi'
-                ,handler : function() {
-                  Ext.getCmp('measureTally').emptyText = '0 mi';
-                  if (measureType == 'area') {
-                    Ext.getCmp('measureTally').emptyText += '^2';
-                  }
-                  Ext.getCmp('measureTally').reset();
-                  measureUnits = 'mi';
-                  lengthControl.cancel();
-                  areaControl.cancel();
-                  layerRuler.removeFeatures(layerRuler.features);
-                }
-              }
-              ,{
-                 text    : 'nautical miles'
-                ,group   : 'measureUnits'
-                ,checked : defaultMeasureUnit == 'nm'
-                ,handler : function() {
-                  Ext.getCmp('measureTally').emptyText = '0 nm';
-                  if (measureType == 'area') {
-                    Ext.getCmp('measureTally').emptyText += '^2';
-                  }
-                  Ext.getCmp('measureTally').reset();
-                  layerRuler.removeFeatures(layerRuler.features);
-                  measureUnits = 'nm';
-                  lengthControl.cancel();
-                  areaControl.cancel();
-                }
-              }
-              ,{
-                 text    : 'yards'
-                ,group   : 'measureUnits'
-                ,checked : defaultMeasureUnit == 'mi'
-                ,handler : function() {
-                  Ext.getCmp('measureTally').emptyText = '0 yd';
-                  if (measureType == 'area') {
-                    Ext.getCmp('measureTally').emptyText += '^2';
-                  }
-                  Ext.getCmp('measureTally').reset();
-                  layerRuler.removeFeatures(layerRuler.features);
-                  measureUnits = 'yd';
-                  lengthControl.cancel();
-                  areaControl.cancel();
-                }
-              }
-              ,{
-                 text    : 'feet'
-                ,group   : 'measureUnits'
-                ,checked : defaultMeasureUnit == 'ft'
-                ,handler : function() {
-                  Ext.getCmp('measureTally').emptyText = '0 ft';
-                  if (measureType == 'area') {
-                    Ext.getCmp('measureTally').emptyText += '^2';
-                  }
-                  Ext.getCmp('measureTally').reset();
-                  layerRuler.removeFeatures(layerRuler.features);
-                  measureUnits = 'ft';
-                  lengthControl.cancel();
-                  areaControl.cancel();
-                }
-              }
-            ]
-          }
-        ]
-        ,listeners : {
-          toggle : function(button,pressed) {
-            if (!pressed) {
-              // commenting out next 2 lines since we want measurements to hang around even w/ other map actions
-              // areaControl.deactivate();
-              // lengthControl.deactivate();
-            }
-            else {
-              Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
-            }
-          }
-        }
-      })
-      ,new Ext.form.TextField({
-         width     : 100
-        ,readOnly  : true
-        ,emptyText : '0 ' + defaultMeasureUnit
-        ,id        : 'measureTally'
-      })
-      ,{
-         iconCls      : 'buttonIcon'
-        ,icon         : 'img/erase_measure20.gif'
-        ,tooltip      : 'Clear measurement'
-        ,allowDepress : false
-        ,handler      : function() {
-          lengthControl.cancel();
-          areaControl.cancel();
-          Ext.getCmp('measureTally').reset();
-          layerRuler.removeFeatures(layerRuler.features);
-        }
-      }
-      ,'->'
+  olMapPanel_bottomToolBar = [];
+  
+	if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 
+	// if either there is no toolSetting or no toolSetting for measureTool, or there is a toolSetting and it is set to status = true
+	{
+	  olMapPanel_bottomToolBar.push(
+		  new Ext.Toolbar.Button({
+			 text         : '&nbsp;Measure'
+			,iconCls      : 'buttonIcon'
+			,icon         : 'img/measure20.gif'
+			,toggleGroup  : 'navigation'
+			,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
+			,allowDepress : false
+			,menu : [
+			  {
+				 text    : 'By length'
+				,iconCls : 'buttonIcon'
+				,icon    : 'img/layer-shape-line.png'
+				,handler : function() {
+				  areaControl.deactivate();
+				  lengthControl.activate();
+				  layerRuler.removeFeatures(layerRuler.features);
+				  Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
+				  resetMeasureTally();
+				  measureType = 'length';
+				}
+			  }
+			  ,{
+				 text    : 'By area'
+				,iconCls : 'buttonIcon'
+				,icon    : 'img/layer-shape-polygon.png'
+				,handler : function() {
+				  lengthControl.deactivate();
+				  areaControl.activate();
+				  layerRuler.removeFeatures(layerRuler.features);
+				  Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
+				  resetMeasureTally();
+				  measureType = 'area';
+				}
+			  }
+			  ,{
+				 text    : 'Units'
+				,iconCls : 'buttonIcon'
+				,icon    : 'img/compass-icon.png'
+				,menu    : [
+				  {
+					 text    : 'meters'
+					,group   : 'measureUnits'
+					,checked : defaultMeasureUnit == 'm'
+					,handler : function() {
+					  Ext.getCmp('measureTally').emptyText = '0 m';
+					  if (measureType == 'area') {
+						Ext.getCmp('measureTally').emptyText += '^2';
+					  }
+					  resetMeasureTally();
+					  measureUnits = 'm';
+					  lengthControl.cancel();
+					  areaControl.cancel();
+					  layerRuler.removeFeatures(layerRuler.features);
+					}
+				  }
+				  ,{
+					 text    : 'miles'
+					,group   : 'measureUnits'
+					,checked : defaultMeasureUnit == 'mi'
+					,handler : function() {
+					  Ext.getCmp('measureTally').emptyText = '0 mi';
+					  if (measureType == 'area') {
+						Ext.getCmp('measureTally').emptyText += '^2';
+					  }
+					  resetMeasureTally();
+					  measureUnits = 'mi';
+					  lengthControl.cancel();
+					  areaControl.cancel();
+					  layerRuler.removeFeatures(layerRuler.features);
+					}
+				  }
+				  ,{
+					 text    : 'nautical miles'
+					,group   : 'measureUnits'
+					,checked : defaultMeasureUnit == 'nm'
+					,handler : function() {
+					  Ext.getCmp('measureTally').emptyText = '0 nm';
+					  if (measureType == 'area') {
+						Ext.getCmp('measureTally').emptyText += '^2';
+					  }
+					  resetMeasureTally();
+					  layerRuler.removeFeatures(layerRuler.features);
+					  measureUnits = 'nm';
+					  lengthControl.cancel();
+					  areaControl.cancel();
+					}
+				  }
+				  ,{
+					 text    : 'yards'
+					,group   : 'measureUnits'
+					,checked : defaultMeasureUnit == 'mi'
+					,handler : function() {
+					  Ext.getCmp('measureTally').emptyText = '0 yd';
+					  if (measureType == 'area') {
+						Ext.getCmp('measureTally').emptyText += '^2';
+					  }
+					  resetMeasureTally();
+					  layerRuler.removeFeatures(layerRuler.features);
+					  measureUnits = 'yd';
+					  lengthControl.cancel();
+					  areaControl.cancel();
+					}
+				  }
+				  ,{
+					 text    : 'feet'
+					,group   : 'measureUnits'
+					,checked : defaultMeasureUnit == 'ft'
+					,handler : function() {
+					  Ext.getCmp('measureTally').emptyText = '0 ft';
+					  if (measureType == 'area') {
+						Ext.getCmp('measureTally').emptyText += '^2';
+					  }
+					  resetMeasureTally();
+					  layerRuler.removeFeatures(layerRuler.features);
+					  measureUnits = 'ft';
+					  lengthControl.cancel();
+					  areaControl.cancel();
+					}
+				  }
+				]
+			  }
+			]
+			,listeners : {
+			  toggle : function(button,pressed) {
+				if (!pressed) {
+				  // commenting out next 2 lines since we want measurements to hang around even w/ other map actions
+				  // areaControl.deactivate();
+				  // lengthControl.deactivate();
+				}
+				else {
+				  Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
+				}
+			  }
+			}
+		  })
+		  ,new Ext.form.TextField({
+			 width     : 100
+			,readOnly  : true
+			,emptyText : '0 ' + defaultMeasureUnit
+			,id        : 'measureTally'
+		  })
+		  ,{
+			 iconCls      : 'buttonIcon'
+			,icon         : 'img/erase_measure20.gif'
+			,tooltip      : 'Clear measurement'
+			,allowDepress : false
+			,handler      : function() {
+			  lengthControl.cancel();
+			  areaControl.cancel();
+			  resetMeasureTally();
+			  layerRuler.removeFeatures(layerRuler.features);
+			}
+		  });
+	  }
+	  
+	  // end measure specific buttonBar code
+	  
+     olMapPanel_bottomToolBar.push(
+      '->'
       ,new Ext.Action({
          text     : 'Permalink'
         ,tooltip  : 'Make permalink'
@@ -2384,7 +2423,18 @@ Ext.onReady(function() {
           })
         ]
       }
-    ]
+    );
+  
+  olMapPanel = new GeoExt.MapPanel({
+     region : 'center'
+    ,id     : 'mappanel'
+    ,xtype  : 'gx_mappanel'
+    ,map    : map
+    ,layers : olLayerStore
+    ,zoom   : 1
+    ,split  : true
+    ,tbar   : olMapPanel_topToolBar
+    ,bbar   : olMapPanel_bottomToolBar
     ,border : false
   });
 

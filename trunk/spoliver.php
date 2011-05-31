@@ -73,6 +73,9 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/spoliver.php';
     </script>
 
+	<!-- include a set of tool configs -->
+	<script type="text/javascript" src="js/toolConfig_default.js?<?php echo time(); ?>"></script>	
+	
     <script>
       document.title = siteTitle;
     </script>
