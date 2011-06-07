@@ -1154,7 +1154,140 @@ Ext.onReady(function() {
         }
       });
 	}
-
+	
+	if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
+		topToolBar_items.push('-');
+		
+		var quickZoomDefn = {},thisStore,thisComboBox,thisTool;
+		quickZoomDefn.stores = {};
+		quickZoomDefn.storeHandlers = {};
+		quickZoomDefn.comboBoxes = {};
+		
+		var storeListener_beforeLoad;
+		for (var i = 0; i < toolSettings.quickZoomTools.tools.length; i++) {
+			thisTool = toolSettings.quickZoomTools.tools[i];
+			if (thisTool.restrict) {
+				quickZoomDefn.storeHandlers[thisTool.id] = function (d) {
+					var valueField = this.valueField;
+					var thisTool = quickZoomDefn.comboBoxes[this.id];
+					var restrictTool = quickZoomDefn.comboBoxes[this.restrict.restrictToolId];
+					var restrictValue = (restrictTool.getValue() != '' && restrictTool.__selectedRecord ? restrictTool.__selectedRecord.json.properties[this.restrict.restrictedSourceField] : "");
+					if (restrictValue == "") {
+						if (this.restrict.required) {
+							thisTool.store.removeAll();
+							thisTool.lastQuery = null
+							return false;
+						} else {
+							thisTool.lastQuery = null
+							d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+							return true;						
+						}
+					}
+					thisTool.lastQuery = null
+					var localRestrictField = this.restrict.restrictedValueField;
+					d.baseParams.CQL_FILTER = valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+localRestrictField +" = '"+restrictValue+"'";
+					return true;
+				}.createDelegate(thisTool);
+			} else {
+				quickZoomDefn.storeHandlers[thisTool.id] =  function (d)  {
+					d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+					return true;
+				}.createDelegate(thisTool);
+			}
+			
+			var fieldList = [];
+			
+			fieldList.push(thisTool.valueField);
+			
+			if (thisTool.additionalFields  && thisTool.additionalFields.length > 0) {
+				fieldList = fieldList.concat(thisTool.additionalFields.split(','));
+			}
+			thisStore = new Ext.data.Store ({
+			// what about beforeLoad
+				listeners: {
+					beforeload : quickZoomDefn.storeHandlers[thisTool.id]
+				},
+				baseParams: {
+					"request" : "getfeature",
+					"version" : "1.0.0",
+					"service" : "wfs",
+					"propertyname" : fieldList.join(',') ,  
+					"typename" : thisTool.layer,
+					"outputformat" : "json"
+				},
+				proxy : new Ext.data.Geoserver_ScriptTagProxy ({
+					url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+					"method":"GET"  
+				}),
+				reader : new Ext.data.JsonReader ({
+					root: "features",
+					fields: [{name: 'properties', mapping: 'properties'}],
+					idProperty: 'post_id'
+					}
+				) 
+			}); 	
+		
+			quickZoomDefn.stores[thisTool.id] = thisStore ;
+			
+			thisComboBox = 	new Ext.form.ComboBox({
+				emptyText: thisTool.label,
+				triggerAction:'all',
+				store : thisStore,
+				displayField:'values.properties.'+thisTool.valueField,  // values. is wrong, and breaks typeahead, as below
+				queryParam: 'CQL_FILTER',
+				typeAhead: true,
+				loadingText: 'Searching...',
+				width: 200,
+				autoSelect: false,
+				forceSelection:true,
+				minChars:0,
+				mode:'remote',
+				selectOnFocus:true,
+				shadow: 'drop',
+				//pageSize:10,
+				hideTrigger:false,
+				listeners : {
+					select: function (that,record,idx) {
+						this.__selectedRecord = record;
+						this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
+						var bbox = record.json.properties.bbox;
+						map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));				
+					},
+					specialKey : function (field,e) {
+						if (e.getKey() == e.ENTER ) {
+							var record = this.store.getAt(0);
+							if (!!record) {
+								var recVal = record.json.properties[this.displayField.replace('values.properties.','')];
+								if (recVal == this.getValue()) {
+									this.__selectedRecord = record;
+									// this code is modified from the select listener.  It'd be better to trigger the select event.
+									this.setValue(recVal); // this shouldn't be necessary
+									var bbox = record.json.properties.bbox;
+									map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));							
+								}
+							} 
+						}
+					}
+				},
+				onTypeAhead : function(){
+					if(this.store.getCount() > 0){
+						var r = this.store.getAt(0);
+						var newValue = r.data.properties[this.displayField.replace('values.properties.','')];
+						var len = newValue.length;
+						var selStart = this.getRawValue().length;
+						if(selStart != len){
+							this.setRawValue(newValue);
+							this.selectText(selStart, newValue.length);
+						}
+					}
+				}
+			});
+			
+			quickZoomDefn.comboBoxes[thisTool.id] = thisComboBox ;
+			topToolBar_items.push(thisComboBox);
+		}	
+	}
+	
       topToolBar_items.push('->');
 
 	if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
