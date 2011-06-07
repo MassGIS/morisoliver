@@ -34,14 +34,12 @@
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
-		 displayType: 'select-box', 	// acceptable values - text, select-box
 		 hotkey: 'control,shift,t' 		// not required
 		},
 		{id: 2,
 		 label: 'Pick an OpenSpace',
 		 layer: 'massgis:GISDATA.OPENSPACE_POLY',
 		 valueField: 'SITE_NAME',
-		 displayType: 'text', 	// acceptable values - text, select-box
 		 restrict : {
 			restrictToolId: 1,
 			restrictedValueField: 'TOWN_ID',  // name of the field in this layer
@@ -53,12 +51,11 @@
 		 label: 'Pick an school',
 		 layer: 'massgis:GISDATA.SCHOOLS_PT',
 		 valueField: 'NAME',
-		 displayType: 'text', 	// acceptable values - text, select-box
 		 restrict : {
 			restrictToolId: 1,
 			restrictedValueField: 'TOWN',  // name of the field in this layer
 			restrictedSourceField: 'TOWN', // name of the field in the layer we're restricting based on
 			required: false
 		 }
-		},		
+		}		
 	];	
