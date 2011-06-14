@@ -3367,14 +3367,17 @@ function mkDataWizardURL(title,ico) {
         ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
       ).join('');
     }
-    else {
-      return Array(
-         kmlUrl
-        ,'?layers=' + lyr2wms[title]
-        ,'&bbox=' + bbox.join(',')
-        ,'&srs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
-      ).join('');
-    }
+   else {
+	   return Array(
+		 wmsUrl
+		 ,'?layers=' + lyr2wms[title]
+		 ,'&service=WMS&version=1.1.0&request=GetMap'
+		 ,'&bbox=' + bbox.join(',')
+		 ,'&srs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+		 ,'&height=100&width=100&styles='
+		 ,'&format=application/vnd.google-earth.kml+xml'
+		).join('');
+	  }
   }
 }
 
