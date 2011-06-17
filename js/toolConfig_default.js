@@ -71,8 +71,6 @@
 		commentDesc: "Leave a comment about an error in the data",
 		layerName: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
 		srs : 'EPSG:26986',
-		url : wfsUrl,
-		featureNS : namespaceUrl,
 		geometryName : "SHAPE"
 		};
 	toolSettings.commentTool.fields = [
