@@ -1045,23 +1045,16 @@ Ext.onReady(function() {
 		 });
 		 
 		var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
-			strategies: [commentSaveStrategy],  // do we need BBOX?  We 
+			strategies: [commentSaveStrategy], 
 			projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
 			protocol: new OpenLayers.Protocol.WFS({
 				version: "1.1.0",
-/*				srsName: toolSettings.commentTool.layer.srs,
+				srsName: toolSettings.commentTool.layer.srs,
 				url: wfsUrl,
 				featureNS : namespaceUrl,
 				featureType:  toolSettings.commentTool.layer.layerName,
 				geometryName:  toolSettings.commentTool.layer.geometryName,
-*/
-				srsName: "EPSG:26986",
-				url:'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
-				featureNS: 'http://massgis.state.ma.us/featuretype',
-				featureType: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
 				featurePrefix: 'massgis',
-				geometryName: 'SHAPE',
-				
 				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
 			})
 		});	
