@@ -20,7 +20,7 @@
 	toolSettings.bingAddressSearch.status = 'hide';
 	
 	toolSettings.exportData = {};
-	toolSettings.exportData.status = 'hide';		
+	toolSettings.exportData.status = 'show';		
 	
 	
 	toolSettings.editLayerToolbar = {};
@@ -34,7 +34,11 @@
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
-		 hotkey: 'control,shift,t' 		// not required
+		 hotkey: {					// not required
+			"ctrl":true,			// not required if false
+			"shift": true,			// not required if false
+			"key": "t"
+			}
 		},
 		{id: 2,
 		 label: 'Pick an OpenSpace',
@@ -59,3 +63,75 @@
 		 }
 		}		
 	];	
+	
+	toolSettings.commentTool = {};
+	toolSettings.commentTool.status = 'show';
+	toolSettings.commentTool.layer = {
+		commentLabel: "Add comment",
+		commentDesc: "Leave a comment about an error in the data",
+		layerName: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
+		srs : 'EPSG:26986',
+		url : wfsUrl,
+		featureNS : namespaceUrl,
+		geometryName : "SHAPE"
+		};
+	toolSettings.commentTool.fields = [
+		{
+			name : "U_NAME",
+			optionalField: true,
+			optionalText : "This field is optional and is collected only to contact you for more information about your comment",
+			fieldLabel : "Name",
+			maxLength  : 100 // optional
+		
+		},
+		{
+			name : "U_ADDR",
+			fieldLabel : "Address",
+			optionalField: true,
+			optionalText : "This field is optional and is collected only to contact you for more information about your comment",
+			maxLength  : 100 // optional
+		
+		},
+		{
+			name : "U_PHONE",
+			fieldLabel : "Email",
+			optionalField: true,
+			optionalText : "This field is optional and is collected only to contact you for more information about your comment",
+			maxLength  : 100 // optional
+		
+		},
+		
+		{
+			name : "ISSUE",
+			fieldLabel : "Issue",
+			maxLength : 100, // optional
+			store: ["Road name incorrect","Missing openspace"],
+			allowBlank: false,
+			xtype: 'combo',
+			required:true // adds red asterisk
+		
+		},
+		{
+			name : "OBJECTID",
+			fieldLabel : "OBJECTID",
+			hideLabel: true,
+			plugins: [] , // necessary to override to avoid labelling this field
+			maxLength : 100, // optional
+			allowBlank: false,
+			xtype: 'hidden'	,	
+			value : -1
+		
+		},		
+		{
+			xtype: 'textarea',
+			name : "COMMENTS",
+			hideLabel: true,
+			allowBlank: false,
+			required:true, // adds red asterisk
+			plugins: [] , // necessary to override to avoid labelling this field
+			fieldLabel : "Comments",
+			maxLength : 500,
+			hideLabel: true,
+			flex: 1  // Take up all *remaining* vertical space		
+		}		
+	];
