@@ -1,3 +1,4 @@
+
 var maxAllowedFeatures = 25000;
 var map;
 var lyrBase          = [];
@@ -46,6 +47,11 @@ var lyrGeoLocate = new OpenLayers.Layer.Vector('geoLoacate',{styleMap :  new Ope
   })})
 });
 var geoLocateLonLat,geoLocateBnds;
+
+Date.patterns = {
+    SortableDateTime: "Y-m-d\\TH:i:s.ms"
+};
+
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
@@ -1022,6 +1028,145 @@ Ext.onReady(function() {
       })
 	  );
 	}
+	
+	
+
+	
+	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
+		 commentSaveStrategy = new OpenLayers.Strategy.Save();	
+		 
+		 commentSaveStrategy.events.register('success', null, function () {
+			commentWFSLayer.destroyFeatures();
+			commentWindow.hide();
+		 });
+
+		 commentSaveStrategy.events.register('fail', null, function () {
+			alert('save failed');
+		 });
+		 
+		var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
+			strategies: [commentSaveStrategy],  // do we need BBOX?  We 
+			projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
+			protocol: new OpenLayers.Protocol.WFS({
+				version: "1.1.0",
+/*				srsName: toolSettings.commentTool.layer.srs,
+				url: wfsUrl,
+				featureNS : namespaceUrl,
+				featureType:  toolSettings.commentTool.layer.layerName,
+				geometryName:  toolSettings.commentTool.layer.geometryName,
+*/
+				srsName: "EPSG:26986",
+				url:'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+				featureNS: 'http://massgis.state.ma.us/featuretype',
+				featureType: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
+				featurePrefix: 'massgis',
+				geometryName: 'SHAPE',
+				
+				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
+			})
+		});	
+		Ext.QuickTips.init(); 
+		map.addLayer(commentWFSLayer);
+		var commentWindow,commentForm,commentFeature;
+		var drawComment = new OpenLayers.Control.DrawFeature(
+					commentWFSLayer,
+					OpenLayers.Handler.Point
+					,{
+						title: "Add comment",
+						displayClass: "olControlDrawFeaturePoint",
+						multi: true,
+						featureAdded: function (feat) {
+							commentFeature = feat;
+							if (!commentForm) {
+								var commentFields = [];
+							
+								commentForm = new Ext.form.FormPanel ({
+									baseCls: 'x-plain',
+									labelWidth:75,
+									frame:true,
+									monitorValid:true,
+									buttonAlign: 'right',
+									bodyStyle:'padding:10px 10px 0',
+									 layout: {
+												type: 'vbox'
+												,align: 'stretch'  // Child items are stretched to full width
+											},
+											defaults: {
+												//msgTarget: 'side',
+												//anchor: '95%',
+												xtype: 'textfield',
+												selectOnFocus: true,
+									            plugins: [ Ext.ux.FieldLabeler ]												
+											},
+									 
+											items: toolSettings.commentTool.fields
+									
+								});
+							}
+							if (!commentWindow) {
+								commentWindow = new Ext.Window({
+									title: "Enter comment",
+									collapsible: false,
+									maximizeable: false,
+									width: 400,
+									height: 500,
+									minHeight: 300,
+									minWidth: 200,
+									layout: "fit",
+									plain: true,
+									items: commentForm,
+									closeAction: 'hide',
+									closable: false,
+									modal:true,
+									buttons: [{
+										text: "Save",
+										formBind: true,
+										handler : function (d,e) {
+											// need to check validation (length)
+											if (commentForm.getForm().isValid()) {
+												var dt = new Date();
+												commentFeature.attributes = commentForm.getForm().getFieldValues();
+												//commentFeature.attributes.OBJECTID = -1;
+												commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
+												commentSaveStrategy.save();
+											}
+											
+										}
+									},{
+										text: "Cancel",
+										handler : function (d,e) {
+											commentWFSLayer.destroyFeatures();
+											commentWindow.hide();
+										}										
+									}]									
+								
+								});
+								
+								
+							}
+							
+							
+							commentWindow.show();
+							// this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
+						}
+					} 
+				);
+				
+		
+		topToolBar_items.push('-',
+			new GeoExt.Action ({
+				text: toolSettings.commentTool.layer.commentLabel,
+				map: map,
+				control: drawComment
+			,iconCls      : 'buttonIcon'
+			,icon         : 'img/query-region.png'
+			,toggleGroup  : 'navigation'		
+			,toolTip : toolSettings.commentTool.layer.commentDesc
+			
+			})
+		);
+	}
+	
 	  
 	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
 	  // bing search functionality
