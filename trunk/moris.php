@@ -59,7 +59,8 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <!-- maps.massgis.state.ma.us -->
     <script>
       proxyLoc     = 'http://maps.massgis.state.ma.us/cgi-bin/proxy.cgi?url=';
-      proxyLocBing = 'http://maps.massgis.state.ma.us/cgi-bin/get?';
+      //proxyLocBing = 'http://maps.massgis.state.ma.us/cgi-bin/get?';
+	  proxyLocBing = proxyLoc;
       mkzipCGI     = 'http://maps.massgis.state.ma.us/cgi-bin/mkzip';
       mkzipLoc     = 'http://maps.massgis.state.ma.us';
       bingDisabled = false;
