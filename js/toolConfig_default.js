@@ -92,13 +92,20 @@
 		},
 		{
 			name : "U_PHONE",
-			fieldLabel : "Email",
+			fieldLabel : "Phone #",
 			optionalField: true,
 			optionalText : "This field is optional and is collected only to contact you for more information about your comment",
 			maxLength  : 100 // optional
 		
 		},
+		{
+			name : "U_EMAIL",
+			fieldLabel : "Email",
+			optionalField: true,
+			optionalText : "This field is optional and is collected only to contact you for more information about your comment",
+			maxLength  : 100 // optional
 		
+		},			
 		{
 			name : "ISSUE",
 			fieldLabel : "Issue",
