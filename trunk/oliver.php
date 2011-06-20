@@ -73,10 +73,13 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       document.title = siteTitle;
     </script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
+	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />
     <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
+
+	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>
 	<script type="text/javascript" src="js/Geoserver_ScriptTagProxy?<?php echo time(); ?>"></script>	
     <script type="text/javascript" src="js/wizard/CardLayout.js"></script>
     <script type="text/javascript" src="js/wizard/Wizard.js"></script>
@@ -90,7 +93,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.10/OpenLayers.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js?"></script>
-    <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?>?php echo time()?>"></script>
+    <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/map.js?<?php echo time()?>"></script>
   </head>
 </html>
