@@ -1160,7 +1160,36 @@ Ext.onReady(function() {
 		);
 	}
 	
-	  
+
+	if (!toolSettings || !toolSettings.editTool || toolSettings.editTool.status == 'show') {
+		var editWindow = new Ext.Window({
+			resizable: true,
+			modal: false,
+			closable: false,
+			closeAction: 'hide',
+			width: 550,
+			height: 450,
+			title: "WFSTFeatureEditing",
+			layout: 'fit',
+			items: []
+		});
+
+		var editManager = new GeoExt.ux.WFSTFeatureEditingManager({
+			"layerConfigs" : toolSettings.editTool.layers,
+			"map": map,
+			"toolbarItems" : topToolBar_items,
+			"url": wfsUrl,
+			"actionGroup": "navigation",
+			"mainPanelContainer": editWindow
+		});		
+		
+
+			
+	
+
+	
+	}
+	
 	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
 	  // bing search functionality
       topToolBar_items.push( '-'
@@ -3159,6 +3188,7 @@ function okIco(val) {
 }
 
 function loadLayerMetadata(wms,title,style,launchMetadataWin,addLayer,tstLyr) {
+ 
   YUI().use("io",function(Y) {
     var handleSuccess = function(ioId,o,args) {
       if (window.DOMParser) {
