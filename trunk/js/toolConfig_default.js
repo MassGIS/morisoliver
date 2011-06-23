@@ -153,12 +153,11 @@
 			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
 		},
 		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
-			layerTitle : "Geoserver Editable Point" // must match whatever is found in folderset for this layer.
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT_HTTPS",
+			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
 		},
 		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
 			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
 		},		
 	];
-	toolSettings.editTool.getCapURL = './edit_config/getCapRawV100_single.xml';
