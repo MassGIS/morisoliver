@@ -1,3 +1,39 @@
 .x-optional {
 	color:#0026FF;
 }
+
+
+.geoextux-wfstfeatureediting-featuregrid .x-grid3-dirty-cell,
+.geoextux-wfstfeatureediting-featuregrid .x-grid-dirty-cell
+ {
+     background-image:none;
+}
+ 
+.geoextux-wfstfeatureediting-button-draw {
+    background-image:url(../img/editing/icon_add_redline.png) !important;
+}
+ 
+.geoextux-wfstfeatureediting-button-edit {
+    background-image:url(../img/editing/icon_active.gif) !important;
+}
+ 
+.geoextux-wfstfeatureediting-button-filter {
+    background-image:url(../img/editing/icon_roi_feature.png) !important;
+}
+ 
+.save {
+    background-image:url(../img/editing/icon_save.png) !important;
+}
+ 
+.cancel {
+    background-image:url(../img/editing/icon_undo.png) !important;
+}
+ 
+.delete {
+    background-image:url(../img/editing/icon_delete.png) !important;
+}
+ 
+.x-btn-text-icon .x-btn-icon-small-left .x-btn-text {
+    padding-left: 22px;
+    height: 18px;
+}

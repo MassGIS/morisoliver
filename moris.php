@@ -80,10 +80,18 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />	
     <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
+
+	<!-- editing tools -->
+	<link rel="stylesheet" type="text/css" href="css/statusbar.css" />
+	
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
-	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>
+
 	
+	<!-- editing tools -->
+    <script type="text/javascript" src="js/plugins/editing/StatusBar.js"></script>
+	
+	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>
 	<script type="text/javascript" src="js/Geoserver_ScriptTagProxy?<?php echo time(); ?>"></script>
     <script type="text/javascript" src="js/wizard/CardLayout.js"></script>
     <script type="text/javascript" src="js/wizard/Wizard.js"></script>
@@ -97,6 +105,16 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.10/OpenLayers.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
+
+	<!-- editing tools -->
+    <script type="js/plugins/editing/StatusBar.js"></script>
+    <script type="text/javascript" src="js/plugins/editing/widgets/WFSTFeatureEditingStatusBar.js"></script>	
+	<script type="text/javascript" src="js/plugins/editing/widgets/WFSTFeatureEditingManager.js"></script>
+    <script type="text/javascript" src="js/plugins/editing/widgets/grid/FeatureGrid.js"></script>
+    <script type="text/javascript" src="js/plugins/editing/FeatureEditorGrid.js"></script>
+    <script type="text/javascript" src="js/plugins/editing/UserFilter.js"></script>	
+
+
     <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/map.js?<?php echo time()?>"></script>
     <link rel="shortcut icon" href="http://www.mass.gov/czm/images/favicon.ico" type="image/x-icon">

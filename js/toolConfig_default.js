@@ -14,7 +14,7 @@
 	toolSettings.measureTool.status = 'show';
 	
 	toolSettings.identify = {};
-	toolSettings.identify.status = 'hide';
+	toolSettings.identify.status = 'show';
 	
 	toolSettings.bingAddressSearch = {};
 	toolSettings.bingAddressSearch.status = 'hide';
@@ -27,7 +27,7 @@
 	toolSettings.editLayerToolbar.status = 'hide';
 
 	toolSettings.quickZoomTools = {};
-	toolSettings.quickZoomTools.status = 'show';
+	toolSettings.quickZoomTools.status = 'hide';
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
 		 label: 'Pick a town',
@@ -140,3 +140,25 @@
 			flex: 1  // Take up all *remaining* vertical space		
 		}		
 	];
+	
+	toolSettings.editTool = {};
+	toolSettings.editTool.status = 'show';
+	toolSettings.editTool.layers = [
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
+			layerTitle : "Geoserver Editable Line" // must match whatever is found in folderset for this layer.
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
+			layerTitle : "Geoserver Editable Point" // must match whatever is found in folderset for this layer.
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
+			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
+		},		
+	];
+	toolSettings.editTool.getCapURL = './edit_config/getCapRawV100_single.xml';
