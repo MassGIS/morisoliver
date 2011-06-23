@@ -153,7 +153,7 @@
 			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
 		},
 		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT_HTTPS",
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
 			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
 		},
 		{
