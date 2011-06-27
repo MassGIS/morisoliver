@@ -338,6 +338,24 @@ Ext.override(Ext.tree.TreeNode,{
   }
 });
 
+var triggerButton = function (toolbar, type, itemId) {
+// use in keyMap, as triggerButton.createDelegate(....)
+	var component = toolbar.getComponent(itemId);
+	switch (type) {
+		case 'menu':
+			component.showMenu();
+			break;
+		case 'toggle':
+			component.toggle(true);
+			break;
+		case 'basic':
+			component.handler();
+			break;
+		default:
+	}
+	component.focus();
+};
+
 Ext.onReady(function() {
   Ext.QuickTips.init();
 
@@ -695,6 +713,7 @@ Ext.onReady(function() {
         lyrStoreSearchWizard.loadData(recUniqAllLyr);
         lyrSearchCombo = new Ext.form.ComboBox({
            store          : lyrStore
+		  ,itemId         : "layerSearch"
           ,forceSelection : true
           ,triggerAction  : 'all'
           ,emptyText      : 'Select / search data layers'
@@ -717,6 +736,13 @@ Ext.onReady(function() {
           }
         });
         olLayerPanel.getTopToolbar().add(lyrSearchCombo);
+		
+		if (additionalSettings && additionalSettings.layerList && additionalSettings.layerList.searchBox  && additionalSettings.layerList.searchBox.keyMap) {
+			var layerSearchKeyMap = {};
+			Ext.apply(layerSearchKeyMap, additionalSettings.layerList.searchBox.keyMap, {fn:function () {olLayerPanel.getTopToolbar().getComponent("layerSearch").focus();} });
+			new Ext.KeyMap(document, layerSearchKeyMap);
+		}	
+		
         olLayerPanel.addListener({
           resize : function() {
             lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
@@ -807,11 +833,9 @@ Ext.onReady(function() {
     ,labelCls    : 'legendText'
   });
 
-  
-
-  
-  
+  var keyMaps = [];
   var topToolBar_items = [];
+  var topToolBar_keyMaps = [], bottomToolBar_keyMaps = [];
   
 	// navigation functionality.  (zoom in, out, pan, max extent, active extent, forward, backwards, zoom to scale)
 	topToolBar_items.push(
@@ -819,11 +843,13 @@ Ext.onReady(function() {
          control      : new OpenLayers.Control.ZoomBox()
         ,map          : map
         ,toggleGroup  : 'navigation'
+		,enableToggle : true
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom in'
         ,icon         : 'img/zoom_in.png'
-        ,handler      : function() {
+		,itemId 	  : 'zoomIn'
+        ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_in.cur")');
           }
@@ -836,11 +862,13 @@ Ext.onReady(function() {
          control      : new OpenLayers.Control.ZoomBox(Ext.apply({out: true}))
         ,map          : map
         ,toggleGroup  : 'navigation'
+		,enableToggle : true		
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom out'
         ,icon         : 'img/zoom_out.png'
-        ,handler      : function() {
+		,itemId 	  : 'zoomOut'		
+        ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_out.cur")');
           }
@@ -854,12 +882,14 @@ Ext.onReady(function() {
         ,map          : map
         ,id           : 'dragPanButton'
         ,toggleGroup  : 'navigation'
+		,enableToggle : true		
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Pan'
         ,icon         : 'img/drag.gif'
         ,pressed      : true
-        ,handler      : function() {
+		,itemId 	  : 'pan'		
+        ,toggleHandler: function() {
           Ext.getCmp('mappanel').body.setStyle('cursor','move');
         }
       })
@@ -867,6 +897,7 @@ Ext.onReady(function() {
          iconCls     : 'buttonIcon'
         ,tooltip     : 'Zoom to initial extent'
         ,icon        : 'img/globe.png'
+		,itemId 	  : 'initExtent'		
         ,handler     : function() {
           map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
         }
@@ -875,6 +906,7 @@ Ext.onReady(function() {
          iconCls     : 'buttonIcon'
         ,tooltip     : 'Zoom to full extent of active data'
         ,icon        : 'img/zoom_extents.png'
+		,itemId 	  : 'maxExtent'		
         ,handler     : function() {
           var targetBounds = new OpenLayers.Bounds();
           for (var i in activeLyr) {
@@ -897,6 +929,7 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go back to previous extent'
         ,icon     : 'img/undo.png'
+		,itemId 	  : 'prevExtent'		
       })
       ,new GeoExt.Action({
          control  : ctrl.next
@@ -904,14 +937,17 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go to next extent'
         ,icon     : 'img/redo.png'
+		,itemId   : 'nextExtent'				
       })
       ,'-'
       ,{
-         text     : 'Zoom to a scale'
+		 enableToggle: true
+        ,text     : 'Zoom to a scale'
         ,id       : 'zoomToAScale'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/Search-icon.png'
         ,disabled : defaultBase !== 'custom'
+		,itemId 	  : 'zoomScale'		
         ,menu     : [
           {
              text    : '1:1,000'
@@ -991,11 +1027,72 @@ Ext.onReady(function() {
       }
 	 );
 
+	if (toolSettings.navigationTools) {
+		if (toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.zoomIn.keyMap,
+				itemId :'zoomIn' ,
+				type   : 'toggle'
+			});
+		}
+		if (toolSettings.navigationTools.zoomOut && toolSettings.navigationTools.zoomOut.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.zoomOut.keyMap,
+				itemId :'zoomOut' ,
+				type   : 'toggle'
+			});
+		}
+		if (toolSettings.navigationTools.pan && toolSettings.navigationTools.pan.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.pan.keyMap,
+				itemId :'pan' ,
+				type   : 'toggle'
+			});
+		}
+		if (toolSettings.navigationTools.nextExtent && toolSettings.navigationTools.nextExtent.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.nextExtent.keyMap,
+				itemId :'nextExtent' ,
+				type   : 'basic'
+			});
+		}
+		if (toolSettings.navigationTools.initExtent && toolSettings.navigationTools.initExtent.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.initExtent.keyMap,
+				itemId :'initExtent' ,
+				type   : 'basic'
+			});
+		}
+		if (toolSettings.navigationTools.prevExtent && toolSettings.navigationTools.prevExtent.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.prevExtent.keyMap,
+				itemId :'prevExtent' ,
+				type   : 'basic'
+			});
+		}
+		if (toolSettings.navigationTools.maxExtent && toolSettings.navigationTools.maxExtent.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.maxExtent.keyMap,
+				itemId :'maxExtent' ,
+				type   : 'basic'
+			});
+		}		
+		if (toolSettings.navigationTools.zoomScale && toolSettings.navigationTools.zoomScale.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.navigationTools.zoomScale.keyMap,
+				itemId :'zoomScale' ,
+				type   : 'menu'
+			});
+		}			
+		
+
+
+
+	}
 	if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
 	// identify tool functionality
-	  topToolBar_items.push(
-      '-'
-      ,new GeoExt.Action({
+	   identify = new GeoExt.Action({
+		 itemId 	  : "identify",
          tooltip      : 'Identify features by drawing a box'
         ,text         : 'Identify'
         ,iconCls      : 'buttonIcon'
@@ -1004,7 +1101,8 @@ Ext.onReady(function() {
         ,id           : 'queryBox'
         ,allowDepress : false
         ,control      : featureBoxControl
-        ,handler      : function() {
+		,enableToggle : true
+		,toggleHandler: function() {
           Ext.getCmp('mappanel').body.setStyle('cursor','help');
           featureBoxControl.polygon.activate();
           // nuke any measurements
@@ -1013,9 +1111,19 @@ Ext.onReady(function() {
           resetMeasureTally();
           layerRuler.removeFeatures(layerRuler.features);
         }
-      })
-      ,new GeoExt.Action({
-         tooltip     : 'Clear identified features'
+      /*  ,handler      : function() {
+          Ext.getCmp('mappanel').body.setStyle('cursor','help');
+          featureBoxControl.polygon.activate();
+          // nuke any measurements
+          lengthControl.deactivate();
+          areaControl.deactivate();
+          resetMeasureTally();
+          layerRuler.removeFeatures(layerRuler.features);
+        } */
+      });
+	   clearIdentify = new GeoExt.Action({
+		 itemId 	  : 'identifyClear' 
+        ,tooltip     : 'Clear identified features'
         ,iconCls     : 'buttonIcon'
         ,icon        : 'img/query-clear.png'
         ,handler     : function() {
@@ -1025,7 +1133,29 @@ Ext.onReady(function() {
             featureBoxControl.polygon.activate();
           }
         }
-      })
+      });
+	  
+	 if ( toolSettings.identify.identify_keymap) {
+		topToolBar_keyMaps.push({
+			keyMap:  toolSettings.identify.identify_keymap,
+			itemId : "identify",
+			type   : toggle,
+		});
+	 }
+	
+	 if ( toolSettings.identify.clearIdentify_keymap) {
+		topToolBar_keyMaps.push({
+			keyMap:  toolSettings.identify.clearIdentify_keymap,
+			itemId : "identifyClear",
+			type   : basic,
+		});
+	 }	
+	  
+	  
+	  topToolBar_items.push(
+      '-'
+      ,identify
+      ,clearIdentify
 	  );
 	}
 	
@@ -1062,100 +1192,101 @@ Ext.onReady(function() {
 		map.addLayer(commentWFSLayer);
 		var commentWindow,commentForm,commentFeature;
 		var drawComment = new OpenLayers.Control.DrawFeature(
-					commentWFSLayer,
-					OpenLayers.Handler.Point
-					,{
-						title: "Add comment",
-						displayClass: "olControlDrawFeaturePoint",
-						multi: true,
-						featureAdded: function (feat) {
-							commentFeature = feat;
-							if (!commentForm) {
-								var commentFields = [];
+			commentWFSLayer,
+			OpenLayers.Handler.Point
+			,{
+				title: "Add comment",
+				displayClass: "olControlDrawFeaturePoint",
+				multi: true,
+				featureAdded: function (feat) {
+					commentFeature = feat;
+					if (!commentForm) {
+						var commentFields = [];
+					
+						commentForm = new Ext.form.FormPanel ({
+							baseCls: 'x-plain',
+							labelWidth:75,
+							frame:true,
+							monitorValid:true,
+							buttonAlign: 'right',
+							bodyStyle:'padding:10px 10px 0',
+							 layout: {
+										type: 'vbox'
+										,align: 'stretch'  // Child items are stretched to full width
+									},
+									defaults: {
+										//msgTarget: 'side',
+										//anchor: '95%',
+										xtype: 'textfield',
+										selectOnFocus: true,
+							            plugins: [ Ext.ux.FieldLabeler ]												
+									},
+							 
+									items: toolSettings.commentTool.fields
 							
-								commentForm = new Ext.form.FormPanel ({
-									baseCls: 'x-plain',
-									labelWidth:75,
-									frame:true,
-									monitorValid:true,
-									buttonAlign: 'right',
-									bodyStyle:'padding:10px 10px 0',
-									 layout: {
-												type: 'vbox'
-												,align: 'stretch'  // Child items are stretched to full width
-											},
-											defaults: {
-												//msgTarget: 'side',
-												//anchor: '95%',
-												xtype: 'textfield',
-												selectOnFocus: true,
-									            plugins: [ Ext.ux.FieldLabeler ]												
-											},
-									 
-											items: toolSettings.commentTool.fields
+						});
+					}
+					if (!commentWindow) {
+						commentWindow = new Ext.Window({
+							title: "Enter comment",
+							collapsible: false,
+							maximizeable: false,
+							width: 400,
+							height: 500,
+							minHeight: 300,
+							minWidth: 200,
+							layout: "fit",
+							plain: true,
+							items: commentForm,
+							closeAction: 'hide',
+							closable: false,
+							modal:true,
+							buttons: [{
+								text: "Save",
+								formBind: true,
+								handler : function (d,e) {
+									// need to check validation (length)
+									if (commentForm.getForm().isValid()) {
+										var dt = new Date();
+										commentFeature.attributes = commentForm.getForm().getFieldValues();
+										//commentFeature.attributes.OBJECTID = -1;
+										commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
+										commentSaveStrategy.save();
+									}
 									
-								});
-							}
-							if (!commentWindow) {
-								commentWindow = new Ext.Window({
-									title: "Enter comment",
-									collapsible: false,
-									maximizeable: false,
-									width: 400,
-									height: 500,
-									minHeight: 300,
-									minWidth: 200,
-									layout: "fit",
-									plain: true,
-									items: commentForm,
-									closeAction: 'hide',
-									closable: false,
-									modal:true,
-									buttons: [{
-										text: "Save",
-										formBind: true,
-										handler : function (d,e) {
-											// need to check validation (length)
-											if (commentForm.getForm().isValid()) {
-												var dt = new Date();
-												commentFeature.attributes = commentForm.getForm().getFieldValues();
-												//commentFeature.attributes.OBJECTID = -1;
-												commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
-												commentSaveStrategy.save();
-											}
-											
-										}
-									},{
-										text: "Cancel",
-										handler : function (d,e) {
-											commentWFSLayer.destroyFeatures();
-											commentWindow.hide();
-										}										
-									}]									
-								
-								});
-								
-								
-							}
-							
-							
-							commentWindow.show();
-							// this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
-						}
-					} 
-				);
+								}
+							},{
+								text: "Cancel",
+								handler : function (d,e) {
+									commentWFSLayer.destroyFeatures();
+									commentWindow.hide();
+								}										
+							}]									
+						
+						});
+						
+						
+					}
+					
+					
+					commentWindow.show();
+					// this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
+				}
+			} 
+		);
 				
 		
 		topToolBar_items.push('-',
 			new GeoExt.Action ({
-				text: toolSettings.commentTool.layer.commentLabel,
-				map: map,
-				control: drawComment
+			text: toolSettings.commentTool.layer.commentLabel,
+			itemId : 'commentTool',
+			map: map,
+			control: drawComment
 			,iconCls      : 'buttonIcon'
 			,icon         : 'img/query-region.png'
-			,toggleGroup  : 'navigation'		
+			,toggleGroup  : 'navigation'	
+			,enableToggle : true			
 			,toolTip : toolSettings.commentTool.layer.commentDesc
-			
 			})
 		);
 	}
@@ -1192,9 +1323,19 @@ Ext.onReady(function() {
 	
 	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
 	  // bing search functionality
+	  
+	  if (toolSettings.bingAddressSearch.keyMap) {
+		topToolBar_keyMaps.push({
+			keyMap: toolSettings.bingAddressSearch.keyMap,
+			itemId :'bingSearch' ,
+			type   : 'text'
+		});
+	  }
+	  
       topToolBar_items.push( '-'
       ,{
          xtype     : 'textfield'
+		,itemId    : 'bingSearch'
         ,emptyText : 'Search for a location'
         ,disabled  : bingDisabled
         ,id        : 'searchLocation'
@@ -1307,6 +1448,7 @@ Ext.onReady(function() {
       }
       ,{
          text    : 'Clear location'
+		,itemId  : 'bingSearchClear'
         ,tooltip : 'Clear location search results from map'
         ,iconCls : 'buttonIcon'
         ,icon    : 'img/clear_eraser.gif'
@@ -1333,6 +1475,15 @@ Ext.onReady(function() {
 		var storeListener_beforeLoad;
 		for (var i = 0; i < toolSettings.quickZoomTools.tools.length; i++) {
 			thisTool = toolSettings.quickZoomTools.tools[i];
+			
+			if (thisTool.keyMap) {
+			  topToolBar_keyMaps.push({
+				keyMap: thisTool.keyMap,
+				itemId :'quickZoom'+thisTool.id ,
+				type   : 'combo'
+			  });
+		    }			
+				
 			if (thisTool.restrict) {
 				quickZoomDefn.storeHandlers[thisTool.id] = function (d) {
 					var valueField = this.valueField;
@@ -1397,6 +1548,7 @@ Ext.onReady(function() {
 			quickZoomDefn.stores[thisTool.id] = thisStore ;
 			
 			thisComboBox = 	new Ext.form.ComboBox({
+				itemId : 'quickZoom'+thisTool.id,
 				emptyText: thisTool.label,
 				triggerAction:'all',
 				store : thisStore,
@@ -1458,9 +1610,19 @@ Ext.onReady(function() {
       topToolBar_items.push('->');
 
 	if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
+	
+		if (toolSettings.exportData.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.exportData.keyMap,
+				itemId : "exportData",
+				type   : "basic",
+			});
+		}
+
 	// export data functionality
 	  topToolBar_items.push({
          text        : 'Export data'
+		,itemId      : "exportData"
         ,tooltip     : 'Launch the data export wizard'
         ,iconCls     : 'buttonIcon'
         ,icon        : 'img/export.png'
@@ -2208,9 +2370,19 @@ Ext.onReady(function() {
         }
       });
 	}
-	  
+	 
+
+	  	if (toolSettings.help &&  toolSettings.help.keyMap) {
+			topToolBar_keyMaps.push({
+				keyMap: toolSettings.help.keyMap,
+				itemId :'help' ,
+				type   : 'menu'
+			});
+			
+		}
       topToolBar_items.push({
          text : 'Help'
+		,itemId : 'help'
         ,iconCls      : 'buttonIcon'
         ,icon         : 'img/help.png'
         ,menu : new Ext.menu.Menu({
@@ -2333,21 +2505,40 @@ Ext.onReady(function() {
       }
      );
   
-  var olMapPanel_topToolBar = new Ext.Toolbar({
+   olMapPanel_topToolBar = new Ext.Toolbar({
     items: topToolBar_items
   });
+  
+  keyMaps = [];
+  for (var j = 0; j< topToolBar_keyMaps.length; j++) {
+	topToolBar_keyMaps[j].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_topToolBar, topToolBar_keyMaps[j].type, topToolBar_keyMaps[j].itemId]);
+	keyMaps.push ( topToolBar_keyMaps[j].keyMap);
+  }
+  new Ext.KeyMap(document, keyMaps );
 
   olMapPanel_bottomToolBar = [];
+  bottomToolBar_items = [];
   
 	if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 
 	// if either there is no toolSetting or no toolSetting for measureTool, or there is a toolSetting and it is set to status = true
 	{
-	  olMapPanel_bottomToolBar.push(
+	
+	  if (toolSettings.measureTool.keyMap) {
+		bottomToolBar_keyMaps.push({
+			keyMap: toolSettings.measureTool.keyMap,
+			itemId :'measure' ,
+			type   : 'menu'
+		});
+	  }
+	  
+	  bottomToolBar_items.push(
 		  new Ext.Toolbar.Button({
 			 text         : '&nbsp;Measure'
+			,itemId       : 'measure'
 			,iconCls      : 'buttonIcon'
 			,icon         : 'img/measure20.gif'
 			,toggleGroup  : 'navigation'
+			,enableToggle : true			
 			,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
 			,allowDepress : false
 			,menu : [
@@ -2500,54 +2691,101 @@ Ext.onReady(function() {
 	  
 	  // end measure specific buttonBar code
 	  
-     olMapPanel_bottomToolBar.push(
+     bottomToolBar_items.push(
       '->'
-      ,new Ext.Action({
-         text     : 'Permalink'
-        ,tooltip  : 'Make permalink'
-        ,iconCls : 'buttonIcon'
-        ,icon    : 'img/favorite-icon.png'
-        ,handler  : function() {
-          Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
-        }
-      })
-      ,'-'
-      ,{
-         text    : 'Scale settings'
-        ,iconCls : 'buttonIcon'
-        ,icon    : 'img/settings.png'
-        ,menu    : [
-          {
-             text         : 'Show scalebar?'
-            ,checked      : true
-            ,checkHandler : function(item,checked) {
-              if (checked) {
-                scaleLineControl = new OpenLayers.Control.ScaleLine({geodesic : true});
-                map.addControl(scaleLineControl);
-                scaleLineControl.div.style.left = '100px';
-              }
-              else {
-                map.removeControl(scaleLineControl);
-              }
-            }
-          }
-          ,{
-             text    : 'Show scale ratio?'
-            ,checked : true
-            ,checkHandler : function(item,checked) {
-              if (checked) {
-                scaleRatioControl = new OpenLayers.Control.Scale();
-                map.addControl(scaleRatioControl);
-              }
-              else {
-                map.removeControl(scaleRatioControl);
-              }
-            }
-          }
-        ]
-      }
-      ,{
+	);
+	
+	if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show') 
+	// if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
+	{
+	
+		if (toolSettings.permalink.keyMap) {
+			bottomToolBar_keyMaps.push({
+				keyMap: toolSettings.permalink.keyMap,
+				itemId :'permalink' ,
+				type   : 'basic'
+			});
+		}
+	  
+		bottomToolBar_items.push(
+		  new Ext.Action({
+			 text     : 'Permalink'
+			,itemId   : 'permalink'
+			,tooltip  : 'Make permalink'
+			,iconCls : 'buttonIcon'
+			,icon    : 'img/favorite-icon.png'
+			,handler  : function() {
+			  Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
+			}
+		  })
+		  );
+  		bottomToolBar_items.push('-');
+
+	}
+	
+	if (!toolSettings || !toolSettings.scaleSettings || toolSettings.scaleSettings.status == 'show') 
+	// if either there is no toolSetting or no toolSetting for scaleSettings, or there is a toolSetting and it is set to status = true
+	{	
+	
+		if (toolSettings.scaleSettings.keyMap) {
+			bottomToolBar_keyMaps.push({
+				keyMap: toolSettings.scaleSettings.keyMap,
+				itemId :'scalesettings' ,
+				type   : 'menu'
+			});
+		}	
+		
+		bottomToolBar_items.push({
+			 text    : 'Scale settings'
+			,itemId  : 'scalesettings'
+			,iconCls : 'buttonIcon'
+			,icon    : 'img/settings.png'
+			,menu    : [
+			  {
+				 text         : 'Show scalebar?'
+				,checked      : true
+				,checkHandler : function(item,checked) {
+				  if (checked) {
+					scaleLineControl = new OpenLayers.Control.ScaleLine({geodesic : true});
+					map.addControl(scaleLineControl);
+					scaleLineControl.div.style.left = '100px';
+				  }
+				  else {
+					map.removeControl(scaleLineControl);
+				  }
+				}
+			  }
+			  ,{
+				 text    : 'Show scale ratio?'
+				,checked : true
+				,checkHandler : function(item,checked) {
+				  if (checked) {
+					scaleRatioControl = new OpenLayers.Control.Scale();
+					map.addControl(scaleRatioControl);
+				  }
+				  else {
+					map.removeControl(scaleRatioControl);
+				  }
+				}
+			  }
+			]
+		});
+	}
+	if (!toolSettings || !toolSettings.mapUnits || toolSettings.mapUnits.status == 'show') 
+	// if either there is no toolSetting or no toolSetting for mapUnits, or there is a toolSetting and it is set to status = true
+	{		
+	
+		if (toolSettings.mapUnits.keyMap) {
+			bottomToolBar_keyMaps.push({
+				keyMap: toolSettings.mapUnits.keyMap,
+				itemId :'mapunits' ,
+				type   : 'menu'
+			});
+		}	
+		
+	  bottomToolBar_items.push({
          text     : 'Map units'
+		,itemId   : 'mapunits'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/compass-icon.png'
         ,menu     : [
@@ -2579,9 +2817,22 @@ Ext.onReady(function() {
             }
           }
         ]
-      }
-      ,{
+      });
+	}
+	if (!toolSettings || !toolSettings.basemaps || toolSettings.basemaps.status == 'show') 
+	// if either there is no toolSetting or no toolSetting for basemaps, or there is a toolSetting and it is set to status = true
+	{		
+		if (toolSettings.basemaps.keyMap) {
+			bottomToolBar_keyMaps.push({
+				keyMap: toolSettings.basemaps.keyMap,
+				itemId :'basemaps' ,
+				type   : 'menu'
+			});
+		}		
+	
+	  bottomToolBar_items.push({
          text     : 'Basemaps'
+		,itemId   : 'basemaps'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/layers.png'
         ,menu     : [
@@ -2722,11 +2973,16 @@ Ext.onReady(function() {
             }
           })
         ]
-      }
-    );
+      });
+	}
+  
+ 
+   olMapPanel_bottomToolBar = new Ext.Toolbar({
+    items: bottomToolBar_items
+  });  
   
   olMapPanel = new GeoExt.MapPanel({
-     region : 'center'
+	 region : 'center'
     ,id     : 'mappanel'
     ,xtype  : 'gx_mappanel'
     ,map    : map
@@ -2738,6 +2994,13 @@ Ext.onReady(function() {
     ,border : false
   });
 
+  keyMaps = [];
+  for (var k = 0; k< bottomToolBar_keyMaps.length; k++) {
+	bottomToolBar_keyMaps[k].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_bottomToolBar, bottomToolBar_keyMaps[k].type, bottomToolBar_keyMaps[k].itemId]);
+	keyMaps.push ( bottomToolBar_keyMaps[k].keyMap);
+  }
+  new Ext.KeyMap(document, keyMaps );  
+  
   messageContextMenuActiveLyr = new Ext.menu.Menu({
     items: [{
        text    : 'Zoom to layer'
