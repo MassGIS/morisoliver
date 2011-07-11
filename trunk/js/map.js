@@ -659,6 +659,7 @@ Ext.onReady(function() {
 
   olLayerTree = new Ext.tree.TreePanel({
      split       : true
+	,tabIndex : -1
     ,height      : 200
     ,region      : 'north'
     ,autoScroll  : true
@@ -754,7 +755,14 @@ Ext.onReady(function() {
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
           addLayer(defaultLyrs[i].wms,defaultLyrs[i].proj_only,defaultLyrs[i].title,true);
-        }
+        }	
+		
+		// bad hack to fix tab Index issues.
+		window.setTimeout(function () {
+			  olLayerTree.getRootNode().eachChild(  function (nd) {
+				nd.getUI().anchor.tabIndex=-1;
+			  });  
+		  },2000);		
       },
       click : function(node,e){
         if (!node.isLeaf()) {
@@ -823,6 +831,7 @@ Ext.onReady(function() {
   
   var olLegendPanel = new GeoExt.LegendPanel({
      title       : 'Active data legends'
+	,tabIndex : -1	 
     ,region      : 'south'
     ,height      : 150
     ,split       : true
@@ -2509,6 +2518,7 @@ Ext.onReady(function() {
     items: topToolBar_items
   });
   
+  
   keyMaps = [];
   for (var j = 0; j< topToolBar_keyMaps.length; j++) {
 	topToolBar_keyMaps[j].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_topToolBar, topToolBar_keyMaps[j].type, topToolBar_keyMaps[j].itemId]);
@@ -3000,6 +3010,9 @@ Ext.onReady(function() {
 	keyMaps.push ( bottomToolBar_keyMaps[k].keyMap);
   }
   new Ext.KeyMap(document, keyMaps );  
+
+
+
   
   messageContextMenuActiveLyr = new Ext.menu.Menu({
     items: [{
@@ -3076,7 +3089,7 @@ Ext.onReady(function() {
     ,region       : 'center'
     ,split        : true
     ,autoScroll   : true
-    ,tbar        : [
+    ,tbar        : new Ext.Toolbar({ items: [
       {
          allowDepress : false
         // ,iconCls      : 'buttonIcon'
@@ -3124,7 +3137,7 @@ Ext.onReady(function() {
         }
       }
 
-    ]
+    ]})
     ,root         : new GeoExt.tree.LayerContainer({
        layerStore : olMapPanel.layers
       ,leaf       : false
@@ -3208,7 +3221,17 @@ Ext.onReady(function() {
         });
         messageContextMenuActiveLyr.showAt(e.getXY());
       }
-    }
+    },
+    listeners: {
+		insert : function ( tr, np, nn, refn) {
+			// bad hack to try to fix tabIndex issues on dataTree
+			var newNode = nn;
+			window.setTimeout(function () {
+				newNode.getUI().anchor.tabIndex = -1;
+			},300);
+			
+		}		
+	}
   });
 
   olLayerPanel = new Ext.Panel({
@@ -3253,6 +3276,15 @@ Ext.onReady(function() {
   });
 
   ctrl.activate();
+  
+  // to get tab support to work, we need to start by focusing somewhere relevant.
+  olMapPanel_topToolBar.items.items[0].focus();
+  // we also need to select a node in our trees so that keys work properly without requiring clicks
+  olLayerTree.getSelectionModel().select(olLayerTree.getRootNode());
+  olActiveLayers.getSelectionModel().select(olActiveLayers.getRootNode());
+  
+
+
 });
 
 function addLayer(wms,proj,title,viz) {
@@ -3988,3 +4020,6 @@ function addBaseLayer(name) {
     map.addLayer(lyrBase[name]);
   }
 }
+
+
+
