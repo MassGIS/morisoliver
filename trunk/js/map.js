@@ -1,4 +1,18 @@
 
+if (typeof MorisOliverApp == 'undefined') {
+	MorisOliverApp = {};
+}
+
+if (typeof MorisOliverApp.thGridPanel == 'undefined') {
+	MorisOliverApp.thGridPanel = Ext.grid.GridPanel;
+}
+
+if (typeof MorisOliverApp.thGridView == 'undefined') {
+	MorisOliverApp.thGridView = Ext.grid.GridView;
+}
+
+
+
 var maxAllowedFeatures = 25000;
 var map;
 var lyrBase          = [];
@@ -185,7 +199,7 @@ var qryWin = new Ext.Window({
            border : false
           ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 100 features allowed.<br>&nbsp;'
         }
-        ,new Ext.grid.GridPanel({
+        ,new MorisOliverApp.thGridPanel({
            height           : 150
           ,width            : 425
           ,store            : qryLyrStore
@@ -1558,7 +1572,9 @@ Ext.onReady(function() {
 			
 			thisComboBox = 	new Ext.form.ComboBox({
 				itemId : 'quickZoom'+thisTool.id,
+				id : 'quickZoom'+thisTool.id,
 				emptyText: thisTool.label,
+				fieldLabel: thisTool.label,
 				triggerAction:'all',
 				store : thisStore,
 				displayField:'values.properties.'+thisTool.valueField,  // values. is wrong, and breaks typeahead, as below
@@ -1721,7 +1737,7 @@ Ext.onReady(function() {
                             ,bodyStyle   : 'padding-left:2px'
                             ,border      : false
                             ,items       : [
-                              new Ext.grid.GridPanel({
+                              new MorisOliverApp.thGridPanel({
                                  height           : 200
                                 ,width            : 272
                                 ,title            : 'Data layers of interest'
@@ -2114,7 +2130,7 @@ Ext.onReady(function() {
                     ,bodyStyle : 'padding:10px'
                     ,border    : false
                   }
-                  ,new Ext.grid.GridPanel({
+                  ,new MorisOliverApp.thGridPanel({
                      height           : 395
                     ,title            : 'Query results'
                     ,store            : bboxLyrStore
@@ -2329,7 +2345,7 @@ Ext.onReady(function() {
                       }
                     ]
                   }
-                  ,{xtype : 'fieldset',title : 'Advanced - Download individual layers',collapsible : true,collapsed : true,items : [new Ext.grid.GridPanel({
+                  ,{xtype : 'fieldset',title : 'Advanced - Download individual layers',collapsible : true,collapsed : true,items : [new MorisOliverApp.thGridPanel({
                      height           : 310
                     ,store            : downloadLyrStore
                     ,disableSelection : true
@@ -3002,6 +3018,12 @@ Ext.onReady(function() {
     ,tbar   : olMapPanel_topToolBar
     ,bbar   : olMapPanel_bottomToolBar
     ,border : false
+	,listeners: {
+		afterRender : function (th) {
+		
+		console.log(th);
+		}
+	}
   });
 
   keyMaps = [];
@@ -3644,7 +3666,7 @@ function loadLayerDescribeFeatureType(wms) {
       });
       if (!featureBboxGridPanel) {
         // this is the 1st time a query has been requested
-        featureBboxGridPanel = new Ext.grid.GridPanel({
+        featureBboxGridPanel = new MorisOliverApp.thGridPanel({
            store  : featureBboxStore
           ,height : 215
           ,width  : 425
