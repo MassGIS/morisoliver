@@ -92,7 +92,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/plugins/editing/StatusBar.js"></script>
 	
 	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>
-	<script type="text/javascript" src="js/Geoserver_ScriptTagProxy?<?php echo time(); ?>"></script>
+	<script type="text/javascript" src="js/Geoserver_ScriptTagProxy.js?<?php echo time(); ?>"></script>
     <script type="text/javascript" src="js/wizard/CardLayout.js"></script>
     <script type="text/javascript" src="js/wizard/Wizard.js"></script>
     <script type="text/javascript" src="js/wizard/Header.js"></script>
