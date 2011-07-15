@@ -3018,12 +3018,6 @@ Ext.onReady(function() {
     ,tbar   : olMapPanel_topToolBar
     ,bbar   : olMapPanel_bottomToolBar
     ,border : false
-	,listeners: {
-		afterRender : function (th) {
-		
-		console.log(th);
-		}
-	}
   });
 
   keyMaps = [];
