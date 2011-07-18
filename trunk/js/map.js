@@ -3237,8 +3237,9 @@ Ext.onReady(function() {
         });
         messageContextMenuActiveLyr.showAt(e.getXY());
       }
-    },
-    listeners: {
+    }
+	/*  // retroactively enforcing tabIndex breaks the context menu 
+	,listeners: {
 		insert : function ( tr, np, nn, refn) {
 			// bad hack to try to fix tabIndex issues on dataTree
 			var newNode = nn;
@@ -3248,6 +3249,7 @@ Ext.onReady(function() {
 			
 		}		
 	}
+	*/
   });
 
   olLayerPanel = new Ext.Panel({
