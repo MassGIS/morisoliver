@@ -1162,7 +1162,7 @@ Ext.onReady(function() {
 		topToolBar_keyMaps.push({
 			keyMap:  toolSettings.identify.identify_keymap,
 			itemId : "identify",
-			type   : toggle,
+			type   : toggle
 		});
 	 }
 	
@@ -1170,7 +1170,7 @@ Ext.onReady(function() {
 		topToolBar_keyMaps.push({
 			keyMap:  toolSettings.identify.clearIdentify_keymap,
 			itemId : "identifyClear",
-			type   : basic,
+			type   : basic
 		});
 	 }	
 	  
@@ -1640,7 +1640,7 @@ Ext.onReady(function() {
 			topToolBar_keyMaps.push({
 				keyMap: toolSettings.exportData.keyMap,
 				itemId : "exportData",
-				type   : "basic",
+				type   : "basic"
 			});
 		}
 

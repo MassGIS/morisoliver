@@ -322,7 +322,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.drawMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.drawMenuButtonTooltipText,
-			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP,
+			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
     
         this.editMenuButton = new Ext.Button({
@@ -332,7 +332,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.editMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.editMenuButtonTooltipText,
-			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP,
+			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
 
 this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");		
@@ -425,17 +425,19 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
 		var records, layerConfigs = [], protocolCfg = {};
 		
 		for (var i = 0; i < this.layerConfigs.length; i++) {
-			protocolCfg = {
-				featureType : this.layerConfigs[i].featureType
-			};
-			
-			Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
-			
-			layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
-				strategies: [new OpenLayers.Strategy.Fixed()],
-				projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
-				protocol: new OpenLayers.Protocol.WFS( protocolCfg ) 
-			}))
+			if (this.layerConfigs[i] && this.layerConfigs[i].featureType && this.layerConfigs[i].layerTitle ) {
+				protocolCfg = {
+					featureType : this.layerConfigs[i].featureType
+				};
+				
+				Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
+				
+				layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+					strategies: [new OpenLayers.Strategy.Fixed()],
+					projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+					protocol: new OpenLayers.Protocol.WFS( protocolCfg ) 
+				}))
+			}
 		}
 		
 		layerStore = new GeoExt.data.LayerStore ({
