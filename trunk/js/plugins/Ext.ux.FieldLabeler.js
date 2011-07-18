@@ -23,7 +23,7 @@ Ext.ns("Ext.ux");
  */
 Ext.ux.FieldLabeler = (function(){
  
-//  Pulls a named property down from the first ancestor Container it's found in
+//  Pulls a named property down from the first ancestor Container it's found in 
     function getParentProperty(propName) {
         for (var p = this.ownerCt; p; p = p.ownerCt) {
             if (p[propName]) {
