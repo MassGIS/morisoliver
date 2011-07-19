@@ -1242,7 +1242,7 @@ Ext.onReady(function() {
 										//anchor: '95%',
 										xtype: 'textfield',
 										selectOnFocus: true,
-							            plugins: [ Ext.ux.FieldLabeler ]												
+							            plugins: [ Ext.ux.FieldLabeler ]												
 									},
 							 
 									items: toolSettings.commentTool.fields
