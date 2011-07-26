@@ -82,6 +82,8 @@
 		 label: 'Pick a town',
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
+		 sortBy : 'TOWN', // optional, fieldname
+		 sortOrder : 'A', // optional, acceptable values = A, D
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
 		 keyMap: {					// not required
 			"ctrl":true,			// not required if false
@@ -93,6 +95,8 @@
 		 label: 'Pick an OpenSpace',
 		 layer: 'massgis:GISDATA.OPENSPACE_POLY',
 		 valueField: 'SITE_NAME',
+		 sortBy : 'SITE_NAME', // optional, fieldname
+		 sortOrder : 'D', // optional, acceptable values = A, D		 
 		 restrict : {
 			restrictToolId: 1,
 			restrictedValueField: 'TOWN_ID',  // name of the field in this layer
