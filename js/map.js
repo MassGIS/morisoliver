@@ -1543,6 +1543,14 @@ Ext.onReady(function() {
 			if (thisTool.additionalFields  && thisTool.additionalFields.length > 0) {
 				fieldList = fieldList.concat(thisTool.additionalFields.split(','));
 			}
+			
+			var sort = "";
+			if (thisTool.sortBy) {
+				 sort = thisTool.sortBy;
+				if (thisTool.sortOrder ) {
+					sort += ' '+thisTool.sortOrder ;
+				}
+			}			
 			thisStore = new Ext.data.Store ({
 			// what about beforeLoad
 				listeners: {
@@ -1554,7 +1562,8 @@ Ext.onReady(function() {
 					"service" : "wfs",
 					"propertyname" : fieldList.join(',') ,  
 					"typename" : thisTool.layer,
-					"outputformat" : "json"
+					"outputformat" : "json",
+					"sortBy" : sort
 				},
 				proxy : new Ext.data.Geoserver_ScriptTagProxy ({
 					url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
@@ -1568,7 +1577,8 @@ Ext.onReady(function() {
 				) 
 			}); 	
 		
-			quickZoomDefn.stores[thisTool.id] = thisStore ;
+
+		quickZoomDefn.stores[thisTool.id] = thisStore ;
 			
 			thisComboBox = 	new Ext.form.ComboBox({
 				itemId : 'quickZoom'+thisTool.id,
