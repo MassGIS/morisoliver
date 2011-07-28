@@ -303,8 +303,9 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
      */
     getEditor: function(rowIndex) {
         var record = this.store.getAt(rowIndex), config;
+//override datefields with text.  In theory, we might rather have these be split to date and timefields		
         var field = (config = GeoExt.form.recordToField(record)) ?
-            Ext.ComponentMgr.create(config) : new Ext.form.TextField();
+            (config.xtype == 'datefield' ?  new Ext.form.TextField() : Ext.ComponentMgr.create(config)) : new Ext.form.TextField();
         return new Ext.grid.GridEditor(field);
     },
 

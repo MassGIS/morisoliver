@@ -1201,7 +1201,7 @@ Ext.onReady(function() {
 			strategies: [commentSaveStrategy], 
 			projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
 			protocol: new OpenLayers.Protocol.WFS({
-				version: "1.1.0",
+				version: "1.0.0",
 				srsName: toolSettings.commentTool.layer.srs,
 				url: wfsUrl,
 				featureNS : namespaceUrl,
