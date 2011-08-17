@@ -1,0 +1,14 @@
+Getting morisoliver to work out-of-the-box.
+
+* helper_scripts_distribute/slice_getcaps.pl
+  * Change $dest_dir to a working www-accessible dir on your box.
+  * Run the script
+    cd helper_scripts_districute
+    ./slice_getcaps.pl
+  * In your $dest_dir you should see a lot of .xml files and one .js file.
+
+* Assuming you are trying to launch oliver.php, make sure that the references
+  to OL_MORIS_cache match what you setup in slice_getcaps.pl above.
+
+* Still assuming we're in oliver.php, the proxyLoc needs to be on YOUR SERVER and
+  NOT left as http://maps.massgis.state....
