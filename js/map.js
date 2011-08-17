@@ -822,7 +822,7 @@ Ext.onReady(function() {
                 ,hidden          : true   //wait till you know the size
                 ,plain           : true
                 ,constrainHeader : true
-                ,minimizable     : true
+                ,minimizable     : false
                 ,ddScroll        : false
                 ,border          : false
                 ,bodyBorder      : false
@@ -2460,7 +2460,7 @@ Ext.onReady(function() {
                   ,hidden          : true   //wait till you know the size
                   ,plain           : true
                   ,constrainHeader : true
-                  ,minimizable     : true
+                  ,minimizable     : false
                   ,ddScroll        : false
                   ,border          : false
                   ,bodyBorder      : false
@@ -2509,7 +2509,7 @@ Ext.onReady(function() {
                   ,hidden          : true   //wait till you know the size
                   ,plain           : true
                   ,constrainHeader : true
-                  ,minimizable     : true
+                  ,minimizable     : false
                   ,ddScroll        : false
                   ,border          : false
                   ,bodyBorder      : false
@@ -3234,7 +3234,7 @@ Ext.onReady(function() {
               ,hidden          : true   //wait till you know the size
               ,plain           : true
               ,constrainHeader : true
-              ,minimizable     : true
+              ,minimizable     : false
               ,ddScroll        : false
               ,border          : false
               ,bodyBorder      : false
@@ -3593,7 +3593,7 @@ function loadLayerMetadata(wms,title,style,launchMetadataWin,addLayer,tstLyr) {
           ,hidden          : true   //wait till you know the size
           ,plain           : true
           ,constrainHeader : true
-          ,minimizable     : true
+          ,minimizable     : false
           ,ddScroll        : false
           ,border          : false
           ,bodyBorder      : false
@@ -3743,7 +3743,7 @@ function loadLayerDescribeFeatureType(wms) {
                   ,hidden          : true   //wait till you know the size
                   ,plain           : true
                   ,constrainHeader : true
-                  ,minimizable     : true
+                  ,minimizable     : false
                   ,ddScroll        : false
                   ,border          : false
                   ,bodyBorder      : false
