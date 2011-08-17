@@ -2074,8 +2074,9 @@ Ext.onReady(function() {
                             xmlDoc.loadXML(o.responseText);
                           }
                           // update the right row w/ the # of feature hits
-                          if (xmlDoc.getElementsByTagName('wfs:FeatureCollection')[0]) {
-                            var hits = xmlDoc.getElementsByTagName('wfs:FeatureCollection')[0].getAttribute('numberOfFeatures');
+                          var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
+                          if (el) {
+                            var hits = el.getAttribute('numberOfFeatures');
                             if (hits > maxAllowedFeatures) {
                               bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs','> max # features');
                               bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','N');
@@ -3628,7 +3629,7 @@ function loadLayerDescribeFeatureType(wms) {
         xmlDoc.async = "false";
         xmlDoc.loadXML(o.responseText);
       }
-      var allEle = xmlDoc.getElementsByTagName('xsd:element');
+      var allEle = getElementsByTagNameNS(xmlDoc,'http://www.w3.org/2001/XMLSchema','xsd','element');
       var fld = [];
       var col = [];
       for (var i = 0; i < allEle.length; i++) {
@@ -3951,8 +3952,9 @@ function runQueryStats(bounds) {
           xmlDoc.loadXML(o.responseText);
         }
         // update the right row w/ the # of feature hits
-        if (xmlDoc.getElementsByTagName('wfs:FeatureCollection')[0]) {
-          qryLyrStore.getAt(args[0]).set('wfs',xmlDoc.getElementsByTagName('wfs:FeatureCollection')[0].getAttribute('numberOfFeatures') + ' feature(s)');
+        var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
+        if (el) {
+          qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
         }
         else {
           if (!(args[1] == 'raster' || args[1] == 'grid')) {
@@ -4051,5 +4053,12 @@ function addBaseLayer(name) {
   }
 }
 
-
-
+function getElementsByTagNameNS(xmlDoc,nsUrl,nsTag,tag) {
+  // we have namespaces, and browsers treat them differently
+  if (document.getElementsByTagNameNS !== undefined) {
+    return xmlDoc.getElementsByTagNameNS(nsUrl,tag);
+  }
+  else {
+    return xmlDoc.getElementsByTagName(nsTag + ':' + tag);
+  }
+}
