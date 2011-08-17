@@ -12,3 +12,6 @@ Getting morisoliver to work out-of-the-box.
 
 * Still assuming we're in oliver.php, the proxyLoc needs to be on YOUR SERVER and
   NOT left as http://maps.massgis.state....
+
+# oliver.php again, you need to bring over a LOCAL copy of the folderset.xml and
+  reference it w/ foldersetLoc.
