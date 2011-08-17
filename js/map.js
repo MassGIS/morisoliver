@@ -3289,7 +3289,9 @@ Ext.onReady(function() {
     Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
     Ext.getCmp('zoomToAScale').setDisabled(true);
     map.setOptions({maxExtent : maxExtent900913});
-    Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+    if (Ext.getCmp('opacitySliderBaseLayer')) {
+      Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+    }
   }
   if (defaultCenter && defaultZoom) {
     map.setCenter(new OpenLayers.LonLat(defaultCenter[0],defaultCenter[1]),defaultZoom);
