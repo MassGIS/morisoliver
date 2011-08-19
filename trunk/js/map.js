@@ -1793,6 +1793,10 @@ Ext.onReady(function() {
                                     e.stopEvent();
                                   }
                                   ,rowcontextmenu : function(g,row,e) {
+                                    var sel = g.getSelectionModel();
+                                    if (!sel.isSelected(row)) {
+                                      sel.selectRow(row);
+                                    }
                                     var contextMenu = new Ext.menu.Menu({
                                       items: [{
                                          text    : 'Remove layer(s)'
