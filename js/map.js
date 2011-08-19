@@ -272,8 +272,17 @@ OpenLayers.Util.extend(featureBoxControl,{
         runQueryStats(e.getBounds());
       }}
       ,{
-         persist   : true
-        ,irregular : true
+         persist      : true
+        ,irregular    : true
+        ,layerOptions : {styleMap : new OpenLayers.StyleMap({
+          'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+             'strokeWidth'  : 2
+            ,'strokeColor'  : '#d80893'
+            ,'strokeOpacity': 0.5
+            ,'fillColor'    : '#d80893'
+            ,'fillOpacity'  : 0.05
+          }))
+        })}
       }
     );
   }
@@ -3135,6 +3144,7 @@ Ext.onReady(function() {
           }
         }
       }
+      ,'-'
       ,{
          allowDepress : false
         // ,iconCls      : 'buttonIcon'
@@ -3672,22 +3682,20 @@ function loadLayerDescribeFeatureType(wms) {
       featureBboxStore = new GeoExt.data.FeatureStore({
          fields : fld
         ,layer  : featureBboxSelect
-        ,listeners : {
-          add : function(store,rec,idx) {
-            featureBboxGridPanel.getSelectionModel().selectRow(idx,true,false);
-          }
-        }
       });
       if (!featureBboxGridPanel) {
         // this is the 1st time a query has been requested
         featureBboxGridPanel = new MorisOliverApp.thGridPanel({
            store  : featureBboxStore
+          ,tbar   : [
+             {text : 'Select and highlight all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
+            ,'-'
+            ,{text : 'Unselect and unhilight all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
+          ]
           ,height : 215
           ,width  : 425
           ,id     : 'featureBboxGridPanel'
-          ,sm     : new GeoExt.grid.FeatureSelectionModel({
-            layer : featureBboxSelect
-          })
+          ,sm     : new GeoExt.grid.FeatureSelectionModel()
           ,cm     : new Ext.grid.ColumnModel({
             defaults : {
               sortable : true
