@@ -738,7 +738,7 @@ Ext.onReady(function() {
           ,displayField   : 'title'
           ,listeners      : {
             select : function(comboBox,rec,i) {
-              addLayer(lyr2wms[rec.get('title')],lyr2proj[rec.get('title')],rec.get('title'),true);
+              addLayer(lyr2wms[rec.get('title')],lyr2proj[rec.get('title')],rec.get('title'),true,1);
               olLayerTree.getRootNode().cascade(function(n) {
                 if (n.attributes.text == rec.get('title')) {
                   olLayerTree.selectPath(n.getPath());
@@ -768,7 +768,7 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].proj_only,defaultLyrs[i].title,true);
+          addLayer(defaultLyrs[i].wms,defaultLyrs[i].proj_only,defaultLyrs[i].title,true,1);
         }	
 		
 		// bad hack to fix tab Index issues.
@@ -782,7 +782,7 @@ Ext.onReady(function() {
         if (!node.isLeaf()) {
           return;
         }
-        addLayer(node.attributes.wmsName,node.attributes.proj_only,node.attributes.text,true);
+        addLayer(node.attributes.wmsName,node.attributes.proj_only,node.attributes.text,true,1);
       }
       ,contextmenu : function(n,e) {
         if (n.isLeaf()) {
@@ -835,7 +835,7 @@ Ext.onReady(function() {
             }
           });
           messageContextMenuAvailableLyr.findById('addLayer').setHandler(function() {
-            addLayer(n.attributes.wmsName,n.attributes.proj_only,n.attributes.text,true);
+            addLayer(n.attributes.wmsName,n.attributes.proj_only,n.attributes.text,true,1);
           });
           messageContextMenuAvailableLyr.showAt(e.getXY());
         }
@@ -3318,7 +3318,7 @@ Ext.onReady(function() {
 
 });
 
-function addLayer(wms,proj,title,viz) {
+function addLayer(wms,proj,title,viz,opacity) {
   if (proj && map.getProjection().toLowerCase() !== proj.toLowerCase()) {
     Ext.Msg.alert('Error adding layer',"The '" + title + "' layer is not supported in the current map projection.");
     return;
@@ -3337,7 +3337,7 @@ function addLayer(wms,proj,title,viz) {
          projection         : map.getProjection()
         ,singleTile         : true
         ,isBaseLayer        : false
-        ,opacity            : 1
+        ,opacity            : opacity
         ,addToLayerSwitcher : false
         ,visibility         : viz
       }
@@ -3356,8 +3356,9 @@ function refreshLayers() {
   for (i in map.layers) {
     if (!map.layers[i].isBaseLayer && !map.layers[i].isVector && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
       lyr.push({
-         name : map.layers[i].name
-        ,viz  : map.layers[i].visibility
+         name    : map.layers[i].name
+        ,viz     : map.layers[i].visibility
+        ,opacity : map.layers[i].opacity
       });
     }
   }
@@ -3366,7 +3367,7 @@ function refreshLayers() {
     activeLyr[lyr[i].name] = '';
   }
   for (var i = 0; i < lyr.length; i++) {
-    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz);
+    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity);
   }
 
   featureBbox.unselectAll();
