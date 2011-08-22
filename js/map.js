@@ -1717,6 +1717,7 @@ Ext.onReady(function() {
             ,width           : 700
             ,height          : 600
             ,resizable       : true
+            ,maximizable     : true
             ,closeAction     : 'hide'
             ,cardPanelConfig : {
               defaults : {
