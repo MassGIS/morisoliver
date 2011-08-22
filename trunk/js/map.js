@@ -1724,6 +1724,7 @@ Ext.onReady(function() {
                  border      : false
                 ,bodyStyle   : 'padding:6px'
                 ,labelWidth  : 75
+                ,autoScroll  : true
               }
             }
             ,cards           : [
