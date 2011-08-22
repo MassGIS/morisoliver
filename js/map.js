@@ -3961,7 +3961,12 @@ function runQueryStats(bounds) {
         // update the right row w/ the # of feature hits
         var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
         if (el) {
-          qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
+          if (args[2]) {
+            qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
+          }
+          else {
+            qryLyrStore.getAt(args[0]).set('wfs','not visible at scale');
+          }
         }
         else {
           if (!(args[1] == 'raster' || args[1] == 'grid')) {
@@ -3972,7 +3977,7 @@ function runQueryStats(bounds) {
         qryLyrStore.commitChanges();
       };
       var ico = wms2ico[lyr2wms[rec.get('title')]];
-      Y.on('io:success',handleSuccess,this,[i,ico]);
+      Y.on('io:success',handleSuccess,this,[i,ico,scaleOK(rec.get('title')).isOK]);
       var title = rec.get('title');
       var bbox = bounds.toArray();
       var cfg = {
