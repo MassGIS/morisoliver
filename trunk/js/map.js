@@ -3838,23 +3838,15 @@ function mkDataWizardURL(title,ico) {
          wmsUrl
         ,'?REQUEST=GetMap&VERSION=1.1.0&SERVICE=WMS&EXCEPTION=application/vnd.ogc.se_inimage&layers=' + lyr2wms[title]
         ,'&FORMAT=image/geotiff'
-        ,'&bbox=' + bbox.join(',')
-        ,'&srs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+        ,'&bbox=' + bbox26986.join(',')
+        ,'&srs=EPSG:26986'
         ,'&width=' + Math.round((bbox26986[2] - bbox26986[0]) / lyrMetadata[title].imgUnitsPerPixel)
         ,'&height=' + Math.round((bbox26986[3] - bbox26986[1]) / lyrMetadata[title].imgUnitsPerPixel)
       ).join('');
     }
     else {
       // not supporting grids, but leave it here for kicks
-      return Array(
-         wcsUrl
-        ,'?REQUEST=GetCoverage&VERSION=1.0.0&SERVICE=WCS&coverage=' + lyr2wms[title]
-        ,'&FORMAT=arcgrid'
-        ,'&bbox=' + bbox.join(',')
-        ,'&crs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
-        ,'&width=' + (bbox26986[2] - bbox26986[0]) / lyrMetadata[title].imgUnitsPerPixel
-        ,'&height=' + (bbox26986[3] - bbox26986[1]) / lyrMetadata[title].imgUnitsPerPixel
-      ).join('');
+      return Array('');
     }
   }
   else {
