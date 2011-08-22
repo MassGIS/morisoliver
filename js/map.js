@@ -1764,10 +1764,10 @@ Ext.onReady(function() {
                                 ,store            : tstLyrStore
                                 ,hideHeaders      : true
                                 ,columns          : [
-                                   {id : 'ico'  ,header :'Icon'       ,width : 25,renderer : ico2img}
-                                  ,{id : 'title',header : 'Layer name'                              }
+                                   {id : 'ico'  ,header :'Icon'       ,width : 25 ,renderer : ico2img}
+                                  ,{id : 'title',header : 'Layer name',width : 600                   }
                                 ]
-                                ,autoExpandColumn : 'title'
+                                // ,autoExpandColumn : 'title'
                                 ,tbar             : [
                                   {
                                      iconCls  : 'buttonIcon'
