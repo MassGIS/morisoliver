@@ -214,3 +214,7 @@
 .olLayerGoogleCopyright {
   visibility : hidden; !important;
 }
+
+.x-form-check-wrap {
+  overflow-y : hidden;
+}

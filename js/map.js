@@ -2161,6 +2161,7 @@ Ext.onReady(function() {
                     ,title            : 'Query results'
                     ,store            : bboxLyrStore
                     ,disableSelection : true
+                    ,enableHdMenu     : false
                     ,columns          : [
                        {id : 'ico'   ,dataIndex : 'ico'   ,header : ''                              ,width : 25,renderer : ico2img                 }
                       ,{id : 'title' ,dataIndex : 'title' ,header : 'Layer name'                                                                   }
@@ -2213,8 +2214,8 @@ Ext.onReady(function() {
                                 ,id          : 'wizVectorFmt'
                                 ,fieldLabel  : 'Format'
                                 ,items       : [
-                                   {boxLabel : 'ESRI shape (.shp)'             ,name : 'vectorFormat',inputValue : 'shp',checked : true}
-                                  ,{boxLabel : 'Keyhole Markup Language (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
+                                   {boxLabel : 'ESRI shape (.shp)'       ,name : 'vectorFormat',inputValue : 'shp',checked : true}
+                                  ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
                                 ]
                               }
                             ]
