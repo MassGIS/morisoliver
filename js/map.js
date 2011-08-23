@@ -3330,8 +3330,8 @@ Ext.onReady(function() {
   olLayerTree.getSelectionModel().select(olLayerTree.getRootNode());
   olActiveLayers.getSelectionModel().select(olActiveLayers.getRootNode());
   
-
-
+  olLayerTree.setHeight(getVPSize()[1] * 0.30);
+  olLegendPanel.setHeight(getVPSize()[1] * 0.40);
 });
 
 function addLayer(wms,proj,title,viz,opacity) {
