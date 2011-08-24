@@ -1416,25 +1416,8 @@ Ext.onReady(function() {
                         {
                            text : 'Zoom to center point'
                           ,handler : function() {
-                            // the target zoomLevel is based on the active baseLayer foo
-                            var zoomLevel = map.getNumZoomLevels();
-                            for (var i = 0; i < map.layers.length; i++) {
-                              if (map.layers[i].isBaseLayer && map.layers[i].visibility) {
-                                if (map.layers[i].name == 'custom') {
-                                  zoomLevel -= 4;
-                                }
-                                else if (map.layers[i].name == 'googleSatellite') {
-                                  zoomLevel -= 3;
-                                }
-                                else if (map.layers[i].name == 'googleTerrain') {
-                                  zoomLevel -= 0;
-                                }
-                                else if (map.layers[i].name == 'openStreetMap') {
-                                  zoomLevel -= 3;
-                                }
-                              }
-                            }
-                            map.setCenter(ctr,zoomLevel);
+                            map.setCenter(ctr);
+                            map.zoomToScale(1000);
                             var f = lyrGeoLocate.features;
                             for (var i = 0; i < f.length; i++) {
                               lyrGeoLocate.removeFeatures(f[i]);
