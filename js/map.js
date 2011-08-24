@@ -1727,6 +1727,94 @@ Ext.onReady(function() {
                 ,autoScroll  : true
               }
             }
+            ,listeners    : {finish : function() {
+              if (!mkzipCGI) {
+                Ext.Msg.alert('ZIP unavailable','Sorry, this functionality is currently unavailable.');
+                return;
+              }
+              var downloadWin = new Ext.Window({
+                 title       : 'ZIP filename'
+                ,width       : 250
+                ,height      : 120
+                ,plain       : true
+                ,modal       : true
+                ,layout      : 'fit'
+                ,items       : [new Ext.FormPanel({
+                   bodyStyle  : 'padding:5px 5px 0'
+                  ,border      : false
+                  ,defaultType : 'textfield'
+                  ,labelAlign  : 'top'
+                  ,items     : [{
+                     name       : 'zipName'
+                    ,id         : 'zipName'
+                    ,allowBlank : false
+                    ,fieldLabel : 'Please enter a name for the ZIP file'
+                  }]
+                  ,buttons : [
+                    {
+                       text : 'Download File'
+                      ,handler : function() {
+                        var dataURL = [];
+                        var lastTitle;
+                        downloadLyrStore.each(function(rec) {
+                          var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
+                          if (!dataURL[title] & title.indexOf('http://') < 0) {
+                            dataURL[title] = {
+                               base     : safeXML(rec.get('url'))
+                              ,metadata : []
+                            };
+                            lastTitle = title;
+                          }
+                          else {
+                            dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
+                          }
+                        });
+
+                        var dataXML = '';
+                        for (var i in dataURL) {
+                          if (dataURL[i].base) {
+                            dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
+                          }
+                        }
+
+                        YUI().use("io",function(Y) {
+                          var handleSuccess = function(ioId,o,args) {
+                            Ext.MessageBox.hide();
+                            Ext.MessageBox.show({
+                               title     : 'Download exported data'
+                              ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
+                              ,width     : 300
+                            });
+                          };
+                          Y.on('io:success',handleSuccess,this,[]);
+                          var cfg = {
+                             method  : 'POST'
+                            ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+                            ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
+                          };
+                          Ext.MessageBox.show({
+                             title        : 'Exporting data'
+                            ,msg          : 'Exporting data, please wait...'
+                            ,progressText : 'Saving...'
+                            ,width        : 300
+                            ,wait         : true
+                            ,waitConfig   : {interval:200}
+                          });
+                          var request = Y.io(mkzipCGI,cfg);
+                        });
+                        downloadWin.close();
+                      }
+                    }
+                    ,{
+                       text : 'Cancel'
+                      ,handler : function() {
+                        downloadWin.close();
+                      }
+                    }
+                  ]
+                })]
+              }).show();
+            }}
             ,cards           : [
               new Ext.ux.Wiz.Card({
                  title     : 'How to export data'
@@ -2157,7 +2245,7 @@ Ext.onReady(function() {
                     ,border    : false
                   }
                   ,new MorisOliverApp.thGridPanel({
-                     height           : 395
+                     height           : 390
                     ,title            : 'Query results'
                     ,store            : bboxLyrStore
                     ,disableSelection : true
@@ -2259,162 +2347,6 @@ Ext.onReady(function() {
                     ]
                   }
                 ]
-              })
-              ,new Ext.ux.Wiz.Card({
-                 title     : 'Download data'
-                ,items     : [
-                  {
-                     html      : 'Links have been created that will allow you to download the data layers of interest as well as related metadata.  Clicking on each link will attempt to open a new browser window.  Depending on your browser settings, you may be prompted to save the file to disk, or the link may be directly visible within the browser.'
-                    ,bodyStyle : 'padding:10px'
-                    ,border    : false
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,border : false
-                    ,items  : [
-                      {
-                         layout    : 'fit'
-                        ,height    : 30
-                        ,border    : false
-                        ,bodyStyle : 'padding-right:100px;padding-left:100px'
-                        ,items     : [{
-                           xtype   : 'button'
-                          ,text    : 'Download everything as one ZIP file'
-                          ,handler : function() {
-                            if (!mkzipCGI) {
-                              Ext.Msg.alert('ZIP unavailable','Sorry, this functionality is currently unavailable.');
-                              return;
-                            }
-                            var downloadWin = new Ext.Window({
-                               title       : 'ZIP filename'
-                              ,width       : 250
-                              ,height      : 120
-                              ,plain       : true
-                              ,modal       : true
-                              ,layout      : 'fit'
-                              ,items       : [new Ext.FormPanel({
-                                 bodyStyle  : 'padding:5px 5px 0'
-                                ,border      : false
-                                ,defaultType : 'textfield'
-                                ,labelAlign  : 'top'
-                                ,items     : [{
-                                   name       : 'zipName'
-                                  ,id         : 'zipName'
-                                  ,allowBlank : false
-                                  ,fieldLabel : 'Please enter a name for the ZIP file'
-                                }]
-                                ,buttons : [
-                                  {
-                                     text : 'Download File'
-                                    ,handler : function() {
-                                      var dataURL = [];
-                                      var lastTitle;
-                                      downloadLyrStore.each(function(rec) {
-                                        var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
-                                        if (!dataURL[title] & title.indexOf('http://') < 0) {
-                                          dataURL[title] = {
-                                             base     : safeXML(rec.get('url'))
-                                            ,metadata : []
-                                          };
-                                          lastTitle = title;
-                                        }
-                                        else {
-                                          dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
-                                        }
-                                      });
-
-                                      var dataXML = '';
-                                      for (var i in dataURL) {
-                                        if (dataURL[i].base) {
-                                          dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
-                                        }
-                                      }
-
-                                      YUI().use("io",function(Y) {
-                                        var handleSuccess = function(ioId,o,args) {
-                                          Ext.MessageBox.hide();
-                                          Ext.MessageBox.show({
-                                             title     : 'Download exported data'
-                                            ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
-                                            ,width     : 300
-                                          });
-                                        };
-                                        Y.on('io:success',handleSuccess,this,[]);
-                                        var cfg = {
-                                           method  : 'POST'
-                                          ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                                          ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
-                                        };
-                                        Ext.MessageBox.show({
-                                           title        : 'Exporting data'
-                                          ,msg          : 'Exporting data, please wait...'
-                                          ,progressText : 'Saving...'
-                                          ,width        : 300
-                                          ,wait         : true
-                                          ,waitConfig   : {interval:200}
-                                        });
-                                        var request = Y.io(mkzipCGI,cfg);
-                                      });
-                                      downloadWin.close();
-                                    }
-                                  }
-                                  ,{
-                                     text : 'Cancel'
-                                    ,handler : function() {
-                                      downloadWin.close();
-                                    }
-                                  }
-                                ]
-                              })]
-                            }).show();
-                          }
-                        }]
-                      }
-                    ]
-                  }
-                  ,{xtype : 'fieldset',title : 'Advanced - Download individual layers',collapsible : true,collapsed : true,items : [new MorisOliverApp.thGridPanel({
-                     height           : 310
-                    ,store            : downloadLyrStore
-                    ,disableSelection : true
-                    ,columns          : [
-                       {id : 'ico'  ,header : ''                              ,width : 25,renderer : ico2img               }
-                      ,{id : 'title',header : 'Layer name'                                                                 }
-                      ,{id : 'url'  ,header : 'Download link'                 ,width : 80,renderer : url2lnk,align:'center'}
-                    ]
-                    ,autoExpandColumn : 'title'
-                    ,loadMask         : true
-                  })]}
-                ]
-                ,listeners : {
-                  show : function() {
-                    downloadLyrStore.removeAll();
-                    tstLyrStore.each(function(rec) {
-                      var title  = rec.get('title');
-                      var ico    = wms2ico[lyr2wms[title]];
-                      if (bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs').indexOf('> max') < 0 && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('bbox') == 'Y' && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs') !== '0 feature(s)') {
-                        downloadLyrStore.add(new downloadLyrStore.recordType(
-                           {ico : ico,title : title,url : mkDataWizardURL(title,ico)}
-                          ,++downloadLyrCount
-                        ));
-                        // add metadataUrl & everything for this layer for extractDoc
-                        if (lyrMetadata[title].metadataUrl) {
-                          downloadLyrStore.add(new downloadLyrStore.recordType(
-                             {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].metadataUrl,url : lyrMetadata[title].metadataUrl}
-                            ,++downloadLyrCount
-                          ));
-                        }
-                        if (lyrMetadata[title].extractDoc) {
-                          for (var i = 0; i < lyrMetadata[title].extractDoc.length; i++) {
-                            downloadLyrStore.add(new downloadLyrStore.recordType(
-                               {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].extractDoc[i],url : lyrMetadata[title].extractDoc[i]}
-                              ,++downloadLyrCount
-                            ));
-                          }
-                        }
-                      }
-                    });
-                  }
-                }
               })
             ]
           });
