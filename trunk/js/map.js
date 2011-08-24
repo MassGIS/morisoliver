@@ -269,7 +269,15 @@ OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
       {'done' : function(e) {
-        runQueryStats(e.getBounds());
+        var bounds = e.getBounds().clone();
+        var size = bounds.getSize();
+        if (size.w * size.h <= 800000) {
+          var ll = bounds.getCenterLonLat().add(-2500,-2500);
+          var ur = bounds.getCenterLonLat().add(2500,2500);
+          bounds.extend(ll);
+          bounds.extend(ur);
+        }
+        runQueryStats(bounds);
       }}
       ,{
          persist      : true
