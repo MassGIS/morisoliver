@@ -2277,11 +2277,10 @@ Ext.onReady(function() {
                         ,id      : 'radioEpsg'
                         ,columns : 1
                         ,items   : [
-                           {boxLabel : 'MA State Plane (m) - EPSG:26986'        ,name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
-                          ,{boxLabel : 'MA State Plane (ft) - EPSG:2249'        ,name : 'epsg',inputValue : 'EPSG:2249'                                }
-                          ,{boxLabel : 'Lat / Long (WGS84) - EPSG:4326'         ,name : 'epsg',inputValue : 'EPSG:4326'                                }
-                          ,{boxLabel : 'UTM Zone 18 Western MA (m) - EPSG:26718',name : 'epsg',inputValue : 'EPSG:26718'                               }
-                          ,{boxLabel : 'UTM Zone 19 Eastern MA (m) - EPSG:26719',name : 'epsg',inputValue : 'EPSG:26719'                               }
+                           {boxLabel : 'NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986',name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
+                          ,{boxLabel : 'NAD83/UTM zone 18N, meters (Western Massachusetts) - EPSG:26918'                      ,name : 'epsg',inputValue : 'EPSG:26918'                               }
+                          ,{boxLabel : 'NAD83/UTM zone 19N, meters (Eastern Massachusetts) - EPSG:26919'                      ,name : 'epsg',inputValue : 'EPSG:26919'                               }
+                          ,{boxLabel : 'WGS84 (Latitude-Longitude) - EPSG:4326'                                               ,name : 'epsg',inputValue : 'EPSG:4326'                                }
                         ]
                       }
                     ]
