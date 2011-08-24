@@ -1677,13 +1677,15 @@ Ext.onReady(function() {
               ,{name : 'title'}
             ]
           });
-          for (var i in activeLyr) {
-            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-              if (tstLyrStore.find('title',activeLyr[i].name) == -1) {
-                tstLyrStore.add(new tstLyrStore.recordType(
-                   {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
-                  ,++tstLyrCount
-                ));
+          for (var j = map.layers.length - 1; j >= 0; j--) {
+            for (var i in activeLyr) {
+              if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+                if (tstLyrStore.find('title',activeLyr[i].name) == -1) {
+                  tstLyrStore.add(new tstLyrStore.recordType(
+                     {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
+                    ,++tstLyrCount
+                  ));
+                }
               }
             }
           }
