@@ -271,8 +271,10 @@ OpenLayers.Util.extend(featureBoxControl,{
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
       {'done' : function(e) {
         var bounds = e.getBounds().clone();
+        // A request was put in to expand the bbox if the user just did a point query.
+        // It's not really working as advertised, so I'm false-ing it out.
         var size = bounds.getSize();
-        if (size.w * size.h <= 800000) {
+        if (size.w * size.h <= 800000 && false) {
           var ll = bounds.getCenterLonLat().add(-2500,-2500);
           var ur = bounds.getCenterLonLat().add(2500,2500);
           bounds.extend(ll);
