@@ -2462,8 +2462,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.35)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.35)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.36)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.36)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
