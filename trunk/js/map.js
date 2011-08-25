@@ -230,6 +230,7 @@ var qryWin = new Ext.Window({
               featureBbox.protocol = OpenLayers.Protocol.WFS.fromWMSLayer(
                  activeLyr[title]
                 ,{
+                  // geometryName  : 'line_geom'
                    geometryName  : 'SHAPE'
                   ,featurePrefix : featurePrefix
                   ,version       : '1.1.0'
@@ -1352,13 +1353,7 @@ Ext.onReady(function() {
 			"url": wfsUrl,
 			"actionGroup": "navigation",
 			"mainPanelContainer": editWindow
-		});		
-		
-
-			
-	
-
-	
+		});
 	}
 	
 	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
@@ -3856,6 +3851,9 @@ function runQueryStats(bounds) {
   qryLyrStore.removeAll();
   for (var i = map.layers.length - 1; i >= 0; i--) {
     var title = map.layers[i].name;
+	if (map.layers[i].wfstFeatureEditing) {
+		continue;
+	}
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       var ico   = wms2ico[lyr2wms[title]];
       qryLyrStore.add(new qryLyrStore.recordType(
