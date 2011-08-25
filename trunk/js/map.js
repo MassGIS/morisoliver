@@ -1720,88 +1720,81 @@ Ext.onReady(function() {
                 Ext.Msg.alert('ZIP unavailable','Sorry, this functionality is currently unavailable.');
                 return;
               }
-              var downloadWin = new Ext.Window({
-                 title       : 'ZIP filename'
-                ,width       : 250
-                ,height      : 120
-                ,plain       : true
-                ,modal       : true
-                ,layout      : 'fit'
-                ,items       : [new Ext.FormPanel({
-                   bodyStyle  : 'padding:5px 5px 0'
-                  ,border      : false
-                  ,defaultType : 'textfield'
-                  ,labelAlign  : 'top'
-                  ,items     : [{
-                     name       : 'zipName'
-                    ,id         : 'zipName'
-                    ,allowBlank : false
-                    ,fieldLabel : 'Please enter a name for the ZIP file'
-                  }]
-                  ,buttons : [
-                    {
-                       text : 'Download File'
-                      ,handler : function() {
-                        var dataURL = [];
-                        var lastTitle;
-                        downloadLyrStore.each(function(rec) {
-                          var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
-                          if (!dataURL[title] & title.indexOf('http://') < 0) {
-                            dataURL[title] = {
-                               base     : safeXML(rec.get('url'))
-                              ,metadata : []
-                            };
-                            lastTitle = title;
-                          }
-                          else {
-                            dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
-                          }
-                        });
-
-                        var dataXML = '';
-                        for (var i in dataURL) {
-                          if (dataURL[i].base) {
-                            dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
-                          }
-                        }
-
-                        YUI().use("io",function(Y) {
-                          var handleSuccess = function(ioId,o,args) {
-                            Ext.MessageBox.hide();
-                            Ext.MessageBox.show({
-                               title     : 'Download exported data'
-                              ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
-                              ,width     : 300
-                            });
-                          };
-                          Y.on('io:success',handleSuccess,this,[]);
-                          var cfg = {
-                             method  : 'POST'
-                            ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                            ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
-                          };
-                          Ext.MessageBox.show({
-                             title        : 'Exporting data'
-                            ,msg          : 'Exporting data, please wait...'
-                            ,progressText : 'Saving...'
-                            ,width        : 300
-                            ,wait         : true
-                            ,waitConfig   : {interval:200}
-                          });
-                          var request = Y.io(mkzipCGI,cfg);
-                        });
-                        downloadWin.close();
-                      }
+              downloadLyrStore.removeAll();
+              tstLyrStore.each(function(rec) {
+                var title  = rec.get('title');
+                var ico    = wms2ico[lyr2wms[title]];
+                if (bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs').indexOf('> max') < 0 && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('bbox') == 'Y' && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs') !== '0 feature(s)') {
+                  downloadLyrStore.add(new downloadLyrStore.recordType(
+                     {ico : ico,title : title,url : mkDataWizardURL(title,ico)}
+                    ,++downloadLyrCount
+                  ));
+                  // add metadataUrl & everything for this layer for extractDoc
+                  if (lyrMetadata[title].metadataUrl) {
+                    downloadLyrStore.add(new downloadLyrStore.recordType(
+                       {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].metadataUrl,url : lyrMetadata[title].metadataUrl}
+                      ,++downloadLyrCount
+                    ));
+                  }
+                  if (lyrMetadata[title].extractDoc) {
+                    for (var i = 0; i < lyrMetadata[title].extractDoc.length; i++) {
+                      downloadLyrStore.add(new downloadLyrStore.recordType(
+                         {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].extractDoc[i],url : lyrMetadata[title].extractDoc[i]}
+                        ,++downloadLyrCount
+                      ));
                     }
-                    ,{
-                       text : 'Cancel'
-                      ,handler : function() {
-                        downloadWin.close();
-                      }
-                    }
-                  ]
-                })]
-              }).show();
+                  }
+                }
+              });
+
+              var dataURL = [];
+              var lastTitle;
+              downloadLyrStore.each(function(rec) {
+                var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
+                if (!dataURL[title] & title.indexOf('http://') < 0) {
+                  dataURL[title] = {
+                     base     : safeXML(rec.get('url'))
+                    ,metadata : []
+                  };
+                  lastTitle = title;
+                }
+                else {
+                  dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
+                }
+              });
+
+              var dataXML = '';
+              for (var i in dataURL) {
+                if (dataURL[i].base) {
+                  dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
+                }
+              }
+
+              YUI().use("io",function(Y) {
+                var handleSuccess = function(ioId,o,args) {
+                  Ext.MessageBox.hide();
+                  Ext.MessageBox.show({
+                     title     : 'Download exported data'
+                    ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
+                    ,width     : 300
+                  });
+                };
+                Y.on('io:success',handleSuccess,this,[]);
+                var cfg = {
+                   method  : 'POST'
+                  ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+                  ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
+                };
+                Ext.MessageBox.show({
+                   title        : 'Exporting data'
+                  ,msg          : 'Exporting data, please wait...'
+                  ,progressText : 'Saving...'
+                  ,width        : 300
+                  ,wait         : true
+                  ,waitConfig   : {interval:200}
+                });
+                var request = Y.io(mkzipCGI,cfg);
+              });
             }}
             ,cards           : [
               new Ext.ux.Wiz.Card({
@@ -2332,6 +2325,16 @@ Ext.onReady(function() {
                         ]
                       }
                     ]
+                  }
+                  ,{
+                     xtype : 'fieldset'
+                    ,title : 'Name of the ZIP file to download'
+                    ,items : new Ext.form.TextField({
+                       name       : 'zipName'
+                      ,id         : 'zipName'
+                      ,allowBlank : false
+                      ,fieldLabel : 'File name'
+                    })
                   }
                 ]
               })
