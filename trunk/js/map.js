@@ -3617,7 +3617,7 @@ function loadLayerDescribeFeatureType(wms) {
           ,tbar   : [
              {text : 'Select and highlight all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
             ,'-'
-            ,{text : 'Unselect and unhilight all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
+            ,{text : 'Unselect and unhighlight all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
           ]
           ,height : 215
           ,width  : 425
