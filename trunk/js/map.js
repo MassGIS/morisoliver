@@ -2346,7 +2346,15 @@ Ext.onReady(function() {
         }
       });
 	}
-	 
+
+    topToolBar_items.push({
+       text     : 'Print / Save'
+      ,itemId   : 'printSave'
+      ,iconCls  : 'buttonIcon'
+      ,icon     : 'img/print.png'
+      ,tooltip  : 'Print or save your map and layers'
+      ,handler  : function() {printSave()}
+   });
 
 	  	if (toolSettings.help &&  toolSettings.help.keyMap) {
 			topToolBar_keyMaps.push({
@@ -4000,5 +4008,44 @@ function getElementsByTagNameNS(xmlDoc,nsUrl,nsTag,tag) {
   }
   else {
     return xmlDoc.getElementsByTagName(nsTag + ':' + tag);
+  }
+}
+
+function printSave() {
+  var l = {};
+  for (var i in activeLyr) {
+    if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+      l[i] = {
+         img    : activeLyr[i].getFullRequestString({})
+        ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
+      };
+    }
+  }
+  if (l) {
+    YUI().use("io","json-parse",function(Y) {
+      var handleSuccess = function(ioId,o,args) {
+        Ext.MessageBox.hide();
+        var json = Y.JSON.parse(o.responseText);
+        Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window contaning your map and legend as seperate images.  You can then either right-click each image and save them locally or print them through your browser.');
+      };
+      Y.on('io:success',handleSuccess,this,[]);
+      var cfg = {
+         method  : 'POST'
+        ,headers : {'Content-Type':'application/json'}
+        ,data    : JSON.stringify({w : map.div.style.width,h : map.div.style.height,extent : map.getExtent().toArray(),layers : l})
+      };
+      Ext.MessageBox.show({
+         title        : 'Assembling map'
+        ,msg          : 'Please wait...'
+        ,progressText : 'Working...'
+        ,width        : 300
+        ,wait         : true
+        ,waitConfig   : {interval:200}
+      });
+      var request = Y.io('print.php?title=' + document.title,cfg);
+    });
+  }
+  else {
+    Ext.Msg.alert('Error','There are no active data layers to print.');
   }
 }
