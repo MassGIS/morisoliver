@@ -59,7 +59,7 @@ foreach (@{$doc->{layer}}) {
       my $cmd = "cd \"$scratch_dir/".unsafeXML($h{name})."\" ; unzip \"".unsafeXML($h{name}).'.zip'."\" ; rm -f \"".unsafeXML($h{name}).'.zip"';
       `$cmd`;
     }
-    elsif (unsafeXML($h{baseURL}) =~ /\/kml\?/) {
+    elsif (unsafeXML($h{baseURL}) =~ /application\/vnd.google-earth.kml\+xml/) {
       open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml';
       print F $r->content;
       close F;
