@@ -1771,7 +1771,6 @@ Ext.onReady(function() {
                   dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
                 }
               }
-
               YUI().use("io",function(Y) {
                 var handleSuccess = function(ioId,o,args) {
                   Ext.MessageBox.hide();
@@ -3799,6 +3798,17 @@ function mkDataWizardURL(title,ico) {
           ,'</ogc:Intersects>'
         ,'</ogc:Filter>'
         ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+      ).join('');
+    }
+    else if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'kml') {
+      return Array(
+        wmsUrl
+        ,'?layers=' + lyr2wms[title]
+        ,'&service=WMS&version=1.1.0&request=GetMap'
+        ,'&bbox=' + bbox26986.join(',')
+        ,'&srs=EPSG:26986'
+        ,'&height=100&width=100&styles='
+        ,'&format=application/vnd.google-earth.kml+xml'
       ).join('');
     }
    else {
