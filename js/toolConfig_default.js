@@ -123,7 +123,7 @@
 	];	
 	
 	toolSettings.commentTool = {};
-	toolSettings.commentTool.status = 'hide';
+	toolSettings.commentTool.status = 'show';
 	toolSettings.commentTool.layer = {
 		commentLabel: "Add comment",
 		commentDesc: "Leave a comment about an error in the data",
@@ -224,8 +224,11 @@
 	toolSettings.editTool.layers = [
 		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
-			layerTitle : "Geoserver Editable Line" // must match whatever is found in folderset for this layer.
-		},
+			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
+			split: true,
+			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
+		}
+/*,
 		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
 			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
@@ -233,11 +236,19 @@
 		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
 			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
-		},
-		{
+		}
+		*/
+		,{
 			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
 			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
-		},		
+		}
+	/*
+		,{
+			featureType: "test_geoserver_line",
+			layerTitle : "MapsOnline Geoserver Line", // must match whatever is found in folderset for this layer.
+			split: true
+		}
+*/
 	];
 	
 	toolSettings.navigationTools = {};
@@ -312,4 +323,4 @@
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
 		"key": "y"
-	};		
+	};

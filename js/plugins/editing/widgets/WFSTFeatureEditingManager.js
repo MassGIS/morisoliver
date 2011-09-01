@@ -59,14 +59,25 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *             :class:`GeoExt.data.WFSCapabilitiesStore` object as the 
      *             "protocolOptions" property default values.
      */
+
     DEFAULT_PROTOCOL_OPTIONS: {
      //   featureNS: "http://localhost"
-		url: wfsUrl,
-	    featureNS: "http://massgis.state.ma.us/featuretype",
-		featurePrefix: "massgis",
-		geometryName: "SHAPE",
-		srsName: "EPSG:26986"
+        url: wfsUrl,
+        featureNS: "http://massgis.state.ma.us/featuretype",
+        featurePrefix: "massgis",
+        geometryName: "SHAPE",
+        srsName: "EPSG:26986"
     },
+
+/*
+    DEFAULT_PROTOCOL_OPTIONS: {
+        url: wfsUrl,
+        featureNS: "http://www.mapsonline.net/peopleforms",
+        featurePrefix: "peopleforms",
+        geometryName: "line_geom",
+        srsName: "EPSG:26986"
+    },
+*/
 
     /** private: method[DEFAULT_LAYER_OPTIONS]
      *  :return: ``Object`` The default layer options
@@ -78,29 +89,29 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      :class:`GeoExt.data.WFSCapabilitiesStore` objects.
      */
     DEFAULT_LAYER_OPTIONS: {
-		projection: new OpenLayers.Projection("EPSG:26986"),
-		visibility: false,
-		displayInLayerSwitcher: false
+        projection: new OpenLayers.Projection("EPSG:26986"),
+        visibility: false,
+        displayInLayerSwitcher: false
     },
 
-	DEFAULT_STRATEGIES: 
-		function(cfg) {
-			var config = cfg || {};
-			return [
-			new OpenLayers.Strategy.BBOX(config),
-			new OpenLayers.Strategy.Save(config)
-			];
-		},
-	
-	DEFAULT_STRATEGIES_USE_FILTER : 		
-		function(cfg) {
-			var config = cfg || {};
-			return [
-			new OpenLayers.Strategy.Fixed(config),
-			new OpenLayers.Strategy.Save(config)
-			];
-		},
-	
+    DEFAULT_STRATEGIES: 
+        function(cfg) {
+            var config = cfg || {};
+            return [
+                new OpenLayers.Strategy.BBOX(config),
+                new OpenLayers.Strategy.Save(config)
+            ];
+        },
+
+    DEFAULT_STRATEGIES_USE_FILTER:
+        function(cfg) {
+            var config = cfg || {};
+            return [
+                new OpenLayers.Strategy.Fixed(config),
+                new OpenLayers.Strategy.Save(config)
+            ];
+        },
+
     /** private: method[DEFAULT_LAYER_OPTIONS_USE_FILTER]
      *  :return: ``Object`` The default layer options when using filter mode
      *
@@ -110,9 +121,9 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      :class:`GeoExt.data.WFSCapabilitiesStore` objects.
      */
     DEFAULT_LAYER_OPTIONS_USE_FILTER: {
-		projection: new OpenLayers.Projection("EPSG:26986"),
-		visibility: false,
-		displayInLayerSwitcher: false
+        projection: new OpenLayers.Projection("EPSG:26986"),
+        visibility: false,
+        displayInLayerSwitcher: false
     },
 
     /** private: property[DEFAULT_ACTION_GROUP]
@@ -120,7 +131,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *             :class:`GeoExt.Action` objects.
      */
     //DEFAULT_ACTION_GROUP: "wfstFeatureEditing",
-	DEFAULT_ACTION_GROUP: "navigation",
+    DEFAULT_ACTION_GROUP: "navigation",
 
 
 /* i18n  */
@@ -146,7 +157,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
     featureEditorGridContainerTitleText: "Editing feature",
 
     /** api: config[returnToSelectionText] ``String`` i18n */
-    returnToSelectionText: "Return to selection",
+    returnToSelectionText: "Close Feature Editor",
 
     /** api: config[commitSuccessText] ``String`` i18n */
     commitSuccessText: "Changes successfully saved",
@@ -214,7 +225,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 
     /** api: config[geomProperty]
      * ``String`` The name of the geometry property.  Used to default to "the_geom"
-	 * 				following massgis standard, defaults to SHAPE
+     *  following massgis standard, defaults to SHAPE
      */
     geomProperty: "SHAPE",
 
@@ -234,7 +245,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
     /** api: config[ignoredAttributes]
      *  ``Object`` Hash of attributes we don't want the grids to display.
      */
-    ignoredAttributes: {name:["SHAPE","the_geom", "id", "gid", "fid"]},
+    ignoredAttributes: {name:["SHAPE","the_geom", "id", "gid", "fid","line_geom"]},
 
 /* PRIVATE*/
 
@@ -305,7 +316,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
              : this.DEFAULT_LAYER_OPTIONS);
         this.addEvents(this.CUSTOM_EVENTS);
         this.initMainTools();
-		this.url && this.loadWFSFromConfig();
+        this.url && this.loadWFSFromConfig();
       //  this.url && this.createToolsFromURL(this.url);
     },
 
@@ -322,7 +333,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.drawMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.drawMenuButtonTooltipText,
-			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
     
         this.editMenuButton = new Ext.Button({
@@ -332,11 +343,11 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.editMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.editMenuButtonTooltipText,
-			"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
 
-this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");		
-		
+this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
+        
 /*        this.toolbar.addItem("-");
         this.toolbar.addItem(this.drawMenuButton);
         this.toolbar.addItem(this.editMenuButton);
@@ -383,8 +394,8 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
         var wfsCapURL = Ext.urlAppend(url, Ext.urlEncode(Ext.applyIf(
             this.capabilitiesParams || {}, this.DEFAULT_CAPABILITIES_PARAMS
         )));
-		
-		wfsCapURL =  toolSettings.editTool.getCapURL;
+        
+        wfsCapURL =  toolSettings.editTool.getCapURL;
 
          wfsCapStore = new GeoExt.data.WFSCapabilitiesStore( {
             url: wfsCapURL,
@@ -403,7 +414,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
     },
 
     /** private: method[loadWFSFromConfig]
-	 *  Formerly  method[onWFSCapabilitiesStoreLoad] 
+     *  Formerly  method[onWFSCapabilitiesStoreLoad] 
      *  Callback method triggered on "load" of the
      *      :class:`GeoExt.data.WFSCapabilitiesStore` object.  At this point, 
      *      :class:`OpenLayers.Layer.Vector` object with their according
@@ -421,44 +432,44 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
      *      When finished, the 'triggerDescribeFeatureTypes' method is called.
      */
     //onWFSCapabilitiesStoreLoad: function(store, records, options) {
-	loadWFSFromConfig : function () {
-		var records, layerConfigs = [], protocolCfg = {};
-		
-		for (var i = 0; i < this.layerConfigs.length; i++) {
-			if (this.layerConfigs[i] && this.layerConfigs[i].featureType && this.layerConfigs[i].layerTitle ) {
-				protocolCfg = {
-					featureType : this.layerConfigs[i].featureType
-				};
-				
-				Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
-				
-				layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
-					strategies: [new OpenLayers.Strategy.Fixed()],
-					projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
-					protocol: new OpenLayers.Protocol.WFS( protocolCfg ) 
-				}))
-			}
-		}
-		
-		layerStore = new GeoExt.data.LayerStore ({
-			//map: this.map,
-			layers: layerConfigs
-		});
-		this.store = layerStore;
-		records = layerStore.data.items;
+    loadWFSFromConfig : function () {
+        var records, layerConfigs = [], protocolCfg = {};
+        
+        for (var i = 0; i < this.layerConfigs.length; i++) {
+            if (this.layerConfigs[i] && this.layerConfigs[i].featureType && this.layerConfigs[i].layerTitle ) {
+                protocolCfg = {
+                    featureType : this.layerConfigs[i].featureType
+                };
+                
+                Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
+                
+                layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+                    protocol: new OpenLayers.Protocol.WFS( protocolCfg )
+                }))
+            }
+        }
+        
+        layerStore = new GeoExt.data.LayerStore ({
+            //map: this.map,
+            layers: layerConfigs
+        });
+        this.store = layerStore;
+        records = layerStore.data.items;
         var layers = [];
         Ext.each(records, function(record, index) {
             var layer = record.getLayer().clone();
-			layer.strategies = this.useFilter ? this.DEFAULT_STRATEGIES_USE_FILTER({"layer":layer}) : this.DEFAULT_STRATEGIES({"layer":layer}) ;
+            layer.strategies = this.useFilter ? this.DEFAULT_STRATEGIES_USE_FILTER({"layer":layer}) : this.DEFAULT_STRATEGIES({"layer":layer}) ;
             layer.wfstFeatureEditing = {
                 "manager": this,
                 "wmsLayerSibling": this.getWMSLayerSibling(layer),
-				"getWMSLayerSibling" : this.getWMSLayerSibling
+                "getWMSLayerSibling" : this.getWMSLayerSibling
             };
             
             // find the save strategy : keep a reference to it and add events
             Ext.each(layer.strategies, function(strategy, strategyIndex) {
-				strategy.setLayer(layer);
+                strategy.setLayer(layer);
                 if (strategy instanceof OpenLayers.Strategy.Save) {
                     layer.wfstFeatureEditing.saveStrategy = strategy;
                     strategy.events.on({
@@ -536,8 +547,6 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
                       case "LineStringPropertyType":
                         this.layer.wfstFeatureEditing.drawHandler =
                             OpenLayers.Handler.Path;
-						 this.layer.wfstFeatureEditing.splitControl = new OpenLayers.Control.Split({layer:this.layer});
-						 map.addControl( this.layer.wfstFeatureEditing.splitControl);
                         break;
                       case "PolygonPropertyType":
                         this.layer.wfstFeatureEditing.drawHandler =
@@ -554,8 +563,6 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
                             OpenLayers.Handler.Path;
                         this.layer.wfstFeatureEditing.multiGeometry =
                             OpenLayers.Geometry.MultiLineString;
-						 this.layer.wfstFeatureEditing.splitControl = new OpenLayers.Control.Split({layer:this.layer});
-						 map.addControl( this.layer.wfstFeatureEditing.splitControl);							
                         break;
                       case "MultiPolygonPropertyType":
                         this.layer.wfstFeatureEditing.drawHandler =
@@ -625,8 +632,12 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
         drawControl.events.on({
             "activate": function() {
                 this.layer.setVisibility(true);
+                this.drawMenuButtonActive = true;
             },
-            "deactivate": function() { this.layer.setVisibility(false); },
+            "deactivate": function() {
+                this.layer.setVisibility(false);
+                this.drawMenuButtonActive = false;
+            },
             "featureadded": function(e) {
                 var wfstFE = this.layer.wfstFeatureEditing;
                 var feature = e.feature;
@@ -650,11 +661,84 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
                         wfstFE.userFilterControl.deactivateHandlers();
                     }
                     wfstFE.highlightControl.activate();
+                    feature._editSource = 'draw';
                     wfstFE.selectControl.select(feature);
                 }
             },
             scope: {layer: layer, manager: this}
         });
+
+        var myLayerConfig = null;
+
+        var snappingFilter;
+        for (var i = 0; i < this.layerConfigs.length; i++) {
+            if (this.layerConfigs[i].layerTitle == layer.name) {
+                myLayerConfig = this.layerConfigs[i];
+                break;
+            }
+        }
+
+        var snappingLayers = [];
+        if (myLayerConfig.snapTo) {
+            snappingLayers = myLayerConfig.snapTo;
+        }
+        if (snappingLayers.length > 0) {
+            var snapLayerConfigs = [];
+            for (var i = 0; i < snappingLayers.length; i++) {
+                var protocolCfg = {
+                    featureType : snappingLayers[i]
+                };
+                
+                Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
+                
+                snapLayerConfigs.push( new OpenLayers.Layer.Vector (snappingLayers[i],{
+                    strategies: [new OpenLayers.Strategy.Fixed()],
+                    projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+                    protocol: new OpenLayers.Protocol.WFS( protocolCfg )
+                }))
+            }
+
+            snappingFilter = new OpenLayers.Control.UserFilter({
+                layers: snapLayerConfigs,
+                box: true
+            });
+            layer.wfstFeatureEditing.snappingFilterControl = snappingFilter;
+            this.map.addLayers(snapLayerConfigs);
+            var snap = new OpenLayers.Control.Snapping({
+                layer: layer,
+                targets: snapLayerConfigs,
+                greedy: false
+            });
+            this.map.addControl(snap);
+
+            snappingFilter.events.on({
+                "activate": function(e) {
+                    if (myLayerConfig.snapTo) {
+                        alert("Snapping is enabled when drawing features in this layer.  Please draw a box around the area you will be drawing in, so that the system can enable snapping in that area");
+                    }
+                },
+                "filtermerged": function(e) {
+                    var layers = e.object.layers;
+                    for( var i =0; i < layers.length; i++) {
+                        var layer = layers[i];
+                        layer.setVisibility(true);
+                    }
+                    e.control.deactivateHandlers();
+                    snap.activate();
+                    drawControl.activate();
+                },
+                "deactivate": function(e) {
+                    var layers = e.object.layers;
+                    for( var i =0; i < layers.length; i++) {
+                        var layer = layers[i];
+                        layer.setVisibility(false);
+                    }
+                    snap.deactivate();
+                },
+                scope: this
+            });
+        }
+        this.map.addControl(drawControl);
 
         // create the action, add it to BOTH the toolbar and menu (hidden) to
         // allow the toogleGroup and group properties to work properly.  Show
@@ -662,7 +746,8 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
         var drawAction = new GeoExt.Action({
             text: layer.name,
             hidden: true,
-            control: drawControl,
+//            control: drawControl,
+            control: snappingFilter,
             map: this.map,
             disabled: !layer.inRange,
             // button options
@@ -671,7 +756,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
             // check item options
             group: this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
-		this.toolbarItems.push(drawAction);		
+        this.toolbarItems.push(drawAction);
         this.drawMenuButton.menu.addItem(new Ext.menu.CheckItem(drawAction));
         var drawMenuItem = this.drawMenuButton.menu.items.items[
             this.drawMenuButton.menu.items.getCount() - 1
@@ -697,10 +782,15 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
                 "filtermerged": function(e) {
                     e.control.deactivateHandlers();
                     e.layer.wfstFeatureEditing.highlightControl.activate();
+                    snap.activate();
                 },
                 "deactivate": function(e) {
-                    var layer = e.object.layer;
-                    layer.wfstFeatureEditing.highlightControl.deactivate();
+                    var layers = e.object.layers;
+                    for( var i =0; i < layers.length; i++) {
+                        var layer = layers[i];
+                        layer.wfstFeatureEditing.highlightControl.deactivate();
+                    }
+                    snap.deactivate();
                 },
                 scope: this
             });
@@ -781,7 +871,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
             // check item options
             group: this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
-		this.toolbarItems.push(editAction);		
+        this.toolbarItems.push(editAction);
         this.editMenuButton.menu.addItem(new Ext.menu.CheckItem(editAction));
         editMenuItem = this.editMenuButton.menu.items.items[
             this.editMenuButton.menu.items.getCount() - 1
@@ -847,8 +937,8 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
      */
     getWMSLayerSibling: function(layer) {
         var wmsLayerSibling;
-		var map = this.map || this.manager.map;
-		//var map =  ( typeof this.map == "undefined" ) ? this.manager.map : this.map;
+        var map = this.map || this.manager.map;
+        //var map =  ( typeof this.map == "undefined" ) ? this.manager.map : this.map;
         Ext.each(map.getLayersByName(layer.name), function(layerSibling) {
             if (layerSibling instanceof OpenLayers.Layer.WMS) {
                 wmsLayerSibling = layerSibling;
@@ -881,7 +971,48 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
             border: false,
             listeners: {
                 done: function(panel, e) {
-                    var feature = e.feature, modified = e.modified;
+                    var feature = e.feature, modified = e.modified, myLayerConfig = false;
+                    for (var i = 0; i < this.manager.layerConfigs.length; i++) {
+                        if (this.manager.layerConfigs[i].layerTitle == feature.layer.name) {
+                            myLayerConfig = this.manager.layerConfigs[i];
+                            break;
+                        }
+                    }
+                    if (feature._editSource == 'draw' && myLayerConfig !== false && myLayerConfig.split === true) {
+                        var filter = new OpenLayers.Filter.Logical({
+                            type: OpenLayers.Filter.Spatial.INTERSECTS,
+                            property: feature.layer.protocol.geometryName,
+                            value: feature.geometry
+                        });
+                        var myFeature = feature;
+                        var myGeom = feature.geometry;
+                        var myLayer = feature.layer;
+                        var cleanProtocol = new OpenLayers.Protocol.WFS(feature.layer.protocol.options);
+                        cleanProtocol.read({
+                            callback: function(response) {
+                                var saveStrategy = new OpenLayers.Strategy.Save();
+                                var bSplitHappened = false;
+                                splitLayer = new OpenLayers.Layer.Vector("temp split layer",{protocol: cleanProtocol, strategy: saveStrategy, projection: "EPSG:26986"});
+                                splitLayer.addFeatures(response.features);
+                                saveStrategy.setLayer(splitLayer);
+
+                                splitControl = new OpenLayers.Control.Split({layer: splitLayer,deferDelete: true});
+                                splitControl.events.on({"split":function(e) {
+                                    bSplitHappened = true;
+                                }});
+                                myFeature.geometry = myGeom;
+                                splitControl.considerSplit(myFeature);
+                                window.setTimeout(function() {
+                                    if (bSplitHappened === true) alert("Your line caused another line to be split at the the point(s) where they overlapped");
+                                    map.addLayer(splitLayer);
+                                    saveStrategy.save();
+                                    map.removeLayer(splitLayer);
+                                },0);
+                            },
+                            filter: filter,
+                            scope: this
+                        });
+                    }
                     this.manager.closeEditing(this.layer, {skipReturn: true});
                     this.manager.commitFeature(feature);
                 },
@@ -1020,8 +1151,16 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
     returnToSelection: function(layer) {
         layer.wfstFeatureEditing.selectControl.unselectAll();
         layer.wfstFeatureEditing.highlightControl.deactivate();
-        layer.wfstFeatureEditing.userFilterControl.activateHandlers();
+        //layer.wfstFeatureEditing.userFilterControl.activateHandlers();
         this.toggleMainPanelContainer(false);
+        this.drawMenuButton.toggle(false);
+        this.editMenuButton.toggle(false);
+        Ext.each(this.drawMenuButton.menu.items.items, function (record, index) {
+            record.setChecked(false);
+        });
+        Ext.each(this.editMenuButton.menu.items.items, function (record, index) {
+            record.setChecked(false);
+        });
     },
 
     /** private: method[returnToSelection]
@@ -1109,7 +1248,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
     onCommitSuccess: function(e) {
         this.manager.fireEvent('commitsuccess', e);
         var wfstFE = this.layer.wfstFeatureEditing;
-		wfstFE.wmsLayerSibling = wfstFE.getWMSLayerSibling(this.layer);
+        wfstFE.wmsLayerSibling = wfstFE.getWMSLayerSibling(this.layer);
         wfstFE.wmsLayerSibling && wfstFE.wmsLayerSibling.redraw(true);
 
         this.manager.cancelEditing(this.layer);

@@ -77,6 +77,9 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
                 OpenLayers.Control.GetFeature.prototype.EVENT_TYPES
         );
 
+        if (options.layer) options.layers = [options.layer];
+    	if (options.layer) delete options.layer;
+
         options.handlerOptions = options.handlerOptions || {};
 
         OpenLayers.Control.prototype.initialize.apply(this, [options]);
@@ -90,7 +93,8 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
 
         if(this.box) {
             this.handlers.box = new OpenLayers.Handler.Box(
-                this, {done: this.selectBox},
+                this,
+                {done: this.selectBox},
                 OpenLayers.Util.extend(this.handlerOptions.box, {
                     boxDivClassName: "olHandlerBoxSelectFeature"
                 })
@@ -112,12 +116,15 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
             type: this.filterType, 
             value: bounds
         });
-        this.layer.protocol.defaultFilter = filter;
-        this.hasBlankFilter = false;
-        this.events.triggerEvent("filtermerged", {
-              layer: this.layer, filter: filter, control: this});
-        this.autoRefresh && this.layer.refresh({force:true});
-        this.autoVisibility && this.layer.setVisibility(true);
+        for (var i = 0; i < this.layers.length; i++) {
+            var layer = this.layers[i];
+            layer.protocol.defaultFilter = filter;
+            this.hasBlankFilter = false;
+            this.events.triggerEvent("filtermerged", {
+                  layer: layer, filter: filter, control: this});
+            this.autoRefresh && layer.refresh({force:true});
+            this.autoVisibility && layer.setVisibility(true);
+        }
     },
 
     /**
@@ -185,13 +192,16 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
                 type: this.filterType, 
                 value: new OpenLayers.Bounds(0,0,0,0)
             });
-            this.layer.protocol.defaultFilter = filter;
-            if (this.layer.getVisibility()) {
-                this.layer.refresh({force:true});
-            } else {
-                this.layer.setVisibility(true);
-                this.layer.refresh({force:true});
-                this.layer.setVisibility(false);
+            for (var i = 0; i < this.layers.length; i++) {
+                var layer = this.layers[i];
+                layer.protocol.defaultFilter = filter;
+                if (layer.getVisibility()) {
+                    layer.refresh({force:true});
+                } else {
+                    layer.setVisibility(true);
+                    layer.refresh({force:true});
+                    layer.setVisibility(false);
+                }
             }
             this.hasBlankFilter = true;
         }
