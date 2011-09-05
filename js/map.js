@@ -214,8 +214,12 @@ var qryWin = new Ext.Window({
           ,loadMask         : true
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
-              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)' || qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
+              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
                 Ext.Msg.alert('Query details','This row has no features. No details will be fetched.');
+                return;
+              }
+              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
+                Ext.Msg.alert('Query details','This datalayer is not visible at this scale.  Zoom in to view features.');
                 return;
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
