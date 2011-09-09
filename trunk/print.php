@@ -42,6 +42,7 @@
   $runningHt = 15;
   for ($i = 0; $i < count($legends); $i++) {
     $draw = new ImagickDraw();
+    $draw->setFont('Helvetica');
     $draw->setFontSize(12);
     $draw->annotation(5,$runningHt,$titles[$i]);
     $canvas->drawImage($draw);
