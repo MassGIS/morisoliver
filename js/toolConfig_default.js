@@ -45,7 +45,7 @@
 
 
 	toolSettings.basemaps = {};
-	toolSettings.basemaps.status = 'false';
+	toolSettings.basemaps.status = 'show';
 	toolSettings.basemaps.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -76,7 +76,7 @@
 	};	
 	
 	toolSettings.quickZoomTools = {};
-	toolSettings.quickZoomTools.status = 'show';
+	toolSettings.quickZoomTools.status = 'hide';
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
 		 label: 'Pick a town',
@@ -207,7 +207,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'show';
+	toolSettings.editTool.status = 'hide';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
