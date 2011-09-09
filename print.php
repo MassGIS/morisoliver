@@ -40,7 +40,7 @@
   $canvas->newImage($legSize[0],$legSize[1],new ImagickPixel('white'));
   $canvas->setImageFormat('png');
   $runningHt = 15;
-  for ($i = 0; $i < count($legends); $i++) {
+  for ($i = count($legends) - 1; $i >= 0; $i--) {
     $draw = new ImagickDraw();
     $draw->setFont('Helvetica');
     $draw->setFontSize(12);
