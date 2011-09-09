@@ -1700,7 +1700,6 @@ Ext.onReady(function() {
               ,{name : 'url'  }
             ]
           });
-          var downloadLyrCount = 0;
           var wizGetData = new Ext.ux.Wiz({
              title           : 'Data export wizard'
             ,constrainHeader : true
@@ -1727,6 +1726,7 @@ Ext.onReady(function() {
                 return;
               }
               downloadLyrStore.removeAll();
+              var downloadLyrCount = 0;
               tstLyrStore.each(function(rec) {
                 var title  = rec.get('title');
                 var ico    = wms2ico[lyr2wms[title]];
@@ -1752,6 +1752,11 @@ Ext.onReady(function() {
                   }
                 }
               });
+
+              if (downloadLyrCount == 0) {
+                Ext.Msg.alert('Data export','Sorry, no layers were eligible for export.');
+                return;
+              }
 
               var dataURL = [];
               var lastTitle;
