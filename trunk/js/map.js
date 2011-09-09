@@ -1672,7 +1672,12 @@ Ext.onReady(function() {
           for (var j = map.layers.length - 1; j >= 0; j--) {
             for (var i in activeLyr) {
               if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-                if (tstLyrStore.find('title',/^activeLyr[i].name$/) == -1) {
+                // a normal find wasn't working properly, so loop through the list to keep dups out
+                var exists = false;
+                tstLyrStore.each(function(rec) {
+                  exists = exists || rec.get('title') == activeLyr[i].name;
+                });
+                if (!exists) {
                   tstLyrStore.add(new tstLyrStore.recordType(
                      {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
                     ,++tstLyrCount
@@ -1857,7 +1862,12 @@ Ext.onReady(function() {
                                     ,handler     : function() {
                                       for (var i in activeLyr) {
                                         if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-                                          if (tstLyrStore.find('title',/^activeLyr[i].name$/) == -1) {
+                                          // a normal find wasn't working properly, so loop through the list to keep dups out
+                                          var exists = false;
+                                          tstLyrStore.each(function(rec) {
+                                            exists = exists || rec.get('title') == activeLyr[i].name;
+                                          });
+                                          if (!exists) {
                                             tstLyrStore.add(new tstLyrStore.recordType(
                                                {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
                                               ,++tstLyrCount
@@ -1956,7 +1966,12 @@ Ext.onReady(function() {
                                     if (!node.isLeaf()) {
                                       return;
                                     }
-                                    if (tstLyrStore.find('title',/^node.attributes.text$/) == -1) {
+                                    // a normal find wasn't working properly, so loop through the list to keep dups out
+                                    var exists = false;
+                                    tstLyrStore.each(function(rec) {
+                                      exists = exists || rec.get('title') == node.attributes.text;
+                                    });
+                                    if (!exists) {
                                       // grab the metadata if necessary and add when done
                                       if (!lyrMetadata[node.attributes.text]) {
                                         loadLayerMetadata(lyr2wms[node.attributes.text],node.attributes.text,node.attributes.style,false,false,{store : tstLyrStore,title : node.attributes.text});
