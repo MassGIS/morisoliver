@@ -4067,10 +4067,19 @@ function printSave() {
         Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window contaning your map and legend as seperate images.  You can then either right-click each image and save them locally or print them through your browser.');
       };
       Y.on('io:success',handleSuccess,this,[]);
+      var scaleLineTop    = document.getElementsByClassName('olControlScaleLineTop')[0];
+      var scaleLineBottom = document.getElementsByClassName('olControlScaleLineBottom')[0];
       var cfg = {
          method  : 'POST'
         ,headers : {'Content-Type':'application/json'}
-        ,data    : JSON.stringify({w : map.div.style.width,h : map.div.style.height,extent : map.getExtent().toArray(),layers : l})
+        ,data    : JSON.stringify({
+           w               : map.div.style.width
+          ,h               : map.div.style.height
+          ,extent          : map.getExtent().toArray()
+          ,layers          : l
+          ,scaleLineTop    : {w : scaleLineTop.style.width,val : scaleLineTop.innerHTML}
+          ,scaleLineBottom : {w : scaleLineBottom.style.width,val : scaleLineBottom.innerHTML}
+        })
       };
       Ext.MessageBox.show({
          title        : 'Assembling map'
