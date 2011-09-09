@@ -34,6 +34,49 @@
     }
     $legSize[1] += $legends[count($legends)-1]->getImageHeight() + 20;
   }
+
+  // create the scalebar
+  $scaleLineHeight = 20;
+  $lineWidth = 2;
+
+  // top
+  $scaleLineTopWidth = str_replace('px','',$json->{'scaleLineTop'}->{'w'}) * 2;
+  $scaleLineTop = new Imagick();
+  $scaleLineTop->newImage($scaleLineTopWidth,$scaleLineHeight,new ImagickPixel('white'));
+  $scaleLineTop->setImageFormat('png');
+  $draw = new ImagickDraw();
+  $draw->setFont('Helvetica');
+  $draw->setFontSize(12);
+  $draw->setGravity(imagick::GRAVITY_CENTER);
+  $draw->annotation(0,0,$json->{'scaleLineTop'}->{'val'});
+  $scaleLineTop->drawImage($draw);
+  $scaleLineTop->borderImage('black',$lineWidth,$lineWidth);
+  $draw = new ImagickDraw();
+  $draw->setStrokeColor(new ImagickPixel('white'));
+  $draw->setStrokeWidth($lineWidth * 2);
+  $draw->line(0,0,$scaleLineTopWidth + $lineWidth * 2,0);
+  $scaleLineTop->drawImage($draw);
+  $canvas->compositeImage($scaleLineTop,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15),$h - ($scaleLineHeight * 2 + 15));
+
+  // bottom
+  $scaleLineBottomWidth = str_replace('px','',$json->{'scaleLineBottom'}->{'w'}) * 2;
+  $scaleLineBottom = new Imagick();
+  $scaleLineBottom->newImage($scaleLineBottomWidth,$scaleLineHeight,new ImagickPixel('white'));
+  $scaleLineBottom->setImageFormat('png');
+  $draw = new ImagickDraw();
+  $draw->setFont('Helvetica');
+  $draw->setFontSize(12);
+  $draw->setGravity(imagick::GRAVITY_CENTER);
+  $draw->annotation(0,0,$json->{'scaleLineBottom'}->{'val'});
+  $scaleLineBottom->drawImage($draw);
+  $scaleLineBottom->borderImage('black',$lineWidth,$lineWidth);
+  $draw = new ImagickDraw();
+  $draw->setStrokeColor(new ImagickPixel('white'));
+  $draw->setStrokeWidth($lineWidth * 2);
+  $draw->line(0,$scaleLineHeight + 2,$scaleLineBottomWidth + $lineWidth * 2,$scaleLineHeight + 2);
+  $scaleLineBottom->drawImage($draw);
+  $canvas->compositeImage($scaleLineBottom,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15),$h - ($scaleLineHeight + 15 - $lineWidth));
+
   $canvas->writeImage($tmp_dir.$id.'.png');
 
   $canvas = new Imagick();
