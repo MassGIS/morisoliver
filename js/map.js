@@ -1860,18 +1860,20 @@ Ext.onReady(function() {
                                     ,text     : 'Import active layers'
                                     ,icon     : 'img/import.png'
                                     ,handler     : function() {
-                                      for (var i in activeLyr) {
-                                        if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-                                          // a normal find wasn't working properly, so loop through the list to keep dups out
-                                          var exists = false;
-                                          tstLyrStore.each(function(rec) {
-                                            exists = exists || rec.get('title') == activeLyr[i].name;
-                                          });
-                                          if (!exists) {
-                                            tstLyrStore.add(new tstLyrStore.recordType(
-                                               {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
-                                              ,++tstLyrCount
-                                            ));
+                                      for (var j = map.layers.length - 1; j >= 0; j--) {
+                                        for (var i in activeLyr) {
+                                          if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+                                            // a normal find wasn't working properly, so loop through the list to keep dups out
+                                            var exists = false;
+                                            tstLyrStore.each(function(rec) {
+                                              exists = exists || rec.get('title') == activeLyr[i].name;
+                                            });
+                                            if (!exists) {
+                                              tstLyrStore.add(new tstLyrStore.recordType(
+                                                 {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
+                                                ,++tstLyrCount
+                                              ));
+                                            }
                                           }
                                         }
                                       }
@@ -2493,8 +2495,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.38)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.38)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.39)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.39)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4047,12 +4049,14 @@ function getElementsByTagNameNS(xmlDoc,nsUrl,nsTag,tag) {
 
 function printSave() {
   var l = {};
-  for (var i in activeLyr) {
-    if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-      l[i] = {
-         img    : activeLyr[i].getFullRequestString({})
-        ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
-      };
+  for (var j = 0; j < map.layers.length; j++) {
+    for (var i in activeLyr) {
+      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
+        l[i] = {
+           img    : activeLyr[i].getFullRequestString({})
+          ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
+        };
+      }
     }
   }
   if (l) {
