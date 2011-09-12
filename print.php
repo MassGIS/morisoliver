@@ -35,6 +35,10 @@
     $legSize[1] += $legends[count($legends)-1]->getImageHeight() + 20;
   }
 
+  // compass
+  $compassImg = new Imagick('img/north_arrow_small_trans.png');
+  $canvas->compositeImage($compassImg,imagick::COMPOSITE_OVER,$w - $compassImg->getImageWidth() - 5,$h - $compassImg->getImageHeight() - 5);
+
   // create the scalebar
   $scaleLineHeight = 20;
   $lineWidth = 2;
@@ -56,7 +60,7 @@
   $draw->setStrokeWidth($lineWidth * 2);
   $draw->line(0,0,$scaleLineTopWidth + $lineWidth * 2,0);
   $scaleLineTop->drawImage($draw);
-  $canvas->compositeImage($scaleLineTop,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15),$h - ($scaleLineHeight * 2 + 15));
+  $canvas->compositeImage($scaleLineTop,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15) - $compassImg->getImageWidth(),$h - ($scaleLineHeight * 2 + 15));
 
   // bottom
   $scaleLineBottomWidth = str_replace('px','',$json->{'scaleLineBottom'}->{'w'}) * 2;
@@ -75,7 +79,7 @@
   $draw->setStrokeWidth($lineWidth * 2);
   $draw->line(0,$scaleLineHeight + 2,$scaleLineBottomWidth + $lineWidth * 2,$scaleLineHeight + 2);
   $scaleLineBottom->drawImage($draw);
-  $canvas->compositeImage($scaleLineBottom,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15),$h - ($scaleLineHeight + 15 - $lineWidth));
+  $canvas->compositeImage($scaleLineBottom,imagick::COMPOSITE_OVER,$w - ($scaleLineTopWidth + 15) - $compassImg->getImageWidth(),$h - ($scaleLineHeight + 15 - $lineWidth));
 
   $canvas->writeImage($tmp_dir.$id.'.png');
 
