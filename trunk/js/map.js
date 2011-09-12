@@ -4049,6 +4049,7 @@ function getElementsByTagNameNS(xmlDoc,nsUrl,nsTag,tag) {
 
 function printSave() {
   var l = {};
+  var hits = 0;
   for (var j = 0; j < map.layers.length; j++) {
     for (var i in activeLyr) {
       if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
@@ -4056,10 +4057,11 @@ function printSave() {
            img    : activeLyr[i].getFullRequestString({})
           ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
         };
+        hits++;
       }
     }
   }
-  if (l) {
+  if (hits > 0) {
     YUI().use("io","json-parse",function(Y) {
       var handleSuccess = function(ioId,o,args) {
         Ext.MessageBox.hide();
@@ -4081,22 +4083,29 @@ function printSave() {
           ,scaleLineBottom : {w : scaleLineBottom.style.width,val : scaleLineBottom.innerHTML}
         })
       };
-      Ext.MessageBox.prompt('Print / Save','Please enter a title:',function(btn,txt) {
-        if (btn == 'ok' && txt != '') {
-          Ext.MessageBox.show({
-             title        : 'Assembling map'
-            ,msg          : 'Please wait...'
-            ,progressText : 'Working...'
-            ,width        : 300
-            ,wait         : true
-            ,waitConfig   : {interval:200}
-          });
-          var request = Y.io('print.php?title=' + txt,cfg);
-        }
-      });
+      promptForTitle(cfg,Y);
     });
   }
   else {
-    Ext.Msg.alert('Error','There are no active data layers to print.');
+    Ext.Msg.alert('Print / Save error','There are no active data layers to print.');
   }
+}
+
+function promptForTitle(cfg,Y) {
+  Ext.MessageBox.prompt('Print / Save','Please enter a title:',function(btn,txt) {
+    if (btn == 'ok' && txt != '') {
+      Ext.MessageBox.show({
+         title        : 'Assembling map'
+        ,msg          : 'Please wait...'
+        ,progressText : 'Working...'
+        ,width        : 300
+        ,wait         : true
+        ,waitConfig   : {interval:200}
+      });
+      var request = Y.io('print.php?title=' + txt,cfg);
+    }
+    else if (btn == 'ok') {
+      promptForTitle(cfg,Y);
+    }
+  });
 }
