@@ -4081,15 +4081,19 @@ function printSave() {
           ,scaleLineBottom : {w : scaleLineBottom.style.width,val : scaleLineBottom.innerHTML}
         })
       };
-      Ext.MessageBox.show({
-         title        : 'Assembling map'
-        ,msg          : 'Please wait...'
-        ,progressText : 'Working...'
-        ,width        : 300
-        ,wait         : true
-        ,waitConfig   : {interval:200}
+      Ext.MessageBox.prompt('Print / Save','Please enter a title:',function(btn,txt) {
+        if (btn == 'ok' && txt != '') {
+          Ext.MessageBox.show({
+             title        : 'Assembling map'
+            ,msg          : 'Please wait...'
+            ,progressText : 'Working...'
+            ,width        : 300
+            ,wait         : true
+            ,waitConfig   : {interval:200}
+          });
+          var request = Y.io('print.php?title=' + txt,cfg);
+        }
       });
-      var request = Y.io('print.php?title=' + document.title,cfg);
     });
   }
   else {

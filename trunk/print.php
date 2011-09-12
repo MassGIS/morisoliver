@@ -98,12 +98,24 @@
   }
   $canvas->writeImage($tmp_dir.$id.'.legend.png');
 
+  // title
+  $canvas = new Imagick();
+  $canvas->newImage($w,30,new ImagickPixel('white'));
+  $canvas->setImageFormat('png');
+  $draw = new ImagickDraw();
+  $draw->setFont('Helvetica');
+  $draw->setFontSize(18);
+  $draw->setGravity(imagick::GRAVITY_CENTER);
+  $draw->annotation(0,0,$_REQUEST['title']);
+  $canvas->drawImage($draw);
+  $canvas->writeImage($tmp_dir.$id.'.title.png');
+
   function mkLegendUrl($u) {
     return preg_replace('/&(STYLES|SRS)[^&]+/','',$u);
   }
 
   $handle = fopen($tmp_dir.$id.'.html','w');
-  fwrite($handle,"<html><head><title>".$_REQUEST['title']."</title><style>td {vertical-align : top} img {border : 1px solid gray}</style></head><body><table><tr><td><img src='$tmp_url$id.png'></td><td><img src='$tmp_url$id.legend.png'></td></tr></table></body></html>");
+  fwrite($handle,"<html><head><title>".$_REQUEST['title']."</title><style>td {vertical-align : top} img {border : 1px solid gray}</style></head><body><table><tr><td><img src='$tmp_url$id.title.png'></td></tr><tr><td><img src='$tmp_url$id.png'></td><td><img src='$tmp_url$id.legend.png'></td></tr></table></body></html>");
   fclose($handle);
 
   echo json_encode(array('html' => "$tmp_url$id.html",'map' => "$tmp_url$id.png",'legend' => "$tmp_url$id.legend.png"));
