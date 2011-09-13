@@ -346,9 +346,10 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
 
-this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
+		this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
         
-/*        this.toolbar.addItem("-");
+/*
+        this.toolbar.addItem("-");
         this.toolbar.addItem(this.drawMenuButton);
         this.toolbar.addItem(this.editMenuButton);
         this.toolbar.addItem("-");
@@ -670,7 +671,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
 
         var myLayerConfig = null;
 
-        var snappingFilter;
+        var drawToolControl = drawControl;
         for (var i = 0; i < this.layerConfigs.length; i++) {
             if (this.layerConfigs[i].layerTitle == layer.name) {
                 myLayerConfig = this.layerConfigs[i];
@@ -698,11 +699,11 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
                 }))
             }
 
-            snappingFilter = new OpenLayers.Control.UserFilter({
+            drawToolControl = new OpenLayers.Control.UserFilter({
                 layers: snapLayerConfigs,
                 box: true
             });
-            layer.wfstFeatureEditing.snappingFilterControl = snappingFilter;
+            layer.wfstFeatureEditing.snappingFilterControl = drawToolControl;
             this.map.addLayers(snapLayerConfigs);
             var snap = new OpenLayers.Control.Snapping({
                 layer: layer,
@@ -711,7 +712,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
             });
             this.map.addControl(snap);
 
-            snappingFilter.events.on({
+            drawToolControl.events.on({
                 "activate": function(e) {
                     if (myLayerConfig.snapTo) {
                         alert("Snapping is enabled when drawing features in this layer.  Please draw a box around the area you will be drawing in, so that the system can enable snapping in that area");
@@ -746,8 +747,7 @@ this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");
         var drawAction = new GeoExt.Action({
             text: layer.name,
             hidden: true,
-//            control: drawControl,
-            control: snappingFilter,
+            control: drawToolControl,
             map: this.map,
             disabled: !layer.inRange,
             // button options
