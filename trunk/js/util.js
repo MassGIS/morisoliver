@@ -134,3 +134,14 @@ function getVPSize() {
  }
  return [viewportwidth,viewportheight];
 }
+
+function getElementsByClassName(n){
+  var elements = document.getElementsByTagName("*");
+  var result = [];
+  for(z=0;z<elements.length;z++){
+    if(elements[z].getAttribute("class") == n || elements[z].getAttribute("className") == n){
+      result.push(elements[z]);
+    }
+  }
+  return result;
+}
