@@ -4062,19 +4062,19 @@ function printSave() {
     }
   }
   if (hits > 0) {
-    YUI().use("io","json-parse",function(Y) {
+    YUI().use("io","json-parse","json-stringify",function(Y) {
       var handleSuccess = function(ioId,o,args) {
         Ext.MessageBox.hide();
         var json = Y.JSON.parse(o.responseText);
         Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window contaning your map and legend as seperate images.  You can then either right-click each image and save them locally or print them through your browser.');
       };
       Y.on('io:success',handleSuccess,this,[]);
-      var scaleLineTop    = document.getElementsByClassName('olControlScaleLineTop')[0];
-      var scaleLineBottom = document.getElementsByClassName('olControlScaleLineBottom')[0];
+      var scaleLineTop    = getElementsByClassName('olControlScaleLineTop')[0];
+      var scaleLineBottom = getElementsByClassName('olControlScaleLineBottom')[0];
       var cfg = {
          method  : 'POST'
         ,headers : {'Content-Type':'application/json'}
-        ,data    : JSON.stringify({
+        ,data    : Y.JSON.stringify({
            w               : map.div.style.width
           ,h               : map.div.style.height
           ,extent          : map.getExtent().toArray()
