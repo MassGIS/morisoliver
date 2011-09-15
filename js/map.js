@@ -191,7 +191,7 @@ var qryLyrStore = new Ext.data.ArrayStore({
 });
 
 var qryWin = new Ext.Window({
-   height      : 530
+   height      : 550
   ,width       : 475
   ,closeAction : 'hide'
   ,resizable   : false
@@ -205,7 +205,7 @@ var qryWin = new Ext.Window({
       ,items : [
         {
            border : false
-          ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 100 features allowed.<br>&nbsp;'
+          ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 100 features allowed. To use your selected area of interest to launch the data export wizard, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
         }
         ,new MorisOliverApp.thGridPanel({
            height           : 150
@@ -1724,11 +1724,11 @@ Ext.onReady(function() {
 	  topToolBar_items.push({
          text        : 'Export data'
 	,itemId      : "exportData"
-        ,tooltip     : 'Launch th data export wizard'
+        ,tooltip     : 'Launch the data export wizard'
         ,iconCls     : 'buttonIcon'
         ,icon        : 'img/export.png'
         ,handler     : function() {
-          launchExportWizard();
+          launchExportWizard({typ : 'bbox'});
         }
       });
 	}
@@ -2442,6 +2442,13 @@ Ext.onReady(function() {
       ,id      : 'remove'
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/query-clear.png'
+    }
+    ,'-'
+    ,{
+       text    : 'Launch the data export wizard and restrict area of interest to this feature'
+      ,id      : 'featureToExportWizard'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/export.png'
     }]
   });
 
@@ -3041,6 +3048,28 @@ function loadLayerDescribeFeatureType(wms) {
               messageContextMenuFeatureCtrlBbox.findById('remove').setHandler(function() {
                 featureBbox.unselect(feature);
               });
+              if (feature.geometry.CLASS_NAME.toLowerCase().indexOf('polygon') >= 0) {
+                messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').setHandler(function() {
+                  var vertices = feature.geometry.getVertices();
+                  exportBbox.units = map.getProjection();
+                  exportBbox.verts = [];
+                  for (var i = 0; i < vertices.length; i++) {
+                    exportBbox.verts.push(vertices[i].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986")));
+                  }
+                  exportBbox.verts.push(exportBbox.verts[0]);
+
+                  // the polygon's bbox will serve as the standard bbox for non-shp queries
+                  exportBbox.minX = feature.geometry.getBounds().toArray()[0];
+                  exportBbox.minY = feature.geometry.getBounds().toArray()[1];
+                  exportBbox.maxX = feature.geometry.getBounds().toArray()[2];
+                  exportBbox.maxY = feature.geometry.getBounds().toArray()[3];
+
+                  launchExportWizard({typ : 'poly'});
+                });
+              }
+              else {
+                messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').disable();
+              }
               messageContextMenuFeatureCtrlBbox.showAt(e.getXY());
             }
             ,cellclick : function(g,row,col,e) {
@@ -3234,6 +3263,21 @@ function rasterOK(name) {
 function runQueryStats(bounds) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
+
+  // save goodies in case query is thrown over to an extract
+  exportBbox.units = map.getProjection();
+  exportBbox.verts = [];
+  for (var i = 0; i < vertices.length; i++) {
+    exportBbox.verts.push(vertices[i].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986")));
+  }
+  exportBbox.verts.push(exportBbox.verts[0]);
+
+  // the polygon's bbox will serve as the standard bbox for non-shp queries
+  exportBbox.minX = bounds.getBounds().toArray()[0];
+  exportBbox.minY = bounds.getBounds().toArray()[1];
+  exportBbox.maxX = bounds.getBounds().toArray()[2];
+  exportBbox.maxY = bounds.getBounds().toArray()[3];
+
   qryWin.show();
   // populate store w/ the basics
   var queryLyrCount = 0;
@@ -3454,7 +3498,7 @@ function promptForTitle(cfg,Y) {
   });
 }
 
-function launchExportWizard() {
+function launchExportWizard(aoi) {
   var tstLyrStore = new Ext.data.ArrayStore({
     fields : [
        {name : 'ico'  }
@@ -3786,135 +3830,7 @@ function launchExportWizard() {
               }
             ]
           }
-          ,{
-             xtype : 'fieldset'
-            ,title : 'Area of interest'
-            ,items  : [
-              {
-                 html      : 'Click Next to export data that are within or overlap the current map window extent.  Click Advanced to change the area of interest.'
-                ,bodyStyle : 'padding:0 5px 10px 5px'
-                ,border    : false
-              }
-              ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,items : [{
-                 layout : 'column'
-                ,border : false
-                ,items  : [
-                  {
-                     columnWidth : .5
-                    ,layout      : 'form'
-                    ,border      : false
-                    ,items       : [
-                      {
-                         xtype      : 'textfield'
-                        ,fieldLabel : 'Min X'
-                        ,id         : 'minX'
-                        ,allowBlank : false
-                        ,listeners  : {valid : function(field) {
-                          exportBbox.minX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
-                          syncExportBboxVerts();
-                        }}
-                      }
-                      ,{
-                         xtype      : 'textfield'
-                        ,fieldLabel : 'Min Y'
-                        ,id         : 'minY'
-                        ,allowBlank : false
-                        ,listeners  : {valid : function(field) {
-                          exportBbox.minY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
-                          syncExportBboxVerts();
-                        }}
-                      }
-                    ]
-                  }
-                  ,{
-                     columnWidth : .5
-                    ,layout      : 'form'
-                    ,border      : false
-                    ,items       : [
-                      {
-                         xtype      : 'textfield'
-                        ,fieldLabel : 'Max X'
-                        ,id         : 'maxX'
-                        ,allowBlank : false
-                        ,listeners  : {valid : function(field) {
-                          exportBbox.maxX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
-                          syncExportBboxVerts();
-                        }}
-                      }
-                      ,{
-                         xtype      : 'textfield'
-                        ,fieldLabel : 'Max Y'
-                        ,id         : 'maxY'
-                        ,allowBlank : false
-                        ,listeners  : {valid : function(field) {
-                          exportBbox.maxY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
-                          syncExportBboxVerts();
-                        }}
-                      }
-                    ]
-                  }
-                ]
-              }
-              ,{
-                 xtype      : 'radiogroup'
-                ,fieldLabel : 'Units'
-                ,id         : 'radioUnits'
-                ,items      : [
-                   {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
-                  ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
-                  ,{boxLabel : 'Deg min sec'          ,name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
-                ]
-                ,listeners   : {
-                  render : function(field) {
-                    var proj = 'EPSG:26986';
-                    if (defaultCoordUnit == 'dd' || defaultCoordUnit == 'dms') {
-                      proj = 'EPSG:4326';
-                    }
-                    exportBbox.units = field.items.get(0).getGroupValue();
-                    var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(proj)).toArray();
-                    if (defaultCoordUnit == 'dms') {
-                      Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
-                      Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
-                      Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
-                      Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
-                    }
-                    else {
-                      Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
-                      Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
-                      Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
-                      Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
-                    }
-                  }
-                  ,valid : function(field) {exportBbox.units = field.items.get(0).getGroupValue()}
-                }
-              }
-             ,{
-                 layout    : 'fit'
-                ,height    : 30
-                ,border    : false
-                ,bodyStyle : 'padding-right:100px;padding-left:100px'
-                ,items     : [{
-                   xtype   : 'button'
-                  ,text    : "Import active map's bounding box"
-                  ,handler : function() {
-                    var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toArray();
-                    if (exportBbox.units.indexOf('dms') >= 0) {
-                      Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
-                      Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
-                      Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
-                      Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
-                    }
-                    else {
-                      Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
-                      Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
-                      Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
-                      Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
-                    }
-                  }
-                }]
-              }]}
-            ]
-          }
+          ,mkAreaOfInterestFieldset(aoi)
         ]
       })
       ,new Ext.ux.Wiz.Card({
@@ -4017,7 +3933,6 @@ function launchExportWizard() {
                   ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
                   ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
                 };
-// charlton
                 var rstrOK    = rasterOK(rec.get('title'));
                 var request;
                 if (!rstrOK) {
@@ -4161,4 +4076,151 @@ function syncExportBboxVerts() {
     ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
     ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
   ];
+}
+
+function mkAreaOfInterestFieldset(aoi) {
+  if (aoi.typ == 'bbox') {
+    return {
+       xtype : 'fieldset'
+      ,title : 'Area of interest'
+      ,items  : [
+        {
+           html      : 'Click Next to export data that are within or overlap the current map window extent.  Click Advanced to change the area of interest.'
+          ,bodyStyle : 'padding:0 5px 10px 5px'
+          ,border    : false
+        }
+        ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,items : [{
+           layout : 'column'
+          ,border : false
+          ,items  : [
+            {
+               columnWidth : .5
+              ,layout      : 'form'
+              ,border      : false
+              ,items       : [
+                {
+                   xtype      : 'textfield'
+                  ,fieldLabel : 'Min X'
+                  ,id         : 'minX'
+                  ,allowBlank : false
+                  ,listeners  : {valid : function(field) {
+                    exportBbox.minX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                    syncExportBboxVerts();
+                  }}
+                }
+                ,{
+                   xtype      : 'textfield'
+                  ,fieldLabel : 'Min Y'
+                  ,id         : 'minY'
+                  ,allowBlank : false
+                  ,listeners  : {valid : function(field) {
+                    exportBbox.minY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                    syncExportBboxVerts();
+                  }}
+                }
+              ]
+            }
+            ,{
+               columnWidth : .5
+              ,layout      : 'form'
+              ,border      : false
+              ,items       : [
+                {
+                   xtype      : 'textfield'
+                  ,fieldLabel : 'Max X'
+                  ,id         : 'maxX'
+                  ,allowBlank : false
+                  ,listeners  : {valid : function(field) {
+                    exportBbox.maxX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                    syncExportBboxVerts();
+                  }}
+                }
+                ,{
+                   xtype      : 'textfield'
+                  ,fieldLabel : 'Max Y'
+                  ,id         : 'maxY'
+                  ,allowBlank : false
+                  ,listeners  : {valid : function(field) {
+                    exportBbox.maxY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                    syncExportBboxVerts();
+                  }}
+                }
+              ]
+            }
+          ]
+        }
+        ,{
+           xtype      : 'radiogroup'
+          ,fieldLabel : 'Units'
+          ,id         : 'radioUnits'
+          ,items      : [
+             {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
+            ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
+            ,{boxLabel : 'Deg min sec'          ,name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
+          ]
+          ,listeners   : {
+            render : function(field) {
+              var proj = 'EPSG:26986';
+              if (defaultCoordUnit == 'dd' || defaultCoordUnit == 'dms') {
+                proj = 'EPSG:4326';
+              }
+              exportBbox.units = field.items.get(0).getGroupValue();
+              var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(proj)).toArray();
+              if (defaultCoordUnit == 'dms') {
+                Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
+                Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
+                Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
+                Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
+              }
+              else {
+                Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
+                Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
+                Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
+                Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
+              }
+            }
+            ,valid : function(field) {exportBbox.units = field.items.get(0).getGroupValue()}
+          }
+        }
+       ,{
+           layout    : 'fit'
+          ,height    : 30
+          ,border    : false
+          ,bodyStyle : 'padding-right:100px;padding-left:100px'
+          ,items     : [{
+             xtype   : 'button'
+            ,text    : "Import active map's bounding box"
+            ,handler : function() {
+              var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toArray();
+              if (exportBbox.units.indexOf('dms') >= 0) {
+                Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
+                Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
+                Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
+                Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
+              }
+              else {
+                Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
+                Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
+                Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
+                Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
+              }
+            }
+          }]
+        }]}
+      ]
+    }
+  }
+  else if (aoi.typ == 'poly') {
+    return {
+       xtype : 'fieldset'
+      ,title : 'Area of interest'
+      ,items  : [
+        {
+           html      : 'The area you defined with the Identify button will be used as your area of interest.'
+          ,bodyStyle : 'padding:0 5px 10px 5px'
+          ,border    : false
+        }
+      ]
+    };
+  }
 }
