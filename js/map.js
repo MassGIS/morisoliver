@@ -61,6 +61,14 @@ var lyrGeoLocate = new OpenLayers.Layer.Vector('geoLoacate',{styleMap :  new Ope
   })})
 });
 var geoLocateLonLat,geoLocateBnds;
+var exportBbox = {
+   minX  : 0
+  ,minY  : 0
+  ,maxX  : 0
+  ,maxY  : 0
+  ,verts : [] // these will always be in 26986
+  ,units : defaultCoordUnit == 'm' ? 'EPSG:26986' : defaultCoordUnit == 'dd' ? 'EPSG:4326' : defaultCoordUnit == 'dms' ? 'EPSG:4326dms' : ''
+};
 
 Date.patterns = {
     SortableDateTime: "Y-m-d\\TH:i:s.ms"
@@ -1715,724 +1723,12 @@ Ext.onReady(function() {
 	// export data functionality
 	  topToolBar_items.push({
          text        : 'Export data'
-		,itemId      : "exportData"
-        ,tooltip     : 'Launch the data export wizard'
+	,itemId      : "exportData"
+        ,tooltip     : 'Launch th data export wizard'
         ,iconCls     : 'buttonIcon'
         ,icon        : 'img/export.png'
-        ,handler : function() {
-          var tstLyrStore = new Ext.data.ArrayStore({
-            fields : [
-               {name : 'ico'  }
-              ,{name : 'title'}
-            ]
-          });
-          for (var j = map.layers.length - 1; j >= 0; j--) {
-            for (var i in activeLyr) {
-              if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-                // a normal find wasn't working properly, so loop through the list to keep dups out
-                var exists = false;
-                tstLyrStore.each(function(rec) {
-                  exists = exists || rec.get('title') == activeLyr[i].name;
-                });
-                if (!exists) {
-                  tstLyrStore.add(new tstLyrStore.recordType(
-                     {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
-                    ,++tstLyrCount
-                  ));
-                }
-              }
-            }
-          }
-
-          var bboxLyrStore = new Ext.data.ArrayStore({
-            fields : [
-               {name : 'ico'  }
-              ,{name : 'title'}
-              ,{name : 'bbox' }
-              ,{name : 'wfs'  }
-              ,{name : 'busy' }
-              ,{name : 'export'}
-            ]
-          });
-          var bboxLyrCount = 0;
-          var downloadLyrStore = new Ext.data.ArrayStore({
-            fields : [
-               {name : 'ico'  }
-              ,{name : 'title'}
-              ,{name : 'url'  }
-            ]
-          });
-          var wizGetData = new Ext.ux.Wiz({
-             title           : 'Data export wizard'
-            ,constrainHeader : true
-            ,id              : 'getDataWiz'
-            ,headerConfig    : {
-              title : ''
-            }
-            ,width           : 700
-            ,height          : 600
-            ,resizable       : true
-            ,maximizable     : true
-            ,closeAction     : 'hide'
-            ,cardPanelConfig : {
-              defaults : {
-                 border      : false
-                ,bodyStyle   : 'padding:6px'
-                ,labelWidth  : 75
-                ,autoScroll  : true
-              }
-            }
-            ,listeners    : {finish : function() {
-              if (!mkzipCGI) {
-                Ext.Msg.alert('ZIP unavailable','Sorry, this functionality is currently unavailable.');
-                return;
-              }
-              downloadLyrStore.removeAll();
-              var downloadLyrCount = 0;
-              tstLyrStore.each(function(rec) {
-                var title  = rec.get('title');
-                var ico    = wms2ico[lyr2wms[title]];
-                if (bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs').indexOf('> max') < 0 && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('bbox') == 'Y' && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs') !== '0 feature(s)') {
-                  downloadLyrStore.add(new downloadLyrStore.recordType(
-                     {ico : ico,title : title,url : mkDataWizardURL(title,ico)}
-                    ,++downloadLyrCount
-                  ));
-                  // add metadataUrl & everything for this layer for extractDoc
-                  if (lyrMetadata[title].metadataUrl) {
-                    downloadLyrStore.add(new downloadLyrStore.recordType(
-                       {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].metadataUrl,url : lyrMetadata[title].metadataUrl}
-                      ,++downloadLyrCount
-                    ));
-                  }
-                  if (lyrMetadata[title].extractDoc) {
-                    for (var i = 0; i < lyrMetadata[title].extractDoc.length; i++) {
-                      downloadLyrStore.add(new downloadLyrStore.recordType(
-                         {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].extractDoc[i],url : lyrMetadata[title].extractDoc[i]}
-                        ,++downloadLyrCount
-                      ));
-                    }
-                  }
-                }
-              });
-
-              if (downloadLyrCount == 0) {
-                Ext.Msg.alert('Data export','Sorry, no layers were eligible for export.');
-                return;
-              }
-
-              var dataURL = [];
-              var lastTitle;
-              downloadLyrStore.each(function(rec) {
-                var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
-                if (!dataURL[title] & title.indexOf('http://') < 0) {
-                  dataURL[title] = {
-                     base     : safeXML(rec.get('url'))
-                    ,metadata : []
-                  };
-                  lastTitle = title;
-                }
-                else {
-                  dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
-                }
-              });
-
-              var dataXML = '';
-              for (var i in dataURL) {
-                if (dataURL[i].base) {
-                  dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
-                }
-              }
-              YUI().use("io",function(Y) {
-                var handleSuccess = function(ioId,o,args) {
-                  Ext.MessageBox.hide();
-                  Ext.MessageBox.show({
-                     title     : 'Download exported data'
-                    ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
-                    ,width     : 300
-                  });
-                };
-                Y.on('io:success',handleSuccess,this,[]);
-                var cfg = {
-                   method  : 'POST'
-                  ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                  ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
-                };
-                Ext.MessageBox.show({
-                   title        : 'Exporting data'
-                  ,msg          : 'Exporting data, please wait...'
-                  ,progressText : 'Saving...'
-                  ,width        : 300
-                  ,wait         : true
-                  ,waitConfig   : {interval:200}
-                });
-                var request = Y.io(mkzipCGI,cfg);
-              });
-            }}
-            ,cards           : [
-              new Ext.ux.Wiz.Card({
-                 title     : 'How to export data'
-                ,items     : [{
-                   bodyStyle : 'padding:30px'
-                  ,border    : false
-                  ,html      : '<h3>Welcome to the data export wizard.</h3><p style="text-align:justify"><br>This wizard may be used to export vector data as ESRI shapefiles or KMLs (Google Earth and other clients) and raster data as GeoTIFFs. Users may choose their area of interest and subsets of datasets may be downloaded. Metadata and other supporting documents are also packaged with the exported data. For information on accessing full datasets, please check the metadata of the layers of interest.<br><br>Click Next to continue.</p>'
-                }]
-              })
-              ,new Ext.ux.Wiz.Card({
-                 title        : 'Select data layers and area of interest'
-                ,monitorValid : true
-                ,items        : [
-                  {
-                     html      : 'Click on one or more data layers to add them to the layers of interest list.  Then enter coordinates for the area of interest and click Next.'
-                    ,bodyStyle : 'padding:10px'
-                    ,border    : false
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,title : 'Data layers'
-                    ,items  : [
-                      {
-                         layout   : 'column'
-                        ,border   : false
-                        ,items    : [
-                          {
-                             columnWidth : .5
-                            ,bodyStyle   : 'padding-left:2px'
-                            ,border      : false
-                            ,items       : [
-                              new MorisOliverApp.thGridPanel({
-                                 height           : 200
-                                ,width            : 272
-                                ,title            : 'Data layers of interest'
-                                ,store            : tstLyrStore
-                                ,hideHeaders      : true
-                                ,columns          : [
-                                   {id : 'ico'  ,header :'Icon'       ,width : 25 ,renderer : ico2img}
-                                  ,{id : 'title',header : 'Layer name',width : 600                   }
-                                ]
-                                // ,autoExpandColumn : 'title'
-                                ,tbar             : [
-                                  {
-                                     iconCls  : 'buttonIcon'
-                                    ,tooltip  : "Import active map's active data layers"
-                                    ,text     : 'Import active layers'
-                                    ,icon     : 'img/import.png'
-                                    ,handler     : function() {
-                                      for (var j = map.layers.length - 1; j >= 0; j--) {
-                                        for (var i in activeLyr) {
-                                          if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-                                            // a normal find wasn't working properly, so loop through the list to keep dups out
-                                            var exists = false;
-                                            tstLyrStore.each(function(rec) {
-                                              exists = exists || rec.get('title') == activeLyr[i].name;
-                                            });
-                                            if (!exists) {
-                                              tstLyrStore.add(new tstLyrStore.recordType(
-                                                 {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
-                                                ,++tstLyrCount
-                                              ));
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  ,'->'
-                                  ,{
-                                     iconCls  : 'buttonIcon'
-                                    ,tooltip  : 'Remove all layers'
-                                    ,text     : 'Remove all'
-                                    ,icon     : 'img/remove.png'
-                                    ,handler     : function() {
-                                      tstLyrStore.removeAll();
-                                    }
-                                  }
-                                ]
-                                ,listeners    : {
-                                  contextmenu     : function(e) {
-                                    e.stopEvent();
-                                  }
-                                  ,rowcontextmenu : function(g,row,e) {
-                                    var sel = g.getSelectionModel();
-                                    if (!sel.isSelected(row)) {
-                                      sel.selectRow(row);
-                                    }
-                                    var contextMenu = new Ext.menu.Menu({
-                                      items: [{
-                                         text    : 'Remove layer(s)'
-                                        ,iconCls : 'buttonIcon'
-                                        ,icon    : 'img/remove.png'
-                                        ,handler : function() {
-                                          var s = g.getSelectionModel().getSelections();
-                                          for (var i = 0; i < s.length; i++) {
-                                            g.getStore().remove(s[i]);
-                                          }
-                                        }
-                                      }]
-                                    });
-                                    contextMenu.showAt(e.getXY())
-                                  }
-                                }
-                              })
-                            ]
-                          }
-                          ,{
-                             columnWidth : .5
-                            ,bodyStyle   : 'padding-right:2px'
-                            ,border      : false
-                            ,items       : [
-                              new Ext.tree.TreePanel({
-                                 height      : 200
-                                ,width       : 272
-                                ,title       : 'Advanced - Select additional data layers'
-                                ,id          : 'availableDataLyrWiz'
-                                ,collapsible : true
-                                ,collapsed   : true
-                                ,autoScroll  : true
-                                ,rootVisible : false
-                                ,root        : new Ext.tree.AsyncTreeNode()
-                                ,loader      : new Ext.app.LayerLoader({
-                                   dataUrl       : foldersetLoc + '?a'
-                                  ,requestMethod : 'GET'
-                                })
-                                ,tbar        : {height : 27,items : [
-                                  new Ext.form.ComboBox({
-                                     store          : lyrStoreSearchWizard
-                                    ,id             : 'lyrSearchWizardCombo'
-                                    ,forceSelection : true
-                                    ,triggerAction  : 'all'
-                                    ,emptyText      : 'Select / search data layers'
-                                    ,selectOnFocus  : true
-                                    ,mode           : 'local'
-                                    ,valueField     : 'id'
-                                    ,displayField   : 'title'
-                                    ,width          : 265
-                                    ,listeners      : {
-                                      select : function(comboBox,rec,i) {
-                                        var olLayerTree = Ext.getCmp('availableDataLyrWiz');
-                                        olLayerTree.getRootNode().cascade(function(n) {
-                                          if (n.attributes.text == rec.get('title')) {
-                                            olLayerTree.selectPath(n.getPath());
-                                            n.fireEvent('click',n);
-                                            n.ui.focus();
-                                          }
-                                        });
-                                      }
-                                    }
-                                  })
-                                ]}
-                                ,listeners   : {
-                                  click : function(node,e){
-                                    if (!node.isLeaf()) {
-                                      return;
-                                    }
-                                    // a normal find wasn't working properly, so loop through the list to keep dups out
-                                    var exists = false;
-                                    tstLyrStore.each(function(rec) {
-                                      exists = exists || rec.get('title') == node.attributes.text;
-                                    });
-                                    if (!exists) {
-                                      // grab the metadata if necessary and add when done
-                                      if (!lyrMetadata[node.attributes.text]) {
-                                        loadLayerMetadata(lyr2wms[node.attributes.text],node.attributes.text,node.attributes.style,false,false,{store : tstLyrStore,title : node.attributes.text});
-                                      }
-                                      else {
-                                        tstLyrStore.add(new tstLyrStore.recordType(
-                                           {ico : wms2ico[lyr2wms[node.attributes.text]],title : node.attributes.text}
-                                          ,++tstLyrCount
-                                        ));
-                                      }
-                                    }
-                                  }
-                                }
-                              })
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,title : 'Area of interest'
-                    ,items  : [
-                      {
-                         html      : 'Click Next to export data that are within or overlap the current map window extent.  Click Advanced to change the area of interest.'
-                        ,bodyStyle : 'padding:0 5px 10px 5px'
-                        ,border    : false
-                      }
-                      ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,items : [{
-                         layout : 'column'
-                        ,border : false
-                        ,items  : [
-                          {
-                             columnWidth : .5
-                            ,layout      : 'form'
-                            ,border      : false
-                            ,items       : [
-                              {
-                                 xtype      : 'textfield'
-                                ,fieldLabel : 'Min X'
-                                ,id         : 'minX'
-                                ,allowBlank : false
-                                // ,value      : Math.round(map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986')).toArray()[0]*1000000)/1000000
-                              }
-                              ,{
-                                 xtype      : 'textfield'
-                                ,fieldLabel : 'Min Y'
-                                ,id         : 'minY'
-                                ,allowBlank : false
-                                // ,value      : Math.round(map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986')).toArray()[1]*1000000)/1000000
-                              }
-                            ]
-                          }
-                          ,{
-                             columnWidth : .5
-                            ,layout      : 'form'
-                            ,border      : false
-                            ,items       : [
-                              {
-                                 xtype      : 'textfield'
-                                ,fieldLabel : 'Max X'
-                                ,id         : 'maxX'
-                                ,allowBlank : false
-                                // ,value      : Math.round(map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986')).toArray()[2]*1000000)/1000000
-                              }
-                              ,{
-                                 xtype      : 'textfield'
-                                ,fieldLabel : 'Max Y'
-                                ,id         : 'maxY'
-                                ,allowBlank : false
-                                // ,value      : Math.round(map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986')).toArray()[3]*1000000)/1000000
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                      ,{
-                         xtype      : 'radiogroup'
-                        ,fieldLabel : 'Units'
-                        ,id         : 'radioUnits'
-                        ,items      : [
-                           {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
-                          ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
-                          ,{boxLabel : 'Deg min sec'          ,name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
-                        ]
-                        ,listeners   : {
-                          render : function() {
-                            var proj = 'EPSG:26986';
-                            if (defaultCoordUnit == 'dd' || defaultCoordUnit == 'dms') {
-                              proj = 'EPSG:4326';
-                            }
-                            var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(proj)).toArray();
-                            if (defaultCoordUnit == 'dms') {
-                              Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
-                              Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
-                              Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
-                              Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
-                            }
-                            else {
-                              Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
-                              Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
-                              Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
-                              Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
-                            }
-                          }
-                        }
-                      }
-                     ,{
-                         layout    : 'fit'
-                        ,height    : 30
-                        ,border    : false
-                        ,bodyStyle : 'padding-right:100px;padding-left:100px'
-                        ,items     : [{
-                           xtype   : 'button'
-                          ,text    : "Import active map's bounding box"
-                          ,handler : function() {
-                            var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms',''))).toArray();
-                            if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-                              Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
-                              Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
-                              Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
-                              Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
-                            }
-                            else {
-                              Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
-                              Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
-                              Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
-                              Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
-                            }
-                          }
-                        }]
-                      }]}
-                    ]
-                  }
-                ]
-              })
-              ,new Ext.ux.Wiz.Card({
-                 title     : 'Query results'
-                ,listeners : {
-                  show : function() {
-                    bboxLyrStore.removeAll();
-                    var tstBbox;
-                    if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-                      tstBbox = new OpenLayers.Geometry.LinearRing([
-                         new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                      ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:4326"));
-                    }
-                    else {
-                      tstBbox = new OpenLayers.Geometry.LinearRing([
-                         new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                      ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:4326"));
-                    }
-
-                    // assume no hits
-                    Ext.getCmp('wizVectorFmt').disable();
-                    Ext.getCmp('wizRasterFmt').disable();
-
-                    tstLyrStore.each(function(rec) {
-                      var title     = rec.get('title');
-                      var bboxOK    = 'N';
-                      var exportOK  = '';
-                      var ico       = wms2ico[lyr2wms[title]];
-                      var rstrOK    = rasterOK(title);
-                      if (!rstrOK) {
-                        ico += 'Gray';
-                      }
-                      if (new OpenLayers.Geometry.Polygon(tstBbox).intersects(getCapsBbox[lyr2wms[title]].toGeometry())) {
-                        bboxOK = 'Y';
-                      }
-                      var wfsMsg = 'testing...';
-                      // turn on options based on the ico (layer type)
-                      if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0) {
-                        Ext.getCmp('wizVectorFmt').enable();
-                      }
-                      else if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
-                        Ext.getCmp('wizRasterFmt').enable();
-                        if (!rstrOK) {
-                          wfsMsg = '> max file size';
-                          exportOK = 'N';
-                        }
-                        else {
-                          wfsMsg = 'n/a';
-                        }
-                      }
-                      bboxLyrStore.add(new bboxLyrStore.recordType(
-                         {'ico' : ico,'title' : title,'bbox' : bboxOK,'wfs' : wfsMsg,'export' : exportOK}
-                        ,++bboxLyrCount
-                      ));
-                    });
-
-                    // go back thru the layers and fire off a resultType=hits request for each one
-                    tstLyrStore.each(function(rec) {
-                      var ico = wms2ico[lyr2wms[rec.get('title')]];
-                      YUI().use("io",function(Y) {
-                        var handleSuccess = function(ioId,o,args) {
-                          if (window.DOMParser) {
-                            parser = new DOMParser();
-                            xmlDoc = parser.parseFromString(o.responseText,"text/xml");
-                          }
-                          else {
-                            xmlDoc       = new ActiveXObject("Microsoft.XMLDOM");
-                            xmlDoc.async = "false";
-                            xmlDoc.loadXML(o.responseText);
-                          }
-                          // update the right row w/ the # of feature hits
-                          var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
-                          if (el) {
-                            var hits = el.getAttribute('numberOfFeatures');
-                            if (hits > maxAllowedFeatures) {
-                              bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs','> max # features');
-                              bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','N');
-                            }
-                            else {
-                              bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs',hits + ' feature(s)');
-                              if (hits == 0) {
-                                bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','N');
-                              }
-                            }
-                          }
-                          else {
-                            if (!(args[1] == 'raster' || args[1] == 'grid')) {
-                              bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs','none');
-                            }
-                          }
-                          bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('busy','done');
-                          if (bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).get('export') !== 'N') {
-                            bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','Y');
-                          }
-                          bboxLyrStore.commitChanges();
-                        };
-                        var title = rec.get('title');
-                        Y.on('io:success',handleSuccess,this,[title,ico]);
-                        // always pull data back in terms of 26986
-                        var bbox26986;
-                        if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-                          bbox26986 = new OpenLayers.Geometry.LinearRing([
-                             new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                          ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
-                        }
-                        else {
-                          bbox26986 = new OpenLayers.Geometry.LinearRing([
-                             new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-                          ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986"));
-                        }
-                        var poly = [];
-                        var vertices = bbox26986.getVertices();
-                        for (var j = 0; j < vertices.length; j++) {
-                          poly.push(vertices[j].x + ' ' + vertices[j].y);
-                        }
-                        poly.push(vertices[0].x + ' ' + vertices[0].y);
-                        var cfg = {
-                           method  : "POST"
-                          ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                          ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
-                        };
-// charlton
-                        var rstrOK    = rasterOK(rec.get('title'));
-                        var request;
-                        if (!rstrOK) {
-                          bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).set('busy','done');
-                          bboxLyrStore.commitChanges();
-                        }
-                        request = Y.io(proxyLoc + wfsUrl,cfg);
-                      });
-                    });
-                  }
-                }
-                ,items     : [
-                  {
-                     html      : 'Two geospatial boundary tests are being performed on the layers of interest.  Once testing is complete and you are satisfied with the results, click Next to continue.  Otherwise, click Previous to refine the search criteria.'
-                    ,bodyStyle : 'padding:10px'
-                    ,border    : false
-                  }
-                  ,new MorisOliverApp.thGridPanel({
-                     height           : 390
-                    ,title            : 'Query results'
-                    ,store            : bboxLyrStore
-                    ,disableSelection : true
-                    ,enableHdMenu     : false
-                    ,columns          : [
-                       {id : 'ico'   ,dataIndex : 'ico'   ,header : ''                              ,width : 25,renderer : ico2img                 }
-                      ,{id : 'title' ,dataIndex : 'title' ,header : 'Layer name'                                                                   }
-                      ,{id : 'wfs'   ,dataIndex : 'wfs'   ,header : 'Feature(s) found?'                                                            }
-                      ,{id : 'export',dataIndex : 'export',header : 'OK to export?'                 ,align : 'center',renderer: okIco              }
-                      ,{id : 'busy'  ,dataIndex : 'busy'  ,header : ''                              ,width : 25,renderer : busyIco                 }
-                    ]
-                    ,autoExpandColumn : 'title'
-                    ,loadMask         : true
-                  })
-                ]
-              })
-              ,new Ext.ux.Wiz.Card({
-                 title        : 'Select output and download options'
-                ,monitorValid : true
-                ,items        : [
-                  {
-                     xtype : 'fieldset'
-                    ,title : 'Output coordinate system'
-                    ,items  : [
-                      {
-                         xtype   : 'radiogroup'
-                        ,id      : 'radioEpsg'
-                        ,columns : 1
-                        ,items   : [
-                           {boxLabel : 'NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986',name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
-                          ,{boxLabel : 'NAD83/UTM zone 18N, meters (Western Massachusetts) - EPSG:26918'                      ,name : 'epsg',inputValue : 'EPSG:26918'                               }
-                          ,{boxLabel : 'NAD83/UTM zone 19N, meters (Eastern Massachusetts) - EPSG:26919'                      ,name : 'epsg',inputValue : 'EPSG:26919'                               }
-                          ,{boxLabel : 'WGS84 (Latitude-Longitude) - EPSG:4326'                                               ,name : 'epsg',inputValue : 'EPSG:4326'                                }
-                        ]
-                      }
-                    ]
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,title : 'Vector data output options'
-                    ,items  : [
-                      {
-                         layout   : 'column'
-                        ,border   : false
-                        ,items    : [
-                          {
-                             columnWidth : 1
-                            ,layout      : 'form'
-                            ,border      : false
-                            ,items       : [
-                              {
-                                 xtype       : 'radiogroup'
-                                ,id          : 'wizVectorFmt'
-                                ,fieldLabel  : 'Format'
-                                ,items       : [
-                                   {boxLabel : 'ESRI shape (.shp)'       ,name : 'vectorFormat',inputValue : 'shp',checked : true}
-                                  ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,title : 'Raster data output options'
-                    ,items  : [
-                      {
-                         layout   : 'column'
-                        ,border   : false
-                        ,items    : [
-                          {
-                             columnWidth : .4
-                            ,layout      : 'form'
-                            ,border      : false
-                            ,items       : [
-                              {
-                                 xtype      : 'radiogroup'
-                                ,id         : 'wizRasterFmt'
-                                ,fieldLabel : 'Format'
-                                ,items      : [
-                                   {boxLabel : 'GeoTiff',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
-                                  // ,{boxLabel : 'Grid'   ,name : 'rasterFormat',inputValue : 'grid'                  }
-                                ]
-                              }
-                            ]
-                          }
-                          ,{
-                             columnWidth : .6
-                            ,layout      : 'form'
-                            ,border      : false
-                            ,items       : [{border : false,html : '&nbsp;'}]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                  ,{
-                     xtype : 'fieldset'
-                    ,title : 'Name of the ZIP file to download'
-                    ,items : new Ext.form.TextField({
-                       name       : 'zipName'
-                      ,id         : 'zipName'
-                      ,allowBlank : false
-                      ,fieldLabel : 'File name'
-                    })
-                  }
-                ]
-              })
-            ]
-          });
-          wizGetData.show();
+        ,handler     : function() {
+          launchExportWizard();
         }
       });
 	}
@@ -3825,34 +3121,18 @@ function loadLayerDescribeFeatureType(wms) {
 function mkDataWizardURL(title,ico) {
   // bbox is the fall-through as well as the way to pull out rasters
   var bbox = new OpenLayers.Geometry.LinearRing([
-     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
+     new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.maxY)
+    ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY)
   ]).getBounds().toArray();
-  if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    bbox = new OpenLayers.Geometry.LinearRing([
-       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-    ]).getBounds().toArray();
-  }
 
   var poly26986 = new OpenLayers.Geometry.LinearRing([
-     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
-  ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986"));
-  if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    poly26986 = new OpenLayers.Geometry.LinearRing([
-       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-    ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
-  }
+     new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.maxY)
+    ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY)
+  ]).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
   var poly26986bbox = poly26986.getBounds().toArray();
 
   if (ico == 'raster' || ico == 'grid') {
@@ -3875,11 +3155,9 @@ function mkDataWizardURL(title,ico) {
   else {
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
       var poly = [];
-      var vertices = poly26986.getVertices();
-      for (var j = 0; j < vertices.length; j++) {
-        poly.push(vertices[j].x + ' ' + vertices[j].y);
+      for (var j = 0; j < exportBbox.verts.length; j++) {
+        poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
       }
-      poly.push(vertices[0].x + ' ' + vertices[0].y);
       return Array(
          wfsUrl
         ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
@@ -3936,21 +3214,12 @@ function scaleOK(name) {
 function rasterOK(name) {
   // continue using bbox for rasters
   var bounds = new OpenLayers.Geometry.LinearRing([
-     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
-    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
-  ]).getBounds();
+     new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.minY)
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.maxY)
+    ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY)
+  ]).getBounds().transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
 
-  if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    bounds = new OpenLayers.Geometry.LinearRing([
-       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
-    ]).getBounds();
-  }
-  bounds.transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
   var bbox = bounds.toArray();
   var dx = bbox[2] - bbox[0];
   var dy = bbox[3] - bbox[1];
@@ -4183,4 +3452,713 @@ function promptForTitle(cfg,Y) {
       promptForTitle(cfg,Y);
     }
   });
+}
+
+function launchExportWizard() {
+  var tstLyrStore = new Ext.data.ArrayStore({
+    fields : [
+       {name : 'ico'  }
+      ,{name : 'title'}
+    ]
+  });
+  for (var j = map.layers.length - 1; j >= 0; j--) {
+    for (var i in activeLyr) {
+      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+        // a normal find wasn't working properly, so loop through the list to keep dups out
+        var exists = false;
+        tstLyrStore.each(function(rec) {
+          exists = exists || rec.get('title') == activeLyr[i].name;
+        });
+        if (!exists) {
+          tstLyrStore.add(new tstLyrStore.recordType(
+             {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
+            ,++tstLyrCount
+          ));
+        }
+      }
+    }
+  }
+
+  var bboxLyrStore = new Ext.data.ArrayStore({
+    fields : [
+       {name : 'ico'  }
+      ,{name : 'title'}
+      ,{name : 'bbox' }
+      ,{name : 'wfs'  }
+      ,{name : 'busy' }
+      ,{name : 'export'}
+    ]
+  });
+  var bboxLyrCount = 0;
+  var downloadLyrStore = new Ext.data.ArrayStore({
+    fields : [
+       {name : 'ico'  }
+      ,{name : 'title'}
+      ,{name : 'url'  }
+    ]
+  });
+  var wizGetData = new Ext.ux.Wiz({
+     title           : 'Data export wizard'
+    ,constrainHeader : true
+    ,id              : 'getDataWiz'
+    ,headerConfig    : {
+      title : ''
+    }
+    ,width           : 700
+    ,height          : 600
+    ,resizable       : true
+    ,maximizable     : true
+    ,closeAction     : 'hide'
+    ,cardPanelConfig : {
+      defaults : {
+         border      : false
+        ,bodyStyle   : 'padding:6px'
+        ,labelWidth  : 75
+        ,autoScroll  : true
+      }
+    }
+    ,listeners    : {finish : function() {
+      if (!mkzipCGI) {
+        Ext.Msg.alert('ZIP unavailable','Sorry, this functionality is currently unavailable.');
+        return;
+      }
+      downloadLyrStore.removeAll();
+      var downloadLyrCount = 0;
+      tstLyrStore.each(function(rec) {
+        var title  = rec.get('title');
+        var ico    = wms2ico[lyr2wms[title]];
+        if (bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs').indexOf('> max') < 0 && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('bbox') == 'Y' && bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).get('wfs') !== '0 feature(s)') {
+          downloadLyrStore.add(new downloadLyrStore.recordType(
+             {ico : ico,title : title,url : mkDataWizardURL(title,ico)}
+            ,++downloadLyrCount
+          ));
+          // add metadataUrl & everything for this layer for extractDoc
+          if (lyrMetadata[title].metadataUrl) {
+            downloadLyrStore.add(new downloadLyrStore.recordType(
+               {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].metadataUrl,url : lyrMetadata[title].metadataUrl}
+              ,++downloadLyrCount
+            ));
+          }
+          if (lyrMetadata[title].extractDoc) {
+            for (var i = 0; i < lyrMetadata[title].extractDoc.length; i++) {
+              downloadLyrStore.add(new downloadLyrStore.recordType(
+                 {ico : 'NONE',title : '&nbsp;&nbsp;&nbsp;&nbsp;' + lyrMetadata[title].extractDoc[i],url : lyrMetadata[title].extractDoc[i]}
+                ,++downloadLyrCount
+              ));
+            }
+          }
+        }
+      });
+
+      if (downloadLyrCount == 0) {
+        Ext.Msg.alert('Data export','Sorry, no layers were eligible for export.');
+        return;
+      }
+
+      var dataURL = [];
+      var lastTitle;
+      downloadLyrStore.each(function(rec) {
+        var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
+        if (!dataURL[title] & title.indexOf('http://') < 0) {
+          dataURL[title] = {
+             base     : safeXML(rec.get('url'))
+            ,metadata : []
+          };
+          lastTitle = title;
+        }
+        else {
+          dataURL[lastTitle].metadata.push(safeXML(rec.get('url')));
+        }
+      });
+
+      var dataXML = '';
+      for (var i in dataURL) {
+        if (dataURL[i].base) {
+          dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
+        }
+      }
+      YUI().use("io",function(Y) {
+        var handleSuccess = function(ioId,o,args) {
+          Ext.MessageBox.hide();
+          Ext.MessageBox.show({
+             title     : 'Download exported data'
+            ,msg       : 'Click <a href="' + mkzipLoc + '/' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download the ZIP file.'
+            ,width     : 300
+          });
+        };
+        Y.on('io:success',handleSuccess,this,[]);
+        var cfg = {
+           method  : 'POST'
+          ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+          ,data    : '<layers>' + dataXML + '<zip name="' + Ext.getCmp('zipName').getValue() + '"/></layers>'
+        };
+        Ext.MessageBox.show({
+           title        : 'Exporting data'
+          ,msg          : 'Exporting data, please wait...'
+          ,progressText : 'Saving...'
+          ,width        : 300
+          ,wait         : true
+          ,waitConfig   : {interval:200}
+        });
+        var request = Y.io(mkzipCGI,cfg);
+      });
+    }}
+    ,cards           : [
+      new Ext.ux.Wiz.Card({
+         title     : 'How to export data'
+        ,items     : [{
+           bodyStyle : 'padding:30px'
+          ,border    : false
+          ,html      : '<h3>Welcome to the data export wizard.</h3><p style="text-align:justify"><br>This wizard may be used to export vector data as ESRI shapefiles or KMLs (Google Earth and other clients) and raster data as GeoTIFFs. Users may choose their area of interest and subsets of datasets may be downloaded. Metadata and other supporting documents are also packaged with the exported data. For information on accessing full datasets, please check the metadata of the layers of interest.<br><br>Click Next to continue.</p>'
+        }]
+      })
+      ,new Ext.ux.Wiz.Card({
+         title        : 'Select data layers and area of interest'
+        ,monitorValid : true
+        ,items        : [
+          {
+             html      : 'Click on one or more data layers to add them to the layers of interest list.  Then enter coordinates for the area of interest and click Next.'
+            ,bodyStyle : 'padding:10px'
+            ,border    : false
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Data layers'
+            ,items  : [
+              {
+                 layout   : 'column'
+                ,border   : false
+                ,items    : [
+                  {
+                     columnWidth : .5
+                    ,bodyStyle   : 'padding-left:2px'
+                    ,border      : false
+                    ,items       : [
+                      new MorisOliverApp.thGridPanel({
+                         height           : 200
+                        ,width            : 272
+                        ,title            : 'Data layers of interest'
+                        ,store            : tstLyrStore
+                        ,hideHeaders      : true
+                        ,columns          : [
+                           {id : 'ico'  ,header :'Icon'       ,width : 25 ,renderer : ico2img}
+                          ,{id : 'title',header : 'Layer name',width : 600                   }
+                        ]
+                        // ,autoExpandColumn : 'title'
+                        ,tbar             : [
+                          {
+                             iconCls  : 'buttonIcon'
+                            ,tooltip  : "Import active map's active data layers"
+                            ,text     : 'Import active layers'
+                            ,icon     : 'img/import.png'
+                            ,handler     : function() {
+                              for (var j = map.layers.length - 1; j >= 0; j--) {
+                                for (var i in activeLyr) {
+                                  if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+                                    // a normal find wasn't working properly, so loop through the list to keep dups out
+                                    var exists = false;
+                                    tstLyrStore.each(function(rec) {
+                                      exists = exists || rec.get('title') == activeLyr[i].name;
+                                    });
+                                    if (!exists) {
+                                      tstLyrStore.add(new tstLyrStore.recordType(
+                                         {ico : wms2ico[lyr2wms[activeLyr[i].name]],title : activeLyr[i].name}
+                                        ,++tstLyrCount
+                                      ));
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                          ,'->'
+                          ,{
+                             iconCls  : 'buttonIcon'
+                            ,tooltip  : 'Remove all layers'
+                            ,text     : 'Remove all'
+                            ,icon     : 'img/remove.png'
+                            ,handler     : function() {
+                              tstLyrStore.removeAll();
+                            }
+                          }
+                        ]
+                        ,listeners    : {
+                          contextmenu     : function(e) {
+                            e.stopEvent();
+                          }
+                          ,rowcontextmenu : function(g,row,e) {
+                            var sel = g.getSelectionModel();
+                            if (!sel.isSelected(row)) {
+                              sel.selectRow(row);
+                            }
+                            var contextMenu = new Ext.menu.Menu({
+                              items: [{
+                                 text    : 'Remove layer(s)'
+                                ,iconCls : 'buttonIcon'
+                                ,icon    : 'img/remove.png'
+                                ,handler : function() {
+                                  var s = g.getSelectionModel().getSelections();
+                                  for (var i = 0; i < s.length; i++) {
+                                    g.getStore().remove(s[i]);
+                                  }
+                                }
+                              }]
+                            });
+                            contextMenu.showAt(e.getXY())
+                          }
+                        }
+                      })
+                    ]
+                  }
+                  ,{
+                     columnWidth : .5
+                    ,bodyStyle   : 'padding-right:2px'
+                    ,border      : false
+                    ,items       : [
+                      new Ext.tree.TreePanel({
+                         height      : 200
+                        ,width       : 272
+                        ,title       : 'Advanced - Select additional data layers'
+                        ,id          : 'availableDataLyrWiz'
+                        ,collapsible : true
+                        ,collapsed   : true
+                        ,autoScroll  : true
+                        ,rootVisible : false
+                        ,root        : new Ext.tree.AsyncTreeNode()
+                        ,loader      : new Ext.app.LayerLoader({
+                           dataUrl       : foldersetLoc + '?a'
+                          ,requestMethod : 'GET'
+                        })
+                        ,tbar        : {height : 27,items : [
+                          new Ext.form.ComboBox({
+                             store          : lyrStoreSearchWizard
+                            ,id             : 'lyrSearchWizardCombo'
+                            ,forceSelection : true
+                            ,triggerAction  : 'all'
+                            ,emptyText      : 'Select / search data layers'
+                            ,selectOnFocus  : true
+                            ,mode           : 'local'
+                            ,valueField     : 'id'
+                            ,displayField   : 'title'
+                            ,width          : 265
+                            ,listeners      : {
+                              select : function(comboBox,rec,i) {
+                                var olLayerTree = Ext.getCmp('availableDataLyrWiz');
+                                olLayerTree.getRootNode().cascade(function(n) {
+                                  if (n.attributes.text == rec.get('title')) {
+                                    olLayerTree.selectPath(n.getPath());
+                                    n.fireEvent('click',n);
+                                    n.ui.focus();
+                                  }
+                                });
+                              }
+                            }
+                          })
+                        ]}
+                        ,listeners   : {
+                          click : function(node,e){
+                            if (!node.isLeaf()) {
+                              return;
+                            }
+                            // a normal find wasn't working properly, so loop through the list to keep dups out
+                            var exists = false;
+                            tstLyrStore.each(function(rec) {
+                              exists = exists || rec.get('title') == node.attributes.text;
+                            });
+                            if (!exists) {
+                              // grab the metadata if necessary and add when done
+                              if (!lyrMetadata[node.attributes.text]) {
+                                loadLayerMetadata(lyr2wms[node.attributes.text],node.attributes.text,node.attributes.style,false,false,{store : tstLyrStore,title : node.attributes.text});
+                              }
+                              else {
+                                tstLyrStore.add(new tstLyrStore.recordType(
+                                   {ico : wms2ico[lyr2wms[node.attributes.text]],title : node.attributes.text}
+                                  ,++tstLyrCount
+                                ));
+                              }
+                            }
+                          }
+                        }
+                      })
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Area of interest'
+            ,items  : [
+              {
+                 html      : 'Click Next to export data that are within or overlap the current map window extent.  Click Advanced to change the area of interest.'
+                ,bodyStyle : 'padding:0 5px 10px 5px'
+                ,border    : false
+              }
+              ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,items : [{
+                 layout : 'column'
+                ,border : false
+                ,items  : [
+                  {
+                     columnWidth : .5
+                    ,layout      : 'form'
+                    ,border      : false
+                    ,items       : [
+                      {
+                         xtype      : 'textfield'
+                        ,fieldLabel : 'Min X'
+                        ,id         : 'minX'
+                        ,allowBlank : false
+                        ,listeners  : {valid : function(field) {
+                          exportBbox.minX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                          syncExportBboxVerts();
+                        }}
+                      }
+                      ,{
+                         xtype      : 'textfield'
+                        ,fieldLabel : 'Min Y'
+                        ,id         : 'minY'
+                        ,allowBlank : false
+                        ,listeners  : {valid : function(field) {
+                          exportBbox.minY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                          syncExportBboxVerts();
+                        }}
+                      }
+                    ]
+                  }
+                  ,{
+                     columnWidth : .5
+                    ,layout      : 'form'
+                    ,border      : false
+                    ,items       : [
+                      {
+                         xtype      : 'textfield'
+                        ,fieldLabel : 'Max X'
+                        ,id         : 'maxX'
+                        ,allowBlank : false
+                        ,listeners  : {valid : function(field) {
+                          exportBbox.maxX = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                          syncExportBboxVerts();
+                        }}
+                      }
+                      ,{
+                         xtype      : 'textfield'
+                        ,fieldLabel : 'Max Y'
+                        ,id         : 'maxY'
+                        ,allowBlank : false
+                        ,listeners  : {valid : function(field) {
+                          exportBbox.maxY = exportBbox.units.indexOf('dms') >= 0 ? dms2dd(field.getValue()) : field.getValue();
+                          syncExportBboxVerts();
+                        }}
+                      }
+                    ]
+                  }
+                ]
+              }
+              ,{
+                 xtype      : 'radiogroup'
+                ,fieldLabel : 'Units'
+                ,id         : 'radioUnits'
+                ,items      : [
+                   {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
+                  ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
+                  ,{boxLabel : 'Deg min sec'          ,name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
+                ]
+                ,listeners   : {
+                  render : function(field) {
+                    var proj = 'EPSG:26986';
+                    if (defaultCoordUnit == 'dd' || defaultCoordUnit == 'dms') {
+                      proj = 'EPSG:4326';
+                    }
+                    exportBbox.units = field.items.get(0).getGroupValue();
+                    var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(proj)).toArray();
+                    if (defaultCoordUnit == 'dms') {
+                      Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
+                      Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
+                      Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
+                      Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
+                    }
+                    else {
+                      Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
+                      Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
+                      Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
+                      Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
+                    }
+                  }
+                  ,valid : function(field) {exportBbox.units = field.items.get(0).getGroupValue()}
+                }
+              }
+             ,{
+                 layout    : 'fit'
+                ,height    : 30
+                ,border    : false
+                ,bodyStyle : 'padding-right:100px;padding-left:100px'
+                ,items     : [{
+                   xtype   : 'button'
+                  ,text    : "Import active map's bounding box"
+                  ,handler : function() {
+                    var bbox = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toArray();
+                    if (exportBbox.units.indexOf('dms') >= 0) {
+                      Ext.getCmp('minX').setValue(convertDMS(bbox[0],'',true));
+                      Ext.getCmp('minY').setValue(convertDMS(bbox[1],'',true));
+                      Ext.getCmp('maxX').setValue(convertDMS(bbox[2],'',true));
+                      Ext.getCmp('maxY').setValue(convertDMS(bbox[3],'',true));
+                    }
+                    else {
+                      Ext.getCmp('minX').setValue(Math.round(bbox[0]*1000000)/1000000);
+                      Ext.getCmp('minY').setValue(Math.round(bbox[1]*1000000)/1000000);
+                      Ext.getCmp('maxX').setValue(Math.round(bbox[2]*1000000)/1000000);
+                      Ext.getCmp('maxY').setValue(Math.round(bbox[3]*1000000)/1000000);
+                    }
+                  }
+                }]
+              }]}
+            ]
+          }
+        ]
+      })
+      ,new Ext.ux.Wiz.Card({
+         title     : 'Query results'
+        ,listeners : {
+          show : function() {
+            bboxLyrStore.removeAll();
+            var tstBbox = new OpenLayers.Geometry.LinearRing([
+               new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY)
+              ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.minY)
+              ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.maxY)
+              ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY)
+            ]).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:4326"));
+
+            // assume no hits
+            Ext.getCmp('wizVectorFmt').disable();
+            Ext.getCmp('wizRasterFmt').disable();
+
+            tstLyrStore.each(function(rec) {
+              var title     = rec.get('title');
+              var bboxOK    = 'N';
+              var exportOK  = '';
+              var ico       = wms2ico[lyr2wms[title]];
+              var rstrOK    = rasterOK(title);
+              if (!rstrOK) {
+                ico += 'Gray';
+              }
+              if (new OpenLayers.Geometry.Polygon(tstBbox).intersects(getCapsBbox[lyr2wms[title]].toGeometry())) {
+                bboxOK = 'Y';
+              }
+              var wfsMsg = 'testing...';
+              // turn on options based on the ico (layer type)
+              if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0) {
+                Ext.getCmp('wizVectorFmt').enable();
+              }
+              else if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
+                Ext.getCmp('wizRasterFmt').enable();
+                if (!rstrOK) {
+                  wfsMsg = '> max file size';
+                  exportOK = 'N';
+                }
+                else {
+                  wfsMsg = 'n/a';
+                }
+              }
+              bboxLyrStore.add(new bboxLyrStore.recordType(
+                 {'ico' : ico,'title' : title,'bbox' : bboxOK,'wfs' : wfsMsg,'export' : exportOK}
+                ,++bboxLyrCount
+              ));
+            });
+
+            // go back thru the layers and fire off a resultType=hits request for each one
+            tstLyrStore.each(function(rec) {
+              var ico = wms2ico[lyr2wms[rec.get('title')]];
+              YUI().use("io",function(Y) {
+                var handleSuccess = function(ioId,o,args) {
+                  if (window.DOMParser) {
+                    parser = new DOMParser();
+                    xmlDoc = parser.parseFromString(o.responseText,"text/xml");
+                  }
+                  else {
+                    xmlDoc       = new ActiveXObject("Microsoft.XMLDOM");
+                    xmlDoc.async = "false";
+                    xmlDoc.loadXML(o.responseText);
+                  }
+                  // update the right row w/ the # of feature hits
+                  var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
+                  if (el) {
+                    var hits = el.getAttribute('numberOfFeatures');
+                    if (hits > maxAllowedFeatures) {
+                      bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs','> max # features');
+                      bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','N');
+                    }
+                    else {
+                      bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs',hits + ' feature(s)');
+                      if (hits == 0) {
+                        bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','N');
+                      }
+                    }
+                  }
+                  else {
+                    if (!(args[1] == 'raster' || args[1] == 'grid')) {
+                      bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('wfs','none');
+                    }
+                  }
+                  bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('busy','done');
+                  if (bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).get('export') !== 'N') {
+                    bboxLyrStore.getAt(bboxLyrStore.find('title',args[0])).set('export','Y');
+                  }
+                  bboxLyrStore.commitChanges();
+                };
+                var title = rec.get('title');
+                Y.on('io:success',handleSuccess,this,[title,ico]);
+                var poly = [];
+                for (var j = 0; j < exportBbox.verts.length; j++) {
+                  poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
+                }
+                var cfg = {
+                   method  : "POST"
+                  ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+                  ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                };
+// charlton
+                var rstrOK    = rasterOK(rec.get('title'));
+                var request;
+                if (!rstrOK) {
+                  bboxLyrStore.getAt(bboxLyrStore.find('title',rec.get('title'))).set('busy','done');
+                  bboxLyrStore.commitChanges();
+                }
+                request = Y.io(proxyLoc + wfsUrl,cfg);
+              });
+            });
+          }
+        }
+        ,items     : [
+          {
+             html      : 'Two geospatial boundary tests are being performed on the layers of interest.  Once testing is complete and you are satisfied with the results, click Next to continue.  Otherwise, click Previous to refine the search criteria.'
+            ,bodyStyle : 'padding:10px'
+            ,border    : false
+          }
+          ,new MorisOliverApp.thGridPanel({
+             height           : 390
+            ,title            : 'Query results'
+            ,store            : bboxLyrStore
+            ,disableSelection : true
+            ,enableHdMenu     : false
+            ,columns          : [
+               {id : 'ico'   ,dataIndex : 'ico'   ,header : ''                              ,width : 25,renderer : ico2img                 }
+              ,{id : 'title' ,dataIndex : 'title' ,header : 'Layer name'                                                                   }
+              ,{id : 'wfs'   ,dataIndex : 'wfs'   ,header : 'Feature(s) found?'                                                            }
+              ,{id : 'export',dataIndex : 'export',header : 'OK to export?'                 ,align : 'center',renderer: okIco              }
+              ,{id : 'busy'  ,dataIndex : 'busy'  ,header : ''                              ,width : 25,renderer : busyIco                 }
+            ]
+            ,autoExpandColumn : 'title'
+            ,loadMask         : true
+          })
+        ]
+      })
+      ,new Ext.ux.Wiz.Card({
+         title        : 'Select output and download options'
+        ,monitorValid : true
+        ,items        : [
+          {
+             xtype : 'fieldset'
+            ,title : 'Output coordinate system'
+            ,items  : [
+              {
+                 xtype   : 'radiogroup'
+                ,id      : 'radioEpsg'
+                ,columns : 1
+                ,items   : [
+                   {boxLabel : 'NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986',name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
+                  ,{boxLabel : 'NAD83/UTM zone 18N, meters (Western Massachusetts) - EPSG:26918'                      ,name : 'epsg',inputValue : 'EPSG:26918'                               }
+                  ,{boxLabel : 'NAD83/UTM zone 19N, meters (Eastern Massachusetts) - EPSG:26919'                      ,name : 'epsg',inputValue : 'EPSG:26919'                               }
+                  ,{boxLabel : 'WGS84 (Latitude-Longitude) - EPSG:4326'                                               ,name : 'epsg',inputValue : 'EPSG:4326'                                }
+                ]
+              }
+            ]
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Vector data output options'
+            ,items  : [
+              {
+                 layout   : 'column'
+                ,border   : false
+                ,items    : [
+                  {
+                     columnWidth : 1
+                    ,layout      : 'form'
+                    ,border      : false
+                    ,items       : [
+                      {
+                         xtype       : 'radiogroup'
+                        ,id          : 'wizVectorFmt'
+                        ,fieldLabel  : 'Format'
+                        ,items       : [
+                           {boxLabel : 'ESRI shape (.shp)'       ,name : 'vectorFormat',inputValue : 'shp',checked : true}
+                          ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Raster data output options'
+            ,items  : [
+              {
+                 layout   : 'column'
+                ,border   : false
+                ,items    : [
+                  {
+                     columnWidth : .4
+                    ,layout      : 'form'
+                    ,border      : false
+                    ,items       : [
+                      {
+                         xtype      : 'radiogroup'
+                        ,id         : 'wizRasterFmt'
+                        ,fieldLabel : 'Format'
+                        ,items      : [
+                           {boxLabel : 'GeoTiff',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
+                          // ,{boxLabel : 'Grid'   ,name : 'rasterFormat',inputValue : 'grid'                  }
+                        ]
+                      }
+                    ]
+                  }
+                  ,{
+                     columnWidth : .6
+                    ,layout      : 'form'
+                    ,border      : false
+                    ,items       : [{border : false,html : '&nbsp;'}]
+                  }
+                ]
+              }
+            ]
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Name of the ZIP file to download'
+            ,items : new Ext.form.TextField({
+               name       : 'zipName'
+              ,id         : 'zipName'
+              ,allowBlank : false
+              ,fieldLabel : 'File name'
+            })
+          }
+        ]
+      })
+    ]
+  });
+  wizGetData.show();
+}
+
+function syncExportBboxVerts() {
+  exportBbox.verts = [
+     new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.minY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
+    ,new OpenLayers.Geometry.Point(exportBbox.maxX,exportBbox.maxY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
+    ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.maxY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
+    ,new OpenLayers.Geometry.Point(exportBbox.minX,exportBbox.minY).transform(new OpenLayers.Projection(exportBbox.units.replace('dms','')),new OpenLayers.Projection("EPSG:26986"))
+  ];
 }
