@@ -2175,21 +2175,22 @@ Ext.onReady(function() {
                     bboxLyrStore.removeAll();
                     var tstBbox;
                     if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-                      tstBbox =  new OpenLayers.Bounds(
-                         dms2dd(Ext.getCmp('minX').getValue())
-                        ,dms2dd(Ext.getCmp('minY').getValue())
-                        ,dms2dd(Ext.getCmp('maxX').getValue())
-                        ,dms2dd(Ext.getCmp('maxY').getValue())
-                      ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:4326"));
+                      tstBbox = new OpenLayers.Geometry.LinearRing([
+                         new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                      ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:4326"));
                     }
                     else {
-                      tstBbox =  new OpenLayers.Bounds(
-                         Ext.getCmp('minX').getValue()
-                        ,Ext.getCmp('minY').getValue()
-                        ,Ext.getCmp('maxX').getValue()
-                        ,Ext.getCmp('maxY').getValue()
-                      ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:4326"));
+                      tstBbox = new OpenLayers.Geometry.LinearRing([
+                         new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                        ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                      ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:4326"));
                     }
+
                     // assume no hits
                     Ext.getCmp('wizVectorFmt').disable();
                     Ext.getCmp('wizRasterFmt').disable();
@@ -2203,7 +2204,7 @@ Ext.onReady(function() {
                       if (!rstrOK) {
                         ico += 'Gray';
                       }
-                      if (tstBbox.intersectsBounds(getCapsBbox[lyr2wms[title]])) {
+                      if (new OpenLayers.Geometry.Polygon(tstBbox).intersects(getCapsBbox[lyr2wms[title]].toGeometry())) {
                         bboxOK = 'Y';
                       }
                       var wfsMsg = 'testing...';
@@ -2272,26 +2273,33 @@ Ext.onReady(function() {
                         // always pull data back in terms of 26986
                         var bbox26986;
                         if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-                          bbox26986 = new OpenLayers.Bounds(
-                             dms2dd(Ext.getCmp('minX').getValue())
-                            ,dms2dd(Ext.getCmp('minY').getValue())
-                            ,dms2dd(Ext.getCmp('maxX').getValue())
-                            ,dms2dd(Ext.getCmp('maxY').getValue())
-                          ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986")).toArray();
+                          bbox26986 = new OpenLayers.Geometry.LinearRing([
+                             new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                          ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
                         }
                         else {
-                          bbox26986 = new OpenLayers.Bounds(
-                             Ext.getCmp('minX').getValue()
-                            ,Ext.getCmp('minY').getValue()
-                            ,Ext.getCmp('maxX').getValue()
-                            ,Ext.getCmp('maxY').getValue()
-                          ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986")).toArray();
+                          bbox26986 = new OpenLayers.Geometry.LinearRing([
+                             new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                            ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+                          ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986"));
                         }
+                        var poly = [];
+                        var vertices = bbox26986.getVertices();
+                        for (var j = 0; j < vertices.length; j++) {
+                          poly.push(vertices[j].x + ' ' + vertices[j].y);
+                        }
+                        poly.push(vertices[0].x + ' ' + vertices[0].y);
                         var cfg = {
                            method  : "POST"
                           ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                          ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Envelope xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:lowerCorner>' + bbox26986[0] + ' ' + bbox26986[1] + '</gml:lowerCorner><gml:upperCorner>' + bbox26986[2] + ' ' + bbox26986[3] + '</gml:upperCorner></gml:Envelope></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                          ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
                         };
+// charlton
                         var rstrOK    = rasterOK(rec.get('title'));
                         var request;
                         if (!rstrOK) {
@@ -3815,37 +3823,37 @@ function loadLayerDescribeFeatureType(wms) {
 }
 
 function mkDataWizardURL(title,ico) {
-  var bbox = new Array(
-     Ext.getCmp('minX').getValue()
-    ,Ext.getCmp('minY').getValue()
-    ,Ext.getCmp('maxX').getValue()
-    ,Ext.getCmp('maxY').getValue()
-  );
+  // bbox is the fall-through as well as the way to pull out rasters
+  var bbox = new OpenLayers.Geometry.LinearRing([
+     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
+  ]).getBounds().toArray();
   if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    bbox = new Array(
-       dms2dd(Ext.getCmp('minX').getValue())
-      ,dms2dd(Ext.getCmp('minY').getValue())
-      ,dms2dd(Ext.getCmp('maxX').getValue())
-      ,dms2dd(Ext.getCmp('maxY').getValue())
-    );
+    bbox = new OpenLayers.Geometry.LinearRing([
+       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+    ]).getBounds().toArray();
   }
-  var bbox26986;
+
+  var poly26986 = new OpenLayers.Geometry.LinearRing([
+     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
+  ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986"));
   if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    bbox26986 =  new OpenLayers.Bounds(
-       dms2dd(Ext.getCmp('minX').getValue())
-      ,dms2dd(Ext.getCmp('minY').getValue())
-      ,dms2dd(Ext.getCmp('maxX').getValue())
-      ,dms2dd(Ext.getCmp('maxY').getValue())
-    ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986")).toArray();
+    poly26986 = new OpenLayers.Geometry.LinearRing([
+       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+    ]).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
   }
-  else {
-    bbox26986 =  new OpenLayers.Bounds(
-       Ext.getCmp('minX').getValue()
-      ,Ext.getCmp('minY').getValue()
-      ,Ext.getCmp('maxX').getValue()
-      ,Ext.getCmp('maxY').getValue()
-    ).transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue()),new OpenLayers.Projection("EPSG:26986")).toArray();
-  }
+  var poly26986bbox = poly26986.getBounds().toArray();
 
   if (ico == 'raster' || ico == 'grid') {
     if (Ext.getCmp('wizRasterFmt').items.get(0).getGroupValue() == 'geoTiff') {
@@ -3853,10 +3861,10 @@ function mkDataWizardURL(title,ico) {
          wmsUrl
         ,'?REQUEST=GetMap&VERSION=1.1.0&SERVICE=WMS&EXCEPTION=application/vnd.ogc.se_inimage&layers=' + lyr2wms[title]
         ,'&FORMAT=image/geotiff'
-        ,'&bbox=' + bbox26986.join(',')
+        ,'&bbox=' + poly26986bbox.join(',')
         ,'&srs=EPSG:26986'
-        ,'&width=' + Math.round((bbox26986[2] - bbox26986[0]) / lyrMetadata[title].imgUnitsPerPixel)
-        ,'&height=' + Math.round((bbox26986[3] - bbox26986[1]) / lyrMetadata[title].imgUnitsPerPixel)
+        ,'&width=' + Math.round((poly26986bbox[2] - poly26986bbox[0]) / lyrMetadata[title].imgUnitsPerPixel)
+        ,'&height=' + Math.round((poly26986bbox[3] - poly26986bbox[1]) / lyrMetadata[title].imgUnitsPerPixel)
       ).join('');
     }
     else {
@@ -3866,19 +3874,22 @@ function mkDataWizardURL(title,ico) {
   }
   else {
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
+      var poly = [];
+      var vertices = poly26986.getVertices();
+      for (var j = 0; j < vertices.length; j++) {
+        poly.push(vertices[j].x + ' ' + vertices[j].y);
+      }
+      poly.push(vertices[0].x + ' ' + vertices[0].y);
       return Array(
          wfsUrl
-        ,'?request=getfeature&version=1.0.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
+        ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
         ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
-          ,'<ogc:Intersects>'
+          ,'<ogc:Within>'
             ,'<ogc:PropertyName>SHAPE</ogc:PropertyName>'
-            ,'<gml:Box srsName="EPSG:26986">'
-              ,'<gml:coordinates>' + Array(
-                 bbox26986[0] + ',' + bbox26986[1] 
-                ,bbox26986[2] + ',' + bbox26986[3]
-              ).join(' ')+'</gml:coordinates>'
-            ,'</gml:Box>'
-          ,'</ogc:Intersects>'
+            ,'<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>'
+              ,poly.join(' ')
+            ,'</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon>'
+          ,'</ogc:Within>'
         ,'</ogc:Filter>'
         ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
       ).join('');
@@ -3888,7 +3899,7 @@ function mkDataWizardURL(title,ico) {
         wmsUrl
         ,'?layers=' + lyr2wms[title]
         ,'&service=WMS&version=1.1.0&request=GetMap'
-        ,'&bbox=' + bbox26986.join(',')
+        ,'&bbox=' + poly26986bbox.join(',')
         ,'&srs=EPSG:26986'
         ,'&height=100&width=100&styles='
         ,'&format=application/vnd.google-earth.kml+xml'
@@ -3923,19 +3934,21 @@ function scaleOK(name) {
 }
 
 function rasterOK(name) {
-  var bounds = new OpenLayers.Bounds(
-     Ext.getCmp('minX').getValue()
-    ,Ext.getCmp('minY').getValue()
-    ,Ext.getCmp('maxX').getValue()
-    ,Ext.getCmp('maxY').getValue()
-  );
+  // continue using bbox for rasters
+  var bounds = new OpenLayers.Geometry.LinearRing([
+     new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('minY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('maxX').getValue(),Ext.getCmp('maxY').getValue())
+    ,new OpenLayers.Geometry.Point(Ext.getCmp('minX').getValue(),Ext.getCmp('maxY').getValue())
+  ]).getBounds();
+
   if (Ext.getCmp('radioUnits').items.get(0).getGroupValue().indexOf('dms') >= 0) {
-    bounds = new OpenLayers.Bounds(
-       dms2dd(Ext.getCmp('minX').getValue())
-      ,dms2dd(Ext.getCmp('minY').getValue())
-      ,dms2dd(Ext.getCmp('maxX').getValue())
-      ,dms2dd(Ext.getCmp('maxY').getValue())
-    );
+    bounds = new OpenLayers.Geometry.LinearRing([
+       new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('minY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('maxX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+      ,new OpenLayers.Geometry.Point(dms2dd(Ext.getCmp('minX').getValue()),dms2dd(Ext.getCmp('maxY').getValue()))
+    ]).getBounds();
   }
   bounds.transform(new OpenLayers.Projection(Ext.getCmp('radioUnits').items.get(0).getGroupValue().replace('dms','')),new OpenLayers.Projection("EPSG:26986"));
   var bbox = bounds.toArray();
@@ -3951,7 +3964,7 @@ function rasterOK(name) {
 
 function runQueryStats(bounds) {
   qryBounds = bounds;
-  var verticies = bounds.getVertices();
+  var vertices = bounds.getVertices();
   qryWin.show();
   // populate store w/ the basics
   var queryLyrCount = 0;
@@ -4009,12 +4022,11 @@ function runQueryStats(bounds) {
       var ico = wms2ico[lyr2wms[rec.get('title')]];
       Y.on('io:success',handleSuccess,this,[i,ico,scaleOK(rec.get('title')).isOK]);
       var title = rec.get('title');
-//      var bbox = bounds.toArray();
       var poly = [];
-      for (var j = 0; j < verticies.length; j++) {
-        poly.push(verticies[j].x + ' ' + verticies[j].y);
+      for (var j = 0; j < vertices.length; j++) {
+        poly.push(vertices[j].x + ' ' + vertices[j].y);
       }
-      poly.push(verticies[0].x + ' ' + verticies[0].y);
+      poly.push(vertices[0].x + ' ' + vertices[0].y);
       var cfg = {
          method  : "POST"
         ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
