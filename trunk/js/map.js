@@ -255,8 +255,12 @@ var qryWin = new Ext.Window({
     hide : function() {
       featureBbox.unselectAll();
       featureBoxControl.polygon.deactivate();
+      featurePolyControl.polygon.deactivate();
       if (Ext.getCmp('queryBox').pressed) {
         featureBoxControl.polygon.activate();
+      }
+      else if (Ext.getCmp('queryPoly').pressed) {
+        featurePolyControl.polygon.activate();
       }
     }
     ,show : function() {
@@ -273,6 +277,39 @@ var featureBoxControl = new OpenLayers.Control();
 OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
+      {'done' : function(g) {
+        var bounds = g.getBounds().clone();
+        // A request was put in to expand the bbox if the user just did a point query.
+        // It's not really working as advertised, so I'm false-ing it out.
+        var size = bounds.getSize();
+        if (size.w * size.h <= 800000 && false) {
+          var ll = bounds.getCenterLonLat().add(-2500,-2500);
+          var ur = bounds.getCenterLonLat().add(2500,2500);
+          bounds.extend(ll);
+          bounds.extend(ur);
+        }
+        runQueryStats(g);
+      }}
+      ,{
+         persist      : true
+        ,irregular    : true
+        ,layerOptions : {styleMap : new OpenLayers.StyleMap({
+          'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+             'strokeWidth'  : 2
+            ,'strokeColor'  : '#d80893'
+            ,'strokeOpacity': 0.5
+            ,'fillColor'    : '#d80893'
+            ,'fillOpacity'  : 0.05
+          }))
+        })}
+      }
+    );
+  }
+});
+var featurePolyControl = new OpenLayers.Control();
+OpenLayers.Util.extend(featurePolyControl,{
+  draw : function() {
+    this.polygon = new OpenLayers.Handler.Polygon(featurePolyControl,
       {'done' : function(g) {
         var bounds = g.getBounds().clone();
         // A request was put in to expand the bbox if the user just did a point query.
@@ -611,6 +648,7 @@ Ext.onReady(function() {
       ,lengthControl
       ,areaControl
       ,featureBoxControl
+      ,featurePolyControl
     ]
   });
   map.setOptions({maxExtent : maxExtent900913});
@@ -1136,78 +1174,97 @@ Ext.onReady(function() {
 
 
 	}
-	if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
-	// identify tool functionality
-	   identify = new GeoExt.Action({
-		 itemId 	  : "identify",
-         tooltip      : 'Identify features by drawing a box'
-        ,text         : 'Identify'
-        ,iconCls      : 'buttonIcon'
-        ,icon         : 'img/query-region.png'
-        ,toggleGroup  : 'navigation'
-        ,id           : 'queryBox'
-        ,allowDepress : false
-        ,control      : featureBoxControl
-		,enableToggle : true
-		,toggleHandler: function() {
-          Ext.getCmp('mappanel').body.setStyle('cursor','help');
-          featureBoxControl.polygon.activate();
-          // nuke any measurements
-          lengthControl.deactivate();
-          areaControl.deactivate();
-          resetMeasureTally();
-          layerRuler.removeFeatures(layerRuler.features);
-        }
-      /*  ,handler      : function() {
-          Ext.getCmp('mappanel').body.setStyle('cursor','help');
-          featureBoxControl.polygon.activate();
-          // nuke any measurements
-          lengthControl.deactivate();
-          areaControl.deactivate();
-          resetMeasureTally();
-          layerRuler.removeFeatures(layerRuler.features);
-        } */
-      });
-	   clearIdentify = new GeoExt.Action({
-		 itemId 	  : 'identifyClear' 
-        ,tooltip     : 'Clear identified features'
-        ,iconCls     : 'buttonIcon'
-        ,icon        : 'img/query-clear.png'
-        ,handler     : function() {
-          featureBbox.unselectAll();
-          featureBoxControl.polygon.deactivate();
-          if (Ext.getCmp('queryBox').pressed) {
-            featureBoxControl.polygon.activate();
-          }
-        }
-      });
-	  
-	 if ( toolSettings.identify.identify_keymap) {
-		topToolBar_keyMaps.push({
-			keyMap:  toolSettings.identify.identify_keymap,
-			itemId : "identify",
-			type   : toggle
-		});
-	 }
-	
-	 if ( toolSettings.identify.clearIdentify_keymap) {
-		topToolBar_keyMaps.push({
-			keyMap:  toolSettings.identify.clearIdentify_keymap,
-			itemId : "identifyClear",
-			type   : basic
-		});
-	 }	
-	  
-	  
-	  topToolBar_items.push(
-      '-'
-      ,identify
-      ,clearIdentify
-	  );
-	}
-	
-	
+        if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
+          // identify tool functionality
+          identify = new GeoExt.Action({
+             itemId       : "identify"
+            ,tooltip      : 'Identify features by drawing a box'
+            ,text         : 'Identify'
+            ,iconCls      : 'buttonIcon'
+            ,icon         : 'img/query-region.png'
+            ,toggleGroup  : 'navigation'
+            ,id           : 'queryBox'
+            ,allowDepress : false
+            ,control      : featureBoxControl
+            ,enableToggle : true
+            ,toggleHandler: function() {
+              Ext.getCmp('mappanel').body.setStyle('cursor','help');
+              featureBoxControl.polygon.activate();
+              featurePolyControl.polygon.deactivate();
+              // nuke any measurements
+              lengthControl.deactivate();
+              areaControl.deactivate();
+              resetMeasureTally();
+              layerRuler.removeFeatures(layerRuler.features);
+            }
+          });
+          // identifyPoly tool functionality
+          identifyPoly = new GeoExt.Action({
+             itemId       : "identifyPoly"
+            ,tooltip      : 'Identify features by drawing a polygon'
+            ,text         : 'IdentifyPoly'
+            ,iconCls      : 'buttonIcon'
+            ,icon         : 'img/draw_polygon.png'
+            ,toggleGroup  : 'navigation'
+            ,id           : 'queryPoly'
+            ,allowDepress : false
+            ,control      : featurePolyControl
+            ,enableToggle : true
+            ,toggleHandler: function() {
+              Ext.getCmp('mappanel').body.setStyle('cursor','help');
+              featureBoxControl.polygon.deactivate();
+              featurePolyControl.polygon.activate();
+              // nuke any measurements
+              lengthControl.deactivate();
+              areaControl.deactivate();
+              resetMeasureTally();
+              layerRuler.removeFeatures(layerRuler.features);
+            }
+          });
 
+          clearIdentify = new GeoExt.Action({
+             itemId      : 'identifyClear'
+            ,tooltip     : 'Clear identified features'
+            ,iconCls     : 'buttonIcon'
+            ,icon        : 'img/query-clear.png'
+            ,handler     : function() {
+              featureBbox.unselectAll();
+              featureBoxControl.polygon.deactivate();
+              if (Ext.getCmp('queryBox').pressed) {
+                featureBoxControl.polygon.activate();
+              }
+              featurePolyControl.polygon.deactivate();
+              if (Ext.getCmp('queryPoly').pressed) {
+                featurePolyControl.polygon.activate();
+              }
+            }
+          });
+
+          if ( toolSettings.identify.identify_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identify.identify_keymap,
+              itemId : "identify",
+              type  : toggle
+            });
+          }
+
+// don't know what I need to do here for Poly and topToolBar
+
+          if ( toolSettings.identify.clearIdentify_keymap) {
+            topToolBar_keyMaps.push({
+               keyMap:  toolSettings.identify.clearIdentify_keymap,
+               itemId : "identifyClear",
+               type  : basic
+            });
+          }
+
+          topToolBar_items.push(
+             '-'
+            ,identify
+            ,identifyPoly
+            ,clearIdentify
+          );
+        }
 	
 	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
 		 commentSaveStrategy = new OpenLayers.Strategy.Save();	
