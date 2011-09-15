@@ -273,8 +273,8 @@ var featureBoxControl = new OpenLayers.Control();
 OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
-      {'done' : function(e) {
-        var bounds = e.getBounds().clone();
+      {'done' : function(g) {
+        var bounds = g.getBounds().clone();
         // A request was put in to expand the bbox if the user just did a point query.
         // It's not really working as advertised, so I'm false-ing it out.
         var size = bounds.getSize();
@@ -284,7 +284,7 @@ OpenLayers.Util.extend(featureBoxControl,{
           bounds.extend(ll);
           bounds.extend(ur);
         }
-        runQueryStats(bounds);
+        runQueryStats(g);
       }}
       ,{
          persist      : true
@@ -3894,6 +3894,7 @@ function rasterOK(name) {
 
 function runQueryStats(bounds) {
   qryBounds = bounds;
+  var verticies = bounds.getVertices();
   qryWin.show();
   // populate store w/ the basics
   var queryLyrCount = 0;
@@ -3951,11 +3952,16 @@ function runQueryStats(bounds) {
       var ico = wms2ico[lyr2wms[rec.get('title')]];
       Y.on('io:success',handleSuccess,this,[i,ico,scaleOK(rec.get('title')).isOK]);
       var title = rec.get('title');
-      var bbox = bounds.toArray();
+//      var bbox = bounds.toArray();
+      var poly = [];
+      for (var j = 0; j < verticies.length; j++) {
+        poly.push(verticies[j].x + ' ' + verticies[j].y);
+      }
+      poly.push(verticies[0].x + ' ' + verticies[0].y);
       var cfg = {
          method  : "POST"
         ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-        ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Envelope xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '"><gml:lowerCorner>' + bbox[0] + ' ' + bbox[1] + '</gml:lowerCorner><gml:upperCorner>' + bbox[2] + ' ' + bbox[3] + '</gml:upperCorner></gml:Envelope></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+        ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
       };
       var request;
       if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
