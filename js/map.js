@@ -11,8 +11,7 @@ if (typeof MorisOliverApp.thGridView == 'undefined') {
 	MorisOliverApp.thGridView = Ext.grid.GridView;
 }
 
-
-
+var loadedWms = {};
 var maxAllowedFeatures = 25000;
 var map;
 var lyrBase          = [];
@@ -395,6 +394,8 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       Ext.get(cb).remove();
       this.checkbox = radio;
     }
+    var imgSrc = loadedWms[a.layer.name] ? 'img/blank.png' : 'img/loading.gif';
+    Ext.DomHelper.insertBefore(cb,'<img id="' + a.layer.name + '.loading" height=12 width=12 style="margin-left:2px;margin-right:2px" src="' + imgSrc + '">');
     this.enforceOneVisible();
     // New icon part!
     wms = lyr2wms[a.layer.name];
@@ -717,6 +718,20 @@ Ext.onReady(function() {
       map.setLayerIndex(layerRuler,map.getNumLayers());
       layerRuler.removeFeatures(layerRuler.features);
       map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
+
+      e.layer.events.register('loadstart',this,function(e) {
+        if (document.getElementById(e.object.name + '.loading')) {
+          document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
+        }
+        loadedWms[e.object.name] = false;
+      });
+
+      e.layer.events.register('loadend',this,function(e) {
+        if (document.getElementById(e.object.name + '.loading')) {
+          document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
+        }
+        loadedWms[e.object.name] = true;
+      });
     }
   });
 
