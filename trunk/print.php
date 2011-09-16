@@ -44,8 +44,8 @@
   $lineWidth = 2;
 
   // widths
-  $scaleLineTopWidth = str_replace('px','',$json->{'scaleLineTop'}->{'w'}) * 2;
-  $scaleLineBottomWidth = str_replace('px','',$json->{'scaleLineBottom'}->{'w'}) * 2;
+  $scaleLineTopWidth = str_replace('px','',$json->{'scaleLineTop'}->{'w'});
+  $scaleLineBottomWidth = str_replace('px','',$json->{'scaleLineBottom'}->{'w'});
   $scaleLineWidth = max($scaleLineTopWidth,$scaleLineBottomWidth);
 
   // top
