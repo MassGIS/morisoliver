@@ -338,8 +338,11 @@ OpenLayers.Util.extend(featurePolyControl,{
           // increase the size of the query box
           bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
           bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
+          runQueryStats(bounds.toGeometry());
         }
-        runQueryStats(bounds.toGeometry());
+        else {
+          runQueryStats(g);
+        }
       }}
       ,{
          persist      : true
@@ -1904,8 +1907,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.42)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.42)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.43)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.43)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
