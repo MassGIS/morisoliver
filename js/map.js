@@ -280,6 +280,7 @@ var qryWin = new Ext.Window({
 var messageContextMenuFeatureCtrlBbox;
 var messageContextMenuActiveLyr;
 var messageContextMenuAvailableLyr;
+var messageContextMenuFolder;
 
 var featureBoxControl = new OpenLayers.Control();
 OpenLayers.Util.extend(featureBoxControl,{
@@ -926,6 +927,20 @@ Ext.onReady(function() {
             addLayer(n.attributes.wmsName,n.attributes.proj_only,n.attributes.text,true,1);
           });
           messageContextMenuAvailableLyr.showAt(e.getXY());
+        }
+        else {
+          var isGrandparent = false;
+          for (var i = 0; i < n.childNodes.length; i++) {
+            isGrandparent = isGrandparent || n.childNodes[i].hasChildNodes();
+          }
+          if (!isGrandparent) {
+            messageContextMenuFolder.findById('addFolder').setHandler(function() {
+              n.eachChild(function(child) {
+                addLayer(child.attributes.wmsName,child.attributes.proj_only,child.attributes.text,true,1);
+              });
+            });
+            messageContextMenuFolder.showAt(e.getXY());
+          }
         }
       }
     }
@@ -2432,6 +2447,15 @@ Ext.onReady(function() {
       ,id       : 'opacitySliderLayer'
     })
   ]});
+
+  messageContextMenuFolder = new Ext.menu.Menu({
+     items: [{
+       text    : 'Add folder'
+      ,id      : 'addFolder'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/addPlus.png'
+    }]
+  });
 
   messageContextMenuAvailableLyr = new Ext.menu.Menu({
      items: [{
