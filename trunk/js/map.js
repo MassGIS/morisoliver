@@ -693,8 +693,16 @@ Ext.onReady(function() {
 
   map.events.register('addlayer',this,function(e) {
     if (!e.layer.isBaseLayer && !e.layer.isVector && lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0) {
-      // keep featureSelects on top
+      // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
+      if (featureBoxControl.active) {
+        featureBoxControl.polygon.deactivate();
+        featureBoxControl.polygon.activate();
+      }
+      if (featurePolyControl.active) {
+        featurePolyControl.polygon.deactivate();
+        featurePolyControl.polygon.activate();
+      }
       map.setLayerIndex(layerRuler,map.getNumLayers());
       layerRuler.removeFeatures(layerRuler.features);
       map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
