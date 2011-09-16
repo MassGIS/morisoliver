@@ -287,16 +287,21 @@ OpenLayers.Util.extend(featureBoxControl,{
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
       {'done' : function(g) {
         var bounds = g.getBounds().clone();
-        // A request was put in to expand the bbox if the user just did a point query.
-        // It's not really working as advertised, so I'm false-ing it out.
-        var size = bounds.getSize();
-        if (size.w * size.h <= 800000 && false) {
-          var ll = bounds.getCenterLonLat().add(-2500,-2500);
-          var ur = bounds.getCenterLonLat().add(2500,2500);
-          bounds.extend(ll);
-          bounds.extend(ur);
+        var boundsArr = bounds.toArray();
+        var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
+        var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
+        var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
+        var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
+        // A 'point' query will have area of 4.  So grow it by 1 px on each side.
+        if (dx * dy <= 4) {
+          var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
+          bounds = new OpenLayers.Bounds();
+          bounds.extend(map.getLonLatFromPixel(ctr));
+          // increase the size of the query box
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
         }
-        runQueryStats(g);
+        runQueryStats(bounds.toGeometry());
       }}
       ,{
          persist      : true
@@ -320,16 +325,21 @@ OpenLayers.Util.extend(featurePolyControl,{
     this.polygon = new OpenLayers.Handler.Polygon(featurePolyControl,
       {'done' : function(g) {
         var bounds = g.getBounds().clone();
-        // A request was put in to expand the bbox if the user just did a point query.
-        // It's not really working as advertised, so I'm false-ing it out.
-        var size = bounds.getSize();
-        if (size.w * size.h <= 800000 && false) {
-          var ll = bounds.getCenterLonLat().add(-2500,-2500);
-          var ur = bounds.getCenterLonLat().add(2500,2500);
-          bounds.extend(ll);
-          bounds.extend(ur);
+        var boundsArr = bounds.toArray();
+        var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
+        var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
+        var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
+        var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
+        // A 'point' query will have area of <=  4.  So grow it by 1 px on each side.
+        if (dx * dy <= 4) {
+          var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
+          bounds = new OpenLayers.Bounds();
+          bounds.extend(map.getLonLatFromPixel(ctr));
+          // increase the size of the query box
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
         }
-        runQueryStats(g);
+        runQueryStats(bounds.toGeometry());
       }}
       ,{
          persist      : true
@@ -1864,8 +1874,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.41)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.41)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.42)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.42)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
