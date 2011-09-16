@@ -3191,12 +3191,12 @@ function mkDataWizardURL(title,ico) {
          wfsUrl
         ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
         ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
-          ,'<ogc:Within>'
+          ,'<ogc:Intersects>'
             ,'<ogc:PropertyName>SHAPE</ogc:PropertyName>'
             ,'<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>'
               ,poly.join(' ')
             ,'</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon>'
-          ,'</ogc:Within>'
+          ,'</ogc:Intersects>'
         ,'</ogc:Filter>'
         ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
       ).join('');
