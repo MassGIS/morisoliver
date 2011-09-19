@@ -107,7 +107,7 @@ OpenLayers.Util.onImageLoad = function() {
         var a = [];
         var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0;
         for (var i = 0; i < cn.length; i++) {
-          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase()) {
+          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || (map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase()) && String(lyr2proj[p['FOO']]) != 'undefined') {
             a.push(cn[i]); 
           }
         }
@@ -406,7 +406,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
     var scaleInfo = scaleOK(a.layer.name);
     var grayIcon  = '';
     var qtip      = undefined;
-    if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase()) {
+    if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() && String(lyr2proj[a.layer.name]) != 'undefined') {
       grayIcon = 'Red';
       qtip     = 'This layer cannot be drawn with this basemap.';
     }
