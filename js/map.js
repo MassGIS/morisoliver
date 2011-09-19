@@ -737,16 +737,6 @@ Ext.onReady(function() {
     }
   });
 
-  var olLayerStore = new GeoExt.data.LayerStore({
-     map    : map
-    ,layers : [
-       lyrBase[defaultBase]
-      ,featureBboxSelect
-      ,layerRuler
-      ,lyrGeoLocate
-    ]
-  });
-
   if (defaultBase == 'custom') {
     map.setOptions({maxExtent : maxExtent26986,fractionalZoom : true});
   }
@@ -2472,7 +2462,15 @@ Ext.onReady(function() {
     ,id     : 'mappanel'
     ,xtype  : 'gx_mappanel'
     ,map    : map
-    ,layers : olLayerStore
+    ,layers : new GeoExt.data.LayerStore({
+       map    : map
+      ,layers : [
+         lyrBase[defaultBase]
+        ,featureBboxSelect
+        ,layerRuler
+        ,lyrGeoLocate
+      ]
+    })
     ,split  : true
     ,tbar   : olMapPanel_topToolBar
     ,bbar   : olMapPanel_bottomToolBar
