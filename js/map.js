@@ -162,7 +162,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|openStreetMap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -471,6 +471,24 @@ Ext.onReady(function() {
     ,{
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.TERRAIN
+      ,minZoomLevel        : 7
+      ,maxZoomLevel        : 15
+    }
+  );
+  lyrBase['googleRoadmap'] = new OpenLayers.Layer.Google(
+     'googleRoadmap'
+    ,{
+       'sphericalMercator' : true
+      ,type                : google.maps.MapTypeId.ROADMAP
+      ,minZoomLevel        : 7
+      ,maxZoomLevel        : 15
+    }
+  );
+  lyrBase['googleHybrid'] = new OpenLayers.Layer.Google(
+     'googleHybrid'
+    ,{
+       'sphericalMercator' : true
+      ,type                : google.maps.MapTypeId.HYBRID
       ,minZoomLevel        : 7
       ,maxZoomLevel        : 15
     }
@@ -1907,8 +1925,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.43)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.43)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.44)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.44)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2336,6 +2354,58 @@ Ext.onReady(function() {
             }
           }
           ,{
+             text    : 'Google Roadmap'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'googleRoadmap'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('googleRoadmap');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['googleRoadmap']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['googleRoadmap']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Google Hybrid'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'googleHybrid'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('googleHybrid');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['googleHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['googleHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
              text    : 'OpenStreetMap'
             ,group   : 'basemap'
             ,checked : defaultBase == 'openStreetMap'
@@ -2387,6 +2457,12 @@ Ext.onReady(function() {
                 }
                 if (lyrBase['googleSatellite'].map) {
                   lyrBase['googleSatellite'].setOpacity(newVal/100);
+                }
+                if (lyrBase['googleRoadmap'].map) {
+                  lyrBase['googleRoadmap'].setOpacity(newVal/100);
+                }
+                if (lyrBase['googleHybrid'].map) {
+                  lyrBase['googleHybrid'].setOpacity(newVal/100);
                 }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
