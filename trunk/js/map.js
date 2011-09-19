@@ -505,24 +505,6 @@ Ext.onReady(function() {
        isBaseLayer : true
       ,maxScale    : 100
       ,minScale    : 5000000
-//      ,scales      : [
-//         5000000
-//        ,1000000
-//        ,500000
-//        ,250000
-//        ,100000
-//        ,63360 // (1 inch equals 1 mile)
-//        ,25000 // (new USGS topo quads)
-//        ,24000 // (old USGS topo quads)
-//        ,15000
-//        ,10000
-//        ,5000
-//        ,2400 // (1 inch = 200 feet)
-//        ,1000
-//        ,500
-//        ,250
-//        ,100
-//      ]
       ,projection  : new OpenLayers.Projection("EPSG:26986")
       ,displayProjection : new OpenLayers.Projection("EPSG:4326")
       ,units             : 'm'
@@ -692,7 +674,6 @@ Ext.onReady(function() {
       ,featurePolyControl
     ]
   });
-  map.setOptions({maxExtent : maxExtent900913});
 
   var ctrl = new OpenLayers.Control.NavigationHistory({autoActivate : false});
   map.addControl(ctrl);
@@ -759,14 +740,19 @@ Ext.onReady(function() {
   var olLayerStore = new GeoExt.data.LayerStore({
      map    : map
     ,layers : [
-       lyrBase['custom']    // don't add google until absolutely necessary; fractionalZoom cauases problems
+       lyrBase[defaultBase]
       ,featureBboxSelect
       ,layerRuler
       ,lyrGeoLocate
     ]
   });
-  map.setCenter(maxExtent26986.getCenterLonLat(),5);
-  map.setOptions({maxExtent : maxExtent26986,fractionalZoom : true});
+
+  if (defaultBase == 'custom') {
+    map.setOptions({maxExtent : maxExtent26986,fractionalZoom : true});
+  }
+  else {
+    map.setOptions({maxExtent : maxExtent900913});
+  }
 
   Ext.app.LayerLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
     processAttributes : function(attr) {
@@ -1155,7 +1141,7 @@ Ext.onReady(function() {
           }
           ,'-'
           ,{
-             text        : 'Type a custom scale below and press enter.  A leading "1:" is optional.'
+             text        : defaultBase == 'custom' ? 'Type a custom scale below and press enter.  A leading "1:" is optional.' : 'Custom scale disabled for current map projection.'
             ,id          : 'customScaleHeader'
             ,canActivate : false
             ,hideOnClick : false
@@ -1170,6 +1156,7 @@ Ext.onReady(function() {
             ,id        : 'customScale'
             ,cls       : 'x-menu-list-item'
             ,iconCls   : 'buttonIcon'
+            ,disabled  : defaultBase !== 'custom'
             ,width     : 200
             ,listeners : {
               specialkey : function(f,e) {
@@ -1925,8 +1912,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.44)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.44)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.45)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.45)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2281,6 +2268,7 @@ Ext.onReady(function() {
             ,group    : 'basemap'
             ,checked  : defaultBase == 'custom'
             ,handler  : function () {
+              addBaseLayer('custom');
               map.setOptions({fractionalZoom : true});
               if (map.getProjection() == 'EPSG:26986') {
                 map.setBaseLayer(lyrBase['custom']);
@@ -2449,7 +2437,7 @@ Ext.onReady(function() {
             }
             ,iconCls   : 'buttonIcon'
             ,id        : 'opacitySliderBaseLayer'
-            ,value     : lyrBase['googleTerrain'].opacity * 100
+            ,value     : defaultBase !== 'custom' ? 100 : lyrBase['googleTerrain'].opacity * 100
             ,listeners : {
               change : function(slider,newVal) {
                 if (lyrBase['googleTerrain'].map) {
@@ -2478,19 +2466,27 @@ Ext.onReady(function() {
    olMapPanel_bottomToolBar = new Ext.Toolbar({
     items: bottomToolBar_items
   });  
-  
-  olMapPanel = new GeoExt.MapPanel({
-	 region : 'center'
+
+  olMapPanelOpts = {
+     region : 'center'
     ,id     : 'mappanel'
     ,xtype  : 'gx_mappanel'
     ,map    : map
     ,layers : olLayerStore
-    ,zoom   : 1
     ,split  : true
     ,tbar   : olMapPanel_topToolBar
     ,bbar   : olMapPanel_bottomToolBar
     ,border : false
-  });
+  };
+  if (defaultCenter && defaultZoom) {
+    olMapPanelOpts.center = new OpenLayers.LonLat(defaultCenter[0],defaultCenter[1]);
+    olMapPanelOpts.zoom   = defaultZoom;
+  }
+  else {
+    olMapPanelOpts.extent = new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+  }
+ 
+  olMapPanel = new GeoExt.MapPanel(olMapPanelOpts);
 
   keyMaps = [];
   for (var k = 0; k< bottomToolBar_keyMaps.length; k++) {
@@ -2759,25 +2755,6 @@ Ext.onReady(function() {
     ,items       : [olMapPanel,olLayerPanel]
   });
 
-  // set the base layer & initial zoom if not 'custom'
-  if (defaultBase !== 'custom') {
-    map.setOptions({fractionalZoom : false});
-    addBaseLayer(defaultBase);
-    map.setBaseLayer(lyrBase[defaultBase]);
-    Ext.getCmp('customScale').setDisabled(true);
-    Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-    Ext.getCmp('zoomToAScale').setDisabled(true);
-    map.setOptions({maxExtent : maxExtent900913});
-    if (Ext.getCmp('opacitySliderBaseLayer')) {
-      Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-    }
-  }
-  if (defaultCenter && defaultZoom) {
-    map.setCenter(new OpenLayers.LonLat(defaultCenter[0],defaultCenter[1]),defaultZoom);
-  }
-  else {
-    map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
-  }
   Ext.getCmp('mappanel').body.setStyle('cursor','move');
 
   map.events.register('zoomend',this,function() {
@@ -3537,7 +3514,7 @@ function mkPermalink() {
     }
   }
 
-  return String(siteUrl + '?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + map.getZoom()).replace(/ /g,'%20');
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + map.getZoom()).replace(/ /g,'%20');
 }
 
 // Array.unique( strict ) - Remove duplicate values
