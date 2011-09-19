@@ -888,7 +888,7 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].proj_only,defaultLyrs[i].title,true,1);
+          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1);
         }	
 		
 		// bad hack to fix tab Index issues.
@@ -902,7 +902,7 @@ Ext.onReady(function() {
         if (!node.isLeaf()) {
           return;
         }
-        addLayer(node.attributes.wmsName,node.attributes.proj_only,node.attributes.text,true,1);
+        addLayer(node.attributes.wmsName,node.attributes.only_project,node.attributes.text,true,1);
       }
       ,contextmenu : function(n,e) {
         if (n.isLeaf()) {
@@ -955,7 +955,7 @@ Ext.onReady(function() {
             }
           });
           messageContextMenuAvailableLyr.findById('addLayer').setHandler(function() {
-            addLayer(n.attributes.wmsName,n.attributes.proj_only,n.attributes.text,true,1);
+            addLayer(n.attributes.wmsName,n.attributes.only_project,n.attributes.text,true,1);
           });
           messageContextMenuAvailableLyr.showAt(e.getXY());
         }
@@ -967,7 +967,7 @@ Ext.onReady(function() {
           if (!isGrandparent) {
             messageContextMenuFolder.findById('addFolder').setHandler(function() {
               n.eachChild(function(child) {
-                addLayer(child.attributes.wmsName,child.attributes.proj_only,child.attributes.text,true,1);
+                addLayer(child.attributes.wmsName,child.attributes.only_project,child.attributes.text,true,1);
               });
             });
             messageContextMenuFolder.showAt(e.getXY());
@@ -2881,7 +2881,7 @@ Ext.onReady(function() {
 });
 
 function addLayer(wms,proj,title,viz,opacity) {
-  if (proj && map.getProjection().toLowerCase() !== proj.toLowerCase()) {
+  if (String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase()) {
     Ext.Msg.alert('Error adding layer',"The '" + title + "' layer is not supported in the current map projection.");
     return;
   }
