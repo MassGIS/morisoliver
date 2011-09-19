@@ -162,7 +162,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -456,7 +456,26 @@ var triggerButton = function (toolbar, type, itemId) {
 
 Ext.onReady(function() {
   Ext.QuickTips.init();
-
+  lyrBase['yahooStreet'] = new OpenLayers.Layer.Yahoo(
+     'yahooStreet'
+    ,{
+       'sphericalMercator' : true
+    }
+  );
+  lyrBase['yahooSatellite'] = new OpenLayers.Layer.Yahoo(
+     'yahooSatellite'
+    ,{
+       'sphericalMercator' : true
+      ,'type'              : YAHOO_MAP_SAT
+    }
+  );
+  lyrBase['yahooHybrid'] = new OpenLayers.Layer.Yahoo(
+     'yahooHybrid'
+    ,{
+       'sphericalMercator' : true
+      ,'type'              : YAHOO_MAP_HYB
+    }
+  );
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -2384,6 +2403,87 @@ Ext.onReady(function() {
             }
           }
           ,{
+             text    : 'Yahoo Satellite'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'yahooSatellite'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('yahooSatellite');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['yahooSatellite']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['yahooSatellite']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Yahoo Street'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'yahooStreet'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('yahooStreet');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['yahooStreet']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['yahooStreet']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Yahoo Hybrid'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'yahooHybrid'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('yahooHybrid');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['yahooHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['yahooHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
              text    : 'OpenStreetMap'
             ,group   : 'basemap'
             ,checked : defaultBase == 'openStreetMap'
@@ -2441,6 +2541,15 @@ Ext.onReady(function() {
                 }
                 if (lyrBase['googleHybrid'].map) {
                   lyrBase['googleHybrid'].setOpacity(newVal/100);
+                }
+                if (lyrBase['yahooStreet'].map) {
+                  lyrBase['yahooStreet'].setOpacity(newVal/100);
+                }
+                if (lyrBase['yahooSatellite'].map) {
+                  lyrBase['yahooSatellite'].setOpacity(newVal/100);
+                }
+                if (lyrBase['yahooHybrid'].map) {
+                  lyrBase['yahooHybrid'].setOpacity(newVal/100);
                 }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
