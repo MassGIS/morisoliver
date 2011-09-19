@@ -64,8 +64,13 @@ foreach (@{$doc->{layer}}) {
       print F $r->content;
       close F;
     }
+    elsif (unsafeXML($h{wmsLayer}) ne '') {
+      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.tif';
+      print F $r->content;
+      close F;
+    }
     else {
-      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.tif';
+      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name});
       print F $r->content;
       close F;
     }

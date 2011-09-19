@@ -3667,6 +3667,7 @@ function launchExportWizard(aoi) {
           dataURL[title] = {
              base     : safeXML(rec.get('url'))
             ,metadata : []
+            ,layer    : lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? OpenLayers.Util.getParameters(rec.get('url'))['layers'] : ''
           };
           lastTitle = title;
         }
@@ -3678,7 +3679,7 @@ function launchExportWizard(aoi) {
       var dataXML = '';
       for (var i in dataURL) {
         if (dataURL[i].base) {
-          dataXML += '<layer name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
+          dataXML += '<layer wmsLayer="' + safeXML(dataURL[i].layer) + '" name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
         }
       }
       YUI().use("io",function(Y) {
