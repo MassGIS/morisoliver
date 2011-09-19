@@ -21,7 +21,8 @@ var scaleLineControl;
 var allLyr           = [];
 var wmsStyl          = [];
 var lyr2wms          = [];
-var lyr2proj         = [];
+var lyr2proj         = {};
+var lyr2type         = {};
 var wms2ico          = [];
 var activeLyr        = {};
 var lyrMetadata      = [];
@@ -106,7 +107,7 @@ OpenLayers.Util.onImageLoad = function() {
         var a = [];
         var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0;
         for (var i = 0; i < cn.length; i++) {
-          if (cn[i] !== 'type' + wms2ico[wms] + 'Red') {
+          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase()) {
             a.push(cn[i]); 
           }
         }
@@ -397,7 +398,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       Ext.get(cb).remove();
       this.checkbox = radio;
     }
-    var imgSrc = loadedWms[a.layer.name] ? 'img/blank.png' : 'img/loading.gif';
+    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() ? 'img/blank.png' : 'img/loading.gif';
     Ext.DomHelper.insertBefore(cb,'<img id="' + a.layer.name + '.loading" height=12 width=12 style="margin-left:2px;margin-right:2px" src="' + imgSrc + '">');
     this.enforceOneVisible();
     // New icon part!
@@ -405,7 +406,11 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
     var scaleInfo = scaleOK(a.layer.name);
     var grayIcon  = '';
     var qtip      = undefined;
-    if (loadError[a.layer.name] == 1) {
+    if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase()) {
+      grayIcon = 'Red';
+      qtip     = 'This layer cannot be drawn with this basemap.';
+    }
+    else if (loadError[a.layer.name] == 1) {
       grayIcon = 'Red';
       qtip     = 'There was an error drawing this layer.';
     }
@@ -725,7 +730,7 @@ Ext.onReady(function() {
   });
 
   map.events.register('addlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !e.layer.isVector && lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0) {
+    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
       // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
       if (featureBoxControl.active) {
@@ -786,6 +791,7 @@ Ext.onReady(function() {
         allLyr.push(attr.title);
         lyr2wms[attr.title]  = attr.name;
         lyr2proj[attr.title] = attr.only_project;
+        lyr2type[attr.title] = attr.type;
         wmsStyl[attr.title]  = attr.style;
       }
     }
@@ -1921,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.45)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.45)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.46)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.46)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2881,10 +2887,6 @@ Ext.onReady(function() {
 });
 
 function addLayer(wms,proj,title,viz,opacity) {
-  if (String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase()) {
-    Ext.Msg.alert('Error adding layer',"The '" + title + "' layer is not supported in the current map projection.");
-    return;
-  }
   if (!activeLyr[title]) {
     activeLyr[title] = new OpenLayers.Layer.WMS(
        title
@@ -2901,7 +2903,7 @@ function addLayer(wms,proj,title,viz,opacity) {
         ,isBaseLayer        : false
         ,opacity            : opacity
         ,addToLayerSwitcher : false
-        ,visibility         : viz
+        ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
       }
     );
     if (!lyrMetadata[title]) {
