@@ -505,7 +505,7 @@ Ext.onReady(function() {
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.ROADMAP
       ,minZoomLevel        : 7
-      ,maxZoomLevel        : 15
+      ,maxZoomLevel        : 21
     }
   );
   lyrBase['googleHybrid'] = new OpenLayers.Layer.Google(
@@ -514,7 +514,7 @@ Ext.onReady(function() {
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.HYBRID
       ,minZoomLevel        : 7
-      ,maxZoomLevel        : 15
+      ,maxZoomLevel        : 20
     }
   );
   lyrBase['openStreetMap'] = new OpenLayers.Layer.OSM(
@@ -2702,6 +2702,7 @@ Ext.onReady(function() {
     ,region       : 'center'
     ,split        : true
     ,autoScroll   : true
+    ,selModel    : new Ext.tree.MultiSelectionModel()
     ,tbar        : new Ext.Toolbar({ items: [
       {
          allowDepress : false
@@ -2766,10 +2767,28 @@ Ext.onReady(function() {
     ,rootVisible  : false
     ,listeners    : {
       contextmenu : function(n,e) {
-        n.select();
+        var sm = olActiveLayers.getSelectionModel();
+        var nodes = sm.getSelectedNodes();
+        // I have NO idea why this starts off w/ 'Layers', but get rid of it for our purposes if it does.
+        if (nodes && nodes[0] && nodes[0].text == ['Layers']) {
+          nodes.shift(); 
+        }
+        if (nodes.length > 1) {
+          messageContextMenuActiveLyr.findById('zoomTo').disable();
+          messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
+          messageContextMenuActiveLyr.findById('opacitySliderLayer').disable();
+        }
+        else {
+          sm.select(n,e);
+          nodes = sm.getSelectedNodes();
+        }
         messageContextMenuActiveLyr.findById('remove').setHandler(function() {
-          map.removeLayer(n.layer);
-          activeLyr[n.text] = '';
+          for (var j = 0; j < nodes.length ; j++) {
+            if (nodes[j].text != 'Layers') {
+              map.removeLayer(activeLyr[nodes[j].text]);
+              activeLyr[nodes[j].text] = '';
+            }
+          }
         });
         messageContextMenuActiveLyr.findById('zoomTo').setHandler(function() {
           if (!lyrMetadata[n.text].maxExtent) {
