@@ -2702,7 +2702,6 @@ Ext.onReady(function() {
     ,region       : 'center'
     ,split        : true
     ,autoScroll   : true
-    ,selModel    : new Ext.tree.MultiSelectionModel()
     ,tbar        : new Ext.Toolbar({ items: [
       {
          allowDepress : false
