@@ -2767,28 +2767,10 @@ Ext.onReady(function() {
     ,rootVisible  : false
     ,listeners    : {
       contextmenu : function(n,e) {
-        var sm = olActiveLayers.getSelectionModel();
-        var nodes = sm.getSelectedNodes();
-        // I have NO idea why this starts off w/ 'Layers', but get rid of it for our purposes if it does.
-        if (nodes && nodes[0] && nodes[0].text == ['Layers']) {
-          nodes.shift(); 
-        }
-        if (nodes.length > 1) {
-          messageContextMenuActiveLyr.findById('zoomTo').disable();
-          messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
-          messageContextMenuActiveLyr.findById('opacitySliderLayer').disable();
-        }
-        else {
-          sm.select(n,e);
-          nodes = sm.getSelectedNodes();
-        }
+        n.select();
         messageContextMenuActiveLyr.findById('remove').setHandler(function() {
-          for (var j = 0; j < nodes.length ; j++) {
-            if (nodes[j].text != 'Layers') {
-              map.removeLayer(activeLyr[nodes[j].text]);
-              activeLyr[nodes[j].text] = '';
-            }
-          }
+          map.removeLayer(n.layer);
+          activeLyr[n.text] = '';
         });
         messageContextMenuActiveLyr.findById('zoomTo').setHandler(function() {
           if (!lyrMetadata[n.text].maxExtent) {
