@@ -2702,6 +2702,7 @@ Ext.onReady(function() {
     ,region       : 'center'
     ,split        : true
     ,autoScroll   : true
+    ,selModel    : new Ext.tree.MultiSelectionModel()
     ,tbar        : new Ext.Toolbar({ items: [
       {
          allowDepress : false
@@ -2766,10 +2767,47 @@ Ext.onReady(function() {
     ,rootVisible  : false
     ,listeners    : {
       contextmenu : function(n,e) {
-        n.select();
+        var sm = olActiveLayers.getSelectionModel();
+        var nodes = sm.getSelectedNodes();
+        // I have no idea why there may be a value of 'Layers' inside of nodes, but get rid of it.
+        var layersIdx;
+        for (var i = 0; i < nodes.length; i++) {
+          if (nodes[i].text == 'Layers') {
+            layersIdx = i;
+          }
+        }
+        if (layersIdx >= 0) {
+          if (layersIdx == 0) {
+            nodes.shift();
+          }
+          else if (layersIdx == nodes.length) {
+            // I don't think this ever comes up, but just in case . . .
+            nodes.pop();
+          }
+          else {
+            // I don't think this ever comes up, but just in case . . .
+            nodes = [nodes.slice(0,i),nodes.slice(i + 1)];
+          }
+        }
+
+        if (nodes.length > 1) {
+          messageContextMenuActiveLyr.findById('zoomTo').disable();
+          messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
+          messageContextMenuActiveLyr.findById('opacitySliderLayer').disable();
+        }
+        else {
+          n.select();
+          nodes.push(n);
+          messageContextMenuActiveLyr.findById('zoomTo').enable();
+          messageContextMenuActiveLyr.findById('viewMetadataUrl').enable();
+          messageContextMenuActiveLyr.findById('opacitySliderLayer').enable();
+        }
+
         messageContextMenuActiveLyr.findById('remove').setHandler(function() {
-          map.removeLayer(n.layer);
-          activeLyr[n.text] = '';
+          for (var j = 0; j < nodes.length ; j++) {
+            map.removeLayer(activeLyr[nodes[j].text]);
+            activeLyr[nodes[j].text] = '';
+          }
         });
         messageContextMenuActiveLyr.findById('zoomTo').setHandler(function() {
           if (!lyrMetadata[n.text].maxExtent) {
