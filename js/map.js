@@ -1927,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.46)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.46)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.47)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.47)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2493,6 +2493,18 @@ Ext.onReady(function() {
              text    : 'OpenStreetMap'
             ,group   : 'basemap'
             ,checked : defaultBase == 'openStreetMap'
+            ,menu    : {items : {
+               text    : 'View map key'
+              ,handler : function() {
+                if (!Ext.getCmp('openStreetMapKeyWindow')) {
+                  new Ext.Window({
+                     id    : 'openStreetMapKeyWindow'
+                    ,title : 'OpenStreetMap key'
+                    ,html  : '<img src="img/openstreetmapkey.png">'
+                  }).show();
+                }
+              }
+            }}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('openStreetMap');
