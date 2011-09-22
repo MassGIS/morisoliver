@@ -1927,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.48)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.48)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.49)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.49)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3852,7 +3852,6 @@ function launchExportWizard(aoi) {
     ,height          : 600
     ,resizable       : true
     ,maximizable     : true
-    ,closeAction     : 'hide'
     ,cardPanelConfig : {
       defaults : {
          border      : false
