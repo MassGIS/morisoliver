@@ -25,6 +25,7 @@ var lyr2proj         = {};
 var lyr2type         = {};
 var wms2ico          = [];
 var activeLyr        = {};
+var getCapsLyr       = {};
 var lyrMetadata      = [];
 var olMapPanel;
 var olLayerTree;
@@ -94,6 +95,10 @@ OpenLayers.Util.onImageLoadError = function() {
     }
   });
   loadError[p['FOO']] = 1;
+  if (document.getElementById(p['FOO']+ '.loading')) {
+    document.getElementById(p['FOO'] + '.loading').src = 'img/blank.png';
+  }
+  loadedWms[p['FOO']] = true;
 }
 
 OpenLayers.Util.onImageLoad = function() {
@@ -107,7 +112,7 @@ OpenLayers.Util.onImageLoad = function() {
         var a = [];
         var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0;
         for (var i = 0; i < cn.length; i++) {
-          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || (map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase()) && String(lyr2proj[p['FOO']]) != 'undefined') {
+          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || !projOK(p['FOO'])) {
             a.push(cn[i]); 
           }
         }
@@ -398,7 +403,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       Ext.get(cb).remove();
       this.checkbox = radio;
     }
-    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() ? 'img/blank.png' : 'img/loading.gif';
+    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || !projOK(a.layer.name) || loadError[a.layer.name] == 1 ? 'img/blank.png' : 'img/loading.gif';
     Ext.DomHelper.insertBefore(cb,'<img id="' + a.layer.name + '.loading" height=12 width=12 style="margin-left:2px;margin-right:2px" src="' + imgSrc + '">');
     this.enforceOneVisible();
     // New icon part!
@@ -406,7 +411,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
     var scaleInfo = scaleOK(a.layer.name);
     var grayIcon  = '';
     var qtip      = undefined;
-    if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() && String(lyr2proj[a.layer.name]) != 'undefined') {
+    if (!projOK(a.layer.name)) {
       grayIcon = 'Red';
       qtip     = 'This layer cannot be drawn with this basemap.';
     }
@@ -729,8 +734,8 @@ Ext.onReady(function() {
     qryWin.doLayout();
   });
 
-  map.events.register('addlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
+  map.events.register('preaddlayer',this,function(e) {
+    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup') || getCapsLyr[e.layer.name]) {
       // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
       if (featureBoxControl.active) {
@@ -744,7 +749,6 @@ Ext.onReady(function() {
       map.setLayerIndex(layerRuler,map.getNumLayers());
       layerRuler.removeFeatures(layerRuler.features);
       map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
-
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
@@ -790,7 +794,9 @@ Ext.onReady(function() {
         attr.wmsName        = attr.name;
         allLyr.push(attr.title);
         lyr2wms[attr.title]  = attr.name;
-        lyr2proj[attr.title] = attr.only_project;
+        if (attr.only_project) {
+          lyr2proj[attr.title] = [attr.only_project];
+        }
         lyr2type[attr.title] = attr.type;
         wmsStyl[attr.title]  = attr.style;
       }
@@ -809,6 +815,18 @@ Ext.onReady(function() {
        dataUrl       : foldersetLoc
       ,requestMethod : 'GET'
     })
+    ,bbar        : [
+      new Ext.form.TextField({
+         width     : 200
+        ,id        : 'getCapsField'
+        ,emptyText : 'Enter a WMS GetCapabilities URL'
+        ,listeners : {specialkey : function(f,e) {
+          if (e.getKey() == e.ENTER) {
+            getCaps(f.getValue());
+          }
+        }}
+      })
+    ]
     ,listeners   : {
       load  : function() {
         var lyrStore = new Ext.data.ArrayStore({
@@ -864,7 +882,7 @@ Ext.onReady(function() {
           ,displayField   : 'title'
           ,listeners      : {
             select : function(comboBox,rec,i) {
-              addLayer(lyr2wms[rec.get('title')],lyr2proj[rec.get('title')],rec.get('title'),true,1);
+              addLayer(wmsUrl,lyr2wms[rec.get('title')],rec.get('title'),true,1);
               olLayerTree.getRootNode().cascade(function(n) {
                 if (n.attributes.text == rec.get('title')) {
                   olLayerTree.selectPath(n.getPath());
@@ -887,14 +905,19 @@ Ext.onReady(function() {
         olLayerPanel.addListener({
           resize : function() {
             lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
+            Ext.getCmp('getCapsField').setWidth(olLayerPanel.getWidth() - 5);
           }
         });
         olLayerPanel.doLayout();
         lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
+        Ext.getCmp('getCapsField').setWidth(olLayerPanel.getWidth() - 5);
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1);
+          if (defaultLyrs[i].only_project) {
+            lyr2proj[defaultLyrs[i].title] = [defaultLyrs[i].only_project];
+          }
+          addLayer(wmsUrl,defaultLyrs[i].wms,defaultLyrs[i].title,true,1);
         }	
 		
 		// bad hack to fix tab Index issues.
@@ -908,7 +931,7 @@ Ext.onReady(function() {
         if (!node.isLeaf()) {
           return;
         }
-        addLayer(node.attributes.wmsName,node.attributes.only_project,node.attributes.text,true,1);
+        addLayer(wmsUrl,node.attributes.wmsName,node.attributes.text,true,1);
       }
       ,contextmenu : function(n,e) {
         if (n.isLeaf()) {
@@ -961,7 +984,7 @@ Ext.onReady(function() {
             }
           });
           messageContextMenuAvailableLyr.findById('addLayer').setHandler(function() {
-            addLayer(n.attributes.wmsName,n.attributes.only_project,n.attributes.text,true,1);
+            addLayer(wmsUrl,n.attributes.wmsName,n.attributes.text,true,1);
           });
           messageContextMenuAvailableLyr.showAt(e.getXY());
         }
@@ -973,7 +996,7 @@ Ext.onReady(function() {
           if (!isGrandparent) {
             messageContextMenuFolder.findById('addFolder').setHandler(function() {
               n.eachChild(function(child) {
-                addLayer(child.attributes.wmsName,child.attributes.only_project,child.attributes.text,true,1);
+                addLayer(wmsUrl,child.attributes.wmsName,child.attributes.text,true,1);
               });
             });
             messageContextMenuFolder.showAt(e.getXY());
@@ -1927,8 +1950,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.47)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.47)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.48)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.48)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2936,7 +2959,7 @@ Ext.onReady(function() {
   olLegendPanel.setHeight(getVPSize()[1] * 0.40);
 });
 
-function addLayer(wms,proj,title,viz,opacity) {
+function addLayer(wmsUrl,wms,title,viz,opacity,addOnly) {
   if (!activeLyr[title]) {
     activeLyr[title] = new OpenLayers.Layer.WMS(
        title
@@ -2953,7 +2976,7 @@ function addLayer(wms,proj,title,viz,opacity) {
         ,isBaseLayer        : false
         ,opacity            : opacity
         ,addToLayerSwitcher : false
-        ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
+        ,visibility         : viz && projOK(title)
       }
     );
     if (!lyrMetadata[title]) {
@@ -2962,6 +2985,9 @@ function addLayer(wms,proj,title,viz,opacity) {
     else {
       map.addLayer(activeLyr[title]);
     }
+  }
+  if (addOnly) {
+    map.addLayer(activeLyr[title]);
   }
 }
 
@@ -2973,15 +2999,25 @@ function refreshLayers() {
          name    : map.layers[i].name
         ,viz     : map.layers[i].visibility
         ,opacity : map.layers[i].opacity
+        ,url     : map.layers[i].url.replace(/\?$/,'')
       });
     }
   }
   for (var i = 0; i < lyr.length; i++) {
     map.removeLayer(activeLyr[lyr[i].name]);
-    activeLyr[lyr[i].name] = '';
+    if (!getCapsLyr[lyr[i].name]) {
+      activeLyr[lyr[i].name] = '';
+    }
   }
   for (var i = 0; i < lyr.length; i++) {
-    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity);
+    addLayer(
+       lyr[i].url
+      ,lyr2wms[lyr[i].name]
+      ,lyr[i].name
+      ,lyr[i].viz
+      ,lyr[i].opacity
+      ,true
+    );
   }
 
   featureBbox.unselectAll();
@@ -3227,8 +3263,9 @@ function loadLayerMetadata(wms,title,style,launchMetadataWin,addLayer,tstLyr) {
         ));
       }
     };
+    
     Y.on('io:success',handleSuccess,this,[wms,title,launchMetadataWin,addLayer,tstLyr]);
-    var request = Y.io(xmlCacheLoc + wms.replace(/:/ig,'_') + '.' + style.replace(/:/ig,'_') + '.xml?' + new Date(),{sync : true});
+    var request = Y.io(xmlCacheLoc + String(wms).replace(/:/ig,'_') + '.' + String(style).replace(/:/ig,'_') + '.xml?' + new Date(),{sync : true});
   });
 }
 
@@ -3496,6 +3533,17 @@ function mkDataWizardURL(title,ico) {
 		).join('');
 	  }
   }
+}
+
+function projOK(name) {
+  if (!lyr2proj[name]) {
+    return true;
+  }
+  var ok = false;
+  for (var i = 0; i < lyr2proj[name].length; i++) {
+    ok = ok || lyr2proj[name][i].toLowerCase() == map.getProjection().toLowerCase();
+  }
+  return ok;
 }
 
 function scaleOK(name) {
@@ -4496,4 +4544,75 @@ function mkAreaOfInterestFieldset(aoi) {
       ]
     };
   }
+}
+
+function getCaps(u) {
+  if (Ext.getCmp('getCaps')) {
+    Ext.getCmp('getCaps').destroy();
+  }
+  new Ext.Window({
+     title       : u
+    ,id          : 'getCaps'
+    ,layout      : 'fit'
+    ,width       : 500
+    ,height      : 250
+    ,autoScroll  : true
+    ,bodyStyle   : 'background:white'
+    ,constrainHeader : true
+    ,items       : [
+      new Ext.grid.GridPanel({
+         border  : false
+        ,id      : 'getCapsGridPanel'
+        ,store   : new GeoExt.data.WMSCapabilitiesStore({
+           url        : 'p2.php?u=' + escape(u)
+          ,autoLoad   : true
+          ,sortInfo   : {
+             field     : 'title'
+            ,direction : 'ASC'
+          }
+        })
+        ,columns : [
+           {header : 'Title'      ,dataIndex : 'title'   ,sortable : true,id : 'title'}
+          ,{header : 'Name'       ,dataIndex : 'name'    ,sortable : true}
+          ,{header : 'Description',dataIndex : 'abstract',sortable : true}
+        ]
+        ,autoExpandColumn : 'title'
+        ,loadMask         : true
+        ,listeners        : {rowdblclick : function(grid,idx) {
+          var lyr = grid.getStore().getAt(idx).getLayer().clone();
+          var c = 1;
+          for (var l in getCapsLyr) {
+            c++;
+          }
+          var title = 'Custom ' + c + ' : ' + grid.getStore().getAt(idx).get('title');
+          lyr.name = title;
+          lyrMetadata[title] = {
+             title     : title
+            ,maxExtent : {
+               left   : String(grid.getStore().getAt(idx).get('llbbox')).split(',')[0]
+              ,bottom : String(grid.getStore().getAt(idx).get('llbbox')).split(',')[1]
+              ,right  : String(grid.getStore().getAt(idx).get('llbbox')).split(',')[2]
+              ,top    : String(grid.getStore().getAt(idx).get('llbbox')).split(',')[3]
+            }
+            ,metadataUrl : ''
+            ,extractDoc  : []
+          };
+          activeLyr[title] = lyr;
+          getCapsLyr[title] = lyr;
+          lyr2wms[title] = grid.getStore().getAt(idx).get('name');
+          wms2ico[grid.getStore().getAt(idx).get('name')] = 'raster';
+          for (var i in grid.getStore().getAt(idx).get('srs')) {
+            if (!lyr2proj[title]) {
+              lyr2proj[title] = [i];
+            }
+            else {
+              lyr2proj[title].push(i);
+            }
+          }
+          lyr.mergeNewParams({FOO : title});
+          map.addLayer(lyr);
+        }}
+      })
+    ]
+  }).show();
 }
