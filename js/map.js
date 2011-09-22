@@ -398,7 +398,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       Ext.get(cb).remove();
       this.checkbox = radio;
     }
-    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() ? 'img/blank.png' : 'img/loading.gif';
+    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || (String(lyr2proj[a.layer.name]).toLowerCase() != 'undefined' && map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase()) ? 'img/blank.png' : 'img/loading.gif';
     Ext.DomHelper.insertBefore(cb,'<img id="' + a.layer.name + '.loading" height=12 width=12 style="margin-left:2px;margin-right:2px" src="' + imgSrc + '">');
     this.enforceOneVisible();
     // New icon part!
@@ -729,7 +729,7 @@ Ext.onReady(function() {
     qryWin.doLayout();
   });
 
-  map.events.register('addlayer',this,function(e) {
+  map.events.register('preaddlayer',this,function(e) {
     if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
       // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
@@ -3740,7 +3740,7 @@ function printSave() {
   var hits = 0;
   for (var j = 0; j < map.layers.length; j++) {
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
+      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i)) {
         l[i] = {
            img    : activeLyr[i].getFullRequestString({})
           ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
@@ -3754,7 +3754,7 @@ function printSave() {
       var handleSuccess = function(ioId,o,args) {
         Ext.MessageBox.hide();
         var json = Y.JSON.parse(o.responseText);
-        Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window contaning your map and legend as seperate images.  You can then either right-click each image and save them locally or print them through your browser.');
+        Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window containing your map and legend as separate images.  You can then either right-click each image and save them locally or print them through your browser.');
       };
       Y.on('io:success',handleSuccess,this,[]);
       var scaleLineTop    = getElementsByClassName('olControlScaleLineTop')[0];
