@@ -1927,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.47)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.47)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.48)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.48)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3334,13 +3334,14 @@ function loadLayerDescribeFeatureType(wms) {
               });
               if (feature.geometry.CLASS_NAME.toLowerCase().indexOf('polygon') >= 0) {
                 messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').setHandler(function() {
-                  var vertices = feature.geometry.getVertices();
-                  exportBbox.units = map.getProjection();
-                  exportBbox.verts = [];
-                  for (var i = 0; i < vertices.length; i++) {
-                    exportBbox.verts.push(vertices[i].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986")));
-                  }
-                  exportBbox.verts.push(exportBbox.verts[0]);
+                  // pull out the geometry goodies as 26986
+                  var gml = new OpenLayers.Format.GML.v2();
+                  var f   = feature.clone();
+                  f.geometry.transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986"));
+                  var str = gml.write(f);
+                  var res = /<gml:geometry>(.*)<\/gml:geometry>/.exec(str);
+                  // exportBbox.verts is uually an array of length 4, but pass along the full geom in this case
+                  exportBbox.verts = [res[1]];
 
                   // the polygon's bbox will serve as the standard bbox for non-shp queries
                   exportBbox.minX = feature.geometry.getBounds().toArray()[0];
@@ -3467,23 +3468,38 @@ function mkDataWizardURL(title,ico) {
   }
   else {
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
-      var poly = [];
-      for (var j = 0; j < exportBbox.verts.length; j++) {
-        poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
+      if (exportBbox.verts.length == 4) {
+        var poly = [];
+        for (var j = 0; j < exportBbox.verts.length; j++) {
+          poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
+        }
+        return Array(
+           wfsUrl
+          ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
+          ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
+            ,'<ogc:Intersects>'
+              ,'<ogc:PropertyName>SHAPE</ogc:PropertyName>'
+              ,'<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>'
+                ,poly.join(' ')
+              ,'</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon>'
+            ,'</ogc:Intersects>'
+          ,'</ogc:Filter>'
+          ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+        ).join('');
       }
-      return Array(
-         wfsUrl
-        ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
-        ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
-          ,'<ogc:Intersects>'
-            ,'<ogc:PropertyName>SHAPE</ogc:PropertyName>'
-            ,'<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>'
-              ,poly.join(' ')
-            ,'</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon>'
-          ,'</ogc:Intersects>'
-        ,'</ogc:Filter>'
-        ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
-      ).join('');
+      else {
+        return Array(
+           wfsUrl
+          ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
+          ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
+            ,'<ogc:Intersects>'
+              ,'<ogc:PropertyName>SHAPE</ogc:PropertyName>'
+              ,exportBbox.verts[0]
+            ,'</ogc:Intersects>'
+          ,'</ogc:Filter>'
+          ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+        ).join('');
+      }
     }
     else if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'kml') {
       return Array(
@@ -4209,14 +4225,20 @@ function launchExportWizard(aoi) {
                 };
                 var title = rec.get('title');
                 Y.on('io:success',handleSuccess,this,[title,ico]);
-                var poly = [];
-                for (var j = 0; j < exportBbox.verts.length; j++) {
-                  poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
+                if (exportBbox.verts.length == 4) {
+                  var poly = [];
+                  for (var j = 0; j < exportBbox.verts.length; j++) {
+                    poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
+                  }
+                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                }
+                else {
+                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName>' + exportBbox.verts[0] + '</ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
                 }
                 var cfg = {
                    method  : "POST"
                   ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-                  ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                  ,data    : data
                 };
                 var rstrOK    = rasterOK(rec.get('title'));
                 var request;
