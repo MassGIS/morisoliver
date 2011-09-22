@@ -3468,7 +3468,7 @@ function mkDataWizardURL(title,ico) {
   }
   else {
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
-      if (exportBbox.verts.length == 4) {
+      if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
           poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
@@ -4225,7 +4225,7 @@ function launchExportWizard(aoi) {
                 };
                 var title = rec.get('title');
                 Y.on('io:success',handleSuccess,this,[title,ico]);
-                if (exportBbox.verts.length == 4) {
+                if (exportBbox.verts.length == 5) {
                   var poly = [];
                   for (var j = 0; j < exportBbox.verts.length; j++) {
                     poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
