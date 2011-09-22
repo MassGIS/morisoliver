@@ -15,7 +15,7 @@
 
   $legends = array();
   $titles  = array();
-  $legSize = array(600,0);
+  $legSize = array(250,0);
 
   foreach ($json->{'layers'} as $k => $v) {
     $handle = fopen($tmp_dir.$id.'.png','w');
@@ -28,11 +28,16 @@
     fwrite($handle,@file_get_contents(mkLegendUrl($v->{'legend'})));
     fclose($handle);
     array_push($legends,new Imagick($tmp_dir.$id.'.'.count($legends).'.png'));
-    array_push($titles,$k);
     if ($legends[count($legends)-1]->getImageWidth() > $legSize[0]) {
       $legSize[0] = $legends[count($legends)-1]->getImageWidth();
     }
-    $legSize[1] += $legends[count($legends)-1]->getImageHeight() + 20;
+  }
+
+  $i = 0;
+  foreach ($json->{'layers'} as $k => $v) {
+    array_push($titles,wordwrap($k,$legSize[0] / 5.75));
+    $p = explode("\n",wordwrap($k,$legSize[0] / 5.75));
+    $legSize[1] += $legends[$i++]->getImageHeight() + 20 + 12 * (count($p) - 1);
   }
 
   // compass
@@ -91,13 +96,15 @@
   $canvas->setImageFormat('png');
   $runningHt = 15;
   for ($i = count($legends) - 1; $i >= 0; $i--) {
+    // charlton
+    $p = explode("\n",$titles[$i]);
     $draw = new ImagickDraw();
     $draw->setFont('Helvetica');
     $draw->setFontSize(12);
     $draw->annotation(5,$runningHt,$titles[$i]);
     $canvas->drawImage($draw);
-    $canvas->compositeImage($legends[$i],imagick::COMPOSITE_OVER,0,$runningHt);
-    $runningHt += $legends[$i]->getImageHeight() + 20;
+    $canvas->compositeImage($legends[$i],imagick::COMPOSITE_OVER,0,$runningHt + 12 * (count($p) - 1));
+    $runningHt += $legends[$i]->getImageHeight() + 20 + 12 * (count($p) - 1);
   }
   $canvas->writeImage($tmp_dir.$id.'.legend.png');
 
