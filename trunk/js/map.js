@@ -730,7 +730,7 @@ Ext.onReady(function() {
   });
 
   map.events.register('preaddlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
+    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
       // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
       if (featureBoxControl.active) {
@@ -991,7 +991,7 @@ Ext.onReady(function() {
     ,split       : true
     ,autoScroll  : true
     ,filter      : function(record) {
-      return !record.get('layer').isBaseLayer && !record.get('layer').isVector;
+      return !record.get('layer').isBaseLayer && !(record.get('layer') instanceof OpenLayers.Layer.Vector);
     }
     ,labelCls    : 'legendText'
   });
@@ -2783,7 +2783,7 @@ Ext.onReady(function() {
       ,expanded   : true
       ,loader     : new GeoExt.tree.LayerLoader({
         filter : function(rec) {
-          return !rec.get('layer').isBaseLayer && !rec.get('layer').isVector;
+          return !rec.get('layer').isBaseLayer && !(rec.get('layer') instanceof OpenLayers.Layer.Vector);
         }
       })
     })
@@ -2980,7 +2980,7 @@ function addLayer(wms,proj,title,viz,opacity) {
 function refreshLayers() {
   var lyr = [];
   for (i in map.layers) {
-    if (!map.layers[i].isBaseLayer && !map.layers[i].isVector && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
+    if (!map.layers[i].isBaseLayer && !(map.layers[i] instanceof OpenLayers.Layer.Vector) && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
       lyr.push({
          name    : map.layers[i].name
         ,viz     : map.layers[i].visibility
@@ -3528,6 +3528,9 @@ function mkDataWizardURL(title,ico) {
 }
 
 function scaleOK(name) {
+  if (!lyrMetadata[name]) {
+    return {isOK : true,range : ['']};
+  }
   var ok  = true;
   var rng = [];
   if (lyrMetadata[name].minScaleDenominator && lyrMetadata[name].minScaleDenominator !== 'undefined') {
