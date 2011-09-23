@@ -3351,6 +3351,7 @@ function loadLayerDescribeFeatureType(wms) {
 
                   launchExportWizard({typ : 'poly'});
                 });
+                messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').enable();
               }
               else {
                 messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').disable();
