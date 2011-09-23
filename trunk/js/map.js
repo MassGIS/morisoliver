@@ -308,9 +308,9 @@ OpenLayers.Util.extend(featureBoxControl,{
         ,layerOptions : {styleMap : new OpenLayers.StyleMap({
           'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
              'strokeWidth'  : 2
-            ,'strokeColor'  : '#d80893'
+            ,'strokeColor'  : '#ff0000'
             ,'strokeOpacity': 0.5
-            ,'fillColor'    : '#d80893'
+            ,'fillColor'    : '#ff0000'
             ,'fillOpacity'  : 0.05
           }))
         })}
@@ -349,9 +349,9 @@ OpenLayers.Util.extend(featurePolyControl,{
         ,layerOptions : {styleMap : new OpenLayers.StyleMap({
           'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
              'strokeWidth'  : 2
-            ,'strokeColor'  : '#d80893'
+            ,'strokeColor'  : '#ff0000'
             ,'strokeOpacity': 0.5
-            ,'fillColor'    : '#d80893'
+            ,'fillColor'    : '#ff0000'
             ,'fillOpacity'  : 0.05
           }))
         })}
