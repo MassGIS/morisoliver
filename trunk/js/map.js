@@ -285,6 +285,9 @@ OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
       {'done' : function(g) {
+        if (featureBboxGridPanel) {
+          featureBboxGridPanel.getStore().removeAll();
+        }
         var bounds = g.getBounds().clone();
         var boundsArr = bounds.toArray();
         var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
@@ -323,6 +326,9 @@ OpenLayers.Util.extend(featurePolyControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.Polygon(featurePolyControl,
       {'done' : function(g) {
+        if (featureBboxGridPanel) {
+          featureBboxGridPanel.getStore().removeAll();
+        }
         var bounds = g.getBounds().clone();
         var boundsArr = bounds.toArray();
         var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
@@ -1925,8 +1931,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.51)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.51)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.52)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.52)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
