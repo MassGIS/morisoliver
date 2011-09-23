@@ -43,6 +43,7 @@ my $ua = LWP::UserAgent->new((timeout => 100));
 
 print $query->header('text/plain');
 
+my $c = 0;
 foreach (@{$doc->{layer}}) {
   my %h = %{$_};
   # the urls in the following line should match the geoserver and metadata-webserver host names
@@ -60,6 +61,9 @@ foreach (@{$doc->{layer}}) {
       $params{lc($p[0])} = $p[1];
     }
     my $post_data = '<wfs:GetFeature outputFormat="SHAPE-ZIP" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="'.$params{'typename'}.'" srsName="'.$params{'srsname'}.'" xmlns:massgis="http://massgis.state.ma.us/featuretype">'.$params{'filter'}.'</wfs:Query></wfs:GetFeature>';
+    open LOG,">$scratch_dir/$c.log";
+    print LOG $post_data."\n";
+    close LOG;
     my $req = new HTTP::Request('POST',$base);
     $req->content_type('application/x-www-form-urlencoded');
     $req->content($post_data);
@@ -106,6 +110,7 @@ foreach (@{$doc->{layer}}) {
       close F;
     }
   }
+  $c++;
 }
 my $zipName = $doc->{zip}[0]{name};
 $zipName =~ s/\.zip//gi;
