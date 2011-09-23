@@ -1927,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.49)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.49)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.50)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.50)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3335,7 +3335,7 @@ function loadLayerDescribeFeatureType(wms) {
               if (feature.geometry.CLASS_NAME.toLowerCase().indexOf('polygon') >= 0) {
                 messageContextMenuFeatureCtrlBbox.findById('featureToExportWizard').setHandler(function() {
                   // pull out the geometry goodies as 26986
-                  var gml = new OpenLayers.Format.GML.v2();
+                  var gml = new OpenLayers.Format.GML.v3();
                   var f   = feature.clone();
                   f.geometry.transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986"));
                   var str = gml.write(f);
