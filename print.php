@@ -1,7 +1,7 @@
 <?php
   $id      = time().'.'.rand();
-  $tmp_dir = '/tmp/';
-  $tmp_url = '/tmp/';
+  $tmp_dir = '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
+  $tmp_url = '/temp/OL_MORIS_print/';
 
   $json = json_decode($HTTP_RAW_POST_DATA);
 
