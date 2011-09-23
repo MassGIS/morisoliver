@@ -262,13 +262,11 @@ var qryWin = new Ext.Window({
   ,listeners   : {
     hide : function() {
       featureBbox.unselectAll();
-      featureBoxControl.polygon.deactivate();
-      featurePolyControl.polygon.deactivate();
       if (Ext.getCmp('queryBox').pressed) {
-        featureBoxControl.polygon.activate();
+        featureBoxControl.polygon.clear();
       }
       else if (Ext.getCmp('queryPoly').pressed) {
-        featurePolyControl.polygon.activate();
+        featurePolyControl.polygon.clear();
       }
     }
     ,show : function() {
@@ -1927,8 +1925,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.50)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.50)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.51)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.51)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
