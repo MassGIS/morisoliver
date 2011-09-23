@@ -552,7 +552,6 @@ Ext.onReady(function() {
   );
 
   scaleRatioControl = new OpenLayers.Control.Scale();
-  scaleRatioControl.updateScale = updateScale;
   scaleLineControl  = new OpenLayers.Control.ScaleLine({geodesic : true});
 
   mouseControl = new OpenLayers.Control.MousePosition();
