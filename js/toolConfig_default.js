@@ -123,7 +123,7 @@
 	];	
 	
 	toolSettings.commentTool = {};
-	toolSettings.commentTool.status = 'show';
+	toolSettings.commentTool.status = 'hide';
 	toolSettings.commentTool.layer = {
 		commentLabel: "Add comment",
 		commentDesc: "Leave a comment about an error in the data",
