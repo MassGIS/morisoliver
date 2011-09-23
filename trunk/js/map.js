@@ -163,7 +163,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|bingRoads|bingAerial|bingHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -481,21 +481,6 @@ Ext.onReady(function() {
       ,'type'              : YAHOO_MAP_HYB
     }
   );
-  lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'Road'
-    ,name : 'bingRoads'
-  });
-  lyrBase['bingAerial'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'Aerial'
-    ,name : 'bingAerial'
-  });
-  lyrBase['bingHybrid'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'AerialWithLabels'
-    ,name : 'bingHybrid'
-  });
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -552,6 +537,7 @@ Ext.onReady(function() {
   );
 
   scaleRatioControl = new OpenLayers.Control.Scale();
+  scaleRatioControl.updateScale = updateScale;
   scaleLineControl  = new OpenLayers.Control.ScaleLine({geodesic : true});
 
   mouseControl = new OpenLayers.Control.MousePosition();
@@ -744,7 +730,7 @@ Ext.onReady(function() {
   });
 
   map.events.register('preaddlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
+    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
       // clear featureSelects on top
       map.setLayerIndex(featureBboxSelect,map.getNumLayers());
       if (featureBoxControl.active) {
@@ -1005,7 +991,7 @@ Ext.onReady(function() {
     ,split       : true
     ,autoScroll  : true
     ,filter      : function(record) {
-      return !record.get('layer').isBaseLayer && !(record.get('layer') instanceof OpenLayers.Layer.Vector);
+      return !record.get('layer').isBaseLayer && !record.get('layer').isVector;
     }
     ,labelCls    : 'legendText'
   });
@@ -1941,8 +1927,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.51)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.51)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.50)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.50)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2439,87 +2425,6 @@ Ext.onReady(function() {
             }
           }
           ,{
-             text    : 'Bing Satellite'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingAerial'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingAerial');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingAerial']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingAerial']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Roads'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingRoads'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingRoads');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingHybrid'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
              text    : 'Yahoo Satellite'
             ,group   : 'basemap'
             ,checked : defaultBase == 'yahooSatellite'
@@ -2678,15 +2583,6 @@ Ext.onReady(function() {
                 }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
-                }
-                if (lyrBase['bingAerial'].map) {
-                  lyrBase['bingAerial'].setOpacity(newVal/100);
-                }
-                if (lyrBase['bingRoads'].map) {
-                  lyrBase['bingRoads'].setOpacity(newVal/100);
-                }
-                if (lyrBase['bingHybrid'].map) {
-                  lyrBase['bingHybrid'].setOpacity(newVal/100);
                 }
               }
             }
@@ -2887,7 +2783,7 @@ Ext.onReady(function() {
       ,expanded   : true
       ,loader     : new GeoExt.tree.LayerLoader({
         filter : function(rec) {
-          return !rec.get('layer').isBaseLayer && !(rec.get('layer') instanceof OpenLayers.Layer.Vector);
+          return !rec.get('layer').isBaseLayer && !rec.get('layer').isVector;
         }
       })
     })
@@ -3084,7 +2980,7 @@ function addLayer(wms,proj,title,viz,opacity) {
 function refreshLayers() {
   var lyr = [];
   for (i in map.layers) {
-    if (!map.layers[i].isBaseLayer && !(map.layers[i] instanceof OpenLayers.Layer.Vector) && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
+    if (!map.layers[i].isBaseLayer && !map.layers[i].isVector && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
       lyr.push({
          name    : map.layers[i].name
         ,viz     : map.layers[i].visibility
@@ -3632,9 +3528,6 @@ function mkDataWizardURL(title,ico) {
 }
 
 function scaleOK(name) {
-  if (!lyrMetadata[name]) {
-    return {isOK : true,range : ['']};
-  }
   var ok  = true;
   var rng = [];
   if (lyrMetadata[name].minScaleDenominator && lyrMetadata[name].minScaleDenominator !== 'undefined') {
