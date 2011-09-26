@@ -691,10 +691,19 @@ Ext.onReady(function() {
   
   // end measure controls
 
+  // no temporary style at all
+  featureBboxSelect  = new OpenLayers.Layer.Vector('',{styleMap : new OpenLayers.StyleMap({'temporary' : new OpenLayers.Style({cursor : 'pointer',strokeColor : '#ff0000',strokeWidth : 2})})});
+  featureBboxSelectHover = new OpenLayers.Control.SelectFeature(featureBboxSelect,{
+     hover          : true
+    ,highlightOnly  : true
+    ,renderIntent   : "temporary"
+  });
+
   map = new OpenLayers.Map('',{
     controls : [
        new OpenLayers.Control.Navigation()
       ,new OpenLayers.Control.PanZoomBar()
+      ,featureBboxSelectHover
       ,mouseControl
       ,lengthControl
       ,areaControl
@@ -702,14 +711,13 @@ Ext.onReady(function() {
       ,featurePolyControl
     ]
   });
+  featureBboxSelectHover.activate();
 
   var ctrl = new OpenLayers.Control.NavigationHistory({autoActivate : false});
   map.addControl(ctrl);
 
   map.addControl(scaleRatioControl);
   map.addControl(scaleLineControl);
-
-  featureBboxSelect  = new OpenLayers.Layer.Vector('');
 
   featureBbox = new OpenLayers.Control.GetFeature({
      multiple   : true
@@ -735,20 +743,6 @@ Ext.onReady(function() {
 
   map.events.register('preaddlayer',this,function(e) {
     if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
-      // clear featureSelects on top
-      map.setLayerIndex(featureBboxSelect,map.getNumLayers());
-      if (featureBoxControl.active) {
-        featureBoxControl.polygon.deactivate();
-        featureBoxControl.polygon.activate();
-      }
-      if (featurePolyControl.active) {
-        featurePolyControl.polygon.deactivate();
-        featurePolyControl.polygon.activate();
-      }
-      map.setLayerIndex(layerRuler,map.getNumLayers());
-      layerRuler.removeFeatures(layerRuler.features);
-      map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
-
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
@@ -762,6 +756,21 @@ Ext.onReady(function() {
         }
         loadedWms[e.object.name] = true;
       });
+    }
+  });
+
+  map.events.register('addlayer',this,function(e) {
+    if (!e.layer.isBaseLayer && !e.layer.isVector && (lyr2wms[e.layer.name].indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup')) {
+      // clear featureSelects on top
+      if (featureBoxControl.polygon.layer) {
+        map.setLayerIndex(featureBoxControl.polygon.layer,map.getNumLayers());
+      }
+      if (featurePolyControl.polygon.layer) {
+        map.setLayerIndex(featurePolyControl.polygon.layer,map.getNumLayers());
+      }
+      map.setLayerIndex(layerRuler,map.getNumLayers());
+      map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
+      layerRuler.removeFeatures(layerRuler.features);
     }
   });
 
