@@ -1940,8 +1940,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.52)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.52)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.53)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.53)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
