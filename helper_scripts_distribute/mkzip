@@ -4,6 +4,7 @@ use strict;
 use CGI qw(:standard);
 use XML::Simple qw(:strict);
 use LWP::UserAgent;
+require HTTP::Request;
 
 my $session     = time().rand();
 my $scratch_dir = "/var/www/html/temp/GeoServer_extract/$session";
@@ -74,6 +75,9 @@ foreach (@{$doc->{layer}}) {
       close F;
       my $cmd = "cd \"$scratch_dir/".unsafeXML($h{name})."\" ; unzip \"".unsafeXML($h{name}).'.zip'."\" ; rm -f \"".unsafeXML($h{name}).'.zip"';
       `$cmd`;
+    }
+    else {
+      print STDERR $r->status_line."\n";
     }
   }
   else {
