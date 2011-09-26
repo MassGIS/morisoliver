@@ -7,7 +7,7 @@ use LWP::UserAgent;
 require HTTP::Request;
 
 my $session     = time().rand();
-my $scratch_dir = "/var/www/html/temp/GeoServer_extract/$session";
+my $scratch_dir = "/opt/massgis/wwwroot/temp/GeoServer_extract/$session";
 my $web_dir     = "/temp/GeoServer_extract/$session";
 mkdir $scratch_dir;
 
@@ -46,38 +46,50 @@ print $query->header('text/plain');
 
 my $c = 0;
 foreach (@{$doc->{layer}}) {
+  # open LOG,">$scratch_dir/$c.log";
   my %h = %{$_};
   # the urls in the following line should match the geoserver and metadata-webserver host names
   if (!(unsafeXML($h{baseURL}) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us|170.63.166.213|170.63.166.214)/)) {
     next;
   }
   mkdir "$scratch_dir/".unsafeXML($h{name});
+  # print LOG "$scratch_dir/".unsafeXML($h{name})."\n";
 
   # fire a POST request for SHAPE-ZIP since the incoming filter might be huge (not just a bbox)
   if (unsafeXML($h{baseURL}) =~ /outputformat=SHAPE-ZIP/) {
     my $base = substr(unsafeXML($h{baseURL}),0,index(unsafeXML($h{baseURL}),'?'));
+    # print LOG "BASE\n$base\n";
     my %params;
     foreach my $s (split('&',unsafeXML($h{baseURL}))) {
       my @p = (substr($s,0,index($s,'=')),substr($s,index($s,'=') + 1));
       $params{lc($p[0])} = $p[1];
     }
     my $post_data = '<wfs:GetFeature outputFormat="SHAPE-ZIP" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="'.$params{'typename'}.'" srsName="'.$params{'srsname'}.'" xmlns:massgis="http://massgis.state.ma.us/featuretype">'.$params{'filter'}.'</wfs:Query></wfs:GetFeature>';
-    open LOG,">$scratch_dir/$c.log";
-    print LOG $post_data."\n";
-    close LOG;
+    # open XML,">$scratch_dir/$c.xml";
+    # print XML $post_data;
+    # close XML;
+    my $dir = "$scratch_dir/".unsafeXML($h{name});
+    my $fname = unsafeXML($h{name}).'.zip';
+    # print LOG "POST_DATA\n=========\n$post_data\n";
+    # my $cmd = "cd \"$dir\" ; wget \"$base\" -O \"$fname\" --header=\"Content-Type: text/xml\" --post-file ../$c.xml";
+    # print LOG "CMD\n$cmd\n";
+    #`$cmd`;
     my $req = new HTTP::Request('POST',$base);
-    $req->content_type('application/x-www-form-urlencoded');
+    $req->content_type('text/xml');
     $req->content($post_data);
     my $r = $ua->request($req);
     if ($r->is_success) {
+      # print LOG "OK\n";
       open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.zip';
       print F $r->content;
       close F;
       my $cmd = "cd \"$scratch_dir/".unsafeXML($h{name})."\" ; unzip \"".unsafeXML($h{name}).'.zip'."\" ; rm -f \"".unsafeXML($h{name}).'.zip"';
+      # print LOG "ZIP\n$cmd\n";
       `$cmd`;
     }
     else {
-      print STDERR $r->status_line."\n";
+      # print LOG "ERROR\n";
+      # print LOG $r->status_line."\n";
     }
   }
   else {
@@ -115,6 +127,7 @@ foreach (@{$doc->{layer}}) {
     }
   }
   $c++;
+  # close LOG;
 }
 my $zipName = $doc->{zip}[0]{name};
 $zipName =~ s/\.zip//gi;
