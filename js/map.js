@@ -222,12 +222,58 @@ var qryWin = new Ext.Window({
           ,loadMask         : true
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
+// charlton
               if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
                 Ext.Msg.alert('Query details','This row has no features. No details will be fetched.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
                 Ext.Msg.alert('Query details','This datalayer is not visible at this scale.  Zoom in to view features.');
+                return;
+              }
+              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'n/a') {
+                featureBbox.unselectAll();
+                title = qryLyrStore.getAt(rowIndex).get('title');
+                var centroid = qryBounds.getCentroid();
+                var centroidPixel = map.getPixelFromLonLat(new OpenLayers.LonLat(centroid.x,centroid.y));
+                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centroidPixel.x,Y : centroidPixel.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : mapPanel.getWidth(),HEIGHT : mapPanel.getHeight(),FOO : ''}).replace('&FOO=','');
+                var MIF = new Ext.ux.ManagedIFramePanel({
+                   defaultSrc  : gfiUrl
+                  ,bodyBorder  : false
+                  ,bodyStyle   : 'background:white'
+                  ,listeners   : {domready : function(frame){
+                    var fbody = frame.getBody();
+                    var w = Ext.getCmp('myFrameWin');
+                    if (w && fbody){
+                      // calc current offsets for Window body border and padding
+                      var bHeightAdj = w.body.getHeight() - w.body.getHeight(true);
+                      var bWidthAdj  = w.body.getWidth()  - w.body.getWidth(true);
+                      // Window is rendered (has size) but invisible
+                      w.setSize(Math.max(w.minWidth || 0, fbody.scrollWidth  +  w.getFrameWidth() + bWidthAdj) ,
+                      Math.max(w.minHeight || 0, fbody.scrollHeight +  w.getFrameHeight() + bHeightAdj) );
+                      // then show it sized to frame document
+                      w.show();
+                    }
+                  }}
+                });
+                new Ext.Window({
+                   title           : title
+                  ,width           : mapPanel.getWidth() * 0.65
+                  ,height          : mapPanel.getHeight() * 0.65
+                  ,hideMode        : 'visibility'
+                  ,hidden          : true   //wait till you know the size
+                  ,plain           : true
+                  ,constrainHeader : true
+                  ,minimizable     : false
+                  ,ddScroll        : false
+                  ,border          : false
+                  ,bodyBorder      : false
+                  ,layout          : 'fit'
+                  ,plain           : true
+                  ,maximizable     : true
+                  ,buttonAlign     : 'center'
+                  ,items           : MIF
+                }).show();
                 return;
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
@@ -1940,8 +1986,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.54)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.54)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.55)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.55)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
