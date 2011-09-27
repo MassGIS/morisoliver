@@ -1940,8 +1940,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.53)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.53)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.54)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.54)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3352,9 +3352,9 @@ function loadLayerDescribeFeatureType(wms) {
                   var f   = feature.clone();
                   f.geometry.transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986"));
                   var str = gml.write(f);
-                  var res = /<gml:geometry>(.*)<\/gml:geometry>/.exec(str);
+                  var res = /<(gml|feature):geometry>(.*)<\/(gml|feature):geometry>/.exec(str);
                   // exportBbox.verts is uually an array of length 4, but pass along the full geom in this case
-                  exportBbox.verts = [res[1]];
+                  exportBbox.verts = [res[2]];
 
                   // the polygon's bbox will serve as the standard bbox for non-shp queries
                   exportBbox.minX = feature.geometry.getBounds().toArray()[0];
