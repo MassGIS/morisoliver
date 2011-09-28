@@ -1986,8 +1986,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.55)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.55)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.56)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.56)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3626,11 +3626,18 @@ function runQueryStats(bounds) {
 
   // save goodies in case query is thrown over to an extract
   exportBbox.units = map.getProjection();
-  exportBbox.verts = [];
+  var posList = [];
   for (var i = 0; i < vertices.length; i++) {
+    var v = vertices[i].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986"));
+    posList.push(v.x + ' ' + v.y);
     exportBbox.verts.push(vertices[i].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986")));
   }
-  exportBbox.verts.push(exportBbox.verts[0]);
+  var v = vertices[0].clone().transform(map.getProjectionObject(),new OpenLayers.Projection("EPSG:26986"));
+  posList.push(v.x + ' ' + v.y);
+  var gml = '<gml:MultiSurface><gml:surfaceMember><gml:Polygon><gml:exterior><gml:LinearRing><gml:posList>'
+    + posList.join(' ')
+    + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></gml:surfaceMember></gml:MultiSurface>';
+  exportBbox.verts = [gml];
 
   // the polygon's bbox will serve as the standard bbox for non-shp queries
   exportBbox.minX = bounds.getBounds().toArray()[0];
