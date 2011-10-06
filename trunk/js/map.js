@@ -2000,8 +2000,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.59)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.59)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.60)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.60)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3979,7 +3979,7 @@ function launchExportWizard(aoi) {
   });
   for (var j = map.layers.length - 1; j >= 0; j--) {
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
         // a normal find wasn't working properly, so loop through the list to keep dups out
         var exists = false;
         tstLyrStore.each(function(rec) {
@@ -4168,6 +4168,7 @@ function launchExportWizard(aoi) {
                             ,text     : 'Import active layers'
                             ,icon     : 'img/import.png'
                             ,handler     : function() {
+                              tstLyrStore.removeAll();
                               for (var j = map.layers.length - 1; j >= 0; j--) {
                                 for (var i in activeLyr) {
                                   if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
