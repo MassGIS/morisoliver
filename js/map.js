@@ -163,7 +163,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -531,6 +531,21 @@ Ext.onReady(function() {
       ,'type'              : YAHOO_MAP_HYB
     }
   );
+  lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
+     key  : bingKey
+    ,type : 'Road'
+    ,name : 'bingRoads'
+  });
+  lyrBase['bingAerial'] = new OpenLayers.Layer.Bing({
+     key  : bingKey
+    ,type : 'Aerial'
+    ,name : 'bingAerial'
+  });
+  lyrBase['bingHybrid'] = new OpenLayers.Layer.Bing({
+     key  : bingKey
+    ,type : 'AerialWithLabels'
+    ,name : 'bingHybrid'
+  });
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -1985,8 +2000,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.57)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.57)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.58)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.58)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2482,6 +2497,87 @@ Ext.onReady(function() {
               }
             }
           }
+           ,{
+             text    : 'Bing Satellite'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'bingAerial'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('bingAerial');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['bingAerial']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['bingAerial']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Bing Roads'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'bingRoads'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('bingRoads');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['bingRoads']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['bingRoads']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Bing Hybrid'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'bingHybrid'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('bingHybrid');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['bingHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['bingHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
           ,{
              text    : 'Yahoo Satellite'
             ,group   : 'basemap'
@@ -2641,6 +2737,15 @@ Ext.onReady(function() {
                 }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
+                }
+                if (lyrBase['bingAerial'].map) {
+                  lyrBase['bingAerial'].setOpacity(newVal/100);
+                }
+                if (lyrBase['bingRoads'].map) {
+                  lyrBase['bingRoads'].setOpacity(newVal/100);
+                }
+                if (lyrBase['bingHybrid'].map) {
+                  lyrBase['bingHybrid'].setOpacity(newVal/100);
                 }
               }
             }
