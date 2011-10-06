@@ -216,7 +216,7 @@ var qryWin = new Ext.Window({
              {id : 'ico'  ,header : ''                              ,width : 25,renderer : ico2img                 }
             ,{id : 'title',header : 'Layer name'                                                                   }
             ,{id : 'wfs'  ,header : 'Feature(s) found?'                                                            }
-            ,{id : 'busy' ,header : ''                              ,width : 25,renderer : busyIco                 }
+            ,{id : 'busy' ,header : ''                              ,width : 30,renderer : busyIco                 }
           ]
           ,autoExpandColumn : 'title'
           ,loadMask         : true
@@ -2000,8 +2000,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.58)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.58)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.59)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.59)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4439,7 +4439,7 @@ function launchExportWizard(aoi) {
               ,{id : 'title' ,dataIndex : 'title' ,header : 'Layer name'                                                                   }
               ,{id : 'wfs'   ,dataIndex : 'wfs'   ,header : 'Feature(s) found?'                                                            }
               ,{id : 'export',dataIndex : 'export',header : 'OK to export?'                 ,align : 'center',renderer: okIco              }
-              ,{id : 'busy'  ,dataIndex : 'busy'  ,header : ''                              ,width : 25,renderer : busyIco                 }
+              ,{id : 'busy'  ,dataIndex : 'busy'  ,header : ''                              ,width : 30,renderer : busyIco                 }
             ]
             ,autoExpandColumn : 'title'
             ,loadMask         : true
