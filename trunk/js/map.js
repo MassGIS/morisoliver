@@ -2000,8 +2000,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.60)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.60)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.61)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.61)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4078,7 +4078,7 @@ function launchExportWizard(aoi) {
           dataURL[title] = {
              base     : safeXML(rec.get('url'))
             ,metadata : []
-            ,layer    : lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? OpenLayers.Util.getParameters(rec.get('url'))['layers'] : ''
+            ,layer    : rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >=0 || lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? OpenLayers.Util.getParameters(rec.get('url'))['layers'] : ''
           };
           lastTitle = title;
         }
