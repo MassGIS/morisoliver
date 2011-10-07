@@ -2000,8 +2000,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.61)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.61)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.62)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.62)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4078,8 +4078,13 @@ function launchExportWizard(aoi) {
           dataURL[title] = {
              base     : safeXML(rec.get('url'))
             ,metadata : []
-            ,layer    : rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >=0 || lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? OpenLayers.Util.getParameters(rec.get('url'))['layers'] : ''
+            ,layer    : rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >= 0 || lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? String(OpenLayers.Util.getParameters(rec.get('url'))['layers']).replace(featurePrefix + ':','') : ''
+            ,style    : ''
           };
+          // pass along style for kml
+          if (rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >= 0) {
+            dataURL[title].style = wmsStyl[title];
+          }
           lastTitle = title;
         }
         else {
@@ -4090,7 +4095,7 @@ function launchExportWizard(aoi) {
       var dataXML = '';
       for (var i in dataURL) {
         if (dataURL[i].base) {
-          dataXML += '<layer wmsLayer="' + safeXML(dataURL[i].layer) + '" name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
+          dataXML += '<layer wmsStyle="' + safeXML(dataURL[i].style) + '" wmsLayer="' + safeXML(dataURL[i].layer) + '" name="' + safeXML(i) + '" baseURL="' + dataURL[i].base + '"><metadata>' + dataURL[i].metadata.join('</metadata><metadata>') + '</metadata>' + '</layer>';
         }
       }
       YUI().use("io",function(Y) {
