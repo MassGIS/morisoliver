@@ -93,7 +93,9 @@ foreach (@{$doc->{layer}}) {
     }
   }
   else {
-    my $r = $ua->get(unsafeXML($h{baseURL}));
+    my $u = unsafeXML($h{baseURL});
+    $u =~ s/styles=/styles=$h{wmsStyle}/;
+    my $r = $ua->get($u);
     if ($r->is_success) {
       if  (unsafeXML($h{baseURL}) =~ /application\/vnd.google-earth.kml\+xml/) {
         open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.kml';
