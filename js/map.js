@@ -1815,7 +1815,12 @@ Ext.onReady(function() {
 						this.__selectedRecord = record;
 						this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
 						var bbox = record.json.properties.bbox;
-						map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));				
+						var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+						var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+						var zoomTarget = new OpenLayers.Bounds();
+						zoomTarget.extend(ll);
+						zoomTarget.extend(ur);
+						map.zoomToExtent(zoomTarget);
 					},
 					specialKey : function (field,e) {
 						if (e.getKey() == e.ENTER ) {
@@ -1827,7 +1832,12 @@ Ext.onReady(function() {
 									// this code is modified from the select listener.  It'd be better to trigger the select event.
 									this.setValue(recVal); // this shouldn't be necessary
 									var bbox = record.json.properties.bbox;
-									map.zoomToExtent(new OpenLayers.Bounds(bbox[0],bbox[1],bbox[2],bbox[3]));							
+									var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+									var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+									var zoomTarget = new OpenLayers.Bounds();
+									zoomTarget.extend(ll);
+									zoomTarget.extend(ur);
+									map.zoomToExtent(zoomTarget);
 								}
 							} 
 						}
