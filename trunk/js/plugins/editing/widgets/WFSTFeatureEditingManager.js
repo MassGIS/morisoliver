@@ -489,6 +489,9 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             }
         }, this);
         this.map.addLayers(layers);
+        Ext.each(layers, function(layer, index) {
+            layer.setVisibility(false);
+        });
         this.layers = layers;
 
         this.triggerDescribeFeatureTypes(layers);
@@ -575,7 +578,8 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 }
             }, this);
             this.layer.wfstFeatureEditing.fields = fields;
-        }        
+			this.layer.setVisibility(false);
+        }
 
         this.manager.queries++;
 
@@ -705,6 +709,9 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             });
             layer.wfstFeatureEditing.snappingFilterControl = drawToolControl;
             this.map.addLayers(snapLayerConfigs);
+			Ext.each(snapLayerConfigs, function(layer) {
+				layer.setVisibility(false);
+			});
             var snap = new OpenLayers.Control.Snapping({
                 layer: layer,
                 targets: snapLayerConfigs,
@@ -774,15 +781,19 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         if (this.useFilter) {
             userFilterControl = new OpenLayers.Control.UserFilter({
                 layer: layer,
-                box: true
+                box: true,
+                filterType: OpenLayers.Filter.Spatial.INTERSECTS
             });
             layer.wfstFeatureEditing.userFilterControl = userFilterControl;
 
             userFilterControl.events.on({
+                "activate" : function(e) {
+                    layer.setVisibility(true);
+                },
                 "filtermerged": function(e) {
                     e.control.deactivateHandlers();
                     e.layer.wfstFeatureEditing.highlightControl.activate();
-                    snap.activate();
+                    snap && snap.activate();
                 },
                 "deactivate": function(e) {
                     var layers = e.object.layers;
@@ -790,7 +801,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                         var layer = layers[i];
                         layer.wfstFeatureEditing.highlightControl.deactivate();
                     }
-                    snap.deactivate();
+                    snap && snap.deactivate();
                 },
                 scope: this
             });
@@ -805,7 +816,6 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         selectControl.events.on({
             "activate": function() {
                 this.layer.setVisibility(true);
-
                 this.manager.useFilter === false &&
                     this.manager.toggleMainPanelContainer(true);
 
