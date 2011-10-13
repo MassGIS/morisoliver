@@ -443,12 +443,22 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 };
                 
                 Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
-                
-                layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
-                    strategies: [new OpenLayers.Strategy.Fixed()],
-                    projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
-                    protocol: new OpenLayers.Protocol.WFS( protocolCfg )
-                }))
+
+                if (this.layerConfigs[i].color) {
+		            var styleMap = new OpenLayers.StyleMap({"default": new OpenLayers.Style({'strokeColor': this.layerConfigs[i].color})} );
+		            layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+		                strategies: [new OpenLayers.Strategy.Fixed()],
+		                projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+		                protocol: new OpenLayers.Protocol.WFS( protocolCfg ),
+		                styleMap: styleMap
+		            }));
+				} else {
+		            layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+		                strategies: [new OpenLayers.Strategy.Fixed()],
+		                projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+		                protocol: new OpenLayers.Protocol.WFS( protocolCfg )
+		            }));
+                }
             }
         }
         
