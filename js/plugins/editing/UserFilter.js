@@ -103,6 +103,37 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
     },
 
     /**
+     * Method: selectBox
+     * Callback from the handlers.box set up when <box> selection is on
+     *
+     * Parameters:
+     * position - {<OpenLayers.Bounds>}  
+     */
+    selectBox: function(position) {
+        var bounds;
+        if (position instanceof OpenLayers.Bounds) {
+            var minXY = this.map.getLonLatFromPixel(
+                new OpenLayers.Pixel(position.left, position.bottom)
+            );
+            var maxXY = this.map.getLonLatFromPixel(
+                new OpenLayers.Pixel(position.right, position.top)
+            );
+            bounds = new OpenLayers.Bounds(
+                minXY.lon, minXY.lat, maxXY.lon, maxXY.lat
+            );
+            
+        } else {
+            if(this.click) {
+                // box without extent - let the click handler take care of it
+                return;
+            }
+            bounds = this.pixelToBounds(position);
+        }
+        this.setModifiers(this.handlers.box.dragHandler.evt);
+        this.request(bounds);
+    },
+
+    /**
      * Method: request
      * Sends a GetFeature request to the WFS
      * 
@@ -112,12 +143,14 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
      */
     request: function(bounds, options) {
         options = options || {};
-        var filter = new OpenLayers.Filter.Spatial({
-            type: this.filterType, 
-            value: bounds
-        });
         for (var i = 0; i < this.layers.length; i++) {
             var layer = this.layers[i];
+            var rebounds = bounds.transform(this.map.getProjectionObject(), layer.projection);
+
+            var filter = new OpenLayers.Filter.Spatial({
+                type: this.filterType,
+                value: bounds
+            });
             layer.protocol.defaultFilter = filter;
             this.hasBlankFilter = false;
             this.events.triggerEvent("filtermerged", {
