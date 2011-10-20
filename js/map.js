@@ -1989,8 +1989,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.66)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.66)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.67)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.67)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3367,6 +3367,8 @@ function loadLayerDescribeFeatureType(wms) {
            store  : featureBboxStore
           ,tbar   : [
              {text : 'Select and highlight all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
+            ,'-'
+            ,{text : 'Unselect and unhighlight all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
           ]
           ,height : 215
           ,width  : 425
