@@ -234,7 +234,7 @@ var qryWin = new Ext.Window({
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'n/a') {
                 featureBbox.unselectAll();
                 title = qryLyrStore.getAt(rowIndex).get('title');
-                var centerPx = map.getViewPortPxFromLayerPx(map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat()));
+                var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
                 var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : ''}).replace('&FOO=','');
                 var MIF = new Ext.ux.ManagedIFramePanel({
                    defaultSrc  : gfiUrl
@@ -1989,8 +1989,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.68)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.68)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.69)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.69)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
