@@ -1989,8 +1989,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.65)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.65)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.66)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.66)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2052,6 +2052,8 @@ Ext.onReady(function() {
         ,icon    : 'img/layer-shape-line.png'
         ,handler : function() {
           areaControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
           lengthControl.activate();
           layerRuler.removeFeatures(layerRuler.features);
           Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
@@ -2065,6 +2067,8 @@ Ext.onReady(function() {
         ,icon    : 'img/layer-shape-polygon.png'
         ,handler : function() {
           lengthControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
           areaControl.activate();
           layerRuler.removeFeatures(layerRuler.features);
           Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
