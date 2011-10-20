@@ -298,6 +298,7 @@ var qryWin = new Ext.Window({
               map.addControl(featureBbox);
               featureBbox.activate();
               featureBbox.request(qryBounds);
+              featureBbox.deactivate();
             }
           }
         })
@@ -1989,8 +1990,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.69)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.69)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.70)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.70)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
