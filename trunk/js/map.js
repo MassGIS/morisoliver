@@ -234,9 +234,8 @@ var qryWin = new Ext.Window({
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'n/a') {
                 featureBbox.unselectAll();
                 title = qryLyrStore.getAt(rowIndex).get('title');
-                var centroid = qryBounds.getCentroid();
-                var centroidPixel = map.getPixelFromLonLat(new OpenLayers.LonLat(centroid.x,centroid.y));
-                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centroidPixel.x,Y : centroidPixel.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : mapPanel.getWidth(),HEIGHT : mapPanel.getHeight(),FOO : ''}).replace('&FOO=','');
+                var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
+                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : mapPanel.getWidth(),HEIGHT : mapPanel.getHeight(),FOO : ''}).replace('&FOO=','');
                 var MIF = new Ext.ux.ManagedIFramePanel({
                    defaultSrc  : gfiUrl
                   ,bodyBorder  : false
@@ -1990,8 +1989,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.64)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.64)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.65)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.65)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
