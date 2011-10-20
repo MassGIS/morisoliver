@@ -1,14 +1,14 @@
 
 if (typeof MorisOliverApp == 'undefined') {
-	MorisOliverApp = {};
+  MorisOliverApp = {};
 }
 
 if (typeof MorisOliverApp.thGridPanel == 'undefined') {
-	MorisOliverApp.thGridPanel = Ext.grid.GridPanel;
+  MorisOliverApp.thGridPanel = Ext.grid.GridPanel;
 }
 
 if (typeof MorisOliverApp.thGridView == 'undefined') {
-	MorisOliverApp.thGridView = Ext.grid.GridView;
+  MorisOliverApp.thGridView = Ext.grid.GridView;
 }
 
 var loadedWms = {};
@@ -163,7 +163,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|yahooStreet|yahooSatellite|yahooHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -493,44 +493,24 @@ Ext.override(Ext.tree.TreeNode,{
 
 var triggerButton = function (toolbar, type, itemId) {
 // use in keyMap, as triggerButton.createDelegate(....)
-	var component = toolbar.getComponent(itemId);
-	switch (type) {
-		case 'menu':
-			component.showMenu();
-			break;
-		case 'toggle':
-			component.toggle(true);
-			break;
-		case 'basic':
-			component.handler();
-			break;
-		default:
-	}
-	component.focus();
+  var component = toolbar.getComponent(itemId);
+  switch (type) {
+    case 'menu':
+      component.showMenu();
+      break;
+    case 'toggle':
+      component.toggle(true);
+      break;
+    case 'basic':
+      component.handler();
+      break;
+    default:
+  }
+  component.focus();
 };
 
 Ext.onReady(function() {
   Ext.QuickTips.init();
-  lyrBase['yahooStreet'] = new OpenLayers.Layer.Yahoo(
-     'yahooStreet'
-    ,{
-       'sphericalMercator' : true
-    }
-  );
-  lyrBase['yahooSatellite'] = new OpenLayers.Layer.Yahoo(
-     'yahooSatellite'
-    ,{
-       'sphericalMercator' : true
-      ,'type'              : YAHOO_MAP_SAT
-    }
-  );
-  lyrBase['yahooHybrid'] = new OpenLayers.Layer.Yahoo(
-     'yahooHybrid'
-    ,{
-       'sphericalMercator' : true
-      ,'type'              : YAHOO_MAP_HYB
-    }
-  );
   lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
      key  : bingKey
     ,type : 'Road'
@@ -610,12 +590,12 @@ Ext.onReady(function() {
   // snazzy line measure controls
   
   var resetMeasureTally = function () {
-	// reseting measureTally is done in numerous places, even when measure not being used.
-	// check if measure used, if so, reset.
-	if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 	{
-		Ext.getCmp('measureTally').reset();
-	}
-	
+  // reseting measureTally is done in numerous places, even when measure not being used.
+  // check if measure used, if so, reset.
+  if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show')  {
+    Ext.getCmp('measureTally').reset();
+  }
+  
   };
   
   var mouseMovements = 0;
@@ -872,7 +852,7 @@ Ext.onReady(function() {
 
   olLayerTree = new Ext.tree.TreePanel({
      split       : true
-	,tabIndex : -1
+  ,tabIndex : -1
     ,height      : 200
     ,region      : 'north'
     ,autoScroll  : true
@@ -927,7 +907,7 @@ Ext.onReady(function() {
         lyrStoreSearchWizard.loadData(recUniqAllLyr);
         lyrSearchCombo = new Ext.form.ComboBox({
            store          : lyrStore
-		  ,itemId         : "layerSearch"
+      ,itemId         : "layerSearch"
           ,forceSelection : true
           ,triggerAction  : 'all'
           ,emptyText      : 'Select / search data layers'
@@ -950,13 +930,13 @@ Ext.onReady(function() {
           }
         });
         olLayerPanel.getTopToolbar().add(lyrSearchCombo);
-		
-		if (additionalSettings && additionalSettings.layerList && additionalSettings.layerList.searchBox  && additionalSettings.layerList.searchBox.keyMap) {
-			var layerSearchKeyMap = {};
-			Ext.apply(layerSearchKeyMap, additionalSettings.layerList.searchBox.keyMap, {fn:function () {olLayerPanel.getTopToolbar().getComponent("layerSearch").focus();} });
-			new Ext.KeyMap(document, layerSearchKeyMap);
-		}	
-		
+    
+    if (additionalSettings && additionalSettings.layerList && additionalSettings.layerList.searchBox  && additionalSettings.layerList.searchBox.keyMap) {
+      var layerSearchKeyMap = {};
+      Ext.apply(layerSearchKeyMap, additionalSettings.layerList.searchBox.keyMap, {fn:function () {olLayerPanel.getTopToolbar().getComponent("layerSearch").focus();} });
+      new Ext.KeyMap(document, layerSearchKeyMap);
+    } 
+    
         olLayerPanel.addListener({
           resize : function() {
             lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
@@ -968,14 +948,14 @@ Ext.onReady(function() {
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
           addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1);
-        }	
-		
-		// bad hack to fix tab Index issues.
-		window.setTimeout(function () {
-			  olLayerTree.getRootNode().eachChild(  function (nd) {
-				nd.getUI().anchor.tabIndex=-1;
-			  });  
-		  },2000);		
+        } 
+    
+    // bad hack to fix tab Index issues.
+    window.setTimeout(function () {
+        olLayerTree.getRootNode().eachChild(  function (nd) {
+        nd.getUI().anchor.tabIndex=-1;
+        });  
+      },2000);    
       },
       click : function(node,e){
         if (!node.isLeaf()) {
@@ -1058,7 +1038,7 @@ Ext.onReady(function() {
   
   var olLegendPanel = new GeoExt.LegendPanel({
      title       : 'Active data legends'
-	,tabIndex : -1	 
+  ,tabIndex : -1   
     ,region      : 'south'
     ,height      : 150
     ,split       : true
@@ -1073,18 +1053,18 @@ Ext.onReady(function() {
   var topToolBar_items = [];
   var topToolBar_keyMaps = [], bottomToolBar_keyMaps = [];
   
-	// navigation functionality.  (zoom in, out, pan, max extent, active extent, forward, backwards, zoom to scale)
-	topToolBar_items.push(
+  // navigation functionality.  (zoom in, out, pan, max extent, active extent, forward, backwards, zoom to scale)
+  topToolBar_items.push(
       new GeoExt.Action({
          control      : new OpenLayers.Control.ZoomBox()
         ,map          : map
         ,toggleGroup  : 'navigation'
-		,enableToggle : true
+    ,enableToggle : true
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom in'
         ,icon         : 'img/zoom_in.png'
-		,itemId 	  : 'zoomIn'
+    ,itemId     : 'zoomIn'
         ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_in.cur")');
@@ -1098,12 +1078,12 @@ Ext.onReady(function() {
          control      : new OpenLayers.Control.ZoomBox(Ext.apply({out: true}))
         ,map          : map
         ,toggleGroup  : 'navigation'
-		,enableToggle : true		
+    ,enableToggle : true    
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom out'
         ,icon         : 'img/zoom_out.png'
-		,itemId 	  : 'zoomOut'		
+    ,itemId     : 'zoomOut'   
         ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_out.cur")');
@@ -1118,13 +1098,13 @@ Ext.onReady(function() {
         ,map          : map
         ,id           : 'dragPanButton'
         ,toggleGroup  : 'navigation'
-		,enableToggle : true		
+    ,enableToggle : true    
         ,allowDepress : false
         ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Pan'
         ,icon         : 'img/drag.gif'
         ,pressed      : true
-		,itemId 	  : 'pan'		
+    ,itemId     : 'pan'   
         ,toggleHandler: function() {
           Ext.getCmp('mappanel').body.setStyle('cursor','move');
         }
@@ -1133,7 +1113,7 @@ Ext.onReady(function() {
          iconCls     : 'buttonIcon'
         ,tooltip     : 'Zoom to initial extent'
         ,icon        : 'img/globe.png'
-		,itemId 	  : 'initExtent'		
+    ,itemId     : 'initExtent'    
         ,handler     : function() {
           map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
         }
@@ -1142,7 +1122,7 @@ Ext.onReady(function() {
          iconCls     : 'buttonIcon'
         ,tooltip     : 'Zoom to full extent of active data'
         ,icon        : 'img/zoom_extents.png'
-		,itemId 	  : 'maxExtent'		
+    ,itemId     : 'maxExtent'   
         ,handler     : function() {
           var targetBounds = new OpenLayers.Bounds();
           for (var i in activeLyr) {
@@ -1165,7 +1145,7 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go back to previous extent'
         ,icon     : 'img/undo.png'
-		,itemId 	  : 'prevExtent'		
+    ,itemId     : 'prevExtent'    
       })
       ,new GeoExt.Action({
          control  : ctrl.next
@@ -1173,17 +1153,17 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go to next extent'
         ,icon     : 'img/redo.png'
-		,itemId   : 'nextExtent'				
+    ,itemId   : 'nextExtent'        
       })
       ,'-'
       ,{
-		 enableToggle: true
+     enableToggle: true
         ,text     : 'Zoom to a scale'
         ,id       : 'zoomToAScale'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/Search-icon.png'
         ,disabled : defaultBase !== 'custom'
-		,itemId 	  : 'zoomScale'		
+    ,itemId     : 'zoomScale'   
         ,menu     : [
           {
              text    : '1:1,000'
@@ -1262,70 +1242,70 @@ Ext.onReady(function() {
           }
         ]
       }
-	 );
+   );
 
-	if (toolSettings.navigationTools) {
-		if (toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.zoomIn.keyMap,
-				itemId :'zoomIn' ,
-				type   : 'toggle'
-			});
-		}
-		if (toolSettings.navigationTools.zoomOut && toolSettings.navigationTools.zoomOut.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.zoomOut.keyMap,
-				itemId :'zoomOut' ,
-				type   : 'toggle'
-			});
-		}
-		if (toolSettings.navigationTools.pan && toolSettings.navigationTools.pan.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.pan.keyMap,
-				itemId :'pan' ,
-				type   : 'toggle'
-			});
-		}
-		if (toolSettings.navigationTools.nextExtent && toolSettings.navigationTools.nextExtent.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.nextExtent.keyMap,
-				itemId :'nextExtent' ,
-				type   : 'basic'
-			});
-		}
-		if (toolSettings.navigationTools.initExtent && toolSettings.navigationTools.initExtent.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.initExtent.keyMap,
-				itemId :'initExtent' ,
-				type   : 'basic'
-			});
-		}
-		if (toolSettings.navigationTools.prevExtent && toolSettings.navigationTools.prevExtent.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.prevExtent.keyMap,
-				itemId :'prevExtent' ,
-				type   : 'basic'
-			});
-		}
-		if (toolSettings.navigationTools.maxExtent && toolSettings.navigationTools.maxExtent.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.maxExtent.keyMap,
-				itemId :'maxExtent' ,
-				type   : 'basic'
-			});
-		}		
-		if (toolSettings.navigationTools.zoomScale && toolSettings.navigationTools.zoomScale.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.navigationTools.zoomScale.keyMap,
-				itemId :'zoomScale' ,
-				type   : 'menu'
-			});
-		}			
-		
+  if (toolSettings.navigationTools) {
+    if (toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomIn.keyMap,
+        itemId :'zoomIn' ,
+        type   : 'toggle'
+      });
+    }
+    if (toolSettings.navigationTools.zoomOut && toolSettings.navigationTools.zoomOut.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomOut.keyMap,
+        itemId :'zoomOut' ,
+        type   : 'toggle'
+      });
+    }
+    if (toolSettings.navigationTools.pan && toolSettings.navigationTools.pan.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.pan.keyMap,
+        itemId :'pan' ,
+        type   : 'toggle'
+      });
+    }
+    if (toolSettings.navigationTools.nextExtent && toolSettings.navigationTools.nextExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.nextExtent.keyMap,
+        itemId :'nextExtent' ,
+        type   : 'basic'
+      });
+    }
+    if (toolSettings.navigationTools.initExtent && toolSettings.navigationTools.initExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.initExtent.keyMap,
+        itemId :'initExtent' ,
+        type   : 'basic'
+      });
+    }
+    if (toolSettings.navigationTools.prevExtent && toolSettings.navigationTools.prevExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.prevExtent.keyMap,
+        itemId :'prevExtent' ,
+        type   : 'basic'
+      });
+    }
+    if (toolSettings.navigationTools.maxExtent && toolSettings.navigationTools.maxExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.maxExtent.keyMap,
+        itemId :'maxExtent' ,
+        type   : 'basic'
+      });
+    }   
+    if (toolSettings.navigationTools.zoomScale && toolSettings.navigationTools.zoomScale.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomScale.keyMap,
+        itemId :'zoomScale' ,
+        type   : 'menu'
+      });
+    }     
+    
 
 
 
-	}
+  }
         if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
           // identify tool functionality
           identify = new GeoExt.Action({
@@ -1417,175 +1397,175 @@ Ext.onReady(function() {
 //            ,clearIdentify
           );
         }
-	
-	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
-		 commentSaveStrategy = new OpenLayers.Strategy.Save();	
-		 
-		 commentSaveStrategy.events.register('success', null, function () {
-			commentWFSLayer.destroyFeatures();
-			commentWindow.hide();
-		 });
+  
+  if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
+     commentSaveStrategy = new OpenLayers.Strategy.Save();  
+     
+     commentSaveStrategy.events.register('success', null, function () {
+      commentWFSLayer.destroyFeatures();
+      commentWindow.hide();
+     });
 
-		 commentSaveStrategy.events.register('fail', null, function () {
-			alert('save failed');
-		 });
-		 
-		var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
-			strategies: [commentSaveStrategy], 
-			projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
-			protocol: new OpenLayers.Protocol.WFS({
-				version: "1.0.0",
-				srsName: toolSettings.commentTool.layer.srs,
-				url: wfsUrl,
-				featureNS : namespaceUrl,
-				featureType:  toolSettings.commentTool.layer.layerName,
-				geometryName:  toolSettings.commentTool.layer.geometryName,
-				featurePrefix: 'massgis',
-				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
-			})
-		});	
-		Ext.QuickTips.init(); 
-		map.addLayer(commentWFSLayer);
-		var commentWindow,commentForm,commentFeature;
-		var drawComment = new OpenLayers.Control.DrawFeature(
-			commentWFSLayer,
-			OpenLayers.Handler.Point
-			,{
-				title: "Add comment",
-				displayClass: "olControlDrawFeaturePoint",
-				multi: true,
-				featureAdded: function (feat) {
-					commentFeature = feat;
-					if (!commentForm) {
-						var commentFields = [];
-					
-						commentForm = new Ext.form.FormPanel ({
-							baseCls: 'x-plain',
-							labelWidth:75,
-							frame:true,
-							monitorValid:true,
-							buttonAlign: 'right',
-							bodyStyle:'padding:10px 10px 0',
-							 layout: {
-										type: 'vbox'
-										,align: 'stretch'  // Child items are stretched to full width
-									},
-									defaults: {
-										//msgTarget: 'side',
-										//anchor: '95%',
-										xtype: 'textfield',
-										selectOnFocus: true,
-							            plugins: [ Ext.ux.FieldLabeler ]												
-									},
-							 
-									items: toolSettings.commentTool.fields
-							
-						});
-					}
-					if (!commentWindow) {
-						commentWindow = new Ext.Window({
-							title: "Enter comment",
-							collapsible: false,
-							maximizeable: false,
-							width: 400,
-							height: 500,
-							minHeight: 300,
-							minWidth: 200,
-							layout: "fit",
-							plain: true,
-							items: commentForm,
-							closeAction: 'hide',
-							closable: false,
-							modal:true,
-							buttons: [{
-								text: "Save",
-								formBind: true,
-								handler : function (d,e) {
-									// need to check validation (length)
-									if (commentForm.getForm().isValid()) {
-										var dt = new Date();
-										commentFeature.attributes = commentForm.getForm().getFieldValues();
-										//commentFeature.attributes.OBJECTID = -1;
-										commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
-										commentSaveStrategy.save();
-									}
-									
-								}
-							},{
-								text: "Cancel",
-								handler : function (d,e) {
-									commentWFSLayer.destroyFeatures();
-									commentWindow.hide();
-								}										
-							}]									
-						
-						});
-						
-						
-					}
-					
-					
-					commentWindow.show();
-					// this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
-				}
-			} 
-		);
-				
-		
-		topToolBar_items.push('-',
-			new GeoExt.Action ({
-			text: toolSettings.commentTool.layer.commentLabel,
-			itemId : 'commentTool',
-			map: map,
-			control: drawComment
-			,iconCls      : 'buttonIcon'
-			,icon         : 'img/query-region.png'
-			,toggleGroup  : 'navigation'	
-			,enableToggle : true			
-			,toolTip : toolSettings.commentTool.layer.commentDesc
-			})
-		);
-	}
-	
+     commentSaveStrategy.events.register('fail', null, function () {
+      alert('save failed');
+     });
+     
+    var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
+      strategies: [commentSaveStrategy], 
+      projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
+      protocol: new OpenLayers.Protocol.WFS({
+        version: "1.0.0",
+        srsName: toolSettings.commentTool.layer.srs,
+        url: wfsUrl,
+        featureNS : namespaceUrl,
+        featureType:  toolSettings.commentTool.layer.layerName,
+        geometryName:  toolSettings.commentTool.layer.geometryName,
+        featurePrefix: 'massgis',
+        schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
+      })
+    }); 
+    Ext.QuickTips.init(); 
+    map.addLayer(commentWFSLayer);
+    var commentWindow,commentForm,commentFeature;
+    var drawComment = new OpenLayers.Control.DrawFeature(
+      commentWFSLayer,
+      OpenLayers.Handler.Point
+      ,{
+        title: "Add comment",
+        displayClass: "olControlDrawFeaturePoint",
+        multi: true,
+        featureAdded: function (feat) {
+          commentFeature = feat;
+          if (!commentForm) {
+            var commentFields = [];
+          
+            commentForm = new Ext.form.FormPanel ({
+              baseCls: 'x-plain',
+              labelWidth:75,
+              frame:true,
+              monitorValid:true,
+              buttonAlign: 'right',
+              bodyStyle:'padding:10px 10px 0',
+               layout: {
+                    type: 'vbox'
+                    ,align: 'stretch'  // Child items are stretched to full width
+                  },
+                  defaults: {
+                    //msgTarget: 'side',
+                    //anchor: '95%',
+                    xtype: 'textfield',
+                    selectOnFocus: true,
+                          plugins: [ Ext.ux.FieldLabeler ]                        
+                  },
+               
+                  items: toolSettings.commentTool.fields
+              
+            });
+          }
+          if (!commentWindow) {
+            commentWindow = new Ext.Window({
+              title: "Enter comment",
+              collapsible: false,
+              maximizeable: false,
+              width: 400,
+              height: 500,
+              minHeight: 300,
+              minWidth: 200,
+              layout: "fit",
+              plain: true,
+              items: commentForm,
+              closeAction: 'hide',
+              closable: false,
+              modal:true,
+              buttons: [{
+                text: "Save",
+                formBind: true,
+                handler : function (d,e) {
+                  // need to check validation (length)
+                  if (commentForm.getForm().isValid()) {
+                    var dt = new Date();
+                    commentFeature.attributes = commentForm.getForm().getFieldValues();
+                    //commentFeature.attributes.OBJECTID = -1;
+                    commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
+                    commentSaveStrategy.save();
+                  }
+                  
+                }
+              },{
+                text: "Cancel",
+                handler : function (d,e) {
+                  commentWFSLayer.destroyFeatures();
+                  commentWindow.hide();
+                }                   
+              }]                  
+            
+            });
+            
+            
+          }
+          
+          
+          commentWindow.show();
+          // this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
+        }
+      } 
+    );
+        
+    
+    topToolBar_items.push('-',
+      new GeoExt.Action ({
+      text: toolSettings.commentTool.layer.commentLabel,
+      itemId : 'commentTool',
+      map: map,
+      control: drawComment
+      ,iconCls      : 'buttonIcon'
+      ,icon         : 'img/query-region.png'
+      ,toggleGroup  : 'navigation'  
+      ,enableToggle : true      
+      ,toolTip : toolSettings.commentTool.layer.commentDesc
+      })
+    );
+  }
+  
 
-	if (!toolSettings || !toolSettings.editTool || toolSettings.editTool.status == 'show') {
-		var editWindow = new Ext.Window({
-			resizable: true,
-			modal: false,
-			closable: false,
-			closeAction: 'hide',
-			width: 550,
-			height: 450,
-			title: "WFSTFeatureEditing",
-			layout: 'fit',
-			items: []
-		});
+  if (!toolSettings || !toolSettings.editTool || toolSettings.editTool.status == 'show') {
+    var editWindow = new Ext.Window({
+      resizable: true,
+      modal: false,
+      closable: false,
+      closeAction: 'hide',
+      width: 550,
+      height: 450,
+      title: "WFSTFeatureEditing",
+      layout: 'fit',
+      items: []
+    });
 
-		var editManager = new GeoExt.ux.WFSTFeatureEditingManager({
-			"layerConfigs" : toolSettings.editTool.layers,
-			"map": map,
-			"toolbarItems" : topToolBar_items,
-			"url": wfsUrl,
-			"actionGroup": "navigation",
-			"mainPanelContainer": editWindow
-		});
-	}
-	
-	if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
-	  // bing search functionality
-	  
-	  if (toolSettings.bingAddressSearch.keyMap) {
-		topToolBar_keyMaps.push({
-			keyMap: toolSettings.bingAddressSearch.keyMap,
-			itemId :'bingSearch' ,
-			type   : 'text'
-		});
-	  }
-	  
+    var editManager = new GeoExt.ux.WFSTFeatureEditingManager({
+      "layerConfigs" : toolSettings.editTool.layers,
+      "map": map,
+      "toolbarItems" : topToolBar_items,
+      "url": wfsUrl,
+      "actionGroup": "navigation",
+      "mainPanelContainer": editWindow
+    });
+  }
+  
+  if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
+    // bing search functionality
+    
+    if (toolSettings.bingAddressSearch.keyMap) {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.bingAddressSearch.keyMap,
+      itemId :'bingSearch' ,
+      type   : 'text'
+    });
+    }
+    
       topToolBar_items.push( '-'
       ,{
          xtype     : 'textfield'
-		,itemId    : 'bingSearch'
+    ,itemId    : 'bingSearch'
         ,emptyText : 'Search for a location'
         ,disabled  : bingDisabled
         ,id        : 'searchLocation'
@@ -1681,7 +1661,7 @@ Ext.onReady(function() {
       }
       ,{
          text    : 'Clear location'
-		,itemId  : 'bingSearchClear'
+    ,itemId  : 'bingSearchClear'
         ,tooltip : 'Clear location search results from map'
         ,iconCls : 'buttonIcon'
         ,icon    : 'img/clear_eraser.gif'
@@ -1690,194 +1670,194 @@ Ext.onReady(function() {
           var f = lyrGeoLocate.features;
           for (var i = 0; i < f.length; i++) {
             lyrGeoLocate.removeFeatures(f[i]);
-	  }
+    }
           geoLocateLonLat = undefined;
           geoLocateBnds = undefined;
         }
       });
-	}
-	
-	if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
-		topToolBar_items.push('-');
-		
-		var quickZoomDefn = {},thisStore,thisComboBox,thisTool;
-		quickZoomDefn.stores = {};
-		quickZoomDefn.storeHandlers = {};
-		quickZoomDefn.comboBoxes = {};
-		
-		var storeListener_beforeLoad;
-		for (var i = 0; i < toolSettings.quickZoomTools.tools.length; i++) {
-			thisTool = toolSettings.quickZoomTools.tools[i];
-			
-			if (thisTool.keyMap) {
-			  topToolBar_keyMaps.push({
-				keyMap: thisTool.keyMap,
-				itemId :'quickZoom'+thisTool.id ,
-				type   : 'combo'
-			  });
-		    }			
-				
-			if (thisTool.restrict) {
-				quickZoomDefn.storeHandlers[thisTool.id] = function (d) {
-					var valueField = this.valueField;
-					var thisTool = quickZoomDefn.comboBoxes[this.id];
-					var restrictTool = quickZoomDefn.comboBoxes[this.restrict.restrictToolId];
-					var restrictValue = (restrictTool.getValue() != '' && restrictTool.__selectedRecord ? restrictTool.__selectedRecord.json.properties[this.restrict.restrictedSourceField] : "");
-					if (restrictValue == "") {
-						if (this.restrict.required) {
-							thisTool.store.removeAll();
-							thisTool.lastQuery = null
-							return false;
-						} else {
-							thisTool.lastQuery = null
-							d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
-							return true;						
-						}
-					}
-					thisTool.lastQuery = null
-					var localRestrictField = this.restrict.restrictedValueField;
-					d.baseParams.CQL_FILTER = valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+localRestrictField +" = '"+restrictValue+"'";
-					return true;
-				}.createDelegate(thisTool);
-			} else {
-				quickZoomDefn.storeHandlers[thisTool.id] =  function (d)  {
-					d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
-					return true;
-				}.createDelegate(thisTool);
-			}
-			
-			var fieldList = [];
-			
-			fieldList.push(thisTool.valueField);
-			
-			if (thisTool.additionalFields  && thisTool.additionalFields.length > 0) {
-				fieldList = fieldList.concat(thisTool.additionalFields.split(','));
-			}
-			
-			var sort = "";
-			if (thisTool.sortBy) {
-				 sort = thisTool.sortBy;
-				if (thisTool.sortOrder ) {
-					sort += ' '+thisTool.sortOrder ;
-				}
-			}			
-			thisStore = new Ext.data.Store ({
-			// what about beforeLoad
-				listeners: {
-					beforeload : quickZoomDefn.storeHandlers[thisTool.id]
-				},
-				baseParams: {
-					"request" : "getfeature",
-					"version" : "1.0.0",
-					"service" : "wfs",
-					"propertyname" : fieldList.join(',') ,  
-					"typename" : thisTool.layer,
-					"outputformat" : "json",
-					"sortBy" : sort
-				},
-				proxy : new Ext.data.Geoserver_ScriptTagProxy ({
-					url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
-					"method":"GET"  
-				}),
-				reader : new Ext.data.JsonReader ({
-					root: "features",
-					fields: [{name: 'properties', mapping: 'properties'}],
-					idProperty: 'post_id'
-					}
-				) 
-			}); 	
-		
+  }
+  
+  if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
+    topToolBar_items.push('-');
+    
+    var quickZoomDefn = {},thisStore,thisComboBox,thisTool;
+    quickZoomDefn.stores = {};
+    quickZoomDefn.storeHandlers = {};
+    quickZoomDefn.comboBoxes = {};
+    
+    var storeListener_beforeLoad;
+    for (var i = 0; i < toolSettings.quickZoomTools.tools.length; i++) {
+      thisTool = toolSettings.quickZoomTools.tools[i];
+      
+      if (thisTool.keyMap) {
+        topToolBar_keyMaps.push({
+        keyMap: thisTool.keyMap,
+        itemId :'quickZoom'+thisTool.id ,
+        type   : 'combo'
+        });
+        }     
+        
+      if (thisTool.restrict) {
+        quickZoomDefn.storeHandlers[thisTool.id] = function (d) {
+          var valueField = this.valueField;
+          var thisTool = quickZoomDefn.comboBoxes[this.id];
+          var restrictTool = quickZoomDefn.comboBoxes[this.restrict.restrictToolId];
+          var restrictValue = (restrictTool.getValue() != '' && restrictTool.__selectedRecord ? restrictTool.__selectedRecord.json.properties[this.restrict.restrictedSourceField] : "");
+          if (restrictValue == "") {
+            if (this.restrict.required) {
+              thisTool.store.removeAll();
+              thisTool.lastQuery = null
+              return false;
+            } else {
+              thisTool.lastQuery = null
+              d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+              return true;            
+            }
+          }
+          thisTool.lastQuery = null
+          var localRestrictField = this.restrict.restrictedValueField;
+          d.baseParams.CQL_FILTER = valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+localRestrictField +" = '"+restrictValue+"'";
+          return true;
+        }.createDelegate(thisTool);
+      } else {
+        quickZoomDefn.storeHandlers[thisTool.id] =  function (d)  {
+          d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+          return true;
+        }.createDelegate(thisTool);
+      }
+      
+      var fieldList = [];
+      
+      fieldList.push(thisTool.valueField);
+      
+      if (thisTool.additionalFields  && thisTool.additionalFields.length > 0) {
+        fieldList = fieldList.concat(thisTool.additionalFields.split(','));
+      }
+      
+      var sort = "";
+      if (thisTool.sortBy) {
+         sort = thisTool.sortBy;
+        if (thisTool.sortOrder ) {
+          sort += ' '+thisTool.sortOrder ;
+        }
+      }     
+      thisStore = new Ext.data.Store ({
+      // what about beforeLoad
+        listeners: {
+          beforeload : quickZoomDefn.storeHandlers[thisTool.id]
+        },
+        baseParams: {
+          "request" : "getfeature",
+          "version" : "1.0.0",
+          "service" : "wfs",
+          "propertyname" : fieldList.join(',') ,  
+          "typename" : thisTool.layer,
+          "outputformat" : "json",
+          "sortBy" : sort
+        },
+        proxy : new Ext.data.Geoserver_ScriptTagProxy ({
+          url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+          "method":"GET"  
+        }),
+        reader : new Ext.data.JsonReader ({
+          root: "features",
+          fields: [{name: 'properties', mapping: 'properties'}],
+          idProperty: 'post_id'
+          }
+        ) 
+      });   
+    
 
-		quickZoomDefn.stores[thisTool.id] = thisStore ;
-			
-			thisComboBox = 	new Ext.form.ComboBox({
-				itemId : 'quickZoom'+thisTool.id,
-				id : 'quickZoom'+thisTool.id,
-				emptyText: thisTool.label,
-				fieldLabel: thisTool.label,
-				triggerAction:'all',
-				store : thisStore,
-				displayField:'values.properties.'+thisTool.valueField,  // values. is wrong, and breaks typeahead, as below
-				queryParam: 'CQL_FILTER',
-				typeAhead: true,
-				loadingText: 'Searching...',
-				width: 200,
-				autoSelect: false,
-				forceSelection:true,
-				minChars:0,
-				mode:'remote',
-				selectOnFocus:true,
-				shadow: 'drop',
-				//pageSize:10,
-				hideTrigger:false,
-				listeners : {
-					select: function (that,record,idx) {
-						this.__selectedRecord = record;
-						this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
-						var bbox = record.json.properties.bbox;
-						var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
-						var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
-						var zoomTarget = new OpenLayers.Bounds();
-						zoomTarget.extend(ll);
-						zoomTarget.extend(ur);
-						map.zoomToExtent(zoomTarget);
-					},
-					specialKey : function (field,e) {
-						if (e.getKey() == e.ENTER ) {
-							var record = this.store.getAt(0);
-							if (!!record) {
-								var recVal = record.json.properties[this.displayField.replace('values.properties.','')];
-								if (recVal == this.getValue()) {
-									this.__selectedRecord = record;
-									// this code is modified from the select listener.  It'd be better to trigger the select event.
-									this.setValue(recVal); // this shouldn't be necessary
-									var bbox = record.json.properties.bbox;
-									var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
-									var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
-									var zoomTarget = new OpenLayers.Bounds();
-									zoomTarget.extend(ll);
-									zoomTarget.extend(ur);
-									map.zoomToExtent(zoomTarget);
-								}
-							} 
-						}
-					}
-				},
-				onTypeAhead : function(){
-					if(this.store.getCount() > 0){
-						var r = this.store.getAt(0);
-						var newValue = r.data.properties[this.displayField.replace('values.properties.','')];
-						var len = newValue.length;
-						var selStart = this.getRawValue().length;
-						if(selStart != len){
-							this.setRawValue(newValue);
-							this.selectText(selStart, newValue.length);
-						}
-					}
-				}
-			});
-			
-			quickZoomDefn.comboBoxes[thisTool.id] = thisComboBox ;
-			topToolBar_items.push(thisComboBox);
-		}	
-	}
-	
+    quickZoomDefn.stores[thisTool.id] = thisStore ;
+      
+      thisComboBox =  new Ext.form.ComboBox({
+        itemId : 'quickZoom'+thisTool.id,
+        id : 'quickZoom'+thisTool.id,
+        emptyText: thisTool.label,
+        fieldLabel: thisTool.label,
+        triggerAction:'all',
+        store : thisStore,
+        displayField:'values.properties.'+thisTool.valueField,  // values. is wrong, and breaks typeahead, as below
+        queryParam: 'CQL_FILTER',
+        typeAhead: true,
+        loadingText: 'Searching...',
+        width: 200,
+        autoSelect: false,
+        forceSelection:true,
+        minChars:0,
+        mode:'remote',
+        selectOnFocus:true,
+        shadow: 'drop',
+        //pageSize:10,
+        hideTrigger:false,
+        listeners : {
+          select: function (that,record,idx) {
+            this.__selectedRecord = record;
+            this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
+            var bbox = record.json.properties.bbox;
+            var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+            var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+            var zoomTarget = new OpenLayers.Bounds();
+            zoomTarget.extend(ll);
+            zoomTarget.extend(ur);
+            map.zoomToExtent(zoomTarget);
+          },
+          specialKey : function (field,e) {
+            if (e.getKey() == e.ENTER ) {
+              var record = this.store.getAt(0);
+              if (!!record) {
+                var recVal = record.json.properties[this.displayField.replace('values.properties.','')];
+                if (recVal == this.getValue()) {
+                  this.__selectedRecord = record;
+                  // this code is modified from the select listener.  It'd be better to trigger the select event.
+                  this.setValue(recVal); // this shouldn't be necessary
+                  var bbox = record.json.properties.bbox;
+                  var ll = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[0],bbox[1]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+                  var ur = OpenLayers.Projection.transform(new OpenLayers.Geometry.Point(bbox[2],bbox[3]), new OpenLayers.Projection("EPSG:26986"), map.getProjectionObject());
+                  var zoomTarget = new OpenLayers.Bounds();
+                  zoomTarget.extend(ll);
+                  zoomTarget.extend(ur);
+                  map.zoomToExtent(zoomTarget);
+                }
+              } 
+            }
+          }
+        },
+        onTypeAhead : function(){
+          if(this.store.getCount() > 0){
+            var r = this.store.getAt(0);
+            var newValue = r.data.properties[this.displayField.replace('values.properties.','')];
+            var len = newValue.length;
+            var selStart = this.getRawValue().length;
+            if(selStart != len){
+              this.setRawValue(newValue);
+              this.selectText(selStart, newValue.length);
+            }
+          }
+        }
+      });
+      
+      quickZoomDefn.comboBoxes[thisTool.id] = thisComboBox ;
+      topToolBar_items.push(thisComboBox);
+    } 
+  }
+  
       topToolBar_items.push('->');
 
-	if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
-	
-		if (toolSettings.exportData.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.exportData.keyMap,
-				itemId : "exportData",
-				type   : "basic"
-			});
-		}
+  if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
+  
+    if (toolSettings.exportData.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.exportData.keyMap,
+        itemId : "exportData",
+        type   : "basic"
+      });
+    }
 
-	// export data functionality
-	  topToolBar_items.push({
+  // export data functionality
+    topToolBar_items.push({
          text        : 'Export data'
-	,itemId      : "exportData"
+  ,itemId      : "exportData"
         ,tooltip     : 'Launch the data export wizard'
         ,iconCls     : 'buttonIcon'
         ,icon        : 'img/export.png'
@@ -1885,7 +1865,7 @@ Ext.onReady(function() {
           launchExportWizard({typ : 'bbox'});
         }
       });
-	}
+  }
 
     topToolBar_items.push({
        text     : 'Print / Save'
@@ -1896,17 +1876,17 @@ Ext.onReady(function() {
       ,handler  : function() {printSave()}
    });
 
-	  	if (toolSettings.help &&  toolSettings.help.keyMap) {
-			topToolBar_keyMaps.push({
-				keyMap: toolSettings.help.keyMap,
-				itemId :'help' ,
-				type   : 'menu'
-			});
-			
-		}
+      if (toolSettings.help &&  toolSettings.help.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.help.keyMap,
+        itemId :'help' ,
+        type   : 'menu'
+      });
+      
+    }
       topToolBar_items.push({
          text : 'Help'
-		,itemId : 'help'
+    ,itemId : 'help'
         ,iconCls      : 'buttonIcon'
         ,icon         : 'img/help.png'
         ,menu : new Ext.menu.Menu({
@@ -2010,8 +1990,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.63)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.63)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.64)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.64)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2036,281 +2016,281 @@ Ext.onReady(function() {
   
   keyMaps = [];
   for (var j = 0; j< topToolBar_keyMaps.length; j++) {
-	topToolBar_keyMaps[j].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_topToolBar, topToolBar_keyMaps[j].type, topToolBar_keyMaps[j].itemId]);
-	keyMaps.push ( topToolBar_keyMaps[j].keyMap);
+  topToolBar_keyMaps[j].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_topToolBar, topToolBar_keyMaps[j].type, topToolBar_keyMaps[j].itemId]);
+  keyMaps.push ( topToolBar_keyMaps[j].keyMap);
   }
   new Ext.KeyMap(document, keyMaps );
 
   olMapPanel_bottomToolBar = [];
   bottomToolBar_items = [];
   
-	if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 
-	// if either there is no toolSetting or no toolSetting for measureTool, or there is a toolSetting and it is set to status = true
-	{
-	
-	  if (toolSettings.measureTool.keyMap) {
-		bottomToolBar_keyMaps.push({
-			keyMap: toolSettings.measureTool.keyMap,
-			itemId :'measure' ,
-			type   : 'menu'
-		});
-	  }
-	  
-	  bottomToolBar_items.push(
-		  new Ext.Toolbar.Button({
-			 text         : '&nbsp;Measure'
-			,itemId       : 'measure'
-			,iconCls      : 'buttonIcon'
-			,icon         : 'img/measure20.gif'
-			,toggleGroup  : 'navigation'
-			,enableToggle : true			
-			,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
-			,allowDepress : false
-			,menu : [
-			  {
-				 text    : 'By length'
-				,iconCls : 'buttonIcon'
-				,icon    : 'img/layer-shape-line.png'
-				,handler : function() {
-				  areaControl.deactivate();
-				  lengthControl.activate();
-				  layerRuler.removeFeatures(layerRuler.features);
-				  Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
-				  resetMeasureTally();
-				  measureType = 'length';
-				}
-			  }
-			  ,{
-				 text    : 'By area'
-				,iconCls : 'buttonIcon'
-				,icon    : 'img/layer-shape-polygon.png'
-				,handler : function() {
-				  lengthControl.deactivate();
-				  areaControl.activate();
-				  layerRuler.removeFeatures(layerRuler.features);
-				  Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
-				  resetMeasureTally();
-				  measureType = 'area';
-				}
-			  }
-			  ,{
-				 text    : 'Units'
-				,iconCls : 'buttonIcon'
-				,icon    : 'img/compass-icon.png'
-				,menu    : [
-				  {
-					 text    : 'meters'
-					,group   : 'measureUnits'
-					,checked : defaultMeasureUnit == 'm'
-					,handler : function() {
-					  Ext.getCmp('measureTally').emptyText = '0 m';
-					  if (measureType == 'area') {
-						Ext.getCmp('measureTally').emptyText += '^2';
-					  }
-					  resetMeasureTally();
-					  measureUnits = 'm';
-					  lengthControl.cancel();
-					  areaControl.cancel();
-					  layerRuler.removeFeatures(layerRuler.features);
-					}
-				  }
-				  ,{
-					 text    : 'miles'
-					,group   : 'measureUnits'
-					,checked : defaultMeasureUnit == 'mi'
-					,handler : function() {
-					  Ext.getCmp('measureTally').emptyText = '0 mi';
-					  if (measureType == 'area') {
-						Ext.getCmp('measureTally').emptyText += '^2';
-					  }
-					  resetMeasureTally();
-					  measureUnits = 'mi';
-					  lengthControl.cancel();
-					  areaControl.cancel();
-					  layerRuler.removeFeatures(layerRuler.features);
-					}
-				  }
-				  ,{
-					 text    : 'nautical miles'
-					,group   : 'measureUnits'
-					,checked : defaultMeasureUnit == 'nm'
-					,handler : function() {
-					  Ext.getCmp('measureTally').emptyText = '0 nm';
-					  if (measureType == 'area') {
-						Ext.getCmp('measureTally').emptyText += '^2';
-					  }
-					  resetMeasureTally();
-					  layerRuler.removeFeatures(layerRuler.features);
-					  measureUnits = 'nm';
-					  lengthControl.cancel();
-					  areaControl.cancel();
-					}
-				  }
-				  ,{
-					 text    : 'yards'
-					,group   : 'measureUnits'
-					,checked : defaultMeasureUnit == 'mi'
-					,handler : function() {
-					  Ext.getCmp('measureTally').emptyText = '0 yd';
-					  if (measureType == 'area') {
-						Ext.getCmp('measureTally').emptyText += '^2';
-					  }
-					  resetMeasureTally();
-					  layerRuler.removeFeatures(layerRuler.features);
-					  measureUnits = 'yd';
-					  lengthControl.cancel();
-					  areaControl.cancel();
-					}
-				  }
-				  ,{
-					 text    : 'feet'
-					,group   : 'measureUnits'
-					,checked : defaultMeasureUnit == 'ft'
-					,handler : function() {
-					  Ext.getCmp('measureTally').emptyText = '0 ft';
-					  if (measureType == 'area') {
-						Ext.getCmp('measureTally').emptyText += '^2';
-					  }
-					  resetMeasureTally();
-					  layerRuler.removeFeatures(layerRuler.features);
-					  measureUnits = 'ft';
-					  lengthControl.cancel();
-					  areaControl.cancel();
-					}
-				  }
-				]
-			  }
-			]
-			,listeners : {
-			  toggle : function(button,pressed) {
-				if (!pressed) {
-				  // commenting out next 2 lines since we want measurements to hang around even w/ other map actions
-				  // areaControl.deactivate();
-				  // lengthControl.deactivate();
-				}
-				else {
-				  Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
-				}
-			  }
-			}
-		  })
-		  ,new Ext.form.TextField({
-			 width     : 100
-			,readOnly  : true
-			,emptyText : '0 ' + defaultMeasureUnit
-			,id        : 'measureTally'
-		  })
-		  ,{
-			 iconCls      : 'buttonIcon'
-			,icon         : 'img/erase_measure20.gif'
-			,tooltip      : 'Clear measurement'
-			,allowDepress : false
-			,handler      : function() {
-			  lengthControl.cancel();
-			  areaControl.cancel();
-			  resetMeasureTally();
-			  layerRuler.removeFeatures(layerRuler.features);
-			}
-		  });
-	  }
-	  
-	  // end measure specific buttonBar code
-	  
+  if (!toolSettings || !toolSettings.measureTool || toolSettings.measureTool.status == 'show') 
+  // if either there is no toolSetting or no toolSetting for measureTool, or there is a toolSetting and it is set to status = true
+  {
+  
+    if (toolSettings.measureTool.keyMap) {
+    bottomToolBar_keyMaps.push({
+      keyMap: toolSettings.measureTool.keyMap,
+      itemId :'measure' ,
+      type   : 'menu'
+    });
+    }
+    
+    bottomToolBar_items.push(
+      new Ext.Toolbar.Button({
+       text         : '&nbsp;Measure'
+      ,itemId       : 'measure'
+      ,iconCls      : 'buttonIcon'
+      ,icon         : 'img/measure20.gif'
+      ,toggleGroup  : 'navigation'
+      ,enableToggle : true      
+      ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
+      ,allowDepress : false
+      ,menu : [
+        {
+         text    : 'By length'
+        ,iconCls : 'buttonIcon'
+        ,icon    : 'img/layer-shape-line.png'
+        ,handler : function() {
+          areaControl.deactivate();
+          lengthControl.activate();
+          layerRuler.removeFeatures(layerRuler.features);
+          Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
+          resetMeasureTally();
+          measureType = 'length';
+        }
+        }
+        ,{
+         text    : 'By area'
+        ,iconCls : 'buttonIcon'
+        ,icon    : 'img/layer-shape-polygon.png'
+        ,handler : function() {
+          lengthControl.deactivate();
+          areaControl.activate();
+          layerRuler.removeFeatures(layerRuler.features);
+          Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
+          resetMeasureTally();
+          measureType = 'area';
+        }
+        }
+        ,{
+         text    : 'Units'
+        ,iconCls : 'buttonIcon'
+        ,icon    : 'img/compass-icon.png'
+        ,menu    : [
+          {
+           text    : 'meters'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'm'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 m';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            measureUnits = 'm';
+            lengthControl.cancel();
+            areaControl.cancel();
+            layerRuler.removeFeatures(layerRuler.features);
+          }
+          }
+          ,{
+           text    : 'miles'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'mi'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 mi';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            measureUnits = 'mi';
+            lengthControl.cancel();
+            areaControl.cancel();
+            layerRuler.removeFeatures(layerRuler.features);
+          }
+          }
+          ,{
+           text    : 'nautical miles'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'nm'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 nm';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            layerRuler.removeFeatures(layerRuler.features);
+            measureUnits = 'nm';
+            lengthControl.cancel();
+            areaControl.cancel();
+          }
+          }
+          ,{
+           text    : 'yards'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'mi'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 yd';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            layerRuler.removeFeatures(layerRuler.features);
+            measureUnits = 'yd';
+            lengthControl.cancel();
+            areaControl.cancel();
+          }
+          }
+          ,{
+           text    : 'feet'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'ft'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 ft';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            layerRuler.removeFeatures(layerRuler.features);
+            measureUnits = 'ft';
+            lengthControl.cancel();
+            areaControl.cancel();
+          }
+          }
+        ]
+        }
+      ]
+      ,listeners : {
+        toggle : function(button,pressed) {
+        if (!pressed) {
+          // commenting out next 2 lines since we want measurements to hang around even w/ other map actions
+          // areaControl.deactivate();
+          // lengthControl.deactivate();
+        }
+        else {
+          Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
+        }
+        }
+      }
+      })
+      ,new Ext.form.TextField({
+       width     : 100
+      ,readOnly  : true
+      ,emptyText : '0 ' + defaultMeasureUnit
+      ,id        : 'measureTally'
+      })
+      ,{
+       iconCls      : 'buttonIcon'
+      ,icon         : 'img/erase_measure20.gif'
+      ,tooltip      : 'Clear measurement'
+      ,allowDepress : false
+      ,handler      : function() {
+        lengthControl.cancel();
+        areaControl.cancel();
+        resetMeasureTally();
+        layerRuler.removeFeatures(layerRuler.features);
+      }
+      });
+    }
+    
+    // end measure specific buttonBar code
+    
      bottomToolBar_items.push(
       '->'
-	);
-	
-	if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show') 
-	// if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
-	{
-	
-		if (toolSettings.permalink.keyMap) {
-			bottomToolBar_keyMaps.push({
-				keyMap: toolSettings.permalink.keyMap,
-				itemId :'permalink' ,
-				type   : 'basic'
-			});
-		}
-	  
-		bottomToolBar_items.push(
-		  new Ext.Action({
-			 text     : 'Permalink'
-			,itemId   : 'permalink'
-			,tooltip  : 'Make permalink'
-			,iconCls : 'buttonIcon'
-			,icon    : 'img/favorite-icon.png'
-			,handler  : function() {
-			  Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
-			}
-		  })
-		  );
-  		bottomToolBar_items.push('-');
+  );
+  
+  if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show') 
+  // if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
+  {
+  
+    if (toolSettings.permalink.keyMap) {
+      bottomToolBar_keyMaps.push({
+        keyMap: toolSettings.permalink.keyMap,
+        itemId :'permalink' ,
+        type   : 'basic'
+      });
+    }
+    
+    bottomToolBar_items.push(
+      new Ext.Action({
+       text     : 'Permalink'
+      ,itemId   : 'permalink'
+      ,tooltip  : 'Make permalink'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/favorite-icon.png'
+      ,handler  : function() {
+        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
+      }
+      })
+      );
+      bottomToolBar_items.push('-');
 
-	}
-	
-	if (!toolSettings || !toolSettings.scaleSettings || toolSettings.scaleSettings.status == 'show') 
-	// if either there is no toolSetting or no toolSetting for scaleSettings, or there is a toolSetting and it is set to status = true
-	{	
-	
-		if (toolSettings.scaleSettings.keyMap) {
-			bottomToolBar_keyMaps.push({
-				keyMap: toolSettings.scaleSettings.keyMap,
-				itemId :'scalesettings' ,
-				type   : 'menu'
-			});
-		}	
-		
-		bottomToolBar_items.push({
-			 text    : 'Scale settings'
-			,itemId  : 'scalesettings'
-			,iconCls : 'buttonIcon'
-			,icon    : 'img/settings.png'
-			,menu    : [
-			  {
-				 text         : 'Show scalebar?'
-				,checked      : true
-				,checkHandler : function(item,checked) {
-				  if (checked) {
-					scaleLineControl = new OpenLayers.Control.ScaleLine({geodesic : true});
-					map.addControl(scaleLineControl);
-					scaleLineControl.div.style.left = '100px';
-				  }
-				  else {
-					map.removeControl(scaleLineControl);
-				  }
-				}
-			  }
-			  ,{
-				 text    : 'Show scale ratio?'
-				,checked : true
-				,checkHandler : function(item,checked) {
-				  if (checked) {
-					scaleRatioControl = new OpenLayers.Control.Scale();
-					map.addControl(scaleRatioControl);
-				  }
-				  else {
-					map.removeControl(scaleRatioControl);
-				  }
-				}
-			  }
-			]
-		});
-	}
-	if (!toolSettings || !toolSettings.mapUnits || toolSettings.mapUnits.status == 'show') 
-	// if either there is no toolSetting or no toolSetting for mapUnits, or there is a toolSetting and it is set to status = true
-	{		
-	
-		if (toolSettings.mapUnits.keyMap) {
-			bottomToolBar_keyMaps.push({
-				keyMap: toolSettings.mapUnits.keyMap,
-				itemId :'mapunits' ,
-				type   : 'menu'
-			});
-		}	
-		
-	  bottomToolBar_items.push({
+  }
+  
+  if (!toolSettings || !toolSettings.scaleSettings || toolSettings.scaleSettings.status == 'show') 
+  // if either there is no toolSetting or no toolSetting for scaleSettings, or there is a toolSetting and it is set to status = true
+  { 
+  
+    if (toolSettings.scaleSettings.keyMap) {
+      bottomToolBar_keyMaps.push({
+        keyMap: toolSettings.scaleSettings.keyMap,
+        itemId :'scalesettings' ,
+        type   : 'menu'
+      });
+    } 
+    
+    bottomToolBar_items.push({
+       text    : 'Scale settings'
+      ,itemId  : 'scalesettings'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/settings.png'
+      ,menu    : [
+        {
+         text         : 'Show scalebar?'
+        ,checked      : true
+        ,checkHandler : function(item,checked) {
+          if (checked) {
+          scaleLineControl = new OpenLayers.Control.ScaleLine({geodesic : true});
+          map.addControl(scaleLineControl);
+          scaleLineControl.div.style.left = '100px';
+          }
+          else {
+          map.removeControl(scaleLineControl);
+          }
+        }
+        }
+        ,{
+         text    : 'Show scale ratio?'
+        ,checked : true
+        ,checkHandler : function(item,checked) {
+          if (checked) {
+          scaleRatioControl = new OpenLayers.Control.Scale();
+          map.addControl(scaleRatioControl);
+          }
+          else {
+          map.removeControl(scaleRatioControl);
+          }
+        }
+        }
+      ]
+    });
+  }
+  if (!toolSettings || !toolSettings.mapUnits || toolSettings.mapUnits.status == 'show') 
+  // if either there is no toolSetting or no toolSetting for mapUnits, or there is a toolSetting and it is set to status = true
+  {   
+  
+    if (toolSettings.mapUnits.keyMap) {
+      bottomToolBar_keyMaps.push({
+        keyMap: toolSettings.mapUnits.keyMap,
+        itemId :'mapunits' ,
+        type   : 'menu'
+      });
+    } 
+    
+    bottomToolBar_items.push({
          text     : 'Map units'
-		,itemId   : 'mapunits'
+    ,itemId   : 'mapunits'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/compass-icon.png'
         ,menu     : [
@@ -2343,21 +2323,21 @@ Ext.onReady(function() {
           }
         ]
       });
-	}
-	if (!toolSettings || !toolSettings.basemaps || toolSettings.basemaps.status == 'show') 
-	// if either there is no toolSetting or no toolSetting for basemaps, or there is a toolSetting and it is set to status = true
-	{		
-		if (toolSettings.basemaps.keyMap) {
-			bottomToolBar_keyMaps.push({
-				keyMap: toolSettings.basemaps.keyMap,
-				itemId :'basemaps' ,
-				type   : 'menu'
-			});
-		}		
-	
-	  bottomToolBar_items.push({
+  }
+  if (!toolSettings || !toolSettings.basemaps || toolSettings.basemaps.status == 'show') 
+  // if either there is no toolSetting or no toolSetting for basemaps, or there is a toolSetting and it is set to status = true
+  {   
+    if (toolSettings.basemaps.keyMap) {
+      bottomToolBar_keyMaps.push({
+        keyMap: toolSettings.basemaps.keyMap,
+        itemId :'basemaps' ,
+        type   : 'menu'
+      });
+    }   
+  
+    bottomToolBar_items.push({
          text     : 'Basemaps'
-		,itemId   : 'basemaps'
+    ,itemId   : 'basemaps'
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/layers.png'
         ,menu     : [
@@ -2387,23 +2367,15 @@ Ext.onReady(function() {
             }
           }
           ,{
-             text    : 'Google Terrain'
+             text    : 'Bing Hybrid'
             ,group   : 'basemap'
-            ,checked : defaultBase == 'googleTerrain'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Google Terrain');
-              }
-            }]}
+            ,checked : defaultBase == 'bingHybrid'
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleTerrain');
+              addBaseLayer('bingHybrid');
               Ext.getCmp('opacitySliderBaseLayer').setValue(100);
               if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleTerrain']);
+                map.setBaseLayer(lyrBase['bingHybrid']);
                 Ext.getCmp('customScale').setDisabled(true);
                 Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
                 Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -2411,7 +2383,113 @@ Ext.onReady(function() {
               }
               else {
                 var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleTerrain']);
+                map.setBaseLayer(lyrBase['bingHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Bing Roads'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'bingRoads'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('bingRoads');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['bingRoads']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['bingRoads']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Bing Satellite'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'bingAerial'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('bingAerial');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['bingAerial']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['bingAerial']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Google Hybrid'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'googleHybrid'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('googleHybrid');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['googleHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['googleHybrid']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
+             text    : 'Google Roadmap'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'googleRoadmap'
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('googleRoadmap');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['googleRoadmap']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['googleRoadmap']);
                 Ext.getCmp('customScale').setDisabled(true);
                 Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
                 Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -2456,67 +2534,23 @@ Ext.onReady(function() {
             }
           }
           ,{
-             text    : 'Google Roadmap'
+             text    : 'Google Terrain'
             ,group   : 'basemap'
-            ,checked : defaultBase == 'googleRoadmap'
+            ,checked : defaultBase == 'googleTerrain'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Google Terrain');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleRoadmap');
+              addBaseLayer('googleTerrain');
               Ext.getCmp('opacitySliderBaseLayer').setValue(100);
               if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleRoadmap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleRoadmap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Google Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'googleHybrid'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-           ,{
-             text    : 'Bing Satellite'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingAerial'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingAerial');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingAerial']);
+                map.setBaseLayer(lyrBase['googleTerrain']);
                 Ext.getCmp('customScale').setDisabled(true);
                 Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
                 Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -2524,142 +2558,7 @@ Ext.onReady(function() {
               }
               else {
                 var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingAerial']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Roads'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingRoads'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingRoads');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingHybrid'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Yahoo Satellite'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'yahooSatellite'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('yahooSatellite');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['yahooSatellite']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['yahooSatellite']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Yahoo Street'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'yahooStreet'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('yahooStreet');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['yahooStreet']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['yahooStreet']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Yahoo Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'yahooHybrid'
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('yahooHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['yahooHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['yahooHybrid']);
+                map.setBaseLayer(lyrBase['googleTerrain']);
                 Ext.getCmp('customScale').setDisabled(true);
                 Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
                 Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -2736,15 +2635,6 @@ Ext.onReady(function() {
                 if (lyrBase['googleHybrid'].map) {
                   lyrBase['googleHybrid'].setOpacity(newVal/100);
                 }
-                if (lyrBase['yahooStreet'].map) {
-                  lyrBase['yahooStreet'].setOpacity(newVal/100);
-                }
-                if (lyrBase['yahooSatellite'].map) {
-                  lyrBase['yahooSatellite'].setOpacity(newVal/100);
-                }
-                if (lyrBase['yahooHybrid'].map) {
-                  lyrBase['yahooHybrid'].setOpacity(newVal/100);
-                }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
                 }
@@ -2762,7 +2652,7 @@ Ext.onReady(function() {
           })
         ]
       });
-	}
+  }
   
  
    olMapPanel_bottomToolBar = new Ext.Toolbar({
@@ -2800,8 +2690,8 @@ Ext.onReady(function() {
 
   keyMaps = [];
   for (var k = 0; k< bottomToolBar_keyMaps.length; k++) {
-	bottomToolBar_keyMaps[k].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_bottomToolBar, bottomToolBar_keyMaps[k].type, bottomToolBar_keyMaps[k].itemId]);
-	keyMaps.push ( bottomToolBar_keyMaps[k].keyMap);
+  bottomToolBar_keyMaps[k].keyMap.fn = triggerButton.createDelegate( this,[olMapPanel_bottomToolBar, bottomToolBar_keyMaps[k].type, bottomToolBar_keyMaps[k].itemId]);
+  keyMaps.push ( bottomToolBar_keyMaps[k].keyMap);
   }
   new Ext.KeyMap(document, keyMaps );  
 
@@ -3071,18 +2961,18 @@ Ext.onReady(function() {
         messageContextMenuActiveLyr.showAt(e.getXY());
       }
     }
-	/*  // retroactively enforcing tabIndex breaks the context menu 
-	,listeners: {
-		insert : function ( tr, np, nn, refn) {
-			// bad hack to try to fix tabIndex issues on dataTree
-			var newNode = nn;
-			window.setTimeout(function () {
-				newNode.getUI().anchor.tabIndex = -1;
-			},300);
-			
-		}		
-	}
-	*/
+  /*  // retroactively enforcing tabIndex breaks the context menu 
+  ,listeners: {
+    insert : function ( tr, np, nn, refn) {
+      // bad hack to try to fix tabIndex issues on dataTree
+      var newNode = nn;
+      window.setTimeout(function () {
+        newNode.getUI().anchor.tabIndex = -1;
+      },300);
+      
+    }   
+  }
+  */
   });
 
   olLayerPanel = new Ext.Panel({
@@ -3685,16 +3575,16 @@ function mkDataWizardURL(title,ico) {
       ).join('');
     }
    else {
-	   return Array(
-		 wmsUrl
-		 ,'?layers=' + lyr2wms[title]
-		 ,'&service=WMS&version=1.1.0&request=GetMap'
-		 ,'&bbox=' + bbox.join(',')
-		 ,'&srs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
-		 ,'&height=100&width=100&styles='
-		 ,'&format=application/vnd.google-earth.kml+xml'
-		).join('');
-	  }
+     return Array(
+     wmsUrl
+     ,'?layers=' + lyr2wms[title]
+     ,'&service=WMS&version=1.1.0&request=GetMap'
+     ,'&bbox=' + bbox.join(',')
+     ,'&srs=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
+     ,'&height=100&width=100&styles='
+     ,'&format=application/vnd.google-earth.kml+xml'
+    ).join('');
+    }
   }
 }
 
@@ -3766,9 +3656,9 @@ function runQueryStats(bounds) {
   qryLyrStore.removeAll();
   for (var i = map.layers.length - 1; i >= 0; i--) {
     var title = map.layers[i].name;
-	if (map.layers[i].wfstFeatureEditing) {
-		continue;
-	}
+  if (map.layers[i].wfstFeatureEditing) {
+    continue;
+  }
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       var ico   = wms2ico[lyr2wms[title]];
       qryLyrStore.add(new qryLyrStore.recordType(
