@@ -222,7 +222,6 @@ var qryWin = new Ext.Window({
           ,loadMask         : true
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
-// charlton
               if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
                 Ext.Msg.alert('Query details','This row has no features. No details will be fetched.');
                 return;
@@ -1990,8 +1989,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.70)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.70)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.71)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.71)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2046,6 +2045,27 @@ Ext.onReady(function() {
       ,enableToggle : true      
       ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
       ,allowDepress : false
+      ,toggleHandler      : function() {
+        Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
+        if (measureType == 'length') {
+          areaControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
+          lengthControl.activate();
+          layerRuler.removeFeatures(layerRuler.features);
+          Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits;
+          resetMeasureTally();
+        }
+        else {
+          lengthControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
+          areaControl.activate();
+          layerRuler.removeFeatures(layerRuler.features);
+          Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
+          resetMeasureTally();
+        }
+      }
       ,menu : [
         {
          text    : 'By length'
@@ -2165,18 +2185,6 @@ Ext.onReady(function() {
         ]
         }
       ]
-      ,listeners : {
-        toggle : function(button,pressed) {
-        if (!pressed) {
-          // commenting out next 2 lines since we want measurements to hang around even w/ other map actions
-          // areaControl.deactivate();
-          // lengthControl.deactivate();
-        }
-        else {
-          Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
-        }
-        }
-      }
       })
       ,new Ext.form.TextField({
        width     : 100
