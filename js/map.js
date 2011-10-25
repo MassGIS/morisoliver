@@ -510,6 +510,7 @@ var triggerButton = function (toolbar, type, itemId) {
 
 Ext.onReady(function() {
   Ext.QuickTips.init();
+/*
   lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
      key  : bingKey
     ,type : 'Road'
@@ -525,6 +526,7 @@ Ext.onReady(function() {
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
   });
+*/
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -748,7 +750,7 @@ Ext.onReady(function() {
       ,areaControl
       ,featureBoxControl
       ,featurePolyControl
-    ]
+    ],projection:"EPSG:26986"
   });
   featureBboxSelectHover.activate();
 
@@ -814,10 +816,10 @@ Ext.onReady(function() {
   });
 
   if (defaultBase == 'custom') {
-    map.setOptions({maxExtent : maxExtent26986,fractionalZoom : true});
+    map.setOptions({maxExtent : maxExtent26986, fractionalZoom : true, projection:"EPSG:26986"});
   }
   else {
-    map.setOptions({maxExtent : maxExtent900913});
+    map.setOptions({maxExtent : maxExtent900913, projection:"EPSG:900913"});
   }
 
   Ext.app.LayerLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
@@ -1396,136 +1398,153 @@ Ext.onReady(function() {
 //            ,clearIdentify
           );
         }
-  
-  if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
-     commentSaveStrategy = new OpenLayers.Strategy.Save();  
-     
-     commentSaveStrategy.events.register('success', null, function () {
-      commentWFSLayer.destroyFeatures();
-      commentWindow.hide();
-     });
+	
+	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
+		commentSaveStrategy = new OpenLayers.Strategy.Save();	
+		 
+		commentSaveStrategy.events.register('success', null, function () {
+			commentWFSLayer.destroyFeatures();
+			commentWindow.hide();
+		});
+		commentSaveStrategy.events.register('fail', null, function () {
+			alert('save failed');
+		});
+		
+		var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
+			strategies: [commentSaveStrategy], 
+			projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
+			protocol: new OpenLayers.Protocol.WFS({
+				version: "1.0.0",
+				srsName: toolSettings.commentTool.layer.srs,
+				url: wfsUrl,
+				featureNS : namespaceUrl,
+				featureType:  toolSettings.commentTool.layer.layerName,
+				geometryName:  toolSettings.commentTool.layer.geometryName,
+				featurePrefix: 'massgis',
+				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName,
+			})
+		});
+		if (toolSettings.commentTool.layer['submitUrl']) {
+			commentWFSLayer.protocol.origCommit = commentWFSLayer.protocol.commit;
+			commentWFSLayer.protocol.commit = function(features, options) {
+				options.url = toolSettings.commentTool.layer.submitUrl;
+				return commentWFSLayer.protocol.origCommit(features, options);
+			};
+			commentSaveStrategy.events.register("success",this,function() {
+				var ls = map.layers;
+				for (var i = 0; i < ls.length; i++) {
+					if (ls[i].CLASS_NAME == 'OpenLayers.Layer.WMS') {
+						if (ls[i].params.LAYERS.indexOf(toolSettings.commentTool.layer.layerName) !== -1) {
+							// refresh this layer
+							ls[i].redraw(true);
+						}
+					}
+				}
+			});
+		}
 
-     commentSaveStrategy.events.register('fail', null, function () {
-      alert('save failed');
-     });
-     
-    var commentWFSLayer = new OpenLayers.Layer.Vector("Comments", {
-      strategies: [commentSaveStrategy], 
-      projection: new OpenLayers.Projection(toolSettings.commentTool.layer.srs),
-      protocol: new OpenLayers.Protocol.WFS({
-        version: "1.0.0",
-        srsName: toolSettings.commentTool.layer.srs,
-        url: wfsUrl,
-        featureNS : namespaceUrl,
-        featureType:  toolSettings.commentTool.layer.layerName,
-        geometryName:  toolSettings.commentTool.layer.geometryName,
-        featurePrefix: 'massgis',
-        schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
-      })
-    }); 
-    Ext.QuickTips.init(); 
-    map.addLayer(commentWFSLayer);
-    var commentWindow,commentForm,commentFeature;
-    var drawComment = new OpenLayers.Control.DrawFeature(
-      commentWFSLayer,
-      OpenLayers.Handler.Point
-      ,{
-        title: "Add comment",
-        displayClass: "olControlDrawFeaturePoint",
-        multi: true,
-        featureAdded: function (feat) {
-          commentFeature = feat;
-          if (!commentForm) {
-            var commentFields = [];
-          
-            commentForm = new Ext.form.FormPanel ({
-              baseCls: 'x-plain',
-              labelWidth:75,
-              frame:true,
-              monitorValid:true,
-              buttonAlign: 'right',
-              bodyStyle:'padding:10px 10px 0',
-               layout: {
-                    type: 'vbox'
-                    ,align: 'stretch'  // Child items are stretched to full width
-                  },
-                  defaults: {
-                    //msgTarget: 'side',
-                    //anchor: '95%',
-                    xtype: 'textfield',
-                    selectOnFocus: true,
-                          plugins: [ Ext.ux.FieldLabeler ]                        
-                  },
-               
-                  items: toolSettings.commentTool.fields
-              
-            });
-          }
-          if (!commentWindow) {
-            commentWindow = new Ext.Window({
-              title: "Enter comment",
-              collapsible: false,
-              maximizeable: false,
-              width: 400,
-              height: 500,
-              minHeight: 300,
-              minWidth: 200,
-              layout: "fit",
-              plain: true,
-              items: commentForm,
-              closeAction: 'hide',
-              closable: false,
-              modal:true,
-              buttons: [{
-                text: "Save",
-                formBind: true,
-                handler : function (d,e) {
-                  // need to check validation (length)
-                  if (commentForm.getForm().isValid()) {
-                    var dt = new Date();
-                    commentFeature.attributes = commentForm.getForm().getFieldValues();
-                    //commentFeature.attributes.OBJECTID = -1;
-                    commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
-                    commentSaveStrategy.save();
-                  }
-                  
-                }
-              },{
-                text: "Cancel",
-                handler : function (d,e) {
-                  commentWFSLayer.destroyFeatures();
-                  commentWindow.hide();
-                }                   
-              }]                  
-            
-            });
-            
-            
-          }
-          
-          
-          commentWindow.show();
-          // this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
-        }
-      } 
-    );
-        
-    
-    topToolBar_items.push('-',
-      new GeoExt.Action ({
-      text: toolSettings.commentTool.layer.commentLabel,
-      itemId : 'commentTool',
-      map: map,
-      control: drawComment
-      ,iconCls      : 'buttonIcon'
-      ,icon         : 'img/query-region.png'
-      ,toggleGroup  : 'navigation'  
-      ,enableToggle : true      
-      ,toolTip : toolSettings.commentTool.layer.commentDesc
-      })
-    );
-  }
-  
+		Ext.QuickTips.init(); 
+		map.addLayer(commentWFSLayer);
+		var commentWindow,commentForm,commentFeature;
+		var drawComment = new OpenLayers.Control.DrawFeature(
+			commentWFSLayer,
+			OpenLayers.Handler.Point
+			,{
+				title: "Add comment",
+				displayClass: "olControlDrawFeaturePoint",
+				multi: true,
+				featureAdded: function (feat) {
+					commentFeature = feat;
+					if (!commentForm) {
+						var commentFields = [];
+					
+						commentForm = new Ext.form.FormPanel ({
+							baseCls: 'x-plain',
+							labelWidth:75,
+							frame:true,
+							monitorValid:true,
+							buttonAlign: 'right',
+							bodyStyle:'padding:10px 10px 0',
+							layout: {
+										type: 'vbox'
+										,align: 'stretch'  // Child items are stretched to full width
+									},
+									defaults: {
+										//msgTarget: 'side',
+										//anchor: '95%',
+										xtype: 'textfield',
+										selectOnFocus: true,
+										plugins: [ Ext.ux.FieldLabeler ]												
+									},
+							
+									items: toolSettings.commentTool.fields
+							
+						});
+					}
+					if (!commentWindow) {
+						commentWindow = new Ext.Window({
+							title: "Enter comment",
+							collapsible: false,
+							maximizeable: false,
+							width: 400,
+							height: 500,
+							minHeight: 300,
+							minWidth: 200,
+							layout: "fit",
+							plain: true,
+							items: commentForm,
+							closeAction: 'hide',
+							closable: false,
+							modal:true,
+							buttons: [{
+								text: "Save",
+								formBind: true,
+								handler : function (d,e) {
+									// need to check validation (length)
+									if (commentForm.getForm().isValid()) {
+										var dt = new Date();
+										commentFeature.attributes = commentForm.getForm().getFieldValues();
+										//commentFeature.attributes.OBJECTID = -1;
+										commentFeature.attributes.DATENTERED = dt.format(Date.patterns.SortableDateTime);
+										commentSaveStrategy.save();
+									}
+									
+								}
+							},{
+								text: "Cancel",
+								handler : function (d,e) {
+									commentWFSLayer.destroyFeatures();
+									commentWindow.hide();
+								}										
+							}]									
+						
+						});
+						
+						
+					}
+					
+					
+					commentWindow.show();
+					// this triggers opening our panel, stores the feature, and which in turn allows us to saveStrategy.save
+				}
+			} 
+		);
+				
+		
+		topToolBar_items.push('-',
+			new GeoExt.Action ({
+			text: toolSettings.commentTool.layer.commentLabel,
+			itemId : 'commentTool',
+			map: map,
+			control: drawComment
+			,iconCls      : 'buttonIcon'
+			,icon         : 'img/query-region.png'
+			,toggleGroup  : 'navigation'	
+			,enableToggle : true			
+			,toolTip : toolSettings.commentTool.layer.commentDesc
+			})
+		);
+	}
 
   if (!toolSettings || !toolSettings.editTool || toolSettings.editTool.status == 'show') {
     var editWindow = new Ext.Window({
