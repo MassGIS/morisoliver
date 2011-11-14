@@ -1,19 +1,33 @@
-#!/usr/bin/perl
-
+#!/usr/bin/perl -w
 use strict;
 use CGI qw(:standard);
 use XML::Simple qw(:strict);
-use LWP::UserAgent;
-require HTTP::Request;
+#use LWP::UserAgent;
+#use LWP::Protocol::http;
+#use URI::http;
+#use HTML::HeadParser;
+#use HTTP::Message;
+#use HTTP::Response;
+#use HTTP::Request;
 
 my $session     = time().rand();
+#my $scratch_dir = "/opt/massgis/httpdjail/opt/massgis/wwwroot/temp/GeoServer_extract/$session";
 my $scratch_dir = "/opt/massgis/wwwroot/temp/GeoServer_extract/$session";
-my $web_dir     = "/temp/GeoServer_extract/$session";
+my $web_dir     = "temp/GeoServer_extract/$session";
 mkdir $scratch_dir;
 
 # Get the POST data.
 my $t;
 read (STDIN,$t,$ENV{CONTENT_LENGTH});
+
+my $httpmeth = "http";
+my $authHeader = "";
+if ($ENV{HTTPS} eq "on") {
+    $httpmeth = "https";
+    $authHeader = $ENV{"HTTP_AUTHORIZATION"};
+    #$authHeader =~ s/\ /\\\ /;
+}
+
 
 # spin up the cgi
 my $query = new CGI;
@@ -40,108 +54,92 @@ if (length($t) <= 0) {
 my $xml = XML::Simple->new();
 my $doc = $xml->XMLin($t,forcearray => 1,KeyAttr => []);
 
-my $ua = LWP::UserAgent->new((timeout => 100));
-
 print $query->header('text/plain');
 
-my $c = 0;
+my $cmd;
+my @cmd_args;
+
 foreach (@{$doc->{layer}}) {
-  # open LOG,">$scratch_dir/$c.log";
   my %h = %{$_};
   # the urls in the following line should match the geoserver and metadata-webserver host names
-  if (!(unsafeXML($h{baseURL}) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us|170.63.166.213|170.63.166.214)/)) {
+  if (!(unsafeXML($h{baseURL}) =~ /^($httpmeth):\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us|170.63.93.152|170.63.98.114|wsgw.mass.gov)/)) {
     next;
   }
+  #$h{baseURL} =~ s/^($httpmeth):\/\/maps.massgis.state.ma.us/http:\/\/127.0.0.1/;
+  #$h{baseURL} =~ s/^($httpmeth):\/\/giswebservices.state.ma.us/http:\/\/170.63.98.114/;
   mkdir "$scratch_dir/".unsafeXML($h{name});
-  # print LOG "$scratch_dir/".unsafeXML($h{name})."\n";
+  my $r;
+  print "\n\n";
+  my $req = "wget -q '".unsafeXML($h{baseURL})."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" --no-check-certificate --header='Authorization:".$authHeader."'";
+  # print $req."\n\n";
+  @cmd_args = ("/bin/bash","-c",
+    $req
+  );
 
-  # fire a POST request for SHAPE-ZIP since the incoming filter might be huge (not just a bbox)
+  $r = system(@cmd_args);
+  if ($r != 0) {
+    warn "error fetching zip file ".unsafeXML($h{baseURL});
+    next;
+  }
+
   if (unsafeXML($h{baseURL}) =~ /outputformat=SHAPE-ZIP/) {
-    my $base = substr(unsafeXML($h{baseURL}),0,index(unsafeXML($h{baseURL}),'?'));
-    # print LOG "BASE\n$base\n";
-    my %params;
-    foreach my $s (split('&',unsafeXML($h{baseURL}))) {
-      my @p = (substr($s,0,index($s,'=')),substr($s,index($s,'=') + 1));
-      $params{lc($p[0])} = $p[1];
-    }
-    my $post_data = '<wfs:GetFeature outputFormat="SHAPE-ZIP" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="'.$params{'typename'}.'" srsName="'.$params{'srsname'}.'" xmlns:massgis="http://massgis.state.ma.us/featuretype">'.$params{'filter'}.'</wfs:Query></wfs:GetFeature>';
-    # open XML,">$scratch_dir/$c.xml";
-    # print XML $post_data;
-    # close XML;
-    my $dir = "$scratch_dir/".unsafeXML($h{name});
-    my $fname = unsafeXML($h{name}).'.zip';
-    # print LOG "POST_DATA\n=========\n$post_data\n";
-    # my $cmd = "cd \"$dir\" ; wget \"$base\" -O \"$fname\" --header=\"Content-Type: text/xml\" --post-file ../$c.xml";
-    # print LOG "CMD\n$cmd\n";
-    #`$cmd`;
-    my $req = new HTTP::Request('POST',$base);
-    $req->content_type('text/xml');
-    $req->content($post_data);
-    my $r = $ua->request($req);
-    if ($r->is_success) {
-      # print LOG "OK\n";
-      open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.zip';
-      print F $r->content;
-      close F;
-      my $cmd = "cd \"$scratch_dir/".unsafeXML($h{name})."\" ; unzip \"".unsafeXML($h{name}).'.zip'."\" ; rm -f \"".unsafeXML($h{name}).'.zip"';
-      # print LOG "ZIP\n$cmd\n";
-      `$cmd`;
-    }
-    else {
-      # print LOG "ERROR\n";
-      # print LOG $r->status_line."\n";
-    }
+    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip");
+    $cmd = "cd '$scratch_dir/".unsafeXML($h{name})."'; /usr/bin/unzip '".unsafeXML($h{name}).".zip' > /dev/null ; rm '".$scratch_dir."/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip'";
+    #warn $cmd;
+    @cmd_args = ("/bin/bash","-c", $cmd);
+    $r = system(@cmd_args);
+  }
+  elsif (unsafeXML($h{baseURL}) =~ /\/kml\?/) {
+    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
   }
   else {
-    my $u = unsafeXML($h{baseURL});
-    $u =~ s/styles=/styles=$h{wmsStyle}/;
-    my $r = $ua->get($u);
-    if ($r->is_success) {
-      if  (unsafeXML($h{baseURL}) =~ /application\/vnd.google-earth.kml\+xml/) {
-        open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.kml';
-        print F $r->content;
-        close F;
-      }
-      elsif (unsafeXML($h{wmsLayer}) ne '') {
-        open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.tif';
-        print F $r->content;
-        close F;
-      }
-      else {
-        open F,">$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name});
-        print F $r->content;
-        close F;
-      }
-    }
+    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.tif');
   }
-
+  next;
   foreach (@{$h{metadata}}) {
     my $u = unsafeXML($_);
+
+    #if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
     if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
       next;
     }
+
+    $u =~ s/^http:\/\/maps.massgis.state.ma.us/http:\/\/127.0.0.1/;
+    $u =~ s/^http:\/\/giswebservices.state.ma.us/http:\/\/170.63.93.153/;
+
     my @p = split(/\//,$u);
-    my $r = $ua->get($u);
-    if ($r->is_success) {
-      open F,">$scratch_dir/".unsafeXML($h{name})."/$p[$#p]";
-      print F $r->content;
-      close F;
+    my @cmd_args = ("wget",
+      $u,
+      "-O","$scratch_dir/".unsafeXML($h{name})."/$p[$#p]",
+      "-q","--no-check-certificate"
+    );
+    $r = system(@cmd_args);
+
+    if ($r != 0) {
+      warn "error fetching metadata file (return code $r) ".$u;
     }
   }
-  $c++;
-  # close LOG;
 }
+
 my $zipName = $doc->{zip}[0]{name};
 $zipName =~ s/\.zip//gi;
+chdir($scratch_dir);
 
-my $cmd = "cd $scratch_dir ; zip -r $zipName.zip *";
-`$cmd`;
+@cmd_args = ("/bin/bash","-c", "cd $scratch_dir; /usr/bin/zip -r $zipName.zip * > /dev/null");
+my $res = system(@cmd_args);
+#my $cmd = "/bin/bash zip -r $zipName.zip *";
+#my $res = `$cmd`;
+#warn "zip file $scratch_dir/$zipName.zip created";
 
-my $rmcmd = "cd $scratch_dir ; ls | grep -v .zip | tr \\\\n \\\\0 | xargs -0 rm -rf";
-`$rmcmd`;
 
-my $cmd = "setfacl -m u:afreeman:rwx $scratch_dir; setfacl -m u:afreeman:rw $scratch_dir/*.zip";
-`$cmd`;
+my $rmcmd = "cd $scratch_dir ; ls | grep -v .zip | tr \\\\n \\\\0 | xargs -0 rm -rf > /dev/null";
+@cmd_args = ("/bin/bash","-c", $rmcmd);
+$res = system(@cmd_args);
+
+
+$cmd = "chmod 777 $scratch_dir > /dev/null; chmod 777 '$scratch_dir/$zipName.zip' > /dev/null";
+@cmd_args = ("/bin/bash","-c", $cmd);
+$res = system(@cmd_args);
 
 print "$web_dir/$zipName.zip\n";
 
