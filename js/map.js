@@ -2008,8 +2008,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.71)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.71)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.72)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.72)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3515,6 +3515,8 @@ function loadLayerDescribeFeatureType(wms) {
             ,columns : col
           })
         );
+        featureBboxGridPanel.getSelectionModel().unbind();
+        featureBboxGridPanel.getSelectionModel().bind(featureBboxSelect);
       }
     };
     Y.on('io:success',handleSuccess,this,[]);
