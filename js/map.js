@@ -1338,10 +1338,15 @@ Ext.onReady(function() {
             ,allowDepress : false
             ,control      : featureBoxControl
             ,enableToggle : true
-            ,toggleHandler: function() {
+            ,toggleHandler: function(obj, activeState) {
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
-              featureBoxControl.polygon.activate();
-              featurePolyControl.polygon.deactivate();
+              if (activeState) {
+                featureBoxControl.polygon.activate();
+                featurePolyControl.polygon.deactivate();
+              } else {
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.deactivate();
+              }
               // nuke any measurements
               lengthControl.deactivate();
               areaControl.deactivate();
@@ -1361,10 +1366,15 @@ Ext.onReady(function() {
             ,allowDepress : false
             ,control      : featurePolyControl
             ,enableToggle : true
-            ,toggleHandler: function() {
+            ,toggleHandler: function(obj, activeState) {
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
-              featureBoxControl.polygon.deactivate();
-              featurePolyControl.polygon.activate();
+              if (activeState) {
+                featureBoxControl.polygon.activate();
+                featurePolyControl.polygon.deactivate();
+              } else {
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.deactivate();
+              }
               // nuke any measurements
               lengthControl.deactivate();
               areaControl.deactivate();
@@ -1418,7 +1428,7 @@ Ext.onReady(function() {
         }
 	
 	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
-		commentSaveStrategy = new OpenLayers.Strategy.Save();	
+		commentSaveStrategy = new OpenLayers.Strategy.Save();
 		 
 		commentSaveStrategy.events.register('success', null, function () {
 			commentWFSLayer.destroyFeatures();
@@ -1492,7 +1502,7 @@ Ext.onReady(function() {
 										//anchor: '95%',
 										xtype: 'textfield',
 										selectOnFocus: true,
-										plugins: [ Ext.ux.FieldLabeler ]												
+										plugins: [ Ext.ux.FieldLabeler ]
 									},
 							
 									items: toolSettings.commentTool.fields
@@ -1533,8 +1543,8 @@ Ext.onReady(function() {
 								handler : function (d,e) {
 									commentWFSLayer.destroyFeatures();
 									commentWindow.hide();
-								}										
-							}]									
+								}
+							}]
 						
 						});
 						
@@ -1557,8 +1567,8 @@ Ext.onReady(function() {
 			control: drawComment
 			,iconCls      : 'buttonIcon'
 			,icon         : 'img/query-region.png'
-			,toggleGroup  : 'navigation'	
-			,enableToggle : true			
+			,toggleGroup  : 'navigation'
+			,enableToggle : true
 			,toolTip : toolSettings.commentTool.layer.commentDesc
 			})
 		);
@@ -2082,7 +2092,7 @@ Ext.onReady(function() {
       ,enableToggle : true      
       ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
       ,allowDepress : false
-      ,toggleHandler      : function() {
+      ,toggleHandler : function(activeState) {
         Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
         if (measureType == 'length') {
           areaControl.deactivate();
