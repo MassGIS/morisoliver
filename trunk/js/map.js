@@ -510,7 +510,6 @@ var triggerButton = function (toolbar, type, itemId) {
 
 Ext.onReady(function() {
   Ext.QuickTips.init();
-/*
   lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
      key  : bingKey
     ,type : 'Road'
@@ -526,7 +525,6 @@ Ext.onReady(function() {
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
   });
-*/
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -1425,7 +1423,7 @@ Ext.onReady(function() {
 				featureType:  toolSettings.commentTool.layer.layerName,
 				geometryName:  toolSettings.commentTool.layer.geometryName,
 				featurePrefix: 'massgis',
-				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName,
+				schema: wfsUrl + "DescribeFeatureType?version=1.1.0&typename=" + toolSettings.commentTool.layer.layerName
 			})
 		});
 		if (toolSettings.commentTool.layer['submitUrl']) {
