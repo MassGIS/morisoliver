@@ -74,6 +74,19 @@ Date.patterns = {
     SortableDateTime: "Y-m-d\\TH:i:s.ms"
 };
 
+var availableColors = {
+   'FFFFFF' : 'White'
+  ,'D7C29E' : 'Tan'
+  ,'686868' : 'Grey'
+  ,'FFBEBE' : 'Pink'
+  ,'FF0000' : 'Red'
+  ,'FFD37F' : 'Orange'
+  ,'FFFF00' : 'Yellow'
+  ,'55FF00' : 'Green'
+  ,'00C5FF' : 'Blue'
+  ,'005CE6' : 'Dark_Blue'
+  ,'C500FF' : 'Purple'
+};
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
@@ -139,7 +152,7 @@ for (i in p) {
     var lyrs = String(p[i]).split('|');
     for (var j = 0; j < lyrs.length; j++) {
       var s = lyrs[j].split('~');
-      defaultLyrs.push({wms : s[1],title : s[0]}); 
+      defaultLyrs.push({wms : s[1],title : s[0]});
     }
   }
   else if (i == 'bbox') {
@@ -2729,7 +2742,10 @@ Ext.onReady(function() {
   new Ext.KeyMap(document, keyMaps );  
 
 
-
+  var colorPickerColors = [];
+  for (var c in availableColors) {
+    colorPickerColors.push(c);
+  }
   
   messageContextMenuActiveLyr = new Ext.menu.Menu({
     items: [{
@@ -2743,6 +2759,22 @@ Ext.onReady(function() {
       ,id      : 'viewMetadataUrl'
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/info1.png'
+    }
+    ,{
+       text    : 'Choose a color'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/colors-icon.png'
+      ,id      : 'setColor'
+      ,menu    : new Ext.menu.ColorMenu({
+         id     : 'layerColorPicker'
+        ,colors : colorPickerColors
+      })
+    }
+    ,{
+       text    : 'Revert to original color'
+      ,id      : 'revertColor'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/arrow_undo.png'
     }
     ,{
        text    : 'Remove layer'
@@ -2910,8 +2942,19 @@ Ext.onReady(function() {
           }
         }
 
+        // for the color picker
+        var geom;
+        switch (wms2ico[lyr2wms[n.layer.name]]) {
+          case 'pt'   : geom = 'Points'; break;
+          case 'poly' : geom = 'Polys'; break;
+          case 'line' : geom = 'Lines'; break;
+          default : ;
+        }
+
         if (nodes.length > 1) {
           messageContextMenuActiveLyr.findById('zoomTo').disable();
+          messageContextMenuActiveLyr.findById('setColor').disable();
+          messageContextMenuActiveLyr.findById('revertColor').disable();
           messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
           messageContextMenuActiveLyr.findById('opacitySliderLayer').disable();
         }
@@ -2919,6 +2962,10 @@ Ext.onReady(function() {
           n.select();
           nodes.push(n);
           messageContextMenuActiveLyr.findById('zoomTo').enable();
+          if (geom) {
+            messageContextMenuActiveLyr.findById('setColor').enable();
+            messageContextMenuActiveLyr.findById('revertColor').enable();
+          }
           messageContextMenuActiveLyr.findById('viewMetadataUrl').enable();
           messageContextMenuActiveLyr.findById('opacitySliderLayer').enable();
         }
@@ -2938,6 +2985,32 @@ Ext.onReady(function() {
             map.zoomToExtent(bnds.transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
           }
         });
+
+        Ext.getCmp('layerColorPicker').purgeListeners();
+        var curStyle = OpenLayers.Util.getParameters(n.layer.getFullRequestString({}))['STYLES'];
+        for (var c in availableColors) {
+          if (availableColors[c] == String(curStyle).replace('_' + geom,'')) {
+            Ext.getCmp('layerColorPicker').palette.select(c,true);
+          }
+        }
+        Ext.getCmp('layerColorPicker').addListener('select',function(cm,color) {
+          // also pass a STYLE for the getlegendgrpaphic print support
+          n.layer.mergeNewParams({STYLES : availableColors[color] + '_' + geom,STYLE : availableColors[color] + '_' + geom});
+        });
+
+        messageContextMenuActiveLyr.findById('revertColor').setHandler(function() {
+          // there's no easy clear value, so do it the hard way
+          if (Ext.getCmp('layerColorPicker').palette.value) {
+            Ext.getCmp('layerColorPicker').palette.el.child('a.color-' + Ext.getCmp('layerColorPicker').palette.value).removeClass('x-color-palette-sel');
+          }
+          n.layer.mergeNewParams({STYLES : wmsStyl[n.layer.name],STYLE : ''});
+          for (var c in availableColors) {
+            if (availableColors[c] == String(wmsStyl[n.layer.name]).replace('_' + geom,'')) {
+              Ext.getCmp('layerColorPicker').palette.select(c,true);
+            }
+          }
+        });
+
         messageContextMenuActiveLyr.findById('opacitySliderLayer').purgeListeners();
         messageContextMenuActiveLyr.findById('opacitySliderLayer').setValue(n.layer.opacity*100);
         messageContextMenuActiveLyr.findById('opacitySliderLayer').addListener('change',function(slider,newVal) {
@@ -3806,7 +3879,7 @@ function mkPermalink() {
       base = map.layers[i].name;
     }
     else if (String(lyr2wms[map.layers[i].name]).indexOf(featurePrefix) == 0 && map.layers[i].visibility) {
-      lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name]);
+      lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']);
     }
   }
 
