@@ -1616,7 +1616,7 @@ Ext.onReady(function() {
     });
     }
 
-    if (toolSettings.bingSearchClear.keyMap) {
+    if (toolSettings.bingSearchClear && toolSettings.bingSearchClear.keyMap) {
     topToolBar_keyMaps.push({
       keyMap: toolSettings.bingSearchClear.keyMap,
       itemId :'bingSearchClear' ,
@@ -1723,7 +1723,7 @@ Ext.onReady(function() {
       }
       ,{
          text    : 'Clear location'
-    ,itemId  : 'bingSearchClear'
+        ,itemId  : 'bingSearchClear'
         ,tooltip : 'Clear location search results from map'
         ,iconCls : 'buttonIcon'
         ,icon    : 'img/clear_eraser.gif'
@@ -2097,6 +2097,14 @@ Ext.onReady(function() {
       type   : 'menu'
     });
     }
+
+    if (toolSettings.clearMeasure && toolSettings.clearMeasure.keyMap) {
+    bottomToolBar_keyMaps.push({
+      keyMap: toolSettings.clearMeasure.keyMap,
+      itemId :'clearMeasure' ,
+      type   : 'menu'
+    });
+    }
     
     bottomToolBar_items.push(
       new Ext.Toolbar.Button({
@@ -2256,7 +2264,8 @@ Ext.onReady(function() {
       ,id        : 'measureTally'
       })
       ,{
-       iconCls      : 'buttonIcon'
+       itemId       : 'clearMeasure'
+      ,iconCls      : 'buttonIcon'
       ,icon         : 'img/erase_measure20.gif'
       ,tooltip      : 'Clear measurement'
       ,allowDepress : false
