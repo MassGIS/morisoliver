@@ -346,7 +346,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
 
-		this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
+        this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
         
 /*
         this.toolbar.addItem("-");
@@ -398,7 +398,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         
         wfsCapURL =  toolSettings.editTool.getCapURL;
 
-         wfsCapStore = new GeoExt.data.WFSCapabilitiesStore( {
+        wfsCapStore = new GeoExt.data.WFSCapabilitiesStore( {
             url: wfsCapURL,
             listeners: {
                 load: {
@@ -445,19 +445,19 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 Ext.apply(protocolCfg, {}, this.DEFAULT_PROTOCOL_OPTIONS);
 
                 if (this.layerConfigs[i].color) {
-		            var styleMap = new OpenLayers.StyleMap({"default": new OpenLayers.Style({'strokeColor': this.layerConfigs[i].color})} );
-		            layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
-		                strategies: [new OpenLayers.Strategy.Fixed()],
-		                projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
-		                protocol: new OpenLayers.Protocol.WFS( protocolCfg ),
-		                styleMap: styleMap
-		            }));
-				} else {
-		            layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
-		                strategies: [new OpenLayers.Strategy.Fixed()],
-		                projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
-		                protocol: new OpenLayers.Protocol.WFS( protocolCfg )
-		            }));
+                    var styleMap = new OpenLayers.StyleMap({"default": new OpenLayers.Style({'strokeColor': this.layerConfigs[i].color})} );
+                    layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+                        strategies: [new OpenLayers.Strategy.Fixed()],
+                        projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+                        protocol: new OpenLayers.Protocol.WFS( protocolCfg ),
+                        styleMap: styleMap
+                    }));
+                } else {
+                    layerConfigs.push( new OpenLayers.Layer.Vector (this.layerConfigs[i].layerTitle,{
+                        strategies: [new OpenLayers.Strategy.Fixed()],
+                        projection: new OpenLayers.Projection(this.DEFAULT_PROTOCOL_OPTIONS.srsName),
+                        protocol: new OpenLayers.Protocol.WFS( protocolCfg )
+                    }));
                 }
             }
         }
@@ -588,7 +588,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 }
             }, this);
             this.layer.wfstFeatureEditing.fields = fields;
-			this.layer.setVisibility(false);
+            this.layer.setVisibility(false);
         }
 
         this.manager.queries++;
@@ -646,11 +646,11 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         var drawControl = new OpenLayers.Control.DrawFeature(layer, handler);
         drawControl.events.on({
             "activate": function() {
-                this.layer.setVisibility(true);
+                //this.layer.setVisibility(true);
                 this.drawMenuButtonActive = true;
             },
             "deactivate": function() {
-                this.layer.setVisibility(false);
+                //this.layer.setVisibility(false);
                 this.drawMenuButtonActive = false;
             },
             "featureadded": function(e) {
@@ -715,13 +715,15 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 
             drawToolControl = new OpenLayers.Control.UserFilter({
                 layers: snapLayerConfigs,
-                box: true
+                box: true,
+                autoVisibility: false,
+                filterType: OpenLayers.Filter.Spatial.INTERSECTS
             });
             layer.wfstFeatureEditing.snappingFilterControl = drawToolControl;
             this.map.addLayers(snapLayerConfigs);
-			Ext.each(snapLayerConfigs, function(layer) {
-				layer.setVisibility(false);
-			});
+            Ext.each(snapLayerConfigs, function(layer) {
+                layer.setVisibility(false);
+            });
             var snap = new OpenLayers.Control.Snapping({
                 layer: layer,
                 targets: snapLayerConfigs,
@@ -736,11 +738,6 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                     }
                 },
                 "filtermerged": function(e) {
-                    var layers = e.object.layers;
-                    for( var i =0; i < layers.length; i++) {
-                        var layer = layers[i];
-                        layer.setVisibility(true);
-                    }
                     e.control.deactivateHandlers();
                     snap.activate();
                     drawControl.activate();
