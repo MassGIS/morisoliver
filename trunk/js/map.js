@@ -1615,6 +1615,14 @@ Ext.onReady(function() {
       type   : 'text'
     });
     }
+
+    if (toolSettings.bingSearchClear.keyMap) {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.bingSearchClear.keyMap,
+      itemId :'bingSearchClear' ,
+      type   : 'text'
+    });
+    }
     
       topToolBar_items.push( '-'
       ,{
