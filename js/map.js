@@ -1026,9 +1026,13 @@ Ext.onReady(function() {
           }
           if (!isGrandparent) {
             messageContextMenuFolder.findById('addFolder').setHandler(function() {
+              var a = [];
               n.eachChild(function(child) {
-                addLayer(child.attributes.wmsName,child.attributes.only_project,child.attributes.text,true,1);
+                a.push([child.attributes.wmsName,child.attributes.only_project,child.attributes.text,true,1]);
               });
+              for (var i = a.length - 1; i >= 0; i--) {
+                addLayer(a[i][0],a[i][1],a[i][2],a[i][3],a[i][4]);
+              }
             });
             messageContextMenuFolder.showAt(e.getXY());
           }
@@ -2008,8 +2012,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.74)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.74)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.75)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.75)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4233,6 +4237,55 @@ function launchExportWizard(aoi) {
                                    {ico : wms2ico[lyr2wms[node.attributes.text]],title : node.attributes.text}
                                   ,++tstLyrCount
                                 ));
+                              }
+                            }
+                          }
+                          ,contextmenu : function(n,e) {
+                            if (n.isLeaf()) {
+                            }
+                            else {
+                              var isGrandparent = false;
+                              for (var i = 0; i < n.childNodes.length; i++) {
+                                isGrandparent = isGrandparent || n.childNodes[i].hasChildNodes();
+                              }
+                              if (!isGrandparent) {
+                                new Ext.menu.Menu({
+                                  items: [{
+                                     text    : 'Add folder'
+                                    ,id      : 'addFolder'
+                                    ,iconCls : 'buttonIcon'
+                                    ,icon    : 'img/addPlus.png'
+                                    ,handler : function() {
+                                      var a = [];
+                                      n.eachChild(function(child) {
+                                        a.push({
+                                           text  : child.attributes.text
+                                          ,style : child.attributes.style
+                                        });
+                                        // a.push([child.attributes.wmsName,child.attributes.only_project,child.attributes.text,true,1]);
+                                      });
+                                      for (var i = 0; i < a.length; i++) {
+                                        // a normal find wasn't working properly, so loop through the list to keep dups out
+                                        var exists = false;
+                                        tstLyrStore.each(function(rec) {
+                                          exists = exists || rec.get('title') == a[i].text;
+                                        });
+                                        if (!exists) {
+                                          // grab the metadata if necessary and add when done
+                                          if (!lyrMetadata[a[i].text]) {
+                                            loadLayerMetadata(lyr2wms[a[i].text],a[i].text,a[i].style,false,false,{store : tstLyrStore,title : a[i].text});
+                                          }
+                                          else {
+                                            tstLyrStore.add(new tstLyrStore.recordType(
+                                               {ico : wms2ico[lyr2wms[a[i].text]],title : a[i].text}
+                                              ,++tstLyrCount
+                                            ));
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }]
+                                }).showAt(e.getXY());
                               }
                             }
                           }
