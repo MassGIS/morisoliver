@@ -37,8 +37,8 @@
 
   $i = 0;
   foreach ($json->{'layers'} as $k => $v) {
-    array_push($titles,wordwrap($k,$legSize[0] / 6));
-    $p = explode("\n",wordwrap($k,$legSize[0] / 6));
+    array_push($titles,wordwrap($k,$legSize[0] / 6.5));
+    $p = explode("\n",wordwrap($k,$legSize[0] / 6.5));
     $legSize[1] += $legends[$i++]->getImageHeight() + 20 + 12 * (count($p) - 1);
   }
 
