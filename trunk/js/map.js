@@ -2023,8 +2023,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.76)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.76)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.77)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.77)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
