@@ -145,17 +145,19 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
         options = options || {};
         for (var i = 0; i < this.layers.length; i++) {
             var layer = this.layers[i];
-            var rebounds = bounds.transform(this.map.getProjectionObject(), layer.projection);
+            var rebounds = bounds.clone();
+            rebounds.transform(this.map.getProjectionObject(), layer.projection);
 
             var filter = new OpenLayers.Filter.Spatial({
                 type: this.filterType,
-                value: bounds
+                value: rebounds
             });
             layer.protocol.defaultFilter = filter;
             this.hasBlankFilter = false;
             this.events.triggerEvent("filtermerged", {
                   layer: layer, filter: filter, control: this});
-            this.autoRefresh && layer.refresh({force:true});
+            //this.autoRefresh && layer.refresh({force:true});
+            this.autoRefresh && layer.events.triggerEvent("refresh",{force:true});
             this.autoVisibility && layer.setVisibility(true);
         }
     },
