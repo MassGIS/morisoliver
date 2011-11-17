@@ -1,7 +1,7 @@
 <?php
   $id      = time().'.'.rand();
-  $tmp_dir = '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
-  $tmp_url = '/temp/OL_MORIS_print/';
+  $tmp_dir = '/tmp/'; // '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
+  $tmp_url = '/tmp/'; // '/temp/OL_MORIS_print/';
 
   $json = json_decode($HTTP_RAW_POST_DATA);
 
@@ -22,7 +22,8 @@
     fwrite($handle,@file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox"));
     fclose($handle);
     $img = new Imagick($tmp_dir.$id.'.png');
-    $img->setImageOpacity($v->{'opacity'});
+    // don't enable opacity (yet?)
+    // $img->setImageOpacity($v->{'opacity'});
     $canvas->compositeImage($img,imagick::COMPOSITE_OVER,0,0);
 
     $handle = fopen($tmp_dir.$id.'.'.count($legends).'.png','w');

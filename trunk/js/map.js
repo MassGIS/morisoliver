@@ -152,7 +152,7 @@ for (i in p) {
     var lyrs = String(p[i]).split('|');
     for (var j = 0; j < lyrs.length; j++) {
       var s = lyrs[j].split('~');
-      defaultLyrs.push({wms : s[1],title : s[0]});
+      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2]});
     }
   }
   else if (i == 'bbox') {
@@ -959,7 +959,7 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1);
+          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1,defaultLyrs[i].styles);
         } 
     
     // bad hack to fix tab Index issues.
@@ -3117,7 +3117,7 @@ Ext.onReady(function() {
   olLegendPanel.setHeight(getVPSize()[1] * 0.40);
 });
 
-function addLayer(wms,proj,title,viz,opacity) {
+function addLayer(wms,proj,title,viz,opacity,styles) {
   if (!activeLyr[title]) {
     activeLyr[title] = new OpenLayers.Layer.WMS(
        title
@@ -3125,7 +3125,8 @@ function addLayer(wms,proj,title,viz,opacity) {
       ,{
          layers      : wms
         ,transparent : true
-        ,styles      : wmsStyl[title]
+        ,styles      : styles != '' ? styles : wmsStyl[title]
+        ,style       : styles != '' ? styles : wmsStyl[title]
         ,foo         : title
       }
       ,{
