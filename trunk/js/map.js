@@ -227,7 +227,7 @@ var qryWin = new Ext.Window({
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
-                Ext.Msg.alert('Query details','This datalayer is not visible at this scale.  Zoom in to view features.');
+                Ext.Msg.alert('Query details','This datalayer is not visible at this scale.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'n/a') {
@@ -2012,8 +2012,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.75)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.75)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.76)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.76)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
