@@ -104,6 +104,9 @@ OpenLayers.Util.onImageLoadError = function() {
       a.push('type' + wms2ico[wms] + 'Red');
       n.getUI().getIconEl().className = a.join(' ');
       n.getUI().getIconEl().qtip = 'There was an error drawing this layer.';
+      if (document.getElementById(n.attributes.layer.name + '.loading')) {
+        document.getElementById(n.attributes.layer.name + '.loading').src = 'img/blank.png';
+      }
     }
   });
   loadError[p['FOO']] = 1;
