@@ -1164,7 +1164,7 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go back to previous extent'
         ,icon     : 'img/undo.png'
-    ,itemId     : 'prevExtent'    
+        ,itemId     : 'prevExtent'    
       })
       ,new GeoExt.Action({
          control  : ctrl.next
@@ -1172,7 +1172,7 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,tooltip  : 'Go to next extent'
         ,icon     : 'img/redo.png'
-    ,itemId   : 'nextExtent'        
+        ,itemId   : 'nextExtent'        
       })
       ,'-'
       ,{
@@ -1182,7 +1182,7 @@ Ext.onReady(function() {
         ,iconCls  : 'buttonIcon'
         ,icon     : 'img/Search-icon.png'
         ,disabled : defaultBase !== 'custom'
-    ,itemId     : 'zoomScale'   
+        ,itemId     : 'zoomScale'   
         ,menu     : [
           {
              text    : '1:1,000'
@@ -1405,6 +1405,14 @@ Ext.onReady(function() {
             topToolBar_keyMaps.push({
               keyMap:  toolSettings.identify.identify_keymap,
               itemId : "identify",
+              type  : toggle
+            });
+          }
+
+          if ( toolSettings.identify.identifyPoly_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identify.identifyPoly_keymap,
+              itemId : "identifyPoly",
               type  : toggle
             });
           }
