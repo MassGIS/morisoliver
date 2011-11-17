@@ -78,7 +78,7 @@ OpenLayers.Control.UserFilter = OpenLayers.Class(OpenLayers.Control.GetFeature, 
         );
 
         if (options.layer) options.layers = [options.layer];
-    	if (options.layer) delete options.layer;
+        if (options.layer) delete options.layer;
 
         options.handlerOptions = options.handlerOptions || {};
 
