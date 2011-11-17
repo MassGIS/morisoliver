@@ -2008,8 +2008,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.73)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.73)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.74)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.74)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4099,7 +4099,7 @@ function launchExportWizard(aoi) {
                         ,hideHeaders      : true
                         ,columns          : [
                            {id : 'ico'  ,header :'Icon'       ,width : 25 ,renderer : ico2img}
-                          ,{id : 'title',header : 'Layer name',width : 600                   }
+                          ,{id : 'title',header : 'Layer name',width : 800                   }
                         ]
                         // ,autoExpandColumn : 'title'
                         ,tbar             : [
