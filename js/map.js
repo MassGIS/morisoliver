@@ -2008,8 +2008,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.72)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.72)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.73)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.73)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3849,8 +3849,9 @@ function printSave() {
     for (var i in activeLyr) {
       if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK) {
         l[i] = {
-           img    : activeLyr[i].getFullRequestString({})
-          ,legend : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
+           img     : activeLyr[i].getFullRequestString({})
+          ,legend  : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
+          ,opacity : activeLyr[i].opacity
         };
         hits++;
       }
