@@ -2830,7 +2830,7 @@ Ext.onReady(function() {
       })
     }
     ,{
-       text    : 'Revert to original color'
+       text    : 'Revert to original symbology'
       ,id      : 'revertColor'
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/arrow_undo.png'
