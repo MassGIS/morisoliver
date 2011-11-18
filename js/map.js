@@ -2079,8 +2079,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.77)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.77)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.78)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.78)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3186,8 +3186,8 @@ function addLayer(wms,proj,title,viz,opacity,styles) {
       ,{
          layers      : wms
         ,transparent : true
-        ,styles      : styles != '' ? styles : wmsStyl[title]
-        ,style       : styles != '' ? styles : wmsStyl[title]
+        ,styles      : styles && styles != '' ? styles : wmsStyl[title]
+        ,style       : styles && styles != '' ? styles : wmsStyl[title]
         ,foo         : title
       }
       ,{
