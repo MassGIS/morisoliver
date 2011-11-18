@@ -74,6 +74,15 @@
 		"alt": true,			// not required if false
 		"key": "x"
 	};	
+
+        toolSettings.printSave = {};
+        toolSettings.printSave.status = 'show';
+        toolSettings.printSave.keyMap =  {                                     // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "w"
+        };
+
 	
 	toolSettings.quickZoomTools = {};
 	toolSettings.quickZoomTools.status = 'hide';

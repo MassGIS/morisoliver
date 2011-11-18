@@ -1929,7 +1929,9 @@ Ext.onReady(function() {
       });
   }
 
-    topToolBar_items.push({
+ if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show')
+  {
+   topToolBar_items.push({
        text     : 'Print / Save'
       ,itemId   : 'printSave'
       ,iconCls  : 'buttonIcon'
@@ -1938,6 +1940,15 @@ Ext.onReady(function() {
       ,handler  : function() {printSave()}
    });
 
+      if (toolSettings.printSave &&  toolSettings.printSave.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.printSave.keyMap,
+        itemId :'printSave' ,
+        type   : 'basic'
+      });
+
+    }
+}
       if (toolSettings.help &&  toolSettings.help.keyMap) {
       topToolBar_keyMaps.push({
         keyMap: toolSettings.help.keyMap,
