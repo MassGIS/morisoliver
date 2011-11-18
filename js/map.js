@@ -87,6 +87,20 @@ var availableColors = {
   ,'005CE6' : 'Dark_Blue'
   ,'C500FF' : 'Purple'
 };
+// looks redundant, no?  well, keep the order of the colors the same across browsers
+var colorPickerColors = [
+   'FFFFFF'
+  ,'D7C29E'
+  ,'686868'
+  ,'FFBEBE'
+  ,'FF0000'
+  ,'FFD37F'
+  ,'FFFF00'
+  ,'55FF00'
+  ,'00C5FF'
+  ,'005CE6'
+  ,'C500FF'
+];
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
@@ -2790,12 +2804,6 @@ Ext.onReady(function() {
   }
   new Ext.KeyMap(document, keyMaps );  
 
-
-  var colorPickerColors = [];
-  for (var c in availableColors) {
-    colorPickerColors.push(c);
-  }
-  
   messageContextMenuActiveLyr = new Ext.menu.Menu({
     items: [{
        text    : 'Zoom to layer'
