@@ -44,7 +44,6 @@ var featureBboxSelect;
 var featureBboxStore;
 var featureBboxGridPanel;
 var measureType = 'length';
-var defaultCenter,defaultZoom;
 var loadError = [];
 var lyrGeoLocate = new OpenLayers.Layer.Vector('geoLoacate',{styleMap :  new OpenLayers.StyleMap({
   'default' : new OpenLayers.Style({
@@ -185,12 +184,6 @@ for (i in p) {
   }
   else if (i == 'base') {
     defaultBase = p[i];
-  }
-  else if (i == 'center') {
-    defaultCenter = String(p[i]).split(',');
-  }
-  else if (i == 'zoom') {
-    defaultZoom = p[i];
   }
 }
 
@@ -2079,8 +2072,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.78)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.78)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.79)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.79)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2789,13 +2782,7 @@ Ext.onReady(function() {
     ,bbar   : olMapPanel_bottomToolBar
     ,border : false
   };
-  if (defaultCenter && defaultZoom) {
-    olMapPanelOpts.center = new OpenLayers.LonLat(defaultCenter[0],defaultCenter[1]);
-    olMapPanelOpts.zoom   = defaultZoom;
-  }
-  else {
-    olMapPanelOpts.extent = new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
-  }
+  olMapPanelOpts.extent = new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
  
   olMapPanel = new GeoExt.MapPanel(olMapPanelOpts);
 
@@ -3946,7 +3933,7 @@ function mkPermalink() {
     }
   }
 
-  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + map.getZoom()).replace(/ /g,'%20');
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base);
 }
 
 // Array.unique( strict ) - Remove duplicate values
