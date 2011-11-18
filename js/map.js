@@ -86,6 +86,7 @@ var availableColors = {
   ,'00C5FF' : 'Blue'
   ,'005CE6' : 'Dark_Blue'
   ,'C500FF' : 'Purple'
+  ,'000000' : 'Black'
 };
 // looks redundant, no?  well, keep the order of the colors the same across browsers
 var colorPickerColors = [
@@ -100,6 +101,7 @@ var colorPickerColors = [
   ,'00C5FF'
   ,'005CE6'
   ,'C500FF'
+  ,'000000'
 ];
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
