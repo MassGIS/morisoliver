@@ -3055,6 +3055,8 @@ Ext.onReady(function() {
         Ext.getCmp('layerColorPicker').addListener('select',function(cm,color) {
           // also pass a STYLE for the getlegendgrpaphic print support
           n.layer.mergeNewParams({STYLES : availableColors[color] + '_' + geom,STYLE : availableColors[color] + '_' + geom});
+          this.hide();
+          messageContextMenuActiveLyr.hide();
         });
 
         messageContextMenuActiveLyr.findById('revertColor').setHandler(function() {
