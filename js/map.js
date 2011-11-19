@@ -259,7 +259,7 @@ var qryWin = new Ext.Window({
                 featureBbox.unselectAll();
                 title = qryLyrStore.getAt(rowIndex).get('title');
                 var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
-                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : ''}).replace('&FOO=','');
+                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
                 var MIF = new Ext.ux.ManagedIFramePanel({
                    defaultSrc  : gfiUrl
                   ,bodyBorder  : false
@@ -281,8 +281,8 @@ var qryWin = new Ext.Window({
                 });
                 new Ext.Window({
                    title           : title
-                  ,width           : mapPanel.getWidth() * 0.65
-                  ,height          : mapPanel.getHeight() * 0.65
+                  ,width           : 640 / 1.5
+                  ,height          : 480 / 1.5
                   ,hideMode        : 'visibility'
                   ,hidden          : true   //wait till you know the size
                   ,plain           : true
@@ -2072,8 +2072,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.79)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.79)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.80)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.80)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3879,6 +3879,7 @@ function runQueryStats(bounds) {
       };
       var request;
       if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
+// foo
         qryLyrStore.getAt(i).set('wfs','n/a');
         qryLyrStore.getAt(i).set('busy','done');
         qryLyrStore.commitChanges();
