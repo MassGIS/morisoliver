@@ -2072,8 +2072,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.81)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.81)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.82)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.82)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2449,6 +2449,14 @@ Ext.onReady(function() {
              text     : 'Custom'
             ,group    : 'basemap'
             ,checked  : defaultBase == 'custom'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Custom');
+              }
+            }]}
             ,handler  : function () {
               addBaseLayer('custom');
               map.setOptions({fractionalZoom : true});
@@ -2474,6 +2482,14 @@ Ext.onReady(function() {
              text    : 'Bing Hybrid'
             ,group   : 'basemap'
             ,checked : defaultBase == 'bingHybrid'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Bing Hybrid');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('bingHybrid');
@@ -2501,6 +2517,14 @@ Ext.onReady(function() {
              text    : 'Bing Roads'
             ,group   : 'basemap'
             ,checked : defaultBase == 'bingRoads'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Bing Roads');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('bingRoads');
@@ -2528,6 +2552,14 @@ Ext.onReady(function() {
              text    : 'Bing Satellite'
             ,group   : 'basemap'
             ,checked : defaultBase == 'bingAerial'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Bing Satellite');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('bingAerial');
@@ -2555,6 +2587,14 @@ Ext.onReady(function() {
              text    : 'Google Hybrid'
             ,group   : 'basemap'
             ,checked : defaultBase == 'googleHybrid'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Google Hybrid');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('googleHybrid');
@@ -2581,6 +2621,14 @@ Ext.onReady(function() {
              text    : 'Google Roadmap'
             ,group   : 'basemap'
             ,checked : defaultBase == 'googleRoadmap'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('Google Roadmap');
+              }
+            }]}
             ,handler : function () {
               map.setOptions({fractionalZoom : false});
               addBaseLayer('googleRoadmap');
@@ -4836,6 +4884,12 @@ function showBaseLayerMetadata(l) {
      'OpenStreetMap'    : 'http://www.openstreetmap.org/'
     ,'Google Terrain'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'Google Satellite' : 'http://en.wikipedia.org/wiki/Google_Maps#Satellite_view'
+    ,'Custom'           : 'https://wiki.state.ma.us/confluence/display/massgis'
+    ,'Bing Hybrid'      : 'http://en.wikipedia.org/wiki/Bing_Maps'
+    ,'Bing Roads'       : 'http://en.wikipedia.org/wiki/Bing_Maps#Road_view'
+    ,'Bing Satellite'   : 'http://en.wikipedia.org/wiki/Bing_Maps#Aerial_view'
+    ,'Google Hybrid'    : 'http://en.wikipedia.org/wiki/Google_Maps'
+    ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
