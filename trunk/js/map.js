@@ -1285,7 +1285,7 @@ Ext.onReady(function() {
     topToolBar_keyMaps.push({
       keyMap: toolSettings.bingSearchClear.keyMap,
       itemId :'bingSearchClear' ,
-      type   : 'text'
+      type   : 'basic'
     });
     }
     
@@ -1465,12 +1465,14 @@ Ext.onReady(function() {
 
 
   }
-        if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
+
+if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
+
           // identify tool functionality
           identify = new GeoExt.Action({
              itemId       : "identify"
             ,tooltip      : 'Identify features by drawing a box'
-            ,scale        : 'large'
+	    ,scal	  : 'large'
             ,icon         : 'img/10_identify.png'
             ,toggleGroup  : 'navigation'
             ,id           : 'queryBox'
@@ -1493,11 +1495,27 @@ Ext.onReady(function() {
               layerRuler.removeFeatures(layerRuler.features);
             }
           });
+          if ( toolSettings.identify.identify_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identify.identify_keymap,
+              itemId : "identify",
+              type  : "toggle"
+            });
+          }
+          topToolBar_items.push(
+             '-'
+            ,identify
+          );
+
+        }
+
+        if (!toolSettings || !toolSettings.identifyPoly || toolSettings.identifyPoly.status == 'show') {
+
           // identifyPoly tool functionality
           identifyPoly = new GeoExt.Action({
              itemId       : "identifyPoly"
             ,tooltip      : 'Identify features by drawing a polygon'
-            ,scale        : 'large'
+            ,scale	  : 'large'
             ,icon         : 'img/11_identify_by_poly.png'
             ,toggleGroup  : 'navigation'
             ,id           : 'queryPoly'
@@ -1521,6 +1539,22 @@ Ext.onReady(function() {
             }
           });
 
+          if ( toolSettings.identifyPoly.identifyPoly_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identifyPoly.identifyPoly_keymap,
+              itemId : "identifyPoly",
+              type  : "toggle"
+            });
+          }
+          topToolBar_items.push(
+             '-'
+            ,identifyPoly
+          );
+
+        }
+
+        if (!toolSettings || !toolSettings.identifyPoly || toolSettings.identifyPoly.status == 'show' || !toolSettings.identify || toolSettings.identify.status == 'show') {
+
           clearIdentify = new GeoExt.Action({
              itemId      : 'identifyClear'
             ,tooltip     : 'Clear identified features'
@@ -1538,25 +1572,6 @@ Ext.onReady(function() {
               }
             }
           });
-
-          if ( toolSettings.identify.identify_keymap) {
-            topToolBar_keyMaps.push({
-              keyMap:  toolSettings.identify.identify_keymap,
-              itemId : "identify",
-              type  : toggle
-            });
-          }
-
-          if ( toolSettings.identify.identifyPoly_keymap) {
-            topToolBar_keyMaps.push({
-              keyMap:  toolSettings.identify.identifyPoly_keymap,
-              itemId : "identifyPoly",
-              type  : toggle
-            });
-          }
-
-// don't know what I need to do here for Poly and topToolBar
-
           if ( toolSettings.identify.clearIdentify_keymap) {
             topToolBar_keyMaps.push({
                keyMap:  toolSettings.identify.clearIdentify_keymap,
@@ -1565,13 +1580,8 @@ Ext.onReady(function() {
             });
           }
 
-          topToolBar_items.push(
-             '-'
-            ,identify
-            ,identifyPoly
-//            ,clearIdentify
-          );
         }
+
 	
 	if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.status == 'show') {
 		commentSaveStrategy = new OpenLayers.Strategy.Save();
@@ -2127,7 +2137,7 @@ Ext.onReady(function() {
     bottomToolBar_keyMaps.push({
       keyMap: toolSettings.clearMeasure.keyMap,
       itemId :'clearMeasure' ,
-      type   : 'menu'
+      type   : 'basic'
     });
     }
     
