@@ -228,3 +228,7 @@
   width : 110px;
   height : 37px;
 }
+
+#banner .x-panel-body {
+  background-color : #D1DFF0;
+}
