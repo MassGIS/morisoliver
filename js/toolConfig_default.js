@@ -159,7 +159,7 @@
 	toolSettings.commentTool = {};
 	toolSettings.commentTool.status = 'hide';
 	toolSettings.commentTool.layer = {
-		commentLabel: "Add comment",
+		//commentLabel: "Add comment",
 		commentDesc: "Leave a comment about an error in the data",
 		layerName: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
 		srs : 'EPSG:26986',
