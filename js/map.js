@@ -3180,7 +3180,16 @@ Ext.onReady(function() {
   mapPanel = new Ext.Viewport({
      layout      : 'border'
     ,split       : true
-    ,items       : [olMapPanel,olLayerPanel]
+    ,items       : [
+      new Ext.Panel({
+         region : 'north'
+        ,id     : 'banner'
+        ,html   : bannerHTML
+        ,height : bannerHeight
+      })
+      ,olMapPanel
+      ,olLayerPanel
+    ]
   });
 
   Ext.getCmp('mappanel').body.setStyle('cursor','move');
