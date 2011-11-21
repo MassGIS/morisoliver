@@ -1547,7 +1547,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             });
           }
           topToolBar_items.push(
-             '-'
             ,identifyPoly
           );
 
