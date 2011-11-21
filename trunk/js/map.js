@@ -2077,8 +2077,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.83)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.83)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.84)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.84)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
