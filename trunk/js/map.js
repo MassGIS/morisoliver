@@ -136,9 +136,9 @@ OpenLayers.Util.onImageLoad = function() {
         var wms = lyr2wms[p['FOO']];
         var cn = n.getUI().getIconEl().className.split(' ');
         var a = [];
-        var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0;
+        var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0 || n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Yellow');
         for (var i = 0; i < cn.length; i++) {
-          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || (map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase()) && String(lyr2proj[p['FOO']]) != 'undefined') {
+          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase() && String(lyr2proj[p['FOO']]) != 'undefined') {
             a.push(cn[i]); 
           }
         }
@@ -481,7 +481,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
     var grayIcon  = '';
     var qtip      = undefined;
     if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() && String(lyr2proj[a.layer.name]) != 'undefined') {
-      grayIcon = 'Red';
+      grayIcon = 'Yellow';
       qtip     = 'This layer cannot be drawn with this basemap.';
     }
     else if (loadError[a.layer.name] == 1) {
@@ -2072,8 +2072,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.82)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.82)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.83)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.83)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
