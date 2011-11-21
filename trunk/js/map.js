@@ -1472,7 +1472,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           identify = new GeoExt.Action({
              itemId       : "identify"
             ,tooltip      : 'Identify features by drawing a box'
-	    ,scal	  : 'large'
+	    ,scale	  : 'large'
             ,icon         : 'img/10_identify.png'
             ,toggleGroup  : 'navigation'
             ,id           : 'queryBox'
