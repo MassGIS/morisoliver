@@ -1089,9 +1089,9 @@ Ext.onReady(function() {
         ,toggleGroup  : 'navigation'
     ,enableToggle : true
         ,allowDepress : false
-        ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom in'
-        ,icon         : 'img/zoom_in.png'
+        ,scale        : 'large'
+        ,icon         : 'img/01_zoom_in.png'
     ,itemId     : 'zoomIn'
         ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
@@ -1106,12 +1106,12 @@ Ext.onReady(function() {
          control      : new OpenLayers.Control.ZoomBox(Ext.apply({out: true}))
         ,map          : map
         ,toggleGroup  : 'navigation'
-    ,enableToggle : true    
+        ,enableToggle : true    
         ,allowDepress : false
-        ,iconCls      : 'buttonIcon'
         ,tooltip      : 'Zoom out'
-        ,icon         : 'img/zoom_out.png'
-    ,itemId     : 'zoomOut'   
+        ,scale        : 'large'
+        ,icon         : 'img/02_zoom_out.png'
+        ,itemId     : 'zoomOut'   
         ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_out.cur")');
@@ -1121,77 +1121,13 @@ Ext.onReady(function() {
           }
         }
       })
-      ,new GeoExt.Action({
-         control      : new OpenLayers.Control.DragPan()
-        ,map          : map
-        ,id           : 'dragPanButton'
-        ,toggleGroup  : 'navigation'
-    ,enableToggle : true    
-        ,allowDepress : false
-        ,iconCls      : 'buttonIcon'
-        ,tooltip      : 'Pan'
-        ,icon         : 'img/drag.gif'
-        ,pressed      : true
-    ,itemId     : 'pan'   
-        ,toggleHandler: function() {
-          Ext.getCmp('mappanel').body.setStyle('cursor','move');
-        }
-      })
       ,{
-         iconCls     : 'buttonIcon'
-        ,tooltip     : 'Zoom to initial extent'
-        ,icon        : 'img/globe.png'
-    ,itemId     : 'initExtent'    
-        ,handler     : function() {
-          map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
-        }
-      }
-      ,new Ext.Action({
-         iconCls     : 'buttonIcon'
-        ,tooltip     : 'Zoom to full extent of active data'
-        ,icon        : 'img/zoom_extents.png'
-    ,itemId     : 'maxExtent'   
-        ,handler     : function() {
-          var targetBounds = new OpenLayers.Bounds();
-          for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
-              if (activeLyr[i].visibility) {
-                var bnds = new OpenLayers.Bounds(lyrMetadata[i].maxExtent.left,lyrMetadata[i].maxExtent.bottom,lyrMetadata[i].maxExtent.right,lyrMetadata[i].maxExtent.top);
-                targetBounds.extend(bnds.transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
-              }
-            }
-          }
-          if (targetBounds.left && targetBounds.bottom && targetBounds.right && targetBounds.top) {
-            map.zoomToExtent(targetBounds);
-          }
-        }
-      })
-      ,'-'
-      ,new GeoExt.Action({
-         control  : ctrl.previous
-        ,disabled : true
-        ,iconCls  : 'buttonIcon'
-        ,tooltip  : 'Go back to previous extent'
-        ,icon     : 'img/undo.png'
-        ,itemId     : 'prevExtent'    
-      })
-      ,new GeoExt.Action({
-         control  : ctrl.next
-        ,disabled : true
-        ,iconCls  : 'buttonIcon'
-        ,tooltip  : 'Go to next extent'
-        ,icon     : 'img/redo.png'
-        ,itemId   : 'nextExtent'        
-      })
-      ,'-'
-      ,{
-     enableToggle: true
-        ,text     : 'Zoom to a scale'
+         enableToggle: true
         ,id       : 'zoomToAScale'
-        ,iconCls  : 'buttonIcon'
-        ,icon     : 'img/Search-icon.png'
+        ,icon     : 'img/03_zoom_scale.png'
+        ,scale    : 'large'
         ,disabled : defaultBase !== 'custom'
-        ,itemId     : 'zoomScale'   
+        ,itemId     : 'zoomScale'
         ,menu     : [
           {
              text    : '1:1,000'
@@ -1270,7 +1206,202 @@ Ext.onReady(function() {
           }
         ]
       }
+      ,new GeoExt.Action({
+         control      : new OpenLayers.Control.DragPan()
+        ,map          : map
+        ,id           : 'dragPanButton'
+        ,toggleGroup  : 'navigation'
+    ,enableToggle : true    
+        ,allowDepress : false
+        ,tooltip      : 'Pan'
+        ,scale        : 'large'
+        ,icon         : 'img/04_pan.png'
+        ,pressed      : true
+    ,itemId     : 'pan'   
+        ,toggleHandler: function() {
+          Ext.getCmp('mappanel').body.setStyle('cursor','move');
+        }
+      })
+      ,{
+         tooltip     : 'Zoom to initial extent'
+        ,icon        : 'img/05_zoom_initial.png'
+        ,scale       : 'large'
+    ,itemId     : 'initExtent'    
+        ,handler     : function() {
+          map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
+        }
+      }
+      ,new Ext.Action({
+         tooltip     : 'Zoom to full extent of active data'
+        ,scale       : 'large'
+        ,icon        : 'img/06_zoom_active.png'
+    ,itemId     : 'maxExtent'   
+        ,handler     : function() {
+          var targetBounds = new OpenLayers.Bounds();
+          for (var i in activeLyr) {
+            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+              if (activeLyr[i].visibility) {
+                var bnds = new OpenLayers.Bounds(lyrMetadata[i].maxExtent.left,lyrMetadata[i].maxExtent.bottom,lyrMetadata[i].maxExtent.right,lyrMetadata[i].maxExtent.top);
+                targetBounds.extend(bnds.transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
+              }
+            }
+          }
+          if (targetBounds.left && targetBounds.bottom && targetBounds.right && targetBounds.top) {
+            map.zoomToExtent(targetBounds);
+          }
+        }
+      })
+      ,'-'
+      ,new GeoExt.Action({
+         control  : ctrl.previous
+        ,disabled : true
+        ,tooltip  : 'Go back to previous extent'
+        ,scale    : 'large'
+        ,icon     : 'img/07_previous.png'
+        ,itemId     : 'prevExtent'    
+      })
+      ,new GeoExt.Action({
+         control  : ctrl.next
+        ,disabled : true
+        ,tooltip  : 'Go to next extent'
+        ,scale    : 'large'
+        ,icon     : 'img/08_next.png'
+        ,itemId   : 'nextExtent'        
+      })
    );
+
+  if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
+    // bing search functionality
+    
+    if (toolSettings.bingAddressSearch.keyMap) {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.bingAddressSearch.keyMap,
+      itemId :'bingSearch' ,
+      type   : 'text'
+    });
+    }
+
+    if (toolSettings.bingSearchClear && toolSettings.bingSearchClear.keyMap) {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.bingSearchClear.keyMap,
+      itemId :'bingSearchClear' ,
+      type   : 'text'
+    });
+    }
+    
+      topToolBar_items.push( '-'
+      ,{
+         xtype     : 'textfield'
+    ,itemId    : 'bingSearch'
+        ,emptyText : 'Search for a location'
+        ,disabled  : bingDisabled
+        ,id        : 'searchLocation'
+        ,width     : 150
+        ,listeners : {
+          specialkey : function(f,e) {
+            if (e.getKey() == e.ENTER) {
+              this.disable();
+              YUI().use("io","json-parse",function(Y) {
+                var handleSuccess = function(ioId,o,args) {
+                  if (o.responseText == '') {
+                    Ext.getCmp('searchLocation').enable();
+                    return;
+                  }
+                  var loc = Y.JSON.parse(o.responseText);
+                  if (loc.resourceSets[0].estimatedTotal == 0) {
+                    Ext.Msg.alert('Location search results','The Bing service could not find any matching results.');
+                    Ext.getCmp('searchLocation').enable();
+                    return;
+                  }
+                  var bnds = new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+                  var ctr = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+                  geoLocateLonLat = undefined;
+                  geoLocateBnds = undefined;
+                  var msg = [];
+                  for (var i in loc.resourceSets[0].resources[0].address) {
+                    if (loc.resourceSets[0].resources[0].address[i] !== '') {
+                      msg.push(loc.resourceSets[0].resources[0].address[i]);
+                    }
+                  }
+                  var locationWin = new Ext.Window({
+                     title       : 'Location search results'
+                    ,width       : 325
+                    ,height      : 200
+                    ,plain       : true
+                    ,modal       : true
+                    ,layout      : 'fit'
+                    ,items       : [new Ext.FormPanel({
+                       bodyStyle:'padding:5px 5px 0'
+                      ,border : false
+                      ,items     : [{
+                         html : '<b>The Bing service found the following location with ' + loc.resourceSets[0].resources[0].confidence + ' confidence:</b><br>' + msg.join('<br>')
+                        ,border : false
+                      }]
+                      ,buttons : [
+                        {
+                           text : 'Zoom to center point'
+                          ,handler : function() {
+                            map.setCenter(ctr);
+                            map.zoomToScale(1000);
+                            var f = lyrGeoLocate.features;
+                            for (var i = 0; i < f.length; i++) {
+                              lyrGeoLocate.removeFeatures(f[i]);
+                            }
+                            lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
+                            geoLocateLonLat = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]);
+                            locationWin.close();
+                          }
+                        }
+                        ,{
+                           text : 'Zoom to region'
+                          ,handler : function() {
+                            map.zoomToExtent(bnds);
+                            var f = lyrGeoLocate.features;
+                            for (var i = 0; i < f.length; i++) {
+                              lyrGeoLocate.removeFeatures(f[i]);
+                            }
+                            lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
+                            geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
+                            locationWin.close();
+                          }
+                        }
+                        ,{
+                           text : 'Cancel'
+                          ,handler : function() {
+                            locationWin.close();
+                          }
+                        }
+                      ]
+                    })]
+                  });
+                  locationWin.show();
+                  Ext.getCmp('searchLocation').enable();
+                }
+                Y.on('io:success',handleSuccess,this,[]);
+                if (Ext.getCmp('searchLocation').getValue() !== '') {
+                  var request = Y.io(proxyLocBing + escape('http://dev.virtualearth.net/REST/v1/Locations?q=' + escape(Ext.getCmp('searchLocation').getValue()) + '&key=' + bingKey));
+                }
+              });
+            }
+          }
+        }
+      }
+      ,{
+         itemId  : 'bingSearchClear'
+        ,tooltip : 'Clear location search results from map'
+        ,scale   : 'large'
+        ,icon    : 'img/09_clear_location.png'
+        ,handler : function() {
+          Ext.getCmp('searchLocation').reset();
+          var f = lyrGeoLocate.features;
+          for (var i = 0; i < f.length; i++) {
+            lyrGeoLocate.removeFeatures(f[i]);
+    }
+          geoLocateLonLat = undefined;
+          geoLocateBnds = undefined;
+        }
+      });
+  }
 
   if (toolSettings.navigationTools) {
     if (toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
@@ -1339,9 +1470,8 @@ Ext.onReady(function() {
           identify = new GeoExt.Action({
              itemId       : "identify"
             ,tooltip      : 'Identify features by drawing a box'
-            ,text         : 'Identify'
-            ,iconCls      : 'buttonIcon'
-            ,icon         : 'img/query-region.png'
+            ,scale        : 'large'
+            ,icon         : 'img/10_identify.png'
             ,toggleGroup  : 'navigation'
             ,id           : 'queryBox'
             ,allowDepress : false
@@ -1367,9 +1497,8 @@ Ext.onReady(function() {
           identifyPoly = new GeoExt.Action({
              itemId       : "identifyPoly"
             ,tooltip      : 'Identify features by drawing a polygon'
-            ,text         : 'IdentifyPoly'
-            ,iconCls      : 'buttonIcon'
-            ,icon         : 'img/draw_polygon.png'
+            ,scale        : 'large'
+            ,icon         : 'img/11_identify_by_poly.png'
             ,toggleGroup  : 'navigation'
             ,id           : 'queryPoly'
             ,allowDepress : false
@@ -1614,140 +1743,6 @@ Ext.onReady(function() {
     });
   }
   
-  if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
-    // bing search functionality
-    
-    if (toolSettings.bingAddressSearch.keyMap) {
-    topToolBar_keyMaps.push({
-      keyMap: toolSettings.bingAddressSearch.keyMap,
-      itemId :'bingSearch' ,
-      type   : 'text'
-    });
-    }
-
-    if (toolSettings.bingSearchClear && toolSettings.bingSearchClear.keyMap) {
-    topToolBar_keyMaps.push({
-      keyMap: toolSettings.bingSearchClear.keyMap,
-      itemId :'bingSearchClear' ,
-      type   : 'text'
-    });
-    }
-    
-      topToolBar_items.push( '-'
-      ,{
-         xtype     : 'textfield'
-    ,itemId    : 'bingSearch'
-        ,emptyText : 'Search for a location'
-        ,disabled  : bingDisabled
-        ,id        : 'searchLocation'
-        ,width     : 150
-        ,listeners : {
-          specialkey : function(f,e) {
-            if (e.getKey() == e.ENTER) {
-              this.disable();
-              YUI().use("io","json-parse",function(Y) {
-                var handleSuccess = function(ioId,o,args) {
-                  if (o.responseText == '') {
-                    Ext.getCmp('searchLocation').enable();
-                    return;
-                  }
-                  var loc = Y.JSON.parse(o.responseText);
-                  if (loc.resourceSets[0].estimatedTotal == 0) {
-                    Ext.Msg.alert('Location search results','The Bing service could not find any matching results.');
-                    Ext.getCmp('searchLocation').enable();
-                    return;
-                  }
-                  var bnds = new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
-                  var ctr = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
-                  geoLocateLonLat = undefined;
-                  geoLocateBnds = undefined;
-                  var msg = [];
-                  for (var i in loc.resourceSets[0].resources[0].address) {
-                    if (loc.resourceSets[0].resources[0].address[i] !== '') {
-                      msg.push(loc.resourceSets[0].resources[0].address[i]);
-                    }
-                  }
-                  var locationWin = new Ext.Window({
-                     title       : 'Location search results'
-                    ,width       : 325
-                    ,height      : 200
-                    ,plain       : true
-                    ,modal       : true
-                    ,layout      : 'fit'
-                    ,items       : [new Ext.FormPanel({
-                       bodyStyle:'padding:5px 5px 0'
-                      ,border : false
-                      ,items     : [{
-                         html : '<b>The Bing service found the following location with ' + loc.resourceSets[0].resources[0].confidence + ' confidence:</b><br>' + msg.join('<br>')
-                        ,border : false
-                      }]
-                      ,buttons : [
-                        {
-                           text : 'Zoom to center point'
-                          ,handler : function() {
-                            map.setCenter(ctr);
-                            map.zoomToScale(1000);
-                            var f = lyrGeoLocate.features;
-                            for (var i = 0; i < f.length; i++) {
-                              lyrGeoLocate.removeFeatures(f[i]);
-                            }
-                            lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
-                            geoLocateLonLat = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]);
-                            locationWin.close();
-                          }
-                        }
-                        ,{
-                           text : 'Zoom to region'
-                          ,handler : function() {
-                            map.zoomToExtent(bnds);
-                            var f = lyrGeoLocate.features;
-                            for (var i = 0; i < f.length; i++) {
-                              lyrGeoLocate.removeFeatures(f[i]);
-                            }
-                            lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
-                            geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
-                            locationWin.close();
-                          }
-                        }
-                        ,{
-                           text : 'Cancel'
-                          ,handler : function() {
-                            locationWin.close();
-                          }
-                        }
-                      ]
-                    })]
-                  });
-                  locationWin.show();
-                  Ext.getCmp('searchLocation').enable();
-                }
-                Y.on('io:success',handleSuccess,this,[]);
-                if (Ext.getCmp('searchLocation').getValue() !== '') {
-                  var request = Y.io(proxyLocBing + escape('http://dev.virtualearth.net/REST/v1/Locations?q=' + escape(Ext.getCmp('searchLocation').getValue()) + '&key=' + bingKey));
-                }
-              });
-            }
-          }
-        }
-      }
-      ,{
-         text    : 'Clear location'
-        ,itemId  : 'bingSearchClear'
-        ,tooltip : 'Clear location search results from map'
-        ,iconCls : 'buttonIcon'
-        ,icon    : 'img/clear_eraser.gif'
-        ,handler : function() {
-          Ext.getCmp('searchLocation').reset();
-          var f = lyrGeoLocate.features;
-          for (var i = 0; i < f.length; i++) {
-            lyrGeoLocate.removeFeatures(f[i]);
-    }
-          geoLocateLonLat = undefined;
-          geoLocateBnds = undefined;
-        }
-      });
-  }
-  
   if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
     topToolBar_items.push('-');
     
@@ -1915,6 +1910,18 @@ Ext.onReady(function() {
   
       topToolBar_items.push('->');
 
+    topToolBar_items.push(
+      new Ext.Action({
+       itemId   : 'permalink'
+      ,tooltip  : 'Make permalink'
+      ,scale   : 'large'
+      ,icon    : 'img/12_permalink.png'
+      ,handler  : function() {
+        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
+      }
+      })
+      );
+
   if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
   
     if (toolSettings.exportData.keyMap) {
@@ -1925,26 +1932,12 @@ Ext.onReady(function() {
       });
     }
 
-  // export data functionality
-    topToolBar_items.push({
-         text        : 'Export data'
-  ,itemId      : "exportData"
-        ,tooltip     : 'Launch the data export wizard'
-        ,iconCls     : 'buttonIcon'
-        ,icon        : 'img/export.png'
-        ,handler     : function() {
-          launchExportWizard({typ : 'bbox'});
-        }
-      });
-  }
-
  if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show')
   {
    topToolBar_items.push({
-       text     : 'Print / Save'
-      ,itemId   : 'printSave'
-      ,iconCls  : 'buttonIcon'
-      ,icon     : 'img/print.png'
+       itemId   : 'printSave'
+      ,scale    : 'large'
+      ,icon     : 'img/13_print.png'
       ,tooltip  : 'Print or save your map and layers'
       ,handler  : function() {printSave()}
    });
@@ -1958,6 +1951,19 @@ Ext.onReady(function() {
 
     }
 }
+
+  // export data functionality
+    topToolBar_items.push({
+         itemId      : "exportData"
+        ,tooltip     : 'Launch the data export wizard'
+        ,scale       : 'large'
+        ,icon        : 'img/14_export.png'
+        ,handler     : function() {
+          launchExportWizard({typ : 'bbox'});
+        }
+      });
+  }
+
       if (toolSettings.help &&  toolSettings.help.keyMap) {
       topToolBar_keyMaps.push({
         keyMap: toolSettings.help.keyMap,
@@ -1967,10 +1973,9 @@ Ext.onReady(function() {
       
     }
       topToolBar_items.push({
-         text : 'Help'
-    ,itemId : 'help'
-        ,iconCls      : 'buttonIcon'
-        ,icon         : 'img/help.png'
+         itemId : 'help'
+        ,scale        : 'large'
+        ,icon         : 'img/15_help.png'
         ,menu : new Ext.menu.Menu({
           items : [
             new GeoExt.Action({
@@ -2128,10 +2133,9 @@ Ext.onReady(function() {
     
     bottomToolBar_items.push(
       new Ext.Toolbar.Button({
-       text         : '&nbsp;Measure'
-      ,itemId       : 'measure'
-      ,iconCls      : 'buttonIcon'
-      ,icon         : 'img/measure20.gif'
+       itemId       : 'measure'
+      ,scale        : 'large'
+      ,icon         : 'img/16_measure.png'
       ,toggleGroup  : 'navigation'
       ,enableToggle : true      
       ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
@@ -2285,8 +2289,8 @@ Ext.onReady(function() {
       })
       ,{
        itemId       : 'clearMeasure'
-      ,iconCls      : 'buttonIcon'
-      ,icon         : 'img/erase_measure20.gif'
+      ,scale        : 'large'
+      ,icon         : 'img/17_clear_measure.png'
       ,tooltip      : 'Clear measurement'
       ,allowDepress : false
       ,handler      : function() {
@@ -2315,21 +2319,6 @@ Ext.onReady(function() {
         type   : 'basic'
       });
     }
-    
-    bottomToolBar_items.push(
-      new Ext.Action({
-       text     : 'Permalink'
-      ,itemId   : 'permalink'
-      ,tooltip  : 'Make permalink'
-      ,iconCls : 'buttonIcon'
-      ,icon    : 'img/favorite-icon.png'
-      ,handler  : function() {
-        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
-      }
-      })
-      );
-      bottomToolBar_items.push('-');
-
   }
   
   if (!toolSettings || !toolSettings.scaleSettings || toolSettings.scaleSettings.status == 'show') 
@@ -2345,10 +2334,9 @@ Ext.onReady(function() {
     } 
     
     bottomToolBar_items.push({
-       text    : 'Scale settings'
-      ,itemId  : 'scalesettings'
-      ,iconCls : 'buttonIcon'
-      ,icon    : 'img/settings.png'
+       itemId  : 'scalesettings'
+      ,scale   : 'large'
+      ,icon    : 'img/18_scale_settings.png'
       ,menu    : [
         {
          text         : 'Show scalebar?'
@@ -2393,10 +2381,9 @@ Ext.onReady(function() {
     } 
     
     bottomToolBar_items.push({
-         text     : 'Map units'
-    ,itemId   : 'mapunits'
-        ,iconCls  : 'buttonIcon'
-        ,icon     : 'img/compass-icon.png'
+         itemId   : 'mapunits'
+        ,scale    : 'large'
+        ,icon     : 'img/19_map_units.png'
         ,menu     : [
           {
              text    : 'Degrees, minutes, seconds'
@@ -2441,9 +2428,10 @@ Ext.onReady(function() {
   
     bottomToolBar_items.push({
          text     : 'Basemaps'
-    ,itemId   : 'basemaps'
+        ,itemId   : 'basemaps'
         ,iconCls  : 'buttonIcon'
-        ,icon     : 'img/layers.png'
+        ,scale    : 'large'
+        ,icon     : 'img/20_basemaps.png'
         ,menu     : [
           {
              text     : 'Custom'
