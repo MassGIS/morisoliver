@@ -18,6 +18,13 @@
 		"key": "a"
 	};	
 
+        toolSettings.clearMeasure = {};
+        toolSettings.clearMeasure.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "h"
+        };
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -53,11 +60,22 @@
 	};	
 	
 
-	toolSettings.identify = {};
-	toolSettings.identify.status = 'show';
-	
-	// toolSettings.identify.identify_keymap = {...};
-	// toolSettings.identify.clearIdentify_keymap = {...};
+        toolSettings.identify = {};
+        toolSettings.identifyPoly = {};
+        toolSettings.identify.status = 'show';
+        toolSettings.identifyPoly.status = 'show';
+
+        toolSettings.identify.identify_keymap = {
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "f"
+        };
+
+        toolSettings.identifyPoly.identifyPoly_keymap = {
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "v"
+        };
 	
 	toolSettings.bingAddressSearch = {};
 	toolSettings.bingAddressSearch.status = 'show';
@@ -66,6 +84,13 @@
 		"alt": true,			// not required if false
 		"key": "l"
 	};	
+
+        toolSettings.bingSearchClear = {};
+        toolSettings.bingSearchClear.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "j"
+        };
 	
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	
