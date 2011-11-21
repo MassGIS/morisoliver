@@ -259,7 +259,7 @@ var qryWin = new Ext.Window({
                 featureBbox.unselectAll();
                 title = qryLyrStore.getAt(rowIndex).get('title');
                 var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
-                var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
+                var gfiUrl = activeLyr[title].getFullRequestString({INFO_FORMAT : 'text/html',BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
                 var MIF = new Ext.ux.ManagedIFramePanel({
                    defaultSrc  : gfiUrl
                   ,bodyBorder  : false
