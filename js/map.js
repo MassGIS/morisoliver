@@ -255,7 +255,7 @@ var qryWin = new Ext.Window({
                 Ext.Msg.alert('Query details','This datalayer is not visible at this scale.');
                 return;
               }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'n/a') {
+              else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
                 featureBbox.unselectAll();
                 title = qryLyrStore.getAt(rowIndex).get('title');
                 var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
@@ -2072,8 +2072,8 @@ Ext.onReady(function() {
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.80)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.80)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.81)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.81)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3816,9 +3816,9 @@ function runQueryStats(bounds) {
   qryLyrStore.removeAll();
   for (var i = map.layers.length - 1; i >= 0; i--) {
     var title = map.layers[i].name;
-  if (map.layers[i].wfstFeatureEditing) {
-    continue;
-  }
+    if (map.layers[i].wfstFeatureEditing) {
+      continue;
+    }
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       var ico   = wms2ico[lyr2wms[title]];
       qryLyrStore.add(new qryLyrStore.recordType(
@@ -3837,33 +3837,40 @@ function runQueryStats(bounds) {
   qryLyrStore.each(function(rec) {
     YUI().use("io",function(Y) {
       var handleSuccess = function(ioId,o,args) {
-        if (window.DOMParser) {
-          parser = new DOMParser();
-          xmlDoc = parser.parseFromString(o.responseText,"text/xml");
-        }
-        else {
-          xmlDoc       = new ActiveXObject("Microsoft.XMLDOM");
-          xmlDoc.async = "false";
-          xmlDoc.loadXML(o.responseText);
-        }
-        // update the right row w/ the # of feature hits
-        var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
-        if (el) {
-          if (args[2]) {
-            qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
+        if (args[1].indexOf('raster') < 0) {
+          if (window.DOMParser) {
+            parser = new DOMParser();
+            xmlDoc = parser.parseFromString(o.responseText,"text/xml");
           }
           else {
-            qryLyrStore.getAt(args[0]).set('wfs','not visible at scale');
+            xmlDoc       = new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = "false";
+            xmlDoc.loadXML(o.responseText);
           }
+          // update the right row w/ the # of feature hits
+          var el = getElementsByTagNameNS(xmlDoc,'http://www.opengis.net/wfs','wfs','FeatureCollection')[0];
+          if (el) {
+            if (args[2]) {
+              qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
+            }
+            else {
+              qryLyrStore.getAt(args[0]).set('wfs','not visible at scale');
+            }
+          }
+          else {
+            if (!(args[1] == 'raster' || args[1] == 'grid')) {
+              qryLyrStore.getAt(args[0]).set('wfs','none');
+            }
+          }
+          qryLyrStore.getAt(args[0]).set('busy','done');
+          qryLyrStore.commitChanges();
         }
         else {
-          if (!(args[1] == 'raster' || args[1] == 'grid')) {
-            qryLyrStore.getAt(args[0]).set('wfs','none');
-          }
+          qryLyrStore.getAt(args[0]).set('wfs',o.responseText.indexOf('Results') >= 0 ? '1 value' : 'no value');
+          qryLyrStore.getAt(args[0]).set('busy','done');
+          qryLyrStore.commitChanges();
         }
-        qryLyrStore.getAt(args[0]).set('busy','done');
-        qryLyrStore.commitChanges();
-      };
+      }
       var ico = wms2ico[lyr2wms[rec.get('title')]];
       Y.on('io:success',handleSuccess,this,[i,ico,scaleOK(rec.get('title')).isOK]);
       var title = rec.get('title');
@@ -3878,8 +3885,12 @@ function runQueryStats(bounds) {
         ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>SHAPE</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
       };
       var request;
-      if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
-// foo
+      if (ico.indexOf('raster') >= 0) {
+        var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
+        var gfiUrl = activeLyr[title].getFullRequestString({BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
+        request = Y.io(proxyLocBing + escape(gfiUrl));
+      }
+      else if (ico.indexOf('grid') >= 0) {
         qryLyrStore.getAt(i).set('wfs','n/a');
         qryLyrStore.getAt(i).set('busy','done');
         qryLyrStore.commitChanges();
