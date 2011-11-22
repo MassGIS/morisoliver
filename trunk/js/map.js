@@ -102,6 +102,10 @@ var colorPickerColors = [
   ,'C500FF'
   ,'000000'
 ];
+var string2rgb = {};
+for (var i in availableColors) {
+  string2rgb[availableColors[i]] = i;
+}
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
@@ -2086,8 +2090,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.84)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.84)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.85)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.85)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2856,10 +2860,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/colors-icon.png'
       ,id      : 'setColor'
-      ,menu    : new Ext.menu.ColorMenu({
-         id     : 'layerColorPicker'
-        ,colors : colorPickerColors
-      })
     }
     ,{
        text    : 'Revert to original symbology'
@@ -3077,25 +3077,20 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           }
         });
 
-        Ext.getCmp('layerColorPicker').purgeListeners();
         var curStyle = OpenLayers.Util.getParameters(n.layer.getFullRequestString({}))['STYLES'];
-        for (var c in availableColors) {
-          if (availableColors[c] == String(curStyle).replace('_' + geom,'')) {
-            Ext.getCmp('layerColorPicker').palette.select(c,true);
+        var cp = new Ext.menu.ColorMenu({
+           colors  : colorPickerColors
+          ,value   : String(curStyle).replace('_' + geom,'') != '' ? string2rgb[String(curStyle).replace('_' + geom,'')] : null
+          ,handler : function(palette,color) {
+            // also pass a STYLE for the getlegendgrpaphic print support
+            n.layer.mergeNewParams({STYLES : availableColors[color] + '_' + geom,STYLE : availableColors[color] + '_' + geom});
+            this.hide();
+            messageContextMenuActiveLyr.hide();
           }
-        }
-        Ext.getCmp('layerColorPicker').addListener('select',function(cm,color) {
-          // also pass a STYLE for the getlegendgrpaphic print support
-          n.layer.mergeNewParams({STYLES : availableColors[color] + '_' + geom,STYLE : availableColors[color] + '_' + geom});
-          this.hide();
-          messageContextMenuActiveLyr.hide();
         });
+        messageContextMenuActiveLyr.findById('setColor').menu = cp;
 
         messageContextMenuActiveLyr.findById('revertColor').setHandler(function() {
-          // there's no easy clear value, so do it the hard way
-          if (Ext.getCmp('layerColorPicker').palette.value) {
-            Ext.getCmp('layerColorPicker').palette.el.child('a.color-' + Ext.getCmp('layerColorPicker').palette.value).removeClass('x-color-palette-sel');
-          }
           n.layer.mergeNewParams({STYLES : wmsStyl[n.layer.name],STYLE : ''});
           for (var c in availableColors) {
             if (availableColors[c] == String(wmsStyl[n.layer.name]).replace('_' + geom,'')) {
