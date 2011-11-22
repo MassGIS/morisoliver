@@ -137,14 +137,14 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 /* i18n  */
 
     /** api: config[drawMenuButtonText] ``String`` i18n */
-    drawMenuButtonText: "Draw",
+    drawMenuButtonText: "",
 
     /** api: config[drawMenuButtonTooltipText] ``String`` i18n */
     drawMenuButtonTooltipText: "Add Tool: Select a layer from the list then " +
         "digitalize a new feature by clicking on the map.",
 
     /** api: config[editMenuButtonText] ``String`` i18n */
-    editMenuButtonText: "Edit",
+    editMenuButtonText: "",
 
     /** api: config[editMenuButtonTooltipText] ``String`` i18n */
     editMenuButtonTooltipText: "Edit Tool: Select a layer from the list then " +
