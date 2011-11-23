@@ -108,6 +108,19 @@ for (var i in availableColors) {
   string2rgb[availableColors[i]] = i;
 }
 
+var lyrRasterQry = new OpenLayers.Layer.Vector(
+   'Raster query point'
+  ,{styleMap : new OpenLayers.StyleMap({
+    'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+       externalGraphic : 'img/Delete-icon.png'
+      ,pointRadius     : 10
+      ,graphicOpacity  : 1
+      ,graphicWidth    : 16
+      ,graphicHeight   : 16
+    }))
+  })}
+);
+
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
   var p = OpenLayers.Util.getParameters(this.src);
@@ -312,6 +325,15 @@ var qryWin = new Ext.Window({
                   ,buttonAlign     : 'center'
                   ,closeAction     : 'hide'
                   ,items           : MIF
+                  ,listeners       : {
+                    show : function() {
+                      var lonLat = map.getLonLatFromPixel(centerPx);
+                      lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
+                    }
+                    ,hide : function() {
+                      lyrRasterQry.removeFeatures(lyrRasterQry.features);
+                    }
+                  }
                 });
                 rasterQryWin[title].show();
                 return;
@@ -871,6 +893,7 @@ Ext.onReady(function() {
       map.setLayerIndex(layerRuler,map.getNumLayers());
       map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
       layerRuler.removeFeatures(layerRuler.features);
+      map.setLayerIndex(lyrRasterQry,map.getNumLayers());
     }
   });
 
@@ -2933,6 +2956,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         ,featureBboxSelect
         ,layerRuler
         ,lyrGeoLocate
+        ,lyrRasterQry
       ]
     })
     ,split  : true
