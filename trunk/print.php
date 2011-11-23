@@ -22,8 +22,8 @@
     fwrite($handle,@file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox"));
     fclose($handle);
     $img = new Imagick($tmp_dir.$id.'.png');
-    // don't enable opacity (yet?)
-    // $img->setImageOpacity($v->{'opacity'});
+    // leave initially opaque cells alone
+    $img->evaluateImage(Imagick::EVALUATE_MULTIPLY,$v->{'opacity'},Imagick::CHANNEL_ALPHA);
     $canvas->compositeImage($img,imagick::COMPOSITE_OVER,0,0);
 
     $handle = fopen($tmp_dir.$id.'.'.count($legends).'.png','w');
