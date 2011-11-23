@@ -199,7 +199,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -563,10 +563,18 @@ Ext.onReady(function() {
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
   });
-  lyrBase['CloudMade'] = new OpenLayers.Layer.CloudMade("CloudMade", {
+  lyrBase['CloudMade'] = new OpenLayers.Layer.CloudMade("CloudMade",{
      key     : '08c529c870d246baa3b9ddcdecdc1c3c'
     ,styleId : 1
   });
+  lyrBase['TopOSM-MA'] = new OpenLayers.Layer.OSM('TopOSM-MA'
+    ,[
+       "http://tile1.toposm.com/ma" + "/final/${z}/${x}/${y}.png"
+      ,"http://tile2.toposm.com/ma" + "/final/${z}/${x}/${y}.png"
+      ,"http://tile3.toposm.com/ma" + "/final/${z}/${x}/${y}.png"
+    ]
+    ,{numZoomLevels: 17}
+  );
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
     ,{
@@ -2805,6 +2813,41 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             }
           }
           ,{
+             text    : 'TopOSM-MA'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'TopOSM-MA'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('TopOSM-MA');
+              }
+            }]}
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('TopOSM-MA');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['TopOSM-MA']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['TopOSM-MA']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
              text        : '0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opacity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100%'
             ,canActivate : false
             ,hideOnClick : false
@@ -2842,6 +2885,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                 }
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
+                }
+                if (lyrBase['TopOSM-MA'].map) {
+                  lyrBase['TopOSM-MA'].setOpacity(newVal/100);
                 }
                 if (lyrBase['bingAerial'].map) {
                   lyrBase['bingAerial'].setOpacity(newVal/100);
@@ -4955,6 +5001,7 @@ function showBaseLayerMetadata(l) {
     ,'Google Hybrid'    : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
+    ,'TopOSM-MA'         : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
