@@ -1995,6 +1995,19 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       })
       );
 
+  if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show')
+  // if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
+  {
+
+    if (toolSettings.permalink.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.permalink.keyMap,
+        itemId :'permalink' ,
+        type   : 'basic'
+      });
+    }
+  }
+
   if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
   
     if (toolSettings.exportData.keyMap) {
@@ -2382,19 +2395,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
      bottomToolBar_items.push(
       '->'
   );
-  
-  if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show') 
-  // if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
-  {
-  
-    if (toolSettings.permalink.keyMap) {
-      bottomToolBar_keyMaps.push({
-        keyMap: toolSettings.permalink.keyMap,
-        itemId :'permalink' ,
-        type   : 'basic'
-      });
-    }
-  }
   
   if (!toolSettings || !toolSettings.scaleSettings || toolSettings.scaleSettings.status == 'show') 
   // if either there is no toolSetting or no toolSetting for scaleSettings, or there is a toolSetting and it is set to status = true
