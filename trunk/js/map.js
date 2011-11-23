@@ -938,6 +938,7 @@ Ext.onReady(function() {
      split       : true
   ,tabIndex : -1
     ,height      : 200
+    ,minHeight   : 0
     ,region      : 'north'
     ,autoScroll  : true
     ,rootVisible : false
@@ -1350,6 +1351,8 @@ Ext.onReady(function() {
     }
     
       topToolBar_items.push( '-'
+      ,' '
+      ,' '
       ,{
          xtype     : 'textfield'
     ,itemId    : 'bingSearch'
@@ -2034,6 +2037,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
   }
 
       if (toolSettings.help &&  toolSettings.help.keyMap) {
+      topToolBar_items.push('-');
+    
       topToolBar_keyMaps.push({
         keyMap: toolSettings.help.keyMap,
         itemId :'help' ,
@@ -2146,8 +2151,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.88)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.88)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.89)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.89)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
