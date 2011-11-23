@@ -1183,7 +1183,7 @@ Ext.onReady(function() {
         }
       })
       ,{
-         enableToggle: true
+         enableToggle: false
         ,id       : 'zoomToAScale'
         ,icon     : 'img/03_zoom_scale.png'
         ,scale    : 'large'
