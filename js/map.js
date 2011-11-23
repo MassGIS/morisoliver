@@ -226,6 +226,7 @@ var qryLyrStore = new Ext.data.ArrayStore({
   ]
 });
 
+var rasterQryWin = {};
 var qryWin = new Ext.Window({
    height      : 550
   ,width       : 475
@@ -258,7 +259,7 @@ var qryWin = new Ext.Window({
           ,loadMask         : true
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
-              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
+              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)' || qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
                 Ext.Msg.alert('Query details','This row has no features. No details will be fetched.');
                 return;
               }
@@ -290,7 +291,10 @@ var qryWin = new Ext.Window({
                     }
                   }}
                 });
-                new Ext.Window({
+                if (rasterQryWin[title] && rasterQryWin[title].isVisible()) {
+                  rasterQryWin[title].hide();
+                }
+                rasterQryWin[title] = new Ext.Window({
                    title           : title
                   ,width           : 640 / 1.5
                   ,height          : 480 / 1.5
@@ -306,8 +310,10 @@ var qryWin = new Ext.Window({
                   ,plain           : true
                   ,maximizable     : true
                   ,buttonAlign     : 'center'
+                  ,closeAction     : 'hide'
                   ,items           : MIF
-                }).show();
+                });
+                rasterQryWin[title].show();
                 return;
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
@@ -348,6 +354,11 @@ var qryWin = new Ext.Window({
       }
       else if (Ext.getCmp('queryPoly').pressed) {
         featurePolyControl.polygon.layer.removeFeatures(featurePolyControl.polygon.layer.features);
+      }
+      for (var i in rasterQryWin) {
+        if (rasterQryWin[i].isVisible()) {
+          rasterQryWin[i].hide();
+        }
       }
     }
     ,show : function() {
@@ -2112,8 +2123,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.87)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.87)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.88)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.88)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3941,6 +3952,12 @@ function rasterOK(name) {
 function runQueryStats(bounds) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
+
+  for (var i in rasterQryWin) {
+    if (rasterQryWin[i].isVisible()) {
+      rasterQryWin[i].hide();
+    }
+  }
 
   // save goodies in case query is thrown over to an extract
   exportBbox.units = map.getProjection();
