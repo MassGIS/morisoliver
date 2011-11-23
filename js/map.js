@@ -1129,6 +1129,7 @@ Ext.onReady(function() {
      title       : 'Active data legends'
   ,tabIndex : -1   
     ,region      : 'south'
+    ,minHeight   : 0
     ,height      : 150
     ,split       : true
     ,autoScroll  : true
@@ -2151,8 +2152,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.89)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.89)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.90)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.90)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
