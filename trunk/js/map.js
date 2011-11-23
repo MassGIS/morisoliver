@@ -199,7 +199,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -458,6 +458,8 @@ imgBg.src      = 'img/bg16x16.png';
 Proj4js.defs["EPSG:26986"] = "+title=Massachusetts Mainland NAD83 +proj=lcc +lat_1=42.68333333333333 +lat_2=41.71666666666667 +lat_0=41 +lon_0=-71.5 +x_0=200000 +y_0=750000 +ellps=GRS80 +datum=NAD83 +units=m +no_defs";
 
 var maxExtent900913 = new OpenLayers.Bounds(maxBbox[0],maxBbox[1],maxBbox[2],maxBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+// the dynamic maxextents are messing up cloudmade, so wire them to the original
+maxExtent900913 = new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508.34);
 var maxExtent26986  = new OpenLayers.Bounds(maxBbox[0],maxBbox[1],maxBbox[2],maxBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:26986"));
 
 OpenLayers.ProxyHost = proxyLoc;
@@ -560,6 +562,10 @@ Ext.onReady(function() {
      key  : bingKey
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
+  });
+  lyrBase['CloudMade'] = new OpenLayers.Layer.CloudMade("CloudMade", {
+     key     : '08c529c870d246baa3b9ddcdecdc1c3c'
+    ,styleId : 1
   });
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
@@ -784,7 +790,7 @@ Ext.onReady(function() {
       ,areaControl
       ,featureBoxControl
       ,featurePolyControl
-    ],projection:"EPSG:26986"
+    ],projection:"EPSG:900913"
   });
   featureBboxSelectHover.activate();
 
@@ -854,6 +860,7 @@ Ext.onReady(function() {
   }
   else {
     map.setOptions({maxExtent : maxExtent900913, projection:"EPSG:900913"});
+    
   }
 
   Ext.app.LayerLoader = Ext.extend(Ext.ux.tree.XmlTreeLoader, {
@@ -2097,8 +2104,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.86)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.86)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.87)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.87)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2592,6 +2599,41 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             }
           }
           ,{
+             text    : 'CloudMade'
+            ,group   : 'basemap'
+            ,checked : defaultBase == 'CloudMade'
+            ,menu    : {items : [{
+               text : 'View metadata'
+              ,iconCls : 'buttonIcon'
+              ,icon    : 'img/info1.png'
+              ,handler : function() {
+                showBaseLayerMetadata('CloudMade');
+              }
+            }]}
+            ,handler : function () {
+              map.setOptions({fractionalZoom : false});
+              addBaseLayer('CloudMade');
+              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+              if (map.getProjection() == 'EPSG:900913') {
+                map.setBaseLayer(lyrBase['CloudMade']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                return;
+              }
+              else {
+                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+                map.setBaseLayer(lyrBase['CloudMade']);
+                Ext.getCmp('customScale').setDisabled(true);
+                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+                Ext.getCmp('zoomToAScale').setDisabled(true);
+                map.setOptions({maxExtent : maxExtent900913});
+                map.zoomToExtent(ext);
+                refreshLayers();
+              }
+            }
+          }
+          ,{
              text    : 'Google Hybrid'
             ,group   : 'basemap'
             ,checked : defaultBase == 'googleHybrid'
@@ -2797,6 +2839,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                 }
                 if (lyrBase['openStreetMap'].map) {
                   lyrBase['openStreetMap'].setOpacity(newVal/100);
+                }
+                if (lyrBase['CloudMade'].map) {
+                  lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
                 if (lyrBase['bingAerial'].map) {
                   lyrBase['bingAerial'].setOpacity(newVal/100);
@@ -4909,6 +4954,7 @@ function showBaseLayerMetadata(l) {
     ,'Bing Satellite'   : 'http://en.wikipedia.org/wiki/Bing_Maps#Aerial_view'
     ,'Google Hybrid'    : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
+    ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
