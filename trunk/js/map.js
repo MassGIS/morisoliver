@@ -33,6 +33,7 @@ var olActiveLayers;
 var mapPanel;
 var loadingPanel;
 var lyrSearchCombo;
+var externalWmsMenu;
 var lyrStoreSearchWizard;
 var lyrCount         = 0;
 var tstLyrCount      = 0;
@@ -943,6 +944,7 @@ Ext.onReady(function() {
     ,region      : 'north'
     ,autoScroll  : true
     ,rootVisible : false
+    ,bbar        : {}
     ,root        : new Ext.tree.AsyncTreeNode()
     ,loader      : new Ext.app.LayerLoader({
        dataUrl       : foldersetLoc
@@ -1016,6 +1018,25 @@ Ext.onReady(function() {
           }
         });
         olLayerPanel.getTopToolbar().add(lyrSearchCombo);
+
+        var menu = new Ext.menu.Menu({});
+        for (var i = 0; i < externalGetCaps.length; i++) {
+          menu.add({
+             text    : externalGetCaps[i].name
+            ,handler : function(item) {
+              for (var j = 0; j < externalGetCaps.length; j++) {
+                if (externalGetCaps[j].name == item.text) {
+                  getCaps(externalGetCaps[j].name,externalGetCaps[j].url);
+                }
+              }
+            }
+          });
+        }
+        externalWmsMenu = new Ext.Button({
+           text : 'External data sources'
+          ,menu : menu
+        });
+        olLayerTree.getBottomToolbar().add(externalWmsMenu);
     
     if (additionalSettings && additionalSettings.layerList && additionalSettings.layerList.searchBox  && additionalSettings.layerList.searchBox.keyMap) {
       var layerSearchKeyMap = {};
@@ -1026,10 +1047,12 @@ Ext.onReady(function() {
         olLayerPanel.addListener({
           resize : function() {
             lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
+            externalWmsMenu.setWidth(olLayerPanel.getWidth() - 5);
           }
         });
         olLayerPanel.doLayout();
         lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
+        externalWmsMenu.setWidth(olLayerPanel.getWidth() - 5);
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
@@ -1996,8 +2019,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.91)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.91)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.92)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.92)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
