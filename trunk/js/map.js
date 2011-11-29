@@ -2369,7 +2369,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                         ,icon         : 'img/query-region.png'
                         ,toggleGroup  : 'navigation'
                         ,enableToggle : true
-                        ,toolTip : toolSettings.commentTool.layer.commentDesc
+                        ,tooltip : toolSettings.commentTool.layer.commentDesc
                         })
                 );
         }
