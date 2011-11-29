@@ -2019,8 +2019,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.93)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.93)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.94)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.94)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3400,7 +3400,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles) {
   if (!activeLyr[title]) {
     activeLyr[title] = new OpenLayers.Layer.WMS(
        title
-      ,url + "?"
+      ,url + (url.indexOf('?') < 0 ? '?' : '')
       ,{
          layers      : wms
         ,transparent : true
@@ -3436,6 +3436,7 @@ function refreshLayers() {
         ,viz     : map.layers[i].visibility
         ,opacity : map.layers[i].opacity
         ,styles  : OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']
+        ,url     : map.layers[i].url
       });
     }
   }
@@ -3444,7 +3445,7 @@ function refreshLayers() {
     activeLyr[lyr[i].name] = '';
   }
   for (var i = 0; i < lyr.length; i++) {
-    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,wmsUrl,lyr[i].styles);
+    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,lyr[i].url,lyr[i].styles);
   }
 
   featureBbox.unselectAll();
@@ -5184,7 +5185,7 @@ function getCaps(n,u) {
           wmsStyl[lyr.name]  = '';
           addLayer(
              grid.getStore().getAt(idx).get('name')
-            ,map.getProjectionObject()
+            ,map.getProjection()
             ,lyr.name
             ,true
             ,1
