@@ -89,13 +89,13 @@ foreach (@{$doc->{layer}}) {
     @cmd_args = ("/bin/bash","-c", $cmd);
     $r = system(@cmd_args);
   }
-  elsif (unsafeXML($h{baseURL}) =~ /\/kml\?/) {
+  elsif (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
     rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
-  }
-  else {
+  } else {
+    print STDERR "renaming file ".unsafeXML($h{baseURL})." to .tif extension";
     rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.tif');
   }
-  next;
+
   foreach (@{$h{metadata}}) {
     my $u = unsafeXML($_);
 
