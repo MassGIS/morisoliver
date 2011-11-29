@@ -2019,8 +2019,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.92)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.92)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.93)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.93)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2435,26 +2435,6 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       });
     } 
 
-    var menu = new Ext.menu.Menu({});
-    for (var i = 0; i < externalGetCaps.length; i++) {
-      menu.add({
-         text    : externalGetCaps[i].name
-        ,handler : function(item) {
-          for (var j = 0; j < externalGetCaps.length; j++) {
-            if (externalGetCaps[j].name == item.text) {
-              getCaps(externalGetCaps[j].name,externalGetCaps[j].url);
-            }
-          }
-        }
-      });
-    }
-    bottomToolBar_items.push({
-       itemId  : 'externalWms'
-      ,scale   : 'large'
-      ,text    : 'External data sources'
-      ,menu    : menu
-    });
-    
     bottomToolBar_items.push({
        itemId  : 'scalesettings'
       ,scale   : 'large'
