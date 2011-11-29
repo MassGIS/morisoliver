@@ -1591,8 +1591,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,toggleHandler: function(obj, activeState) {
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
               if (activeState) {
-                featureBoxControl.polygon.activate();
-                featurePolyControl.polygon.deactivate();
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.activate();
               } else {
                 featureBoxControl.polygon.deactivate();
                 featurePolyControl.polygon.deactivate();
