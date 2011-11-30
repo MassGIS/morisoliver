@@ -383,6 +383,9 @@ var qryWin = new Ext.Window({
           rasterQryWin[i].hide();
         }
       }
+      if (Ext.getCmp('featureDetails')) {
+        Ext.getCmp('featureDetails').hide();
+      }
     }
     ,show : function() {
       Ext.getCmp('qryFeatureDetails').enable();
@@ -854,9 +857,13 @@ Ext.onReady(function() {
     if (!qryWin.findById('featureBboxGridPanel')) {
       qryWin.add({
          xtype : 'fieldset'
+        ,id    : 'featureDetails'
         ,title : 'Feature details'
         ,items : [featureBboxGridPanel]
       });
+    }
+    else if (!Ext.getCmp('featureDetails').isVisible()) {
+      Ext.getCmp('featureDetails').show(); 
     }
     Ext.getCmp('qryFeatureDetails').enable();
     qryWin.doLayout();
@@ -2019,8 +2026,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.94)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.94)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.95)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.95)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
