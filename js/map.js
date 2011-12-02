@@ -403,6 +403,10 @@ OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
       {'done' : function(g) {
+        // clear any query results
+        if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
+          Ext.getCmp('featureDetails').hide();
+        }
         if (featureBboxGridPanel) {
           featureBboxGridPanel.getStore().removeAll();
         }
@@ -444,6 +448,10 @@ OpenLayers.Util.extend(featurePolyControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.Polygon(featurePolyControl,
       {'done' : function(g) {
+        // clear query any results
+        if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
+          Ext.getCmp('featureDetails').hide();
+        }
         if (featureBboxGridPanel) {
           featureBboxGridPanel.getStore().removeAll();
         }
@@ -2026,8 +2034,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.95)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.95)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.96)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.96)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
