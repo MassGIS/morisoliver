@@ -2034,8 +2034,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.97)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.97)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.98)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.98)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3175,9 +3175,9 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,text         : 'Remove all'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if ((activeLyr[i] != '') && String(lyr2wms[i]).indexOf(featurePrefix) == 0 || lyr2type[i] == 'externalWms') {
+            if (String(lyr2wms[i]).indexOf(featurePrefix) == 0 || lyr2type[i] == 'externalWms') {
               map.removeLayer(activeLyr[i]);
-              activeLyr[i] = '';
+              delete activeLyr[i];
             }
           }
         }
@@ -3261,7 +3261,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         messageContextMenuActiveLyr.findById('remove').setHandler(function() {
           for (var j = 0; j < nodes.length ; j++) {
             map.removeLayer(activeLyr[nodes[j].text]);
-            activeLyr[nodes[j].text] = '';
+            delete activeLyr[nodes[j].text];
           }
         });
         messageContextMenuActiveLyr.findById('zoomTo').setHandler(function() {
@@ -3457,7 +3457,7 @@ function refreshLayers() {
   }
   for (var i = 0; i < lyr.length; i++) {
     map.removeLayer(activeLyr[lyr[i].name]);
-    activeLyr[lyr[i].name] = '';
+    delete activeLyr[lyr[i].name];
   }
   for (var i = 0; i < lyr.length; i++) {
     addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,lyr[i].url,lyr[i].styles);
@@ -4246,7 +4246,7 @@ function printSave() {
   var hits = 0;
   for (var j = 0; j < map.layers.length; j++) {
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK || lyr2type[i] == 'externalWms') {
+      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK || lyr2type[i] == 'externalWms') {
         l[i] = {
            img     : activeLyr[i].getFullRequestString({})
           ,legend  : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
@@ -4314,7 +4314,7 @@ function launchExportWizard(aoi) {
   });
   for (var j = map.layers.length - 1; j >= 0; j--) {
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
+      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility) {
         // a normal find wasn't working properly, so loop through the list to keep dups out
         var exists = false;
         tstLyrStore.each(function(rec) {
@@ -4511,7 +4511,7 @@ function launchExportWizard(aoi) {
                               tstLyrStore.removeAll();
                               for (var j = map.layers.length - 1; j >= 0; j--) {
                                 for (var i in activeLyr) {
-                                  if (map.layers[j].name == i && !activeLyr[i] == '' && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+                                  if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
                                     // a normal find wasn't working properly, so loop through the list to keep dups out
                                     var exists = false;
                                     tstLyrStore.each(function(rec) {
