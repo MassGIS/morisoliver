@@ -256,7 +256,7 @@ var qryWin = new Ext.Window({
       ,items : [
         {
            border : false
-          ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 100 features allowed. To use your selected area of interest to launch the data export wizard, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
+          ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 2000 features allowed. To use your selected area of interest to launch the data export wizard, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
         }
         ,new MorisOliverApp.thGridPanel({
            height           : 150
@@ -340,8 +340,8 @@ var qryWin = new Ext.Window({
                 return;
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
-              if (p.length == 2 && p[0] > 100) {
-                Ext.Msg.alert('Query details','This row has over 100 features. No details will be fetched.');
+              if (p.length == 2 && p[0] > 2000) {
+                Ext.Msg.alert('Query details','This row has over 2000 features. No details will be fetched.');
                 return;
               }
               grid.disable();
