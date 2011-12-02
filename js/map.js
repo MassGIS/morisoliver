@@ -2034,8 +2034,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.96)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.96)'  // version
+               text     : 'About ' + siteTitle + ' (v. 0.97)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 0.97)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3143,7 +3143,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,text         : 'Check all'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
               activeLyr[i].setVisibility(true);
             }
           }
@@ -3158,7 +3158,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,text         : 'Uncheck all'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0) {
+            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
               if (activeLyr[i].visibility) {
                 activeLyr[i].setVisibility(false);
               }
