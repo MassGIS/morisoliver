@@ -623,7 +623,7 @@ Ext.onReady(function() {
     ,{
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.SATELLITE
-      ,minZoomLevel        : 7
+      //,minZoomLevel        : 7
       ,maxZoomLevel        : 20
     }
   );
@@ -632,7 +632,7 @@ Ext.onReady(function() {
     ,{
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.TERRAIN
-      ,minZoomLevel        : 7
+      //,minZoomLevel        : 7
       ,maxZoomLevel        : 15
     }
   );
@@ -641,7 +641,7 @@ Ext.onReady(function() {
     ,{
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.ROADMAP
-      ,minZoomLevel        : 7
+      //,minZoomLevel        : 7
       ,maxZoomLevel        : 21
     }
   );
@@ -650,7 +650,7 @@ Ext.onReady(function() {
     ,{
        'sphericalMercator' : true
       ,type                : google.maps.MapTypeId.HYBRID
-      ,minZoomLevel        : 7
+      //,minZoomLevel        : 7
       ,maxZoomLevel        : 20
     }
   );
