@@ -4029,7 +4029,13 @@ function rasterOK(name) {
   var dx = bbox[2] - bbox[0];
   var dy = bbox[3] - bbox[1];
   if (lyrMetadata[name].imgBytesPerPixel || lyrMetadata[name].imgUnitsPerPixel) {
-    return (2 * dx * dy * lyrMetadata[name].imgBytesPerPixel) / (lyrMetadata[name].imgUnitsPerPixel * 1048576) < 15;
+    var pixelsWide = dx/lyrMetadata[name].imgUnitsPerPixel;
+    var pixelsHigh = dy/lyrMetadata[name].imgUnitsPerPixel;
+    var sqPixels = pixelsWide * pixelsHigh;
+    var totBytes = sqPixels * lyrMetadata[name].imgBytesPerPixel;
+    var totMB = totBytes / 1024 / 1024;
+    alert('totMB: ' + totMB);
+    return (totMB < 15);
   }
   else {
     return true;
