@@ -376,7 +376,10 @@ var qryWin = new Ext.Window({
         featureBoxControl.polygon.clear();
       }
       else if (Ext.getCmp('queryPoly').pressed) {
-        featurePolyControl.polygon.layer.removeFeatures(featurePolyControl.polygon.layer.features);
+        // don't use the regular destroyFeatures -- do it manually here
+        OpenLayers.Handler.Path.prototype.destroyFeature.call(featurePolyControl.polygon.layer,true);
+        // also manually erase the poly
+        featurePolyControl.polygon.layer.renderer.eraseFeatures(featurePolyControl.polygon.layer.features);
       }
       for (var i in rasterQryWin) {
         if (rasterQryWin[i].isVisible()) {
@@ -2034,8 +2037,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 0.98)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 0.98)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.00)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.00)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
