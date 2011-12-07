@@ -1037,25 +1037,6 @@ Ext.onReady(function() {
         });
         olLayerPanel.getTopToolbar().add(lyrSearchCombo);
 
-        var menu = new Ext.menu.Menu({});
-        for (var i = 0; i < externalGetCaps.length; i++) {
-          menu.add({
-             text    : externalGetCaps[i].name
-            ,handler : function(item) {
-              for (var j = 0; j < externalGetCaps.length; j++) {
-                if (externalGetCaps[j].name == item.text) {
-                  getCaps(externalGetCaps[j].name,externalGetCaps[j].url);
-                }
-              }
-            }
-          });
-        }
-        externalWmsMenu = new Ext.Button({
-           text : 'External data sources'
-          ,menu : menu
-        });
-        olLayerTree.getBottomToolbar().add(externalWmsMenu);
-    
     if (additionalSettings && additionalSettings.layerList && additionalSettings.layerList.searchBox  && additionalSettings.layerList.searchBox.keyMap) {
       var layerSearchKeyMap = {};
       Ext.apply(layerSearchKeyMap, additionalSettings.layerList.searchBox.keyMap, {fn:function () {olLayerPanel.getTopToolbar().getComponent("layerSearch").focus();} });
@@ -1065,12 +1046,10 @@ Ext.onReady(function() {
         olLayerPanel.addListener({
           resize : function() {
             lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
-            externalWmsMenu.setWidth(olLayerPanel.getWidth() - 5);
           }
         });
         olLayerPanel.doLayout();
         lyrSearchCombo.setWidth(olLayerPanel.getWidth() - 5);
-        externalWmsMenu.setWidth(olLayerPanel.getWidth() - 5);
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
@@ -1852,8 +1831,35 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       topToolBar_items.push(thisComboBox);
     } 
   }
-  
+ 
       topToolBar_items.push('->');
+
+      // start of externalWMS
+      // button and divider needsto be wrapped for custom control
+      var menu = new Ext.menu.Menu({});
+      for (var i = 0; i < externalGetCaps.length; i++) {
+        menu.add({
+           text    : externalGetCaps[i].name
+          ,handler : function(item) {
+            for (var j = 0; j < externalGetCaps.length; j++) {
+              if (externalGetCaps[j].name == item.text) {
+                getCaps(externalGetCaps[j].name,externalGetCaps[j].url);
+              }
+            }
+          }
+        });
+      }
+      topToolBar_items.push(
+        new Ext.Action({
+           itemId  : 'externalWMS'
+          ,tooltip : 'Add data layers from external data sources'
+          ,scale   : 'large'
+          ,icon    : 'img/external_data_sources.png'
+          ,menu    : menu
+        })
+      );
+      topToolBar_items.push('-');
+      // end of externalWMS
 
     topToolBar_items.push(
       new Ext.Action({
@@ -2037,8 +2043,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.00)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.00)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.01)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.01)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
