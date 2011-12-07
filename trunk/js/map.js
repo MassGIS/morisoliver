@@ -137,7 +137,7 @@ OpenLayers.Util.onImageLoadError = function() {
       }
       a.push('type' + wms2ico[wms] + 'Red');
       n.getUI().getIconEl().className = a.join(' ');
-      n.getUI().getIconEl().qtip = 'There was an error drawing this layer.';
+      n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
       if (document.getElementById(n.attributes.layer.name + '.loading')) {
         document.getElementById(n.attributes.layer.name + '.loading').src = 'img/blank.png';
       }
@@ -246,26 +246,26 @@ var qryWin = new Ext.Window({
   ,width       : 475
   ,closeAction : 'hide'
   ,resizable   : false
-  ,title       : 'Query results'
+  ,title       : 'Identify results'
   ,bodyStyle   : 'background:white;padding:6px'
   ,constrainHeader : true
   ,items       : [
     {
+       border : false
+      ,html   : 'Select a data layer to highlight its features on the map and to view its feature details. You can view up to 2,000 features per data layer. To export data layers that are within or overlap the identify area, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> to launch the data export wizard <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
+    }
+    ,{
        xtype : 'fieldset'
-      ,title : 'At a glance'
+      ,title : 'Data layers'
       ,items : [
-        {
-           border : false
-          ,html   : 'Select a row to highlight corresponding geometries on the map as well as to view detailed record information. Viewing up to 2000 features allowed. To use your selected area of interest to launch the data export wizard, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
-        }
-        ,new MorisOliverApp.thGridPanel({
+        new MorisOliverApp.thGridPanel({
            height           : 150
           ,width            : 425
           ,store            : qryLyrStore
           ,id               : 'qryFeatureDetails'
           ,columns          : [
              {id : 'ico'  ,header : ''                              ,width : 25,renderer : ico2img                 }
-            ,{id : 'title',header : 'Layer name'                                                                   }
+            ,{id : 'title',header : 'Data layer name'                                                              }
             ,{id : 'wfs'  ,header : 'Feature(s) found?'                                                            }
             ,{id : 'busy' ,header : ''                              ,width : 30,renderer : busyIco                 }
           ]
@@ -274,11 +274,11 @@ var qryWin = new Ext.Window({
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
               if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)' || qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
-                Ext.Msg.alert('Query details','This row has no features. No details will be fetched.');
+                Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
-                Ext.Msg.alert('Query details','This datalayer is not visible at this scale.');
+                Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
@@ -341,7 +341,7 @@ var qryWin = new Ext.Window({
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
               if (p.length == 2 && p[0] > 2000) {
-                Ext.Msg.alert('Query details','This row has over 2000 features. No details will be fetched.');
+                Ext.Msg.alert('Identify details','This data layer has over 2,000 features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
               grid.disable();
@@ -545,11 +545,11 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
     }
     else if (loadError[a.layer.name] == 1) {
       grayIcon = 'Red';
-      qtip     = 'There was an error drawing this layer.';
+      qtip     = 'There was an error drawing this data layer.';
     }
     else if (!scaleInfo.isOK) {
       grayIcon = 'Gray';
-      qtip     = 'Layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
+      qtip     = 'Data layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
     } 
     if (String('polyptlinerastergridlayergroup').indexOf(wms2ico[wms]) >= 0) {
       this.iconNode.className += ' type' + wms2ico[wms] + grayIcon;
@@ -1148,7 +1148,7 @@ Ext.onReady(function() {
   });
   
   var olLegendPanel = new GeoExt.LegendPanel({
-     title       : 'Active data legends'
+     title       : 'Legend'
   ,tabIndex : -1   
     ,region      : 'south'
     ,minHeight   : 0
@@ -1212,6 +1212,7 @@ Ext.onReady(function() {
         ,scale    : 'large'
         ,disabled : defaultBase !== 'custom'
         ,itemId     : 'zoomScale'
+        ,tooltip  : 'Zoom to scale in custom basemap'
         ,menu     : [
           {
              text    : '1:1,000'
@@ -1316,7 +1317,7 @@ Ext.onReady(function() {
         }
       }
       ,new Ext.Action({
-         tooltip     : 'Zoom to full extent of active data'
+         tooltip     : 'Zoom to full extent of active data layers'
         ,scale       : 'large'
         ,icon        : 'img/06_zoom_active.png'
     ,itemId     : 'maxExtent'   
@@ -1384,7 +1385,13 @@ Ext.onReady(function() {
         ,id        : 'searchLocation'
         ,width     : 150
         ,listeners : {
-          specialkey : function(f,e) {
+          render: function(c){
+            Ext.QuickTips.register({
+               target : c.getEl()
+              ,text   : 'Type an address or location into the box and press Enter to zoom to a location'
+            });
+          }
+          ,specialkey : function(f,e) {
             if (e.getKey() == e.ENTER) {
               this.disable();
               YUI().use("io","json-parse",function(Y) {
@@ -1557,7 +1564,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           // identify tool functionality
           identify = new GeoExt.Action({
              itemId       : "identify"
-            ,tooltip      : 'Identify features by drawing a box'
+            ,tooltip      : 'Identify features by clicking a point or drawing a box'
 	    ,scale	  : 'large'
             ,icon         : 'img/10_identify.png'
             ,toggleGroup  : 'navigation'
@@ -1600,7 +1607,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           // identifyPoly tool functionality
           identifyPoly = new GeoExt.Action({
              itemId       : "identifyPoly"
-            ,tooltip      : 'Identify features by drawing a polygon'
+            ,tooltip      : 'Identify features by drawing a polygon.  Click to add vertices and double-click to finish.'
             ,scale	  : 'large'
             ,icon         : 'img/11_identify_by_poly.png'
             ,toggleGroup  : 'navigation'
@@ -1868,7 +1875,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,scale   : 'large'
       ,icon    : 'img/12_permalink.png'
       ,handler  : function() {
-        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and save it as a bookmark to launch the ' + siteTitle + ' application with the current map settings enabled.')
+        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and use your browser menu options to share or save the current map. Options for sharing or saving vary among browsers.');
       }
       })
       );
@@ -1902,7 +1909,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
        itemId   : 'printSave'
       ,scale    : 'large'
       ,icon     : 'img/13_print.png'
-      ,tooltip  : 'Print or save your map and layers'
+      ,tooltip  : 'Print or save your map and legend'
       ,handler  : function() {printSave()}
    });
 
@@ -1942,6 +1949,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
          itemId : 'help'
         ,scale        : 'large'
         ,icon         : 'img/15_help.png'
+        ,tooltip      : 'Help'
         ,menu : new Ext.menu.Menu({
           items : [
             new GeoExt.Action({
@@ -1950,47 +1958,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               ,tooltip  : siteTitle + ' help'
               ,icon     : 'img/help.png'
               ,handler  : function () {
-                if (Ext.getCmp('myFrameWin')) {
-                  Ext.getCmp('myFrameWin').close();
-                }
-                var MIF = new Ext.ux.ManagedIFramePanel({
-                   defaultSrc  : helpUrl1
-                  ,bodyBorder  : false
-                  ,bodyStyle   : 'background:white'
-                  ,listeners   : {domready : function(frame){
-                    var fbody = frame.getBody();
-                    var w = Ext.getCmp('myFrameWin');
-                    if (w && fbody){
-                      // calc current offsets for Window body border and padding
-                      var bHeightAdj = w.body.getHeight() - w.body.getHeight(true);
-                      var bWidthAdj  = w.body.getWidth()  - w.body.getWidth(true);
-                      // Window is rendered (has size) but invisible
-                      w.setSize(Math.max(w.minWidth || 0, fbody.scrollWidth  +  w.getFrameWidth() + bWidthAdj) ,
-                      Math.max(w.minHeight || 0, fbody.scrollHeight +  w.getFrameHeight() + bHeightAdj) );
-                      // then show it sized to frame document
-                      w.show();
-                    }
-                  }}
-                });
-                new Ext.Window({
-                   title           : siteTitle + ' help'
-                  ,width           : mapPanel.getWidth() * 0.65
-                  ,height          : mapPanel.getHeight() * 0.65
-                  ,hideMode        : 'visibility'
-                  ,id              : 'myFrameWin'
-                  ,hidden          : true   //wait till you know the size
-                  ,plain           : true
-                  ,constrainHeader : true
-                  ,minimizable     : false
-                  ,ddScroll        : false
-                  ,border          : false
-                  ,bodyBorder      : false
-                  ,layout          : 'fit'
-                  ,plain           : true
-                  ,maximizable     : true
-                  ,buttonAlign     : 'center'
-                  ,items           : MIF
-                }).show();
+                goHelpHTML();
               }
             })
             ,new GeoExt.Action({
@@ -2043,8 +2011,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.02)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.02)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.03)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.03)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2104,7 +2072,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,icon         : 'img/16_measure.png'
       ,toggleGroup  : 'navigation'
       ,enableToggle : true      
-      ,tooltip      : 'Measure by length or area (click to add vertices and double-click to finish)'
+      ,tooltip      : ' Measure by length or area. Click to add vertices and double-click to finish.'
       ,allowDepress : false
       ,toggleHandler : function(activeState) {
         Ext.getCmp('mappanel').body.applyStyles('cursor:crosshair');
@@ -2463,9 +2431,10 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
        itemId  : 'scalesettings'
       ,scale   : 'large'
       ,icon    : 'img/18_scale_settings.png'
+      ,tooltip : 'Show or hide the scale bar and scale ratio'
       ,menu    : [
         {
-         text         : 'Show scalebar?'
+         text         : 'Show scale bar?'
         ,checked      : true
         ,checkHandler : function(item,checked) {
           if (checked) {
@@ -2510,6 +2479,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
          itemId   : 'mapunits'
         ,scale    : 'large'
         ,icon     : 'img/19_map_units.png'
+        ,tooltip  : 'Select map units'
         ,menu     : [
           {
              text    : 'Degrees, minutes, seconds'
@@ -2555,12 +2525,13 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     bottomToolBar_items.push({
          text     : 'Basemaps'
         ,itemId   : 'basemaps'
+        ,tooltip  : 'Select basemap or change basemap opacity'
         ,iconCls  : 'buttonIcon'
         ,scale    : 'large'
         ,icon     : 'img/20_basemaps.png'
         ,menu     : [
           {
-             text     : 'Custom'
+             text     : 'Create custom basemap'
             ,group    : 'basemap'
             ,checked  : defaultBase == 'custom'
             ,menu    : {items : [{
@@ -2592,6 +2563,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
               }
             }
           }
+          ,'-'
           ,{
              text    : 'Bing Hybrid'
             ,group   : 'basemap'
@@ -2905,7 +2877,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             }
           }
           ,{
-             text    : 'TopOSM-MA'
+             text    : 'TopOSM-Massachusetts'
             ,group   : 'basemap'
             ,checked : defaultBase == 'TopOSM-MA'
             ,menu    : {items : [{
@@ -3138,7 +3110,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
   });
 
   olActiveLayers = new Ext.tree.TreePanel({
-     title        : 'Active data layers'
+     title        : 'Active Data Layers'
     ,region       : 'center'
     ,split        : true
     ,autoScroll   : true
@@ -3150,6 +3122,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active layers on'
         // ,icon         : 'img/checkbox_s.gif'
         ,text         : 'Check all'
+        ,tooltip      : 'Turn all active data layers on'
         ,handler      : function() {
           for (var i in activeLyr) {
             if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
@@ -3165,6 +3138,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active layers off'
         // ,icon         : 'img/checkbox.gif'
         ,text         : 'Uncheck all'
+        ,tooltip      : 'Turn all active data layers off'
         ,handler      : function() {
           for (var i in activeLyr) {
             if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
@@ -3383,7 +3357,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     ,border      : false
     ,items       : [olLayerTree,olActiveLayers,olLegendPanel]
     ,collapsible : true
-    ,title       : 'Available data layers'
+    ,title       : 'Available Data Layers'
     ,tbar        : {}
   });
 
@@ -3527,7 +3501,7 @@ function syncIconScale() {
         if (n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') < 0) {
           n.getUI().getIconEl().className = n.getUI().getIconEl().className.replace('type' + wms2ico[wms],'type' + wms2ico[wms] + 'Gray');
         }
-        qtip = 'Layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
+        qtip = 'Data layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
       }
       else {
         n.getUI().getIconEl().className = n.getUI().getIconEl().className.replace('type' + wms2ico[wms] + 'Gray','type' + wms2ico[wms]);
@@ -3803,9 +3777,9 @@ function loadLayerDescribeFeatureType(wms) {
         featureBboxGridPanel = new MorisOliverApp.thGridPanel({
            store  : featureBboxStore
           ,tbar   : [
-             {text : 'Select and highlight all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
+             {text : 'Select all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
             ,'-'
-            ,{text : 'Unselect and unhighlight all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
+            ,{text : 'Unselect all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
           ]
           ,height : 215
           ,width  : 425
@@ -4040,11 +4014,11 @@ function scaleOK(name) {
   var rng = [];
   if (lyrMetadata[name].minScaleDenominator && lyrMetadata[name].minScaleDenominator !== 'undefined') {
     ok = ok && map.getScale() > lyrMetadata[name].minScaleDenominator;
-    rng.push('>' + lyrMetadata[name].minScaleDenominator);
+    rng.push('>' + addCommas(Math.round(lyrMetadata[name].minScaleDenominator)));
   }
   if (lyrMetadata[name].maxScaleDenominator && lyrMetadata[name].maxScaleDenominator !== 'undefined') {
     ok = ok && map.getScale() < lyrMetadata[name].maxScaleDenominator;
-    rng.push('<' + lyrMetadata[name].maxScaleDenominator);
+    rng.push('<' + addCommas(Math.round(lyrMetadata[name].maxScaleDenominator)));
   }
   return {isOK : ok,range : rng};
 }
@@ -4324,12 +4298,12 @@ function printSave() {
     });
   }
   else {
-    Ext.Msg.alert('Print / Save error','There are no active data layers to print.');
+    Ext.Msg.alert('Print/Save error','There are no active data layers to print.');
   }
 }
 
 function promptForTitle(cfg,Y) {
-  Ext.MessageBox.prompt('Print / Save','Please enter a title:',function(btn,txt) {
+  Ext.MessageBox.prompt('Print/Save','Enter a title and click OK to print or save images of your map and legend. Please note: Basemaps will not be shown on the map image. If you would like to print or save a map with the basemap, use the Print option in your browser or capture a screenshot of the map.<br><br>Title:',function(btn,txt) {
     if (btn == 'ok' && txt != '') {
       Ext.MessageBox.show({
          title        : 'Assembling map'
@@ -4398,7 +4372,7 @@ function launchExportWizard(aoi) {
       title : ''
     }
     ,width           : 700
-    ,height          : 600
+    ,height          : 670
     ,resizable       : true
     ,maximizable     : true
     ,cardPanelConfig : {
@@ -4507,7 +4481,7 @@ function launchExportWizard(aoi) {
         ,items     : [{
            bodyStyle : 'padding:30px'
           ,border    : false
-          ,html      : '<h3>Welcome to the data export wizard.</h3><p style="text-align:justify"><br>This wizard may be used to export vector data as ESRI shapefiles or KMLs (Google Earth and other clients) and raster data as GeoTIFFs. Users may choose their area of interest and subsets of datasets may be downloaded. Metadata and other supporting documents are also packaged with the exported data. For information on accessing full datasets, please check the metadata of the layers of interest.<br><br>Click Next to continue.</p>'
+          ,html      : '<h3>Welcome to the data export wizard.</h3><p style="text-align:justify"><br>This wizard may be used to download geospatial data as shapefiles, Google Earth files (KMLs), or GeoTIFFs. Users may choose their area of interest and subsets of data layers may be downloaded. Metadata and other supporting documents are also packaged with the exported data.<br><br>A 15 MB size limit has been imposed on each raster data layer, and a 25,000 feature limit has been imposed on each vector data layer. For information on accessing full datasets, please check the <a href="javascript:goHelpHTML()">Help</a> document.</p>'
         }]
       })
       ,new Ext.ux.Wiz.Card({
@@ -4515,7 +4489,7 @@ function launchExportWizard(aoi) {
         ,monitorValid : true
         ,items        : [
           {
-             html      : 'Click on one or more data layers to add them to the layers of interest list.  Then enter coordinates for the area of interest and click Next.'
+             html      : 'By default, the checked data layers in the Active Data Layers window are selected for export. Use the Select additional data layers box to add other data layers to your selection. If the current map displays the appropriate extent, then click Next.'
             ,bodyStyle : 'padding:10px'
             ,border    : false
           }
@@ -4535,7 +4509,7 @@ function launchExportWizard(aoi) {
                       new MorisOliverApp.thGridPanel({
                          height           : 200
                         ,width            : 272
-                        ,title            : 'Data layers of interest'
+                        ,title            : 'Selected data layers'
                         ,store            : tstLyrStore
                         ,hideHeaders      : true
                         ,columns          : [
@@ -4547,7 +4521,7 @@ function launchExportWizard(aoi) {
                           {
                              iconCls  : 'buttonIcon'
                             ,tooltip  : "Import active map's active data layers"
-                            ,text     : 'Import active layers'
+                            ,text     : 'Import active data layers'
                             ,icon     : 'img/import.png'
                             ,handler     : function() {
                               tstLyrStore.removeAll();
@@ -4573,7 +4547,7 @@ function launchExportWizard(aoi) {
                           ,'->'
                           ,{
                              iconCls  : 'buttonIcon'
-                            ,tooltip  : 'Remove all layers'
+                            ,tooltip  : 'Remove all data layers'
                             ,text     : 'Remove all'
                             ,icon     : 'img/remove.png'
                             ,handler     : function() {
@@ -4617,7 +4591,7 @@ function launchExportWizard(aoi) {
                       new Ext.tree.TreePanel({
                          height      : 200
                         ,width       : 272
-                        ,title       : 'Advanced - Select additional data layers'
+                        ,title       : 'Select additional data layers'
                         ,id          : 'availableDataLyrWiz'
                         ,collapsible : true
                         ,collapsed   : true
@@ -4856,7 +4830,7 @@ function launchExportWizard(aoi) {
         }
         ,items     : [
           {
-             html      : 'Two geospatial boundary tests are being performed on the layers of interest.  Once testing is complete and you are satisfied with the results, click Next to continue.  Otherwise, click Previous to refine the search criteria.'
+             html      : 'This step identifies features within the area of interest. If you are satisfied with the results, click Next to continue. Otherwise, click Previous to refine the search criteria.'
             ,bodyStyle : 'padding:10px'
             ,border    : false
           }
@@ -4868,7 +4842,7 @@ function launchExportWizard(aoi) {
             ,enableHdMenu     : false
             ,columns          : [
                {id : 'ico'   ,dataIndex : 'ico'   ,header : ''                              ,width : 25,renderer : ico2img                 }
-              ,{id : 'title' ,dataIndex : 'title' ,header : 'Layer name'                                                                   }
+              ,{id : 'title' ,dataIndex : 'title' ,header : 'Data layer name'                                                              }
               ,{id : 'wfs'   ,dataIndex : 'wfs'   ,header : 'Feature(s) found?'                                                            }
               ,{id : 'export',dataIndex : 'export',header : 'OK to export?'                 ,align : 'center',renderer: okIco              }
               ,{id : 'busy'  ,dataIndex : 'busy'  ,header : ''                              ,width : 30,renderer : busyIco                 }
@@ -4883,23 +4857,6 @@ function launchExportWizard(aoi) {
         ,monitorValid : true
         ,items        : [
           {
-             xtype : 'fieldset'
-            ,title : 'Output coordinate system'
-            ,items  : [
-              {
-                 xtype   : 'radiogroup'
-                ,id      : 'radioEpsg'
-                ,columns : 1
-                ,items   : [
-                   {boxLabel : 'NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986',name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
-                  ,{boxLabel : 'NAD83/UTM zone 18N, meters (Western Massachusetts) - EPSG:26918'                      ,name : 'epsg',inputValue : 'EPSG:26918'                               }
-                  ,{boxLabel : 'NAD83/UTM zone 19N, meters (Eastern Massachusetts) - EPSG:26919'                      ,name : 'epsg',inputValue : 'EPSG:26919'                               }
-                  ,{boxLabel : 'WGS84 (Latitude-Longitude) - EPSG:4326'                                               ,name : 'epsg',inputValue : 'EPSG:4326'                                }
-                ]
-              }
-            ]
-          }
-          ,{
              xtype : 'fieldset'
             ,title : 'Vector data output options'
             ,items  : [
@@ -4917,7 +4874,7 @@ function launchExportWizard(aoi) {
                         ,id          : 'wizVectorFmt'
                         ,fieldLabel  : 'Format'
                         ,items       : [
-                           {boxLabel : 'ESRI shape (.shp)'       ,name : 'vectorFormat',inputValue : 'shp',checked : true}
+                           {boxLabel : 'Shapefile (.shp)'        ,name : 'vectorFormat',inputValue : 'shp',checked : true}
                           ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
                         ]
                       }
@@ -4945,7 +4902,7 @@ function launchExportWizard(aoi) {
                         ,id         : 'wizRasterFmt'
                         ,fieldLabel : 'Format'
                         ,items      : [
-                           {boxLabel : 'GeoTiff',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
+                           {boxLabel : 'GeoTIFF',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
                           // ,{boxLabel : 'Grid'   ,name : 'rasterFormat',inputValue : 'grid'                  }
                         ]
                       }
@@ -4957,6 +4914,23 @@ function launchExportWizard(aoi) {
                     ,border      : false
                     ,items       : [{border : false,html : '&nbsp;'}]
                   }
+                ]
+              }
+            ]
+          }
+          ,{
+             xtype : 'fieldset'
+            ,title : 'Output coordinate system'
+            ,items  : [
+              {
+                 xtype   : 'radiogroup'
+                ,id      : 'radioEpsg'
+                ,columns : 1
+                ,items   : [
+                   {boxLabel : 'NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986',name : 'epsg',inputValue : 'EPSG:26986',checked : true                }
+                  ,{boxLabel : 'NAD83/UTM zone 18N, meters (Western Massachusetts) - EPSG:26918'                      ,name : 'epsg',inputValue : 'EPSG:26918'                               }
+                  ,{boxLabel : 'NAD83/UTM zone 19N, meters (Eastern Massachusetts) - EPSG:26919'                      ,name : 'epsg',inputValue : 'EPSG:26919'                               }
+                  ,{boxLabel : 'WGS84 (Latitude-Longitude) - EPSG:4326'                                               ,name : 'epsg',inputValue : 'EPSG:4326'                                }
                 ]
               }
             ]
@@ -4995,7 +4969,7 @@ function mkAreaOfInterestFieldset(aoi) {
       ,title : 'Area of interest'
       ,items  : [
         {
-           html      : 'Click Next to export data that are within or overlap the current map window extent.  Click Advanced to change the area of interest.'
+           html      : 'To change the geographic extent of the data to export , use the Advanced - Change area of interest option. Once the appropriate extent has been entered , click Next.'
           ,bodyStyle : 'padding:0 5px 10px 5px'
           ,border    : false
         }
@@ -5066,7 +5040,7 @@ function mkAreaOfInterestFieldset(aoi) {
           ,items      : [
              {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
             ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
-            ,{boxLabel : 'Deg min sec'          ,name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
+            ,{boxLabel : 'Degrees minutes seconds',name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
           ]
           ,listeners   : {
             render : function(field) {
@@ -5252,5 +5226,49 @@ function getCaps(n,u) {
         }}
       })
     ]
+  }).show();
+}
+
+function goHelpHTML() {
+  if (Ext.getCmp('myFrameWin')) {
+    Ext.getCmp('myFrameWin').close();
+  }
+  var MIF = new Ext.ux.ManagedIFramePanel({
+     defaultSrc  : helpUrl1
+    ,bodyBorder  : false
+    ,bodyStyle   : 'background:white'
+    ,listeners   : {domready : function(frame){
+      var fbody = frame.getBody();
+      var w = Ext.getCmp('myFrameWin');
+      if (w && fbody){
+        // calc current offsets for Window body border and padding
+        var bHeightAdj = w.body.getHeight() - w.body.getHeight(true);
+        var bWidthAdj  = w.body.getWidth()  - w.body.getWidth(true);
+        // Window is rendered (has size) but invisible
+        w.setSize(Math.max(w.minWidth || 0, fbody.scrollWidth  +  w.getFrameWidth() + bWidthAdj) ,
+        Math.max(w.minHeight || 0, fbody.scrollHeight +  w.getFrameHeight() + bHeightAdj) );
+        // then show it sized to frame document
+        w.show();
+      }
+    }}
+  });
+  new Ext.Window({
+     title           : siteTitle + ' help'
+    ,width           : mapPanel.getWidth() * 0.65
+    ,height          : mapPanel.getHeight() * 0.65
+    ,hideMode        : 'visibility'
+    ,id              : 'myFrameWin'
+    ,hidden          : true   //wait till you know the size
+    ,plain           : true
+    ,constrainHeader : true
+    ,minimizable     : false
+    ,ddScroll        : false
+    ,border          : false
+    ,bodyBorder      : false
+    ,layout          : 'fit'
+    ,plain           : true
+    ,maximizable     : true
+    ,buttonAlign     : 'center'
+    ,items           : MIF
   }).show();
 }
