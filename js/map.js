@@ -126,7 +126,7 @@ OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.Util.onImageLoadError = function() {
   var p = OpenLayers.Util.getParameters(this.src);
   olActiveLayers.getRootNode().cascade(function(n) {
-    if (n.attributes.layer && n.attributes.layer.name == p['FOO']) {
+    if (n.text == p['FOO']) {
       var wms = lyr2wms[p['FOO']];
       var cn = n.getUI().getIconEl().className.split(' ');
       var a = [];
@@ -151,7 +151,7 @@ OpenLayers.Util.onImageLoad = function() {
   var p = OpenLayers.Util.getParameters(this.src);
   if (olActiveLayers) {
     olActiveLayers.getRootNode().cascade(function(n) {
-      if (n.attributes.layer && n.attributes.layer.name == p['FOO']) {
+      if (n.text == p['FOO']) {
         var wms = lyr2wms[p['FOO']];
         var cn = n.getUI().getIconEl().className.split(' ');
         var a = [];
@@ -1837,13 +1837,13 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       // start of externalWMS
       // button and divider needsto be wrapped for custom control
       var menu = new Ext.menu.Menu({});
-      for (var i = 0; i < externalGetCaps.length; i++) {
+      for (var i in externalGetCaps) {
         menu.add({
            text    : externalGetCaps[i].name
           ,handler : function(item) {
-            for (var j = 0; j < externalGetCaps.length; j++) {
+            for (var j in externalGetCaps) {
               if (externalGetCaps[j].name == item.text) {
-                getCaps(externalGetCaps[j].name,externalGetCaps[j].url);
+                getCaps(externalGetCaps[j].name,externalGetCaps[j].getcaps + '?request=GetCapabilities&service=WMS&version=1.1.1');
               }
             }
           }
@@ -2043,8 +2043,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.01)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.01)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.02)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.02)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3442,6 +3442,33 @@ function addLayer(wms,proj,title,viz,opacity,url,styles) {
         ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
       }
     );
+
+    if (externalGetCaps[url.split('?')[0]]) {
+      // override projections for externalWMS
+      activeLyr[title].getFullRequestString = function(newParams, altUrl) {
+          var mapProjection = this.map.getProjectionObject();
+          var projectionCode = this.projection && this.projection.equals(mapProjection) ?
+              this.projection.getCode() :
+              mapProjection.getCode();
+          if (externalGetCaps[this.url.split('?')[0]].proj[mapProjection.getCode()]) {
+              projectionCode = externalGetCaps[this.url.split('?')[0]].proj[projectionCode];
+          }
+          var value = (projectionCode == "none") ? null : projectionCode;
+          if (parseFloat(this.params.VERSION) >= 1.3) {
+              this.params.CRS = value;
+          } else {
+              this.params.SRS = value;
+          }
+  
+          if (typeof this.params.TRANSPARENT == "boolean") {
+              newParams.TRANSPARENT = this.params.TRANSPARENT ? "TRUE" : "FALSE";
+          }
+  
+          return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
+                                                      this, arguments);
+      }
+    }
+
     if (!lyrMetadata[title]) {
       loadLayerMetadata(wms,title,wmsStyl[title],false,true,true);
     }
@@ -5213,9 +5240,10 @@ function getCaps(n,u) {
           lyr2type[lyr.name] = 'externalWms';
           lyr2wms[lyr.name]  = grid.getStore().getAt(idx).get('name');
           wmsStyl[lyr.name]  = '';
+          wms2ico[grid.getStore().getAt(idx).get('name')] = 'layergroup';
           addLayer(
              grid.getStore().getAt(idx).get('name')
-            ,map.getProjection()
+            ,map.getProjectionObject()
             ,lyr.name
             ,true
             ,1
