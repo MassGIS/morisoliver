@@ -1843,7 +1843,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
       // start of externalWMS
       // button and divider needsto be wrapped for custom control
-/*
       var menu = new Ext.menu.Menu({});
       for (var i in externalGetCaps) {
         menu.add({
@@ -1851,7 +1850,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           ,handler : function(item) {
             for (var j in externalGetCaps) {
               if (externalGetCaps[j].name == item.text) {
-                getCaps(externalGetCaps[j].name,externalGetCaps[j].getcaps + '?request=GetCapabilities&service=WMS&version=1.1.1');
+                getCaps(externalGetCaps[j].name,externalGetCaps[j].getcaps);
               }
             }
           }
@@ -1867,7 +1866,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         })
       );
       topToolBar_items.push('-');
-*/
       // end of externalWMS
 
     topToolBar_items.push(
@@ -2013,8 +2011,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.04)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.04)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.05)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.05)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -5186,7 +5184,7 @@ function getCaps(n,u) {
          border  : false
         ,id      : 'getCapsGridPanel'
         ,store   : new GeoExt.data.WMSCapabilitiesStore({
-           url      : proxyLocBing + escape(u)
+           url      : u
           ,autoLoad : true
           ,sortInfo : {
              field     : 'title'
