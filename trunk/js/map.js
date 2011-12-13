@@ -1843,6 +1843,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
       // start of externalWMS
       // button and divider needsto be wrapped for custom control
+/*
       var menu = new Ext.menu.Menu({});
       for (var i in externalGetCaps) {
         menu.add({
@@ -1866,6 +1867,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         })
       );
       topToolBar_items.push('-');
+*/
       // end of externalWMS
 
     topToolBar_items.push(
@@ -2011,8 +2013,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.03)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.03)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.04)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.04)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
