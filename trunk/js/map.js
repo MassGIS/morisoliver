@@ -4044,7 +4044,6 @@ function rasterOK(name) {
     var sqPixels = pixelsWide * pixelsHigh;
     var totBytes = sqPixels * lyrMetadata[name].imgBytesPerPixel;
     var totMB = totBytes / 1024 / 1024;
-    alert('totMB: ' + totMB);
     return (totMB < 15);
   }
   else {
