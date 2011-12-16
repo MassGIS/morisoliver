@@ -899,18 +899,23 @@ Ext.onReady(function() {
   });
 
   map.events.register('addlayer',this,function(e) {
+    // keep important stuff on top -- can't do this by a setLayerIndex because GeoExt clobbers it.
     if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms')) {
-      // clear featureSelects on top
       if (featureBoxControl.polygon.layer) {
-        map.setLayerIndex(featureBoxControl.polygon.layer,map.getNumLayers());
+        map.removeLayer(featureBoxControl.polygon.layer); 
+        map.addLayer(featureBoxControl.polygon.layer);
       }
       if (featurePolyControl.polygon.layer) {
-        map.setLayerIndex(featurePolyControl.polygon.layer,map.getNumLayers());
+        map.removeLayer(featurePolyControl.polygon.layer); 
+        map.addLayer(featurePolyControl.polygon.layer);
       }
-      map.setLayerIndex(layerRuler,map.getNumLayers());
-      map.setLayerIndex(lyrGeoLocate,map.getNumLayers());
+      map.removeLayer(layerRuler); 
+      map.addLayer(layerRuler);
+      map.removeLayer(lyrGeoLocate); 
+      map.addLayer(lyrGeoLocate);
       layerRuler.removeFeatures(layerRuler.features);
-      map.setLayerIndex(lyrRasterQry,map.getNumLayers());
+      map.removeLayer(lyrRasterQry); 
+      map.addLayer(lyrRasterQry);
     }
   });
 
@@ -2011,8 +2016,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.05)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.05)'  // version
+               text     : 'About ' + siteTitle + ' (v. 1.06)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 1.06)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
