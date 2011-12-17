@@ -894,6 +894,7 @@ Ext.onReady(function() {
           document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
         }
         loadedWms[e.object.name] = true;
+        syncIconScale();
       });
     }
   });
@@ -2002,8 +2003,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.00)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.00)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.01)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.01)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3273,6 +3274,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
           ,handler : function(palette,color) {
             // also pass a STYLE for the getlegendgrpaphic print support
             n.layer.mergeNewParams({STYLES : availableColors[color] + '_' + geom,STYLE : availableColors[color] + '_' + geom});
+            lyrMetadata[n.layer.name].customStyle = true;
             this.hide();
             messageContextMenuActiveLyr.hide();
           }
@@ -3281,6 +3283,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
         messageContextMenuActiveLyr.findById('revertColor').setHandler(function() {
           n.layer.mergeNewParams({STYLES : wmsStyl[n.layer.name],STYLE : ''});
+          lyrMetadata[n.layer.name].customStyle = false;
           for (var c in availableColors) {
             if (availableColors[c] == String(wmsStyl[n.layer.name]).replace('_' + geom,'')) {
               Ext.getCmp('layerColorPicker').palette.select(c,true);
@@ -4016,7 +4019,7 @@ function mkDataWizardURL(title,ico) {
 }
 
 function scaleOK(name) {
-  if (!lyrMetadata[name] || lyr2type[name] == 'externalWms') {
+  if (!lyrMetadata[name] || lyrMetadata[name].customStyle || lyr2type[name] == 'externalWms') {
     return {isOK : true,range : ['']};
   }
   var ok  = true;
