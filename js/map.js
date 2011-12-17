@@ -899,23 +899,9 @@ Ext.onReady(function() {
   });
 
   map.events.register('addlayer',this,function(e) {
-    // keep important stuff on top -- can't do this by a setLayerIndex because GeoExt clobbers it.
+    // keep important stuff on top
     if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms')) {
-      if (featureBoxControl.polygon.layer) {
-        map.removeLayer(featureBoxControl.polygon.layer); 
-        map.addLayer(featureBoxControl.polygon.layer);
-      }
-      if (featurePolyControl.polygon.layer) {
-        map.removeLayer(featurePolyControl.polygon.layer); 
-        map.addLayer(featurePolyControl.polygon.layer);
-      }
-      map.removeLayer(layerRuler); 
-      map.addLayer(layerRuler);
-      map.removeLayer(lyrGeoLocate); 
-      map.addLayer(lyrGeoLocate);
-      layerRuler.removeFeatures(layerRuler.features);
-      map.removeLayer(lyrRasterQry); 
-      map.addLayer(lyrRasterQry);
+      map.setLayerIndex(e.layer,map.layers.length - 1 - countTopLayers());
     }
   });
 
@@ -2016,8 +2002,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 1.06)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 1.06)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.00)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.00)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2979,21 +2965,39 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     items: bottomToolBar_items
   });  
 
+  var layerStore = new GeoExt.data.LayerStore({
+     map    : map
+    ,layers : [
+       lyrBase[defaultBase]
+      ,featureBboxSelect
+      ,layerRuler
+      ,lyrGeoLocate
+      ,lyrRasterQry
+    ]
+    ,onAdd  : function(store, records, index) {
+            if(!this._adding) {
+                this._adding = true;
+                var layer;
+                for(var i=records.length-1; i>=0; --i) {
+                    layer = records[i].getLayer();
+                    this.map.addLayer(layer);
+// commenting this condition, because we want to control the position based on the
+// # of layers that must always appear at the top
+//                    if(index !== this.map.layers.length-1) {
+                        this.map.setLayerIndex(layer, index - countTopLayers());
+//                    }
+                }
+                delete this._adding;
+            }
+        }
+  });
+
   olMapPanelOpts = {
      region : 'center'
     ,id     : 'mappanel'
     ,xtype  : 'gx_mappanel'
     ,map    : map
-    ,layers : new GeoExt.data.LayerStore({
-       map    : map
-      ,layers : [
-         lyrBase[defaultBase]
-        ,featureBboxSelect
-        ,layerRuler
-        ,lyrGeoLocate
-        ,lyrRasterQry
-      ]
-    })
+    ,layers : layerStore
     ,split  : true
     ,tbar   : olMapPanel_topToolBar
     ,bbar   : olMapPanel_bottomToolBar
@@ -5275,4 +5279,15 @@ function goHelpHTML() {
     ,buttonAlign     : 'center'
     ,items           : MIF
   }).show();
+}
+
+function countTopLayers() {
+  // keep this function current w/ the # of layers that must always appear on top!
+  var active = 0;
+  layerRuler                       ? active++ : null;
+  lyrGeoLocate                     ? active++ : null;
+  lyrRasterQry                     ? active++ : null;
+  featureBoxControl.polygon.layer  ? active++ : null;
+  featurePolyControl.polygon.layer ? active++ : null;
+  return active;
 }
