@@ -243,7 +243,7 @@ var qryLyrStore = new Ext.data.ArrayStore({
 var rasterQryWin = {};
 var qryWin = new Ext.Window({
    height      : 550
-  ,width       : 475
+  ,width       : 475 + 50
   ,closeAction : 'hide'
   ,resizable   : false
   ,title       : 'Identify results'
@@ -260,14 +260,14 @@ var qryWin = new Ext.Window({
       ,items : [
         new MorisOliverApp.thGridPanel({
            height           : 150
-          ,width            : 425
+          ,width            : 425 + 50
           ,store            : qryLyrStore
           ,id               : 'qryFeatureDetails'
           ,columns          : [
-             {id : 'ico'  ,header : ''                              ,width : 25,renderer : ico2img                 }
-            ,{id : 'title',header : 'Data layer name'                                                              }
-            ,{id : 'wfs'  ,header : 'Feature(s) found?'                                                            }
-            ,{id : 'busy' ,header : ''                              ,width : 30,renderer : busyIco                 }
+             {id : 'ico'  ,header : ''                              ,width : 25 ,renderer : ico2img                 }
+            ,{id : 'title',header : 'Data layer name'                                                               }
+            ,{id : 'wfs'  ,header : 'Feature(s) found?'             ,width : 170                                    }
+            ,{id : 'busy' ,header : ''                              ,width : 30 ,renderer : busyIco                 }
           ]
           ,autoExpandColumn : 'title'
           ,loadMask         : true
@@ -277,8 +277,8 @@ var qryWin = new Ext.Window({
                 Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
-                Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided.');
+              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'cannot be identified at this scale') {
+                Ext.Msg.alert('Identify details','This data layer cannot be identified at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
@@ -1008,7 +1008,7 @@ Ext.onReady(function() {
       ,itemId         : "layerSearch"
           ,forceSelection : true
           ,triggerAction  : 'all'
-          ,emptyText      : 'Select / search data layers'
+          ,emptyText      : 'Search data layers'
           ,selectOnFocus  : true
           ,mode           : 'local'
           ,valueField     : 'id'
@@ -1250,7 +1250,7 @@ Ext.onReady(function() {
           }
           ,'-'
           ,{
-             text        : defaultBase == 'custom' ? 'Type a custom scale below and press enter.  A leading "1:" is optional.' : 'Custom scale disabled for current map projection.'
+             text        : defaultBase == 'custom' ? 'Type a custom scale below and press Enter.  A leading "1:" is optional.' : 'Custom scale disabled for current map projection.'
             ,id          : 'customScaleHeader'
             ,canActivate : false
             ,hideOnClick : false
@@ -1867,7 +1867,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,scale   : 'large'
       ,icon    : 'img/12_permalink.png'
       ,handler  : function() {
+        Ext.Msg.buttonText.ok = 'Close';
         Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and use your browser menu options to share or save the current map. Options for sharing or saving vary among browsers.');
+        Ext.Msg.buttonText.ok = 'OK';
       }
       })
       );
@@ -2003,8 +2005,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.01)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.01)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.02)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.02)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2013,6 +2015,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                   ,plain       : true
                   ,modal       : true
                   ,html        : moreInfoHTML
+                  ,autoScroll  : true
                 });
                 winAbout.show();
               }
@@ -3794,7 +3797,7 @@ function loadLayerDescribeFeatureType(wms) {
             ,{text : 'Unselect all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
           ]
           ,height : 215
-          ,width  : 425
+          ,width  : 425 + 50
           ,id     : 'featureBboxGridPanel'
           ,sm     : new GeoExt.grid.FeatureSelectionModel()
           ,cm     : new Ext.grid.ColumnModel({
@@ -4026,11 +4029,11 @@ function scaleOK(name) {
   var rng = [];
   if (lyrMetadata[name].minScaleDenominator && lyrMetadata[name].minScaleDenominator !== 'undefined') {
     ok = ok && map.getScale() > lyrMetadata[name].minScaleDenominator;
-    rng.push('>' + addCommas(Math.round(lyrMetadata[name].minScaleDenominator)));
+    rng.push('> 1:' + addCommas(Math.round(lyrMetadata[name].minScaleDenominator)));
   }
   if (lyrMetadata[name].maxScaleDenominator && lyrMetadata[name].maxScaleDenominator !== 'undefined') {
     ok = ok && map.getScale() < lyrMetadata[name].maxScaleDenominator;
-    rng.push('<' + addCommas(Math.round(lyrMetadata[name].maxScaleDenominator)));
+    rng.push('< 1:' + addCommas(Math.round(lyrMetadata[name].maxScaleDenominator)));
   }
   return {isOK : ok,range : rng};
 }
@@ -4138,7 +4141,7 @@ function runQueryStats(bounds) {
               qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
             }
             else {
-              qryLyrStore.getAt(args[0]).set('wfs','not visible at scale');
+              qryLyrStore.getAt(args[0]).set('wfs','cannot be identified at this scale');
             }
           }
           else {
@@ -4288,7 +4291,9 @@ function printSave() {
       var handleSuccess = function(ioId,o,args) {
         Ext.MessageBox.hide();
         var json = Y.JSON.parse(o.responseText);
-        Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window containing your map and legend as separate images.  You can then either right-click each image and save them locally or print them through your browser.');
+        Ext.Msg.buttonText.ok = 'Close';
+        Ext.Msg.alert('Map ready','Please click <a target=_blank href="' + json.html + '">here</a> to open a new window containing your map and legend as separate images.  You can then either right-click each image and save them locally or use the browser print option to print the entire map.');
+        Ext.Msg.buttonText.ok = 'OK';
       };
       Y.on('io:success',handleSuccess,this,[]);
       var scaleLineTop    = getElementsByClassName('olControlScaleLineTop')[0];
@@ -4314,7 +4319,7 @@ function printSave() {
 }
 
 function promptForTitle(cfg,Y) {
-  Ext.MessageBox.prompt('Print/Save','Enter a title and click OK to print or save images of your map and legend. Please note: Basemaps will not be shown on the map image. If you would like to print or save a map with the basemap, use the Print option in your browser or capture a screenshot of the map.<br><br>Title:',function(btn,txt) {
+  Ext.MessageBox.prompt('Print/Save','Enter a title and click OK to print or save images of your map and legend.<br><br><b>Please note:</b> Basemaps will not be shown on the map image. If you would like to print or save a map with the basemap, use the print option in your browser or capture a screenshot of the map.<br><br>Title:',function(btn,txt) {
     if (btn == 'ok' && txt != '') {
       Ext.MessageBox.show({
          title        : 'Assembling map'
@@ -4383,7 +4388,7 @@ function launchExportWizard(aoi) {
       title : ''
     }
     ,width           : 700
-    ,height          : 670
+    ,height          : 550 // 670
     ,resizable       : true
     ,maximizable     : true
     ,cardPanelConfig : {
@@ -4498,6 +4503,7 @@ function launchExportWizard(aoi) {
       ,new Ext.ux.Wiz.Card({
          title        : 'Select data layers and area of interest'
         ,monitorValid : true
+        ,id           : 'wizardStep2'
         ,items        : [
           {
              html      : 'By default, the checked data layers in the Active Data Layers window are selected for export. Use the Select additional data layers box to add other data layers to your selection. If the current map displays the appropriate extent, then click Next.'
@@ -4619,7 +4625,7 @@ function launchExportWizard(aoi) {
                             ,id             : 'lyrSearchWizardCombo'
                             ,forceSelection : true
                             ,triggerAction  : 'all'
-                            ,emptyText      : 'Select / search data layers'
+                            ,emptyText      : 'Search data layers'
                             ,selectOnFocus  : true
                             ,mode           : 'local'
                             ,valueField     : 'id'
@@ -4978,13 +4984,14 @@ function mkAreaOfInterestFieldset(aoi) {
     return {
        xtype : 'fieldset'
       ,title : 'Area of interest'
+      ,id    : 'wizardStep2AOI'
       ,items  : [
         {
-           html      : 'To change the geographic extent of the data to export , use the Advanced - Change area of interest option. Once the appropriate extent has been entered , click Next.'
+           html      : 'To change the geographic extent of the data to export, use the Advanced - Change area of interest option. Once the appropriate extent has been entered, click Next.'
           ,bodyStyle : 'padding:0 5px 10px 5px'
           ,border    : false
         }
-        ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,items : [{
+        ,{xtype : 'fieldset',title : 'Advanced - Change area of interest',collapsible : true,collapsed : true,listeners : {expand : function() {Ext.getCmp('wizardStep2').doLayout();Ext.getCmp('getDataWiz').setWidth(Ext.getCmp('getDataWiz').getWidth() - 1);},collapse : function() {Ext.getCmp('wizardStep2').doLayout();Ext.getCmp('getDataWiz').setWidth(Ext.getCmp('getDataWiz').getWidth() + 1);}},items : [{
            layout : 'column'
           ,border : false
           ,items  : [
@@ -5049,9 +5056,9 @@ function mkAreaOfInterestFieldset(aoi) {
           ,fieldLabel : 'Units'
           ,id         : 'radioUnits'
           ,items      : [
-             {boxLabel : 'MA State Plane meters',name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
-            ,{boxLabel : 'Decimal degrees'      ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
-            ,{boxLabel : 'Degrees minutes seconds',name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
+             {boxLabel : 'MA State Plane meters'    ,name : 'units',inputValue : 'EPSG:26986'  ,checked : defaultCoordUnit == 'm'  }
+            ,{boxLabel : 'Decimal degrees'          ,name : 'units',inputValue : 'EPSG:4326'   ,checked : defaultCoordUnit == 'dd' }
+            ,{boxLabel : 'Degrees, minutes, seconds',name : 'units',inputValue : 'EPSG:4326dms',checked : defaultCoordUnit == 'dms'}
           ]
           ,listeners   : {
             render : function(field) {
@@ -5111,7 +5118,7 @@ function mkAreaOfInterestFieldset(aoi) {
       ,title : 'Area of interest'
       ,items  : [
         {
-           html      : 'The area you defined with the Identify button will be used as your area of interest.'
+           html      : 'The area you defined with the identify tool will be used as your area of interest.'
           ,bodyStyle : 'padding:0 5px 10px 5px'
           ,border    : false
         }
