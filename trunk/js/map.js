@@ -1835,6 +1835,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
       // start of externalWMS
       // button and divider needsto be wrapped for custom control
+     if (!toolSettings || !toolSettings.externalWMS || toolSettings.externalWMS.status == 'show')
+      {
       var menu = new Ext.menu.Menu({});
       for (var i in externalGetCaps) {
         menu.add({
@@ -1859,6 +1861,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       );
       topToolBar_items.push('-');
       // end of externalWMS
+      }
 
     topToolBar_items.push(
       new Ext.Action({

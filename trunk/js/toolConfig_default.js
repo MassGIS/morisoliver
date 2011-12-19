@@ -9,6 +9,11 @@
 
 	
 	var toolSettings = {};
+
+
+        toolSettings.externalWMS = {}
+        toolSettings.externalWMS.status = 'show';
+
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
