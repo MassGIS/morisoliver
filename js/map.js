@@ -277,8 +277,8 @@ var qryWin = new Ext.Window({
                 Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'cannot be identified at this scale') {
-                Ext.Msg.alert('Identify details','This data layer cannot be identified at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
+              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
+                Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
@@ -1853,7 +1853,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       topToolBar_items.push(
         new Ext.Action({
            itemId  : 'externalWMS'
-          ,tooltip : 'Add data layers from external data sources'
+          ,tooltip : 'Add data layers from external sources'
           ,scale   : 'large'
           ,icon    : 'img/external_data_sources.png'
           ,menu    : menu
@@ -2008,8 +2008,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.02)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.02)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.03)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.03)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2546,7 +2546,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
               if (map.getProjection() == 'EPSG:26986') {
                 map.setBaseLayer(lyrBase['custom']);
                 Ext.getCmp('customScale').setDisabled(false);
-                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press enter.  A leading "1:" is optional.');
+                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
                 Ext.getCmp('zoomToAScale').setDisabled(false);
               }
               else {
@@ -2554,7 +2554,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 map.setBaseLayer(lyrBase['custom']);
                 Ext.getCmp('customScale').setDisabled(false);
                 Ext.getCmp('zoomToAScale').setDisabled(false);
-                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press enter.  A leading "1:" is optional.');
+                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
                 map.setOptions({maxExtent : maxExtent26986});
                 map.zoomToExtent(ext);
                 refreshLayers();
@@ -3169,7 +3169,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,{
          allowDepress : false
         // ,iconCls      : 'buttonIcon'
-        ,tooltip      : 'Remove all active layers'
+        ,tooltip      : 'Remove all active data layers'
         // ,icon         : 'img/remove.png'
         ,text         : 'Remove all'
         ,handler      : function() {
@@ -4144,7 +4144,7 @@ function runQueryStats(bounds) {
               qryLyrStore.getAt(args[0]).set('wfs',el.getAttribute('numberOfFeatures') + ' feature(s)');
             }
             else {
-              qryLyrStore.getAt(args[0]).set('wfs','cannot be identified at this scale');
+              qryLyrStore.getAt(args[0]).set('wfs','not visible at scale');
             }
           }
           else {
