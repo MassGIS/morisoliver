@@ -273,8 +273,20 @@ var qryWin = new Ext.Window({
           ,loadMask         : true
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
-              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)' || qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
+              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
                 Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
+                return;
+              }
+              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
+                var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
+                var lonLat = map.getLonLatFromPixel(centerPx);
+                lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
+                Ext.Msg.show({
+                   title   : 'Identify details'
+                  ,msg     : 'This raster data layer has no value in the cell you identified.'
+                  ,fn      : function() {lyrRasterQry.removeFeatures(lyrRasterQry.features)}
+                  ,buttons : Ext.Msg.OK
+                });
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
@@ -2008,8 +2020,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.03)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.03)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.04)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.04)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
