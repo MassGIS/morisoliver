@@ -183,13 +183,17 @@ OpenLayers.Util.onImageLoad = function() {
 
 // test to see if any startup params were passed
 var p = OpenLayers.Util.getParameters();
+
+// pull out opacity first
+var defaultOpcty = String(p['opacity']).split(',');
+
 for (i in p) {
   if (i == 'lyrs') {
     defaultLyrs = [];
     var lyrs = String(p[i]).split('|');
     for (var j = 0; j < lyrs.length; j++) {
       var s = lyrs[j].split('~');
-      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2]});
+      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2],opacity : (defaultOpcty ? defaultOpcty[j] : 1)});
     }
   }
   else if (i == 'bbox') {
@@ -1092,7 +1096,7 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,1,wmsUrl,defaultLyrs[i].styles);
+          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,defaultLyrs[i].opacity,wmsUrl,defaultLyrs[i].styles);
         } 
     
     // bad hack to fix tab Index issues.
@@ -2054,8 +2058,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.09)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.09)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.10)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.10)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4288,7 +4292,8 @@ function setMapCoord(c) {
 }
 
 function mkPermalink() {
-  var lyrs = [];
+  var lyrs  = [];
+  var opcty = [];
   var base;
   for (var i = 0; i < map.layers.length; i++) {
     if (map.layers[i].isBaseLayer && map.layers[i].visibility) {
@@ -4296,10 +4301,11 @@ function mkPermalink() {
     }
     else if (String(lyr2wms[map.layers[i].name]).indexOf(featurePrefix) == 0 && map.layers[i].visibility) {
       lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']);
+      opcty.push(map.layers[i].opacity);
     }
   }
 
-  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20');
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',');
 }
 
 // Array.unique( strict ) - Remove duplicate values
