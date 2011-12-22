@@ -94,12 +94,18 @@ var updateScale = function() {
 };
 
 function addCommas(sValue) {
-  sValue = String(sValue);
+  var s = String(sValue).split('.');
+  sValue = s[0];
   var sRegExp = new RegExp('(-?[0-9]+)([0-9]{3})');
   while(sRegExp.test(sValue)) {
     sValue = sValue.replace(sRegExp, '$1,$2');
   }
-  return sValue;
+  if (s.length == 2) {
+    return sValue + '.' + s[1];
+  }
+  else {
+    return sValue;
+  }
 }
 
 // from http://andylangton.co.uk/articles/javascript/get-viewport-size-javascript/
