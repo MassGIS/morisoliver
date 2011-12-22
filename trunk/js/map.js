@@ -244,19 +244,21 @@ var rasterQryWin = {};
 var qryWin = new Ext.Window({
    height      : 550
   ,width       : 475 + 50
+  ,id          : 'identifyResultsWin'
   ,closeAction : 'hide'
-  ,resizable   : false
   ,title       : 'Identify results'
   ,bodyStyle   : 'background:white;padding:6px'
   ,constrainHeader : true
   ,items       : [
     {
        border : false
+      ,id     : 'qryFeatureDirections'
       ,html   : 'Select a data layer to highlight its features on the map and to view its feature details. You can view up to 2,000 features per data layer. To export data layers that are within or overlap the identify area, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> to launch the data export wizard <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
     }
     ,{
        xtype : 'fieldset'
       ,title : 'Data layers'
+      ,id    : 'qryFeatureFieldset'
       ,items : [
         new MorisOliverApp.thGridPanel({
            height           : 150
@@ -404,6 +406,16 @@ var qryWin = new Ext.Window({
     }
     ,show : function() {
       Ext.getCmp('qryFeatureDetails').enable();
+    }
+    ,resize : function(win,w,h) {
+      if (Ext.getCmp('qryFeatureDetails')) {
+        Ext.getCmp('qryFeatureDetails').setWidth(w - 50);
+        Ext.getCmp('qryFeatureDetails').doLayout();
+      }
+      if (Ext.getCmp('featureBboxGridPanel')) {
+        Ext.getCmp('featureBboxGridPanel').setSize(w - 50,h - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125);
+        Ext.getCmp('featureBboxGridPanel').doLayout();
+      }
     }
   }
 });
@@ -2020,8 +2032,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.05)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.05)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.06)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.06)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3811,8 +3823,8 @@ function loadLayerDescribeFeatureType(wms) {
             ,'-'
             ,{text : 'Unselect all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
           ]
-          ,height : 215
-          ,width  : 425 + 50
+          ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
+          ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
           ,id     : 'featureBboxGridPanel'
           ,sm     : new GeoExt.grid.FeatureSelectionModel()
           ,cm     : new Ext.grid.ColumnModel({
