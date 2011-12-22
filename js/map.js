@@ -1106,7 +1106,6 @@ Ext.onReady(function() {
         if (!node.isLeaf()) {
           return;
         }
-// foo
         addLayer(node.attributes.wmsName,node.attributes.only_project,node.attributes.text,true,1,wmsUrl);
       }
       ,contextmenu : function(n,e) {
@@ -2055,8 +2054,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.08)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.08)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.09)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.09)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2479,6 +2478,20 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,tooltip : 'Show or hide the scale bar and scale ratio'
       ,menu    : [
         {
+         text         : 'Show coordinates?'
+        ,checked      : true
+        ,checkHandler : function(item,checked) {
+          if (checked) {
+          mouseControl = new OpenLayers.Control.MousePosition();
+          map.addControl(mouseControl);
+          setMapCoord(defaultCoordUnit);
+          }
+          else {
+          map.removeControl(mouseControl);
+          }
+        }
+        }
+        ,{
          text         : 'Show scale bar?'
         ,checked      : true
         ,checkHandler : function(item,checked) {
@@ -2532,6 +2545,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             ,group   : 'unit'
             ,checked : defaultCoordUnit == 'dms'
             ,handler : function () {
+              defaultCoordUnit = 'dms';
               setMapCoord('dms');
             }
           }
@@ -2541,6 +2555,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             ,group   : 'unit'
             ,checked : defaultCoordUnit == 'dd'
             ,handler : function () {
+              defaultCoordUnit = 'dd';
               setMapCoord('dd');
             }
           }
@@ -2550,6 +2565,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             ,group   : 'unit'
             ,checked : defaultCoordUnit == 'm'
             ,handler : function () {
+              defaultCoordUnit = 'm';
               setMapCoord('m');
             }
           }
