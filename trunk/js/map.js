@@ -702,6 +702,28 @@ Ext.onReady(function() {
   );
 
   scaleRatioControl = new OpenLayers.Control.Scale();
+  scaleRatioControl.updateScale = 
+    function() {
+        var scale;
+        if(this.geodesic === true) {
+            var units = this.map.getUnits();
+            if(!units) {
+                return;
+            }
+            var inches = OpenLayers.INCHES_PER_UNIT;
+            scale = (this.map.getGeodesicPixelSize().w || 0.000001) *
+                    inches["km"] * OpenLayers.DOTS_PER_INCH;
+        } else {
+            scale = this.map.getScale();
+        }
+
+        if (!scale) {
+            return;
+        }
+
+        this.element.innerHTML = OpenLayers.i18n("&nbsp;Scale = 1:${scaleDenom}&nbsp;", {'scaleDenom':addCommas(Math.round(scale))});
+    };
+
   scaleLineControl  = new OpenLayers.Control.ScaleLine({geodesic : true});
 
   mouseControl = new OpenLayers.Control.MousePosition();
@@ -2033,8 +2055,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.07)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.07)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.08)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.08)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4244,7 +4266,7 @@ function setMapCoord(c) {
   else {
     mouseControl.displayProjection = new OpenLayers.Projection('EPSG:26986');
     mouseControl.formatOutput = function(lonLat) {
-      return '&nbsp;' + lonLat.lon.toFixed(2) + ' ' + lonLat.lat.toFixed(2) + '&nbsp;';
+      return '&nbsp;' + addCommas(lonLat.lon.toFixed(2)) + 'm ' + addCommas(lonLat.lat.toFixed(2)) + 'm&nbsp;';
     };
   }
 }
