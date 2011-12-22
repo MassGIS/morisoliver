@@ -902,9 +902,9 @@ Ext.onReady(function() {
             case OpenLayers.Event.KEY_DOWN:
                 this.map.pan(0, this.slideFactor);
                 break;
-            case OpenLayers.Event.KEY_RETURN:
-                if (featurePolyControl.polygon.active) {featurePolyControl.polygon.finishGeometry(evt)}
-                break;
+//            case OpenLayers.Event.KEY_RETURN:
+//                if (featurePolyControl.polygon.active) {featurePolyControl.polygon.finishGeometry(evt)}
+//                break;
             case 33: // Page Up. Same in all browsers.
                 var size = this.map.getSize();
                 this.map.pan(0, -0.75*size.h);
