@@ -244,6 +244,8 @@ var qryLyrStore = new Ext.data.ArrayStore({
   ]
 });
 
+var externalWmsWin;
+
 var rasterQryWin = {};
 var qryWin = new Ext.Window({
    height      : 550
@@ -1939,18 +1941,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       // button and divider needsto be wrapped for custom control
      if (!toolSettings || !toolSettings.externalWMS || toolSettings.externalWMS.status == 'show')
       {
-      var menu = new Ext.menu.Menu({});
+      var data = [];
       for (var i in externalGetCaps) {
-        menu.add({
-           text    : externalGetCaps[i].name
-          ,handler : function(item) {
-            for (var j in externalGetCaps) {
-              if (externalGetCaps[j].name == item.text) {
-                getCaps(externalGetCaps[j].name,externalGetCaps[j].getcaps);
-              }
-            }
-          }
-        });
+        data.push([externalGetCaps[i].name]);
       }
       topToolBar_items.push(
         new Ext.Action({
@@ -1958,7 +1951,68 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           ,tooltip : 'Add data layers from external sources'
           ,scale   : 'large'
           ,icon    : 'img/external_data_sources.png'
-          ,menu    : menu
+          ,handler : function() {
+            if (externalWmsWin && externalWmsWin.isVisible()) {
+              return;
+            }
+            externalWmsWin = new Ext.Window({
+               height      : 550
+              ,width       : 475 + 50
+              ,id          : 'externalWmsWin'
+              ,title       : 'External sources'
+              ,bodyStyle   : 'background:white;padding:6px'
+              ,constrainHeader : true
+              ,listeners   : {
+                resize : function(win,w,h) {
+                  if (Ext.getCmp('externalWmsGridPanel')) {
+                    Ext.getCmp('externalWmsGridPanel').setWidth(w - 50);
+                    Ext.getCmp('externalWmsGridPanel').doLayout();
+                  }
+                  if (Ext.getCmp('externalWmsDataLayers')) {
+                    Ext.getCmp('externalWmsDataLayers').setSize(w - 50,h - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 125);
+                    Ext.getCmp('externalWmsDataLayers').doLayout();
+                  }
+                }
+              }
+              ,items       : [
+                {
+                   border : false
+                  ,id     : 'externalWmsDirections'
+                  ,html   : 'Select an external data source to view its available data layers. These can be added to your map for display only. You will not be able to use the identify, export, or print tools with data layers from external sources, nor will you be able to view their metadata.<br>&nbsp;'
+                }
+                ,{
+                   xtype : 'fieldset'
+                  ,title : 'Sources'
+                  ,items : [
+                    new MorisOliverApp.thGridPanel({
+                       height           : 150
+                      ,width            : 425 + 50
+                      ,id               : 'externalWmsGridPanel'
+                      ,store            : new Ext.data.ArrayStore({
+                         fields : ['name']
+                        ,data   : data
+                      })
+                      ,columns          : [
+                         {id : 'name'}
+                      ]
+                      ,autoExpandColumn : 'name'
+                      ,hideHeaders      : true
+                      ,listeners        : {
+                        rowclick : function(grid,rowIndex,e) {
+                          for (var j in externalGetCaps) {
+                            if (externalGetCaps[j].name == grid.getStore().getAt(rowIndex).get('name')) {
+                              getCaps(externalGetCaps[j].name,externalGetCaps[j].getcaps);
+                            }
+                          }
+                        }
+                      }
+                    })
+                  ]
+                }
+              ]
+            });
+            externalWmsWin.show();
+          }
         })
       );
       topToolBar_items.push('-');
@@ -2110,8 +2164,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.12)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.12)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.13)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.13)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -5326,22 +5380,18 @@ function showBaseLayerMetadata(l) {
 }
 
 function getCaps(n,u) {
-  if (Ext.getCmp('getCaps')) {
-    Ext.getCmp('getCaps').destroy();
+  if (Ext.getCmp('featureDetails')) {
+    Ext.getCmp('featureDetails').destroy();
   }
-  new Ext.Window({
-     title       : n
-    ,id          : 'getCaps'
-    ,layout      : 'fit'
-    ,width       : 500
-    ,height      : 250
-    ,autoScroll  : true
-    ,bodyStyle   : 'background:white'
-    ,constrainHeader : true
-    ,items       : [
+  externalWmsWin.add({
+     xtype : 'fieldset'
+    ,id    : 'featureDetails'
+    ,title : 'Feature details'
+    ,items : [
       new Ext.grid.GridPanel({
-         border  : false
-        ,id      : 'getCapsGridPanel'
+         id      : 'externalWmsDataLayers'
+        ,width   : externalWmsWin.getWidth() - 50
+        ,height  : externalWmsWin.getHeight() - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 125
         ,store   : new GeoExt.data.WMSCapabilitiesStore({
            url      : u
           ,autoLoad : true
@@ -5384,7 +5434,8 @@ function getCaps(n,u) {
         }}
       })
     ]
-  }).show();
+  });
+  externalWmsWin.doLayout();
 }
 
 function goHelpHTML() {
