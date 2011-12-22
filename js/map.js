@@ -2110,8 +2110,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.11)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.11)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.12)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.12)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3517,6 +3517,13 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
   map.events.register('zoomend',this,function() {
     syncIconScale();
+  });
+
+  map.events.register('click',this,function() {
+    messageContextMenuFeatureCtrlBbox ? messageContextMenuFeatureCtrlBbox.hide() : null;
+    messageContextMenuActiveLyr ? messageContextMenuActiveLyr.hide() : null;
+    messageContextMenuAvailableLyr ? messageContextMenuAvailableLyr.hide() : null;
+    messageContextMenuFolder ? messageContextMenuFolder.hide() : null;
   });
 
   ctrl.activate();
