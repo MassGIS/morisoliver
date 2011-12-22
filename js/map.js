@@ -2020,8 +2020,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.04)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.04)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.05)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.05)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4867,7 +4867,7 @@ function launchExportWizard(aoi) {
             ,border    : false
           }
           ,new MorisOliverApp.thGridPanel({
-             height           : 390
+             height           : 331
             ,title            : 'Query results'
             ,store            : bboxLyrStore
             ,disableSelection : true
@@ -4909,6 +4909,14 @@ function launchExportWizard(aoi) {
                            {boxLabel : 'Shapefile (.shp)'        ,name : 'vectorFormat',inputValue : 'shp',checked : true}
                           ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
                         ]
+                        ,listeners   : {change : function(group,ckedRadio) {
+                          if (ckedRadio.getGroupValue() == 'kml') {
+                            Ext.getCmp('radioEpsg').disable();
+                          }
+                          else {
+                            Ext.getCmp('radioEpsg').enable();
+                          }
+                        }}
                       }
                     ]
                   }
