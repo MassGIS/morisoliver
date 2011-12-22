@@ -273,6 +273,7 @@ var qryWin = new Ext.Window({
           ]
           ,autoExpandColumn : 'title'
           ,loadMask         : true
+          ,enableHdMenu     : false
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
               if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
@@ -2032,8 +2033,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.06)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.06)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.07)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.07)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3826,6 +3827,7 @@ function loadLayerDescribeFeatureType(wms) {
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
           ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
           ,id     : 'featureBboxGridPanel'
+          ,enableHdMenu : false
           ,sm     : new GeoExt.grid.FeatureSelectionModel()
           ,cm     : new Ext.grid.ColumnModel({
             defaults : {
