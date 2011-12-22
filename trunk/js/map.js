@@ -1969,7 +1969,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                     Ext.getCmp('externalWmsGridPanel').doLayout();
                   }
                   if (Ext.getCmp('externalWmsDataLayers')) {
-                    Ext.getCmp('externalWmsDataLayers').setSize(w - 50,h - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 125);
+                    Ext.getCmp('externalWmsDataLayers').setSize(w - 50,h - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 130);
                     Ext.getCmp('externalWmsDataLayers').doLayout();
                   }
                 }
@@ -2164,8 +2164,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.13)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.13)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.14)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.14)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -5379,19 +5379,61 @@ function showBaseLayerMetadata(l) {
   }).show();
 }
 
+function addRemoteWmsLayer(rec) {
+  var lyr  = rec.getLayer();
+  var bbox = rec.get('llbbox');
+  lyrMetadata[lyr.name] = {
+     title     : lyr.name
+    ,maxExtent : {
+       left   : bbox[0]
+      ,bottom : bbox[1]
+      ,right  : bbox[2]
+      ,top    : bbox[3]
+    }
+  };
+  lyr2type[lyr.name] = 'externalWms';
+  lyr2wms[lyr.name]  = rec.get('name');
+  wmsStyl[lyr.name]  = '';
+  wms2ico[rec.get('name')] = 'layergroup';
+  addLayer(
+     rec.get('name')
+    ,map.getProjectionObject()
+    ,lyr.name
+    ,true
+    ,1
+    ,lyr.url.indexOf('?') >= 0 ? lyr.url.substr(0,lyr.url.indexOf('?')) : lyr.url
+  );
+}
+
 function getCaps(n,u) {
-  if (Ext.getCmp('featureDetails')) {
-    Ext.getCmp('featureDetails').destroy();
+  if (Ext.getCmp('externalWmsLayers')) {
+    Ext.getCmp('externalWmsLayers').destroy();
   }
   externalWmsWin.add({
      xtype : 'fieldset'
-    ,id    : 'featureDetails'
-    ,title : 'Feature details'
+    ,id    : 'externalWmsLayers'
+    ,title : 'Data layers'
     ,items : [
       new Ext.grid.GridPanel({
          id      : 'externalWmsDataLayers'
         ,width   : externalWmsWin.getWidth() - 50
-        ,height  : externalWmsWin.getHeight() - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 125
+        ,height  : externalWmsWin.getHeight() - Ext.getCmp('externalWmsGridPanel').getHeight() - Ext.getCmp('externalWmsDirections').getHeight() - 130
+        ,tbar   : [
+           {text : 'Add selected',handler : function() {
+             var sel = Ext.getCmp('externalWmsDataLayers').getSelectionModel().getSelections();
+             for (var i = 0; i < sel.length; i++) {
+               addRemoteWmsLayer(sel[i]);
+             }
+           }}
+          ,'-'
+          ,{text : 'Add all',handler : function() {
+             Ext.getCmp('externalWmsDataLayers').getSelectionModel().selectAll();
+             var sel = Ext.getCmp('externalWmsDataLayers').getSelectionModel().getSelections();
+             for (var i = 0; i < sel.length; i++) {
+               addRemoteWmsLayer(sel[i]);
+             }
+          }}
+        ]
         ,store   : new GeoExt.data.WMSCapabilitiesStore({
            url      : u
           ,autoLoad : true
@@ -5407,31 +5449,32 @@ function getCaps(n,u) {
         ]
         ,autoExpandColumn : 'title'
         ,loadMask         : true
-        ,listeners        : {rowdblclick : function(grid,idx) {
-          var lyr  = grid.getStore().getAt(idx).getLayer();
-          var bbox = grid.getStore().getAt(idx).get('llbbox');
-          lyrMetadata[lyr.name] = {
-             title     : lyr.name
-            ,maxExtent : {
-               left   : bbox[0]
-              ,bottom : bbox[1]
-              ,right  : bbox[2]
-              ,top    : bbox[3]
+        ,listeners        : {
+          rowdblclick : function(grid,idx) {addRemoteWmsLayer(grid.getStore().getAt(idx))}
+          ,contextmenu : function(e) {
+            e.stopEvent();
+          }
+          ,rowcontextmenu : function(g,row,e) {
+            var sel = g.getSelectionModel();
+            if (!sel.isSelected(row)) {
+              sel.selectRow(row);
             }
-          };
-          lyr2type[lyr.name] = 'externalWms';
-          lyr2wms[lyr.name]  = grid.getStore().getAt(idx).get('name');
-          wmsStyl[lyr.name]  = '';
-          wms2ico[grid.getStore().getAt(idx).get('name')] = 'layergroup';
-          addLayer(
-             grid.getStore().getAt(idx).get('name')
-            ,map.getProjectionObject()
-            ,lyr.name
-            ,true
-            ,1
-            ,lyr.url.indexOf('?') >= 0 ? lyr.url.substr(0,lyr.url.indexOf('?')) : lyr.url
-          );
-        }}
+            new Ext.menu.Menu({
+               items: [{
+                 text    : 'Add layer(s)'
+                ,id      : 'addLayer'
+                ,iconCls : 'buttonIcon'
+                ,icon    : 'img/addPlus.png'
+                ,handler : function() {
+                  var sel = Ext.getCmp('externalWmsDataLayers').getSelectionModel().getSelections();
+                  for (var i = 0; i < sel.length; i++) {
+                    addRemoteWmsLayer(sel[i]);
+                  }
+                }
+              }]
+            }).showAt(e.getXY());
+          }
+        }
       })
     ]
   });
