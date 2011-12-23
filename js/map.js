@@ -2171,8 +2171,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.18)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.18)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.19)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.19)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4007,7 +4007,6 @@ function loadLayerDescribeFeatureType(wms) {
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
           ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
           ,id     : 'featureBboxGridPanel'
-          ,enableHdMenu : false
           ,sm     : new GeoExt.grid.FeatureSelectionModel()
           ,cm     : new Ext.grid.ColumnModel({
             defaults : {
