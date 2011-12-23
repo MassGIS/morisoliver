@@ -2170,8 +2170,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.16)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.16)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.17)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.17)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
