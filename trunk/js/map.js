@@ -254,6 +254,7 @@ var qryWin = new Ext.Window({
   ,closeAction : 'hide'
   ,title       : 'Identify results'
   ,bodyStyle   : 'background:white;padding:6px'
+  ,maximizable     : true
   ,constrainHeader : true
   ,items       : [
     {
@@ -2170,8 +2171,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.17)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.17)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.18)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.18)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
