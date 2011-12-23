@@ -193,7 +193,7 @@ for (i in p) {
     var lyrs = String(p[i]).split('|');
     for (var j = 0; j < lyrs.length; j++) {
       var s = lyrs[j].split('~');
-      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2],opacity : (defaultOpcty ? defaultOpcty[j] : 1)});
+      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2],opacity : (defaultOpcty.length == lyrs.length ? defaultOpcty[j] : 1)});
     }
   }
   else if (i == 'bbox') {
@@ -1156,7 +1156,7 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,defaultLyrs[i].opacity,wmsUrl,defaultLyrs[i].styles);
+          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,(defaultLyrs[i].opacity ? defaultLyrs[i].opacity : 1),wmsUrl,defaultLyrs[i].styles);
         } 
     
     // bad hack to fix tab Index issues.
@@ -2170,8 +2170,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.15)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.15)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.16)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.16)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
