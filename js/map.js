@@ -2171,8 +2171,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.19)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.19)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.20)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.20)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4529,7 +4529,7 @@ function printSave() {
 }
 
 function promptForTitle(cfg,Y) {
-  Ext.MessageBox.prompt('Print/Save','Enter a title and click OK to print or save images of your map and legend.<br><br><b>Please note:</b> Basemaps will not be shown on the map image. If you would like to print or save a map with the basemap, use the print option in your browser or capture a screenshot of the map.<br><br>Title:',function(btn,txt) {
+  Ext.MessageBox.prompt('Print/Save','Enter a title and click OK to print or save images of your map and legend.<br><br><b>Please note:</b> Basemaps and external data layers will not be shown on the map image. If you would like to print or save a map with the basemap or external data layers, use the print option in your browser or capture a screenshot of the map.<br><br>Title:',function(btn,txt) {
     if (btn == 'ok' && txt != '') {
       Ext.MessageBox.show({
          title        : 'Assembling map'
