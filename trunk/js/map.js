@@ -2174,7 +2174,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                   ,plain       : true
                   ,modal       : true
                   ,html        : moreInfoHTML
+                  ,constrainHeader : true
                   ,autoScroll  : true
+                  ,maximizable : true
                 });
                 winAbout.show();
               }
@@ -2585,7 +2587,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
        itemId  : 'scalesettings'
       ,scale   : 'large'
       ,icon    : 'img/18_scale_settings.png'
-      ,tooltip : 'Show or hide the scale bar and scale ratio'
+      ,tooltip : 'Show or hide the coordinates, scale bar, and scale ratio'
       ,menu    : [
         {
          text         : 'Show coordinates?'
