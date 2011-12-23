@@ -20,8 +20,12 @@
     if( coordinateminutes < 10 )
       coordinateminutes = "0" + coordinateminutes;
 
-    if( coordinateseconds < 10 )
-      coordinateseconds = "0" + coordinateseconds;
+    if( coordinateseconds < 10 ) {
+      coordinateseconds = "0" + coordinateseconds.toFixed(3);
+    }
+    else {
+      coordinateseconds = coordinateseconds.toFixed(3);
+    }
 
     if (spaceOnly) {
       var factor = 1;
