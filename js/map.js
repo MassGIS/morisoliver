@@ -754,6 +754,9 @@ Ext.onReady(function() {
        textNodes     : null
       ,persist       : true
       ,geodesic      : true
+      ,displaySystemUnits : {
+        metric : ['m']
+      }
       ,callbacks     : {
         create : function() {
           this.textNodes = [];
@@ -855,6 +858,9 @@ Ext.onReady(function() {
   var areaControl = new OpenLayers.Control.Measure(OpenLayers.Handler.Polygon,{
      persist        : true
     ,geodesic       : true
+    ,displaySystemUnits : {
+      metric : ['m']
+    }
     ,eventListeners : {
       measure : function(evt) {
         Ext.getCmp('measureTally').setValue(niceMeasurementText(evt.measure,evt.units));
@@ -2164,8 +2170,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.14)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.14)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.15)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.15)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -2304,6 +2310,22 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           }
           }
           ,{
+           text    : 'kilometers'
+          ,group   : 'measureUnits'
+          ,checked : defaultMeasureUnit == 'km'
+          ,handler : function() {
+            Ext.getCmp('measureTally').emptyText = '0 km';
+            if (measureType == 'area') {
+            Ext.getCmp('measureTally').emptyText += '^2';
+            }
+            resetMeasureTally();
+            measureUnits = 'km';
+            lengthControl.cancel();
+            areaControl.cancel();
+            layerRuler.removeFeatures(layerRuler.features);
+          }
+          }
+          ,{
            text    : 'miles'
           ,group   : 'measureUnits'
           ,checked : defaultMeasureUnit == 'mi'
@@ -2372,7 +2394,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ]
       })
       ,new Ext.form.TextField({
-       width     : 100
+       width     : 150
       ,readOnly  : true
       ,emptyText : '0 ' + defaultMeasureUnit
       ,id        : 'measureTally'
@@ -3714,43 +3736,43 @@ function syncIconScale() {
 function niceMeasurementText(d,u) {
   var m = d;
   if (measureType == 'area') {
-    if (u == 'km') {
-      m = m * 1000000;
+    if (measureUnits == 'km') {
+      return addCommas(Number(m * 0.000001).toFixed(2)) + ' km^2';
     }
-    if (measureUnits == 'mi') {
-      return Number(m * 0.000000386102159).toFixed(2) + ' mi^2';
+    else if (measureUnits == 'mi') {
+      return addCommas(Number(m * 0.000000386102159).toFixed(2)) + ' mi^2';
     }
     else if (measureUnits == 'nm') {
-      return Number(m * 0.00000029155335).toFixed(2) + ' nm^2';
+      return addCommas(Number(m * 0.00000029155335).toFixed(2)) + ' nm^2';
     }
     else if (measureUnits == 'yd') {
-      return Number(m * 1.19599005).toFixed(2) + ' yd^2';
+      return addCommas(Number(m * 1.19599005).toFixed(2)) + ' yd^2';
     }
     else if (measureUnits == 'ft') {
-      return Number(m * 10.7639104).toFixed(2) + ' ft^2';
+      return addCommas(Number(m * 10.7639104).toFixed(2)) + ' ft^2';
     }
     else {
-      return d.toFixed(2) + ' ' + u + '^2';
+      return addCommas(d.toFixed(2)) + ' ' + u + '^2';
     }
   }
   else {
-    if (u == 'km') {
-      m = m * 1000;
+    if (measureUnits == 'km') {
+      return addCommas(Number(m * 0.001).toFixed(2)) + ' km';
     }
-    if (measureUnits == 'mi') {
-      return Number(m * 0.000621371192).toFixed(2) + ' mi';
+    else if (measureUnits == 'mi') {
+      return addCommas(Number(m * 0.000621371192).toFixed(2)) + ' mi';
     }
     else if (measureUnits == 'nm') {
-      return Number(m * 0.000539956803).toFixed(2) + ' nm';
+      return addCommas(Number(m * 0.000539956803).toFixed(2)) + ' nm';
     }
     else if (measureUnits == 'yd') {
-      return Number(m * 1.0936133).toFixed(2) + ' yd';
+      return addCommas(Number(m * 1.0936133).toFixed(2)) + ' yd';
     }
     else if (measureUnits == 'ft') {
-      return Number(m * 3.2808399).toFixed(2) + ' ft';
+      return addCommas(Number(m * 3.2808399).toFixed(2)) + ' ft';
     }
     else {
-      return d.toFixed(2) + ' ' + u;
+      return addCommas(d.toFixed(2)) + ' ' + u;
     }
   }
 }
