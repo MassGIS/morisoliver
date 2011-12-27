@@ -2122,8 +2122,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.22)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.22)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.23)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.23)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -4443,7 +4443,7 @@ function printSave() {
   var hits = 0;
   for (var j = 0; j < map.layers.length; j++) {
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK || lyr2type[i] == 'externalWms') {
+      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK) {
         l[i] = {
            img     : activeLyr[i].getFullRequestString({})
           ,legend  : activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')
