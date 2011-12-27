@@ -208,6 +208,9 @@ for (i in p) {
   else if (i == 'base') {
     defaultBase = p[i];
   }
+  else if (i == 'baseO') {
+    defaultBaseOpacity = p[i];
+  }
   else if (i == 'center') {
     defaultCenter = String(p[i]).split(',');
   }
@@ -2171,8 +2174,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.20)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.20)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.21)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.21)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3196,6 +3199,10 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             }
         }
   });
+
+  if (defaultBaseOpacity) {
+    lyrBase[defaultBase].setOpacity(defaultBaseOpacity);
+  }
 
   olMapPanelOpts = {
      region : 'center'
@@ -4432,9 +4439,11 @@ function mkPermalink() {
   var lyrs  = [];
   var opcty = [];
   var base;
+  var baseO;
   for (var i = 0; i < map.layers.length; i++) {
     if (map.layers[i].isBaseLayer && map.layers[i].visibility) {
       base = map.layers[i].name;
+      baseO = map.layers[i].opacity;
     }
     else if (String(lyr2wms[map.layers[i].name]).indexOf(featurePrefix) == 0 && map.layers[i].visibility) {
       lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']);
@@ -4442,7 +4451,7 @@ function mkPermalink() {
     }
   }
 
-  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',');
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',') + '&baseO=' + baseO;
 }
 
 // Array.unique( strict ) - Remove duplicate values
