@@ -2122,8 +2122,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.23)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.23)'  // version
+               text     : 'About ' + siteTitle + ' (v. 2.24)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 2.24)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3076,7 +3076,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             }
             ,iconCls   : 'buttonIcon'
             ,id        : 'opacitySliderBaseLayer'
-            ,value     : defaultBase !== 'custom' ? 100 : lyrBase['googleTerrain'].opacity * 100
+            ,value     : map.baseLayer ? map.baseLayer.opacity * 100 : defaultBaseOpacity * 100
             ,listeners : {
               change : function(slider,newVal) {
                 if (lyrBase['googleTerrain'].map) {
