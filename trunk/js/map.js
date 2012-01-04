@@ -1936,7 +1936,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                 {
                    border : false
                   ,id     : 'externalWmsDirections'
-                  ,html   : 'Select an external data source to view its available data layers. These can be added to your map for display only. You will not be able to use the identify, export, or print tools with data layers from external sources, nor will you be able to view their metadata.<br>&nbsp;'
+                  ,html   : 'Select an external data source to view its available data layers. These can be added to your map for display only. You will not be able to use the identify, permalink, print or export tools with data layers from external sources, nor will you be able to view their metadata or change their symbology.<br>&nbsp;'
                 }
                 ,{
                    xtype : 'fieldset'
