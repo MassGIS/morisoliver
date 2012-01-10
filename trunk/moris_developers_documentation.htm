@@ -41,7 +41,7 @@ span.EmailStyle24
 
 <p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>MORIS Developers
 Documentation </span></b></p>
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 2/8/2011<br>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 1/10/2012<br>
 For questions about this documentation contact <a href="mailto:Aleda.Freeman@state.ma.us">Aleda.Freeman@state.ma.us</a><br>
 <br>Please note:  MORIS is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php">OLIVER</a> (the MassGIS Online Data Viewer) and <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">SPOLIVER</a> (the State Police Online Data Viewer). This user guide applies to all of these applications, so you may substitute OLIVER, SPOLIVER, etc. for MORIS as you read this guide.
 
@@ -56,7 +56,7 @@ For questions about this documentation contact <a href="mailto:Aleda.Freeman@sta
 the technology behind the new MORIS online data viewer. 
 The code is:
 
-(c) 2010 Third Sector New England, Inc. on behalf of the Massachusetts Ocean Partnership.
+(c) 2010 Third Sector New England, Inc. on behalf of the Massachusetts Ocean Partnership (now SeaPlan).
 This code was developed by Applied Science Associates, Inc. and Charlton Galvarino.
 
 License:  This  program is free software; you can redistribute it and/or modify  it  under
@@ -67,28 +67,34 @@ implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 Public License for more details.  In addition to the terms of the GNU General Public License,
 licensee agrees to be subject to this Additional Term: Licensee shall notify and provide
 <a target="_blank" href="http://www.tsne.org">Third Sector New England</a> and the <a target="_blank"
- href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership</a> via email to 
+ href="http://www.seaplan.org">SeaPlan</a> via email to 
 <a href="mailto:info@tsne.org?subject=MORIS_OLIVER_code">info@tsne.org</a> and 
-<a href="mailto:info@massoceanpoartnership.org?subject=MORIS_OLIVER_code">info@massoceanpartnership.org</a>, 
+<a href="mailto:info@seaplan.org?subject=MORIS_OLIVER_code">info@seaplan.org</a>, 
 with a copy of all "modified versions" of the earlier work that is subject this license or a work "based on"
  the earlier work that is subject to this license.
 
-<a target="_blank" href="http://morisoliver.googlecode.com/files/morisoliver-2.14.2011.zip">Download the MORIS code</a>.</span></p>
+<a target="_blank" href="http://code.google.com/p/morisoliver/source/checkout">Download the MORIS code</a>.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'><a target="_blank" href="http://www.openlayers.org/">OpenLayers</a>/<a
 target="_blank" href="http://www.geoext.org/">GeoExt</a> MORIS  
-is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, the <a target="_blank" href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership (MOP)</a>, <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>.
+is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, the <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly Massachusetts Ocean Partnership)</a>, <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>.
 
 The viewer is configurable and so currently there are several similar viewers
-sharing the same code base. We currently have these variations: </span></p>
+sharing the same code base. We currently have these variations (others are in the planning stages): </span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>MORIS: <u><span style='color:blue'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/moris.php</a>
 </span></u></span></p>
+
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>Boston Harbor Habitat Atlas: <u><span style='color:blue'><a
+target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/habitatatlas.php</a>
+</span></u></span></p>
+
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>OLIVER: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/oliver.php</span></u></span></p>
 
@@ -106,6 +112,8 @@ target="_blank" href="http://maps.massgis.state.ma.us/map_ol/state_facilities.ph
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>While it is possible to run the MORIS/OLIVER code on a server that is not the MassGIS maps.massgis.state.ma.us server, this documentation is not meant to explain all the changes that would be required. MORIS/OLIVER versions run most easily on the maps server as certain pregenerated files are stored there.  This documentation is meant to familiarize users with the configuation options available in MORIS/OLIVER MassGIS is available to work with agencies to design their own "MORIS/OLIVER" application to be hosted on maps.massgis.state.ma.us.</span></p>
+
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The viewer is configured to
 get maps and map data from an <a target="_blank" href="http://www.opengeospatial.org/">Open
 Geospatial Consortium</a> (OGC) web map service (WMS) and web features service (WFS).  Currently the MassGIS
@@ -121,17 +129,18 @@ Permalink</span></u></p>
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The viewer can create
 permalinks that will open the viewer with certain initial layers, extent,
 basemap and units.  A smaple permalink is as follows:
-<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&amp;coordUnit=dms&amp;measureUnit=m&amp;base=googleSatellite&amp;center=-7897982.7773914,5212245.1294279&amp;zoom=5">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.0941836126878,42.26260140617871,-70.80338924018105,42.41993600334661&amp;coordUnit=dms&amp;measureUnit=m&amp;base=googleSatellite&amp;center=-7897982.7773914,5212245.1294279&amp;zoom=5</a>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT~GISDATA.LIGHTHOUSES_PT::Default|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY~MORIS.OM_SHIPPING_LANES_POLY::Default&bbox=-71.22945277771358,42.22168078128292,-70.67498653023294,42.448062415013&coordUnit=dms&measureUnit=m&base=googleSatellite&center=-7898364.9625328,5211289.6665746&zoom=12&opacity=,.50">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT~GISDATA.LIGHTHOUSES_PT::Default|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY~MORIS.OM_SHIPPING_LANES_POLY::Default&bbox=-71.22945277771358,42.22168078128292,-70.67498653023294,42.448062415013&coordUnit=dms&measureUnit=m&base=googleSatellite&\center=-7898364.9625328,5211289.6665746&zoom=12&opacity=,.50</a>
 This permalink shows two 
-default layers Lighthouses and Shipping Lanes, in the lyrs parameter. The
+default layers Lighthouses and Shipping Lanes, in the lyrs parameter.  First is the title, then a ~ symbol, then the GeoServer layer name, then another ~ and then the GeoServer style name. The
 bbox parameter describes the extent with lower left and upper right
 coordinates. The coordUnit parameter specifies the coordinate system - the
 available values currently are: 'dms','dd','m'. The measureUnit parameter sets
 the default measure units - the available values currently are
 'm','mi','nm','yd','ft'. The base parameter specifies the basemap type the available
 values currently are:
-custom,googleSatellite,googlePhysical,openStreetMap.<span
-style='color:red'> </span>The center parameter describes the center point (here
+custom, bingHybrid, bingRoads, bingAerial, CloudMade, googleSatellite, googleTerrain, googleRoadmap, googleHybrid, openStreetMap, TopOSM-MA.
+<span
+style='color:red'> </span>The center parameter (here with an extra \, please disregard) describes the center point (here
 in Google coordinates) and the zoom parameter is the zoom level for Google
 maps. </span></p>
 
@@ -144,7 +153,7 @@ different: </span></p>
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a
-target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.09525604193553,42.2612051836535,-70.80159027675701,42.42132857832588&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=245436.67601356,899131.92358809&amp;zoom=5.489809203863493">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY&amp;bbox=-71.09525604193553,42.2612051836535,-70.80159027675701,42.42132857832588&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=245436.67601356,899131.92358809&amp;zoom=5.489809203863493</a></span></p>
+target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT~GISDATA.LIGHTHOUSES_PT::Default|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY~MORIS.OM_SHIPPING_LANES_POLY::Default&bbox=-71.23322214489919,42.25624962423178,-70.66987482633337,42.413583951989004&coordUnit=m&measureUnit=m&base=custom&center=245170.66772379,898452.59314803&zoom=5.477373832034868&opacity=,">http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Lighthouses~massgis:GISDATA.LIGHTHOUSES_PT~GISDATA.LIGHTHOUSES_PT::Default|Shipping%20Lanes~massgis:MORIS.OM_SHIPPING_LANES_POLY~MORIS.OM_SHIPPING_LANES_POLY::Default&bbox=-71.23322214489919,42.25624962423178,-70.66987482633337,42.413583951989004&coordUnit=m&measureUnit=m&base=custom&\center=245170.66772379,898452.59314803&zoom=5.477373832034868&opacity=,</a><span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
@@ -152,7 +161,7 @@ target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php?lyrs=Ligh
 parameter values are the same, but the base is different (and I also changed
 the coordUnit to match the base). The center parameter is now described in MA
 State Plane Mainland NAD 83 meters coordinate system (the coordinates used match
-the base map used). </span></p>
+the base map used). The opacity parameter lists the percent opaque for each layer.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
@@ -171,9 +180,7 @@ folderset is <a target="_blank" href="http://maps.massgis.state.ma.us/temp/moris
 For OLIVER the folderset is <a
 target="_blank" href="http://maps.massgis.state.ma.us/temp/oliver_folderset.xml">http://maps.massgis.state.ma.us/temp/oliver_folderset.xml</a>.
 A title captures both the dataset and style information. For example, these
-two permalinks both use the massgis:GISDATA.LANDUSE_POLY GeoServer layer,
-however they use different styles. However, the GeoServer style name is not
-used in the permalink, rather the title from the XML folderset.</span></p>
+two permalinks both use the massgis:GISDATA.LANDUSE_POLY GeoServer layer.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
@@ -183,7 +190,7 @@ used in the permalink, rather the title from the XML folderset.</span></p>
 <p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'><a
-target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156</a></span></p>
+target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY~GISDATA.LANDUSE_POLY::21_Classes_1971_Solid&bbox=-70.1940443008258,42.05406660236499,-70.17197442632964,42.06328551857349&coordUnit=m&measureUnit=m&base=custom&center=309005.45338622,868428.06555454&zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201971%2021%20Classes~massgis:GISDATA.LANDUSE_POLY~GISDATA.LANDUSE_POLY::21_Classes_1971_Solid&bbox=-70.1940443008258,42.05406660236499,-70.17197442632964,42.06328551857349&coordUnit=m&measureUnit=m&base=custom&\center=309005.45338622,868428.06555454&zoom=9.917277226297156</a></span></p>
 
 <p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
@@ -193,7 +200,7 @@ target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Lan
 <p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a
-target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY&amp;bbox=-70.1888133445345,42.055479995446916,-70.17720633605668,42.06187287404966&amp;coordUnit=m&amp;measureUnit=m&amp;base=custom&amp;center=309005.45338622,868428.06555454&amp;zoom=9.917277226297156</a>
+target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY~GISDATA.LANDUSE_POLY::21_Classes_1999_Solid&bbox=-70.1940443008258,42.05406660236499,-70.17197442632964,42.06328551857349&coordUnit=m&measureUnit=m&base=custom&center=309005.45338622,868428.06555454&zoom=9.917277226297156">http://maps.massgis.state.ma.us/map_ol/oliver.php?lyrs=Land%20Use%201999%2021%20Classes~massgis:GISDATA.LANDUSE_POLY~GISDATA.LANDUSE_POLY::21_Classes_1999_Solid&bbox=-70.1940443008258,42.05406660236499,-70.17197442632964,42.06328551857349&coordUnit=m&measureUnit=m&base=custom&\center=309005.45338622,868428.06555454&zoom=9.917277226297156</a>
 </span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
@@ -262,9 +269,14 @@ upper right coordinate, with commas separating all numbers. Sample:
 <br><br>- <u>Initial basemap</u><br>
 
 The initial basemap can be configured in the defaultBase variable. The available values currently are: 
-custom,googleSatellite,googlePhysical,openStreetMap.
+custom, CloudMade, googleSatellite, googleTerrain, googleRoadmap, googleHybrid, openStreetMap, TopOSM-MA.
+Due to a GeoExt software toolkit bug the Bing layers cannot be currently used as defaulty layers (however, they do work in permalinks).
 Currently custom is Massachusetts State 
-Plane Mainland NAD83 meters. 
+Plane Mainland NAD83 meters.  defaultBaseOpacity sets the opacity of the basemap.  Values from 0 to 1, with 1 being completely opaque and 0 being completely transparent. 
+
+<br><br>- <u>External WMS layers</u><br>
+
+External WMS layers can be presented from non-MassGIS servers.  Because the maps.massgis.state.ma.us server is not allowed to access the Internet, the GetCapabilities documents for those services should be downloaded and stored locally on the maps.massgis.state.ma.us server.  External WMS servers offered in 26986 or a Web Mercator projection (900913, 102113, 3857 for example) can be supported.  The external WMS layers will draw on the appropriate basemaps.  
 
 <br><br>- <u>Initial coordinate system</u><br>
 
@@ -362,6 +374,49 @@ class=end-tag>script</span>&gt;</span></pre>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
+<p class=MsoPlainText><u><span style='font-family:Arial,sans-serif'>Configuration of the toolConfig_default.js </span></u></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>In addition to modifying the .php to configure the viewer, another file called toolConfig_yourname.js can be edited.
+Buttons and tools can be hidden or shown or zoom dropdowns can be added.  The reference to which toolConfig file is being used in a viewer is set in the .php file.  It is recommended to have a custom toolConfig file for each viewer.
+</span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <u>Buttons or tools that can be shown / hidden:</u> </span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Identify tool, Identify by Poly tool, Bing search tool, Add External datalayers tool, Print tool, Data Export tool, Measure tool, Comment tool, Draw tool, Edit tool, ScaleBar tool, MapUnits tool, Basemaps tool.  We may add configure other buttons and tools to be optional in the future.
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <u>QuickZoom tools:</u> </span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>QuickZoom tools can be set up.  They are dropdowns that read their values from the database.  OLIVER includes a QuickZoom to allow the user to zoom to a town.  QuickZoom tools can also be linked to each other.  For example, if two datalayers share a field, such as towns and schools share the TOWN_ID field, then one dropdown for towns can spark a subset in the second dropdown.  For example, the user picks Malden from the first dropdown, then the second dropdown's values narrow to include only schools in Malden.  The user then chooses a school and then the zoom occurs.  Alternately, independent (unlinked) QuickZoom can be displayed if the user needs to zoom to more than one type of geographic extent.
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <u>Comment Tool:</u> </span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>The Comment tool is an option to enter data into a point datalayer.  Is it meant to enter a comment at a particular place.  "My house is here."  "This school is closed."  Only one datalayer can be commented upon per viewers.  The data is entered into the SDE database by means of a test_comment.php script.  The name and location of the script is specified in the toolConfig file.  In this way is it different than the Draw/Edit tools described below.  This method is meant to enter a point which cannot be retrieved and re-edited.  A subset of datalayer fields can be specified and fields can be made mandatory to fill out.  Dropdowns can be populated with values, but the values must be listed in the toolConfig (they are not read from the database).  Another datalayer can be shown on the map with a superset of the name, if the original data values should be hidden but the user should see the point show up on the map (so they are convinced it was entered). The current demo does not use a username/password protected GeoServer layer but the test_comment.php could be updated to accomodate this.  Currently the datalayer can be limited to one-feature-at-a-time query.
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <u>Draw / Edit Tools:</u> </span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Draw and Edit tools can be added to an application.  The datalayer can be protected with a username and password so that only authorized users can add or edit data.  More than one layer can be edited in an application, however in that case they must share the same username/password.  Points, lines or polygons may be edited.  Snapping and splitting may be used (this is optional).  Limitations:  Current limitations include:  all fields are editable (no fields can be excluded from being edited), all fields are optional (the user cannot be forced to enter data for any particular field), there are no dropdown values to fill in fields.  These improvements will be added in Spring 2012.  If username/password is used then https must be used in both the .php and the URL to access the application.  Snapping can be set up for each datalyaer edited.  Snapping can happen to more than one layer, including the layer being edited.  Snapping will occur even if the layer being snapped to is not draw on the map.  Snapping will occur to both lines and vertices.  When snapping the user is asked to draw a geogrpahic area within which snapping should occur (to collect the appropriate vertices into the viewer).  However, features that are selected by this drawn rectangle are used in their entirety.  Currently it is possible to split only lines with lines. 
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+
+<p class=MsoPlainText><u><span style='font-family:Arial,sans-serif'>Demo Viewers</span></u></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>An <a href="oliver_configuration_options_public.xls">Excel spreadsheet</a> has been created listing several sample viewers which demonstrate the various configurations explained in this documentation.</span></p>  
+
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
+
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>- <u>GetCapabilities cache location </u></span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>
@@ -385,91 +440,18 @@ class=end-tag>script</span>&gt;</span></pre>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a target="_blank" href="http://morisoliver.googlecode.com/files/morisoliver-2.14.2011.zip">Download</a> all the scripts mentioned
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'><a target="_blank" href="http://code.google.com/p/morisoliver/source/checkout">Download</a> all the scripts mentioned
 in this documentation.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>OS types and versions
-+ Browser types and versions</span></b></p>
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>
+Browser types and versions</span></b></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Green text indicates that
-the client application (MORIS, OLIVER, etc) worked as expected.
-
-Red text indicates severe
-problems with the client application functionality. </span></p>
-
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>In Jan 2011
-these OS/browsers/versions were tested:</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>&nbsp;</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
-3.5.2 / Windows 2000 OK</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
-3.6.13 / Windows XP OK</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
-6.0 / Windows 2000 OK</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
-8.0 / Windows XP OK </span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE
-9.0 beta / Windows 7 OK </span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google
-Chrome 8.0 / Windows XP - identify doesn't seem to be working, but the mapping
-works</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari
-5.0.3 / Windows XP</span><span style='font-size:10.0pt;font-family:Arial,sans-serif'> - <span
-style='color:red'>no map at all</span></span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Opera
-11.01 / Windows XP - identify doesn't seem to be working, but the mapping works</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
-
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>In August 2010 these
-OS/browsers/versions were tested:</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox
-3.6.8 / Mac OS X (v 10.6.4) good</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Firefox 3.6.8 / Windows XP</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Firefox 2.0.0.20 / Windows 2000 - identify doesn't seem to be working, but the mapping works (sort of, some black) </span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE 8.0 / Windows XP</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>IE 6.0 / Windows 2000 </span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google Chrome 5.0.375.125 / Mac OS X (v 10.6.4) - no map at all</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Google Chrome 5.0.375.125 / Windows XP - identify doesn't seem to be working, but the mapping works </span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Opera 10.6 / Windows XP </span><span style='font-size:10.0pt;font-family:Arial,sans-serif'>- <span style='color:red'>identify
-doesn't seem to be working, but the mapping works </span></span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari 5.0.1 / Mac OS X (v 10.6.4) - no map at all</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Safari 5.0.1 / Windows XP - app windows are all messed up </span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Maxthon 3.0.15 / Windows XP - identify doesn't seem to be working, but the mapping works </span></p>
-
-<p class=MsoNormal><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:red'>Amaya 11.3.1 / Windows XP - no map at all</span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>SeaMonkey 2.0.6 / Windows XP </span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif;color:green'>Flock 2.6.1 / Windows XP </span></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>As of December 2011 MORIS has been extensively tested in the latest versions of the browsers Firefox (9.0.1), Internet Explorer (9.0), Chrome and Safari.  
+It has been found to work well in all 4 browsers.  It should also work well in earlier versions of these browsers.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 </div>

@@ -35,35 +35,30 @@
 <strong class="subhead"><a name="download" id="download">Downloading Data</a></strong>
 
 <ol>
-<li>Click the "Export data" tool.<br><br></li>
+<li>Click the "Data export wizard" tool.<br><br></li>
 
-<li>The "Data export wizard" will appear in a pop-up window. Read the welcome paragraph and click "Next" to continue.<br><br></li>
-<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_1.jpg" alt="downloading data step 1" border="0"> 
+<li>The data export wizard will appear in a pop-up window. Read the welcome paragraph and click "Next" to continue.<br><br>
+<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_1.jpg" alt="downloading data step 1" border="0"><br><br></li> 
+
+<li>By default, the checked data layers in the "Active Data Layers" window will appear in the "Selected data layers" table. External data layers cannot be exported. Individual data layers can be removed from this list by clicking the data layer name in the "Data layers of interest" table, right-clicking, and selecting "Remove layer(s)." To remove more than one data layer, hold the Shift or Ctrl key on your keyboard to highlight multiple rows, right-click, and select "Remove layer(s)." To remove all data layers, click "Remove all." Additional data layers not present on the current map can be added by using the "Select additional data layers" drop-down menu. Click a data layer name to add it to the "Selected data layers" table. To export all the data layers in a folder, right-click a folder name and select "Add folder." Only folders at the bottom of the folder hierarchy may be added.
 <br><br>
-<li>Data layers from the "Active data layers" window will appear in "Data layers of interest." Individual data layers can be removed from this list by clicking the data layer name in the "Data layers of interest" table, right-clicking, and selecting "Remove layer(s)." To remove more than one data layer, hold the Shift or Ctrl key on your keyboard to highlight 
-multiple rows, right-click, and select "Remove layer(s)." To remove all data layers, click "Remove all." Additional data layers not present on the current map can be added by using the "Advanced - Select additional data layers" drop-down menu.
-<br><br></li>
-<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_2_advanced_layers.jpg" alt="downloading data step 2 layers" border="0"> 
+<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_2_advanced_layers.jpg" alt="downloading data step 2 layers" border="0"> <br><br></li>
+<li>If you want to export data that are within or overlap the current map window extent, click "Next." If you want to change the area of interest, click "Advanced - Change area of interest." If changing the area of interest, select the units you would like to use (i.e., Massachusetts State Plane meters, decimal degrees, or degrees, minutes, and seconds). Then enter the minimum X, minimum Y, maximum X, and maximum Y coordinates you want to use to define your area of interest. If you prefer to go back to the original extent instead, select the "Import active map's bounding box" button to import the current map extent. Click "Next" to continue.
 <br><br>
-<li>If you want to export data that are within or overlap the current map window extent, click "Next." If you want to change the area of interest, click "Advanced - Change area of interest." If changing the area of interest, select the units you would like to use (i.e., Massachusetts State Plane meters, decimal degrees, or degrees, minutes, and seconds). Then enter the Min X, Min Y, Max X, and Max Y coordinates you want to use to define your area of interest. If you prefer to go back to the original extent instead, select the "Import active map's bounding box" button to import the current map extent. Click "Next" to continue. <br><br></li>
 <img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_2_advanced_extent.jpg" alt="downloading data step 2 extent" border="0"> 
 <br><br>
 <img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_2.jpg" alt="downloading data step 2" border="0"> 
-<br><br>
-<li>The "Query results" table lists the data layers for export and the number of features found for each data layer within your area of interest. A green check mark indicates that the data layer is okay to export. A red "X" indicates that the data layer will not download because zero features or greater than the maximum number of features allowed for download were found within your area of interest. Click "Next" to proceed.<br><br></li>
-<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_3.jpg" alt="downloading data step 3" border="0"> 
-<br><br>
-<li>Select the output coordinate system for the data you are going to export. The default system is MA State Plane Mainland NAD83 (m) - EPSG:26986.<br><br></li>
+<br><br></li>
+<li>The "Query results" table lists the data layers for export and the number of features found for each data layer within your area of interest. A green check mark indicates that the data layer is okay to export. A red "X" indicates that the data layer will not download because zero features or greater than the maximum number of features allowed for download were found within your area of interest, or the file size of the raster data layer for your area of interest is too large. Click "Next" to proceed.<br><br>
+<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_3.jpg" alt="downloading data step 3" border="0"><br><br></li>
+<li>Select your preferred data output. The default format is shapefile (.shp) for vector data. Also available is Google Earth file (.kml). For raster data, the GeoTIFF radio button will be selected by default since this is the only raster format available at this time.<br><br></li>
 
-<li>Select your preferred data output. The default format is ESRI shapefile (.shp) for vector data. Also available is Keyhole Markup Language (.kml). Please note that GIS data are not stored in the export KML files. Instead, a URL for MassGIS web services is embedded in each KML. MassGIS web services will retrieve the data specified when you open the KML in Google Earth. For raster data, the GeoTiff radio button will be selected by default, as this is the only raster format available at this time. Click "Next" to continue.<br><br></li>
+<li>If downloading the vector data as shapefiles, select the output coordinate system for the data you are going to export. The default system is NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986. Currently, rasters can only be downloaded in NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986. <br><br></li>
 
-<li>Click "Next" to continue.<br><br></li>
-<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_4.jpg" alt="downloading data step 4" border="0"> 
-<br><br>
-<li>You have the option of downloading everything as one ZIP file or of downloading individual data layers. If downloading everything as one ZIP file, click the "Download everything as one ZIP file" button, enter a name for the ZIP file, click "Download File," click the blue "here," and follow your browser instructions for saving the file. To download individual data layers, click the "Advanced - Download individual layers" drop-down menu. Click on the download link next to a data layer's name to download that data layer. Click on the other download links below the data layer's name to download the associated files (e.g., HTML metadata file, XML metadata file, symbology file, etc.). Follow your browser instructions to save the file to the desired directory.<br><br></li>
+<li>The exported data and associated files (e.g., HTML metadata file, XML metadata file, symbology file, etc.) will be downloaded in a ZIP file. Enter a file name for the ZIP file to download.<br><br></li>
 
-<li>Click "Finish" to close the data export wizard.<br><br></li>
-<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_5.jpg" alt="downloading data step 5" border="0"> 
+<li>Click "Finish." A pop-up window will appear. Click the blue "here" and follow your browser instructions for saving the file. Close the pop-up window once you have saved the exported data.<br><br>
+<img src="http://maps.massgis.state.ma.us/map_ol/img/downloading_data_step_4.jpg" alt="downloading data step 4" border="0"></li>
 </ol>
 
 <br>
