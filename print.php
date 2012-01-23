@@ -21,12 +21,7 @@
     $handle = fopen($tmp_dir.$id.'.png','w');
     fwrite($handle,@file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox"));
     fclose($handle);
-    if (!getimagesize($tmp_dir.$id.'.png')) {
-      $img = new Imagick('img/blank.png');
-    }
-    else {
-      $img = new Imagick($tmp_dir.$id.'.png');
-    }
+    $img = new Imagick($tmp_dir.$id.'.png');
     // leave initially opaque cells alone
     $img->evaluateImage(Imagick::EVALUATE_MULTIPLY,$v->{'opacity'},Imagick::CHANNEL_ALPHA);
     $canvas->compositeImage($img,imagick::COMPOSITE_OVER,0,0);
@@ -34,13 +29,7 @@
     $handle = fopen($tmp_dir.$id.'.'.count($legends).'.png','w');
     fwrite($handle,@file_get_contents(mkLegendUrl($v->{'legend'})));
     fclose($handle);
-    // use a blank image if no real legend came through
-    if (!getimagesize($tmp_dir.$id.'.'.count($legends).'.png')) {
-      array_push($legends,new Imagick('img/blank.png'));  
-    }
-    else {
-      array_push($legends,new Imagick($tmp_dir.$id.'.'.count($legends).'.png'));
-    }
+    array_push($legends,new Imagick($tmp_dir.$id.'.'.count($legends).'.png'));
     if ($legends[count($legends)-1]->getImageWidth() > $legSize[0]) {
       $legSize[0] = $legends[count($legends)-1]->getImageWidth();
     }
