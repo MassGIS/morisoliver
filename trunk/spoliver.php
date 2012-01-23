@@ -29,14 +29,14 @@ this license.
 
       //
       // site-specific variables which may be modified but MUST be set
-      var foldersetLoc = 'http://maps.massgis.state.ma.us/temp/spoliver_folderset.xml';
-var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/?pageID=eopsterminal&L=3&L0=Home&L1=Homeland+Security+%26+Emergency+Response&L2=Commonwealth+Fusion+Center&sid=Eeops&b=terminalcontent&f=msp_homeland_security_terrorism_fusion_center_fusion_center_overview&csid=Eeops"><img border=none src="img/state_police_logo_badge.gif" alt="ASA" width="82" height="75"></a></td><td><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts State Police OnLIne ViewER (SPOLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, the <a target="_blank" href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership (MOP)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>. SPOLIVER can be used to search, display, and share spatial data pertaining to town and college crime statistics and police employment in Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the SPOLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="http://lyceum.massgis.state.ma.us">MassGIS web mapping services</a>.  The project was graciously funded by MOP.<br/><br/>SPOLIVER was developed using open source technology - the SPOLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of SPOLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">SPOLIVER Developer web site</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/mgis/mandate.htm">legislative mandate</a> includes coodinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/>The <a target="_blank" href="http://www.massoceanpartnership.org">Massachusetts Ocean Partnership</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of MOP to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated February 11, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.massoceanpartnership.org"><img border=none src="img/mop.png" alt="MOP Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com" <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
-
+      var foldersetLoc = '/temp/spoliver_folderset.xml';
+var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/?pageID=eopsterminal&L=3&L0=Home&L1=Homeland+Security+%26+Emergency+Response&L2=Commonwealth+Fusion+Center&sid=Eeops&b=terminalcontent&f=msp_homeland_security_terrorism_fusion_center_fusion_center_overview&csid=Eeops"><img border=none src="img/state_police_logo_badge.gif" alt="ASA" width="82" height="75"></a></td><td><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts State Police OnLIne ViewER (SPOLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a>, <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>. SPOLIVER can be used to search, display, and share spatial data pertaining to town and college crime statistics and police employment in Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the SPOLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/Home">MassGIS web mapping services</a>.  The project was graciously funded by SeaPlan.<br/><br/>SPOLIVER was developed using open source technology - the SPOLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of SPOLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">SPOLIVER Developer documentation</a> or <a target="_blank" href="http://code.google.com/p/morisoliver">Google code</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/mgis/mandate.htm">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/><a target="_blank" href="http://www.seaplan.org">SeaPlan</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated November 30, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.seaplan.org"><img border=none src="img/mop.png" alt="SeaPlan Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com"> <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
       var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
       var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
       var moreInfoWidth = 850;
 
       var defaultBase         = 'custom';  // can be one of 'custom','googleSatellite','googlePhysical','openStreetMap' 
+      var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
@@ -46,7 +46,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,{wms : 'massgis:GISDATA.VTTOWNS_POLY'      ,title : 'VT Towns'}
          ,{wms : 'massgis:GISDATA.NYTOWNS_POLY'      ,title : 'NY Towns'}
          ,{wms : 'massgis:GISDATA.RITOWNS_POLY'      ,title : 'RI Towns'}
-         ,{wms : 'massgis:GISDATA.TOWNS_POLY'        ,title : 'Massachusetts Towns'}
+         ,{wms : 'massgis:GISDATA.TOWNS_POLY'        ,title : 'Massachusetts Towns'}      
       ];
       var defaultBbox = [-73.939378,41.041696,-69.177200,43.038347];
       var maxBbox     = [-76.211689,39.586711,-67.191604,44.798225];
@@ -56,16 +56,22 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
+      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/state_police_logo_badge_small.gif" alt="small MORIS icon"/></td><td>&nbsp;&nbsp;</td><td>SPOLIVER: Massachusetts State Police - Crime Statistics</td></tr>';
+      var bannerHeight = 40;
+      var externalGetCaps = [
+         {name : 'None Available',url : ''}
+      ];
+
     </script>
 
     <!-- pick one of the following blocks & make sure it's not commented out -->
 
     <!-- maps.massgis.state.ma.us -->
     <script>
-      proxyLoc     = 'http://maps.massgis.state.ma.us/cgi-bin/proxy.cgi?url=';
+      proxyLoc     = '/cgi-bin/proxy.cgi?url=';
       //proxyLocBing = 'http://maps.massgis.state.ma.us/cgi-bin/get?';
 	  proxyLocBing = proxyLoc;
-      mkzipCGI     = 'http://maps.massgis.state.ma.us/cgi-bin/mkzip';
+      mkzipCGI     = '/cgi-bin/mkzip';
       mkzipLoc     = 'http://maps.massgis.state.ma.us';
       bingDisabled = false;
       bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
@@ -75,26 +81,27 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     </script>
 
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_default.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_spoliver.js?<?php echo time(); ?>"></script>	
 	
     <script>
       document.title = siteTitle;
     </script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
-	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />		
+	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />
     <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
 
 	<!-- editing tools -->
 	<link rel="stylesheet" type="text/css" href="css/statusbar.css" />
-		
+	
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
     <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
 
+	
 	<!-- editing tools -->
     <script type="text/javascript" src="js/plugins/editing/StatusBar.js"></script>
 	
-	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>		
+	<script type="text/javascript" src="js/plugins/Ext.ux.FieldLabeler.js"></script>
 	<script type="text/javascript" src="js/Geoserver_ScriptTagProxy.js?<?php echo time(); ?>"></script>	
     <script type="text/javascript" src="js/wizard/CardLayout.js"></script>
     <script type="text/javascript" src="js/wizard/Wizard.js"></script>
@@ -105,9 +112,10 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.10/OpenLayers.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.11/OpenLayers.js"></script>
+    <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
-    <script type="text/javascript" src="js/GeoExt.js?"></script>
+    <script type="text/javascript" src="js/GeoExt.js"></script>
 
 	<!-- editing tools -->
     <script type="js/plugins/editing/StatusBar.js"></script>
@@ -116,7 +124,8 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/plugins/editing/widgets/grid/FeatureGrid.js"></script>
     <script type="text/javascript" src="js/plugins/editing/FeatureEditorGrid.js"></script>
     <script type="text/javascript" src="js/plugins/editing/UserFilter.js"></script>	
-	
+
+
     <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/map.js?<?php echo time()?>"></script>
   </head>
