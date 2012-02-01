@@ -637,7 +637,33 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      - user filter control for "GetFeature" purpose
      */
     createEditingToolsForLayer: function(layer) {
-
+        var myLayerConfig = null;
+        for (var i = 0; i < this.layerConfigs.length; i++) {
+            if (this.layerConfigs[i].layerTitle == layer.name) {
+                layer.layerConfig = myLayerConfig = this.layerConfigs[i];
+                break;
+            }
+        }
+		// set up combobox layer stores as necessary
+		if (typeof myLayerConfig !== 'undefined' && typeof myLayerConfig.fields !== 'undefined') {
+			for (var k = 0; k< myLayerConfig.fields.length; k++) {
+				if (typeof myLayerConfig.fields[k].xtype !== 'undefined' && 
+					typeof myLayerConfig.fields[k].store === 'undefined' &&
+					typeof myLayerConfig.fields[k].store_val_labels !== 'undefined' ) {
+					// have component parts for a preset combo box with distinct stores and values
+						myLayerConfig.fields[k].store = new Ext.data.ArrayStore({
+							storeId : myLayerConfig.featureType+'_'+k,
+							idIndex : 0,
+							fields : ['value','label'],
+							data :  myLayerConfig.fields[k].store_val_labels
+						});
+						myLayerConfig.fields[k].mode = 'local';
+						myLayerConfig.fields[k].valueField = 'value';
+						myLayerConfig.fields[k].displayField = 'label';
+				}
+			}
+		}	
+	
         // ======================
         // DrawFeature and Action
         // ======================
@@ -677,22 +703,26 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                     }
                     wfstFE.highlightControl.activate();
                     feature._editSource = 'draw';
+					
+					// assign defaults here
+					if (layer.layerConfig.fields) {
+						for (var i = 0; i < layer.layerConfig.fields.length; i++) {
+							if (typeof layer.layerConfig.fields[i].value !== 'undefined') {
+								feature.attributes[layer.layerConfig.fields[i].name] = layer.layerConfig.fields[i].value;
+							}
+						}
+					}
+					
                     wfstFE.selectControl.select(feature);
                 }
             },
             scope: {layer: layer, manager: this}
         });
 
-        var myLayerConfig = null;
 
         var drawToolControl = drawControl;
-        for (var i = 0; i < this.layerConfigs.length; i++) {
-            if (this.layerConfigs[i].layerTitle == layer.name) {
-                myLayerConfig = this.layerConfigs[i];
-                break;
-            }
-        }
 
+		
         var snappingLayers = [];
         if (myLayerConfig.snapTo) {
             snappingLayers = myLayerConfig.snapTo;
@@ -914,9 +944,21 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 }
             },
             "featureselected" :function(e) {
+				var myLayerConfig;
                 var feature = e.feature;
+
+				for (var j = 0; j < this.manager.layerConfigs.length; j++) {
+					if (this.manager.layerConfigs[j].layerTitle == feature.layer.name) {
+						myLayerConfig = this.manager.layerConfigs[j];
+						break;
+					}
+				}
+								
+			
                 var editorGrid = this.manager.getNewFeatureEditorGrid(
-                    feature, this.layer);
+                    feature, this.layer,myLayerConfig
+					
+					);
 
                 // todo: is this useful ?
                 this.layer.wfstFeatureEditing.editorGrid = editorGrid;
@@ -927,6 +969,8 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             scope: {layer: layer, manager: this}
         });
 
+
+		
         // ===========
         // FeatureGrid
         // ===========
@@ -976,8 +1020,14 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      changes made to a feature and focus on the first attribute cell
      *      upon edition starting.
      */
-    getNewFeatureEditorGrid: function(feature, layer) {
+    getNewFeatureEditorGrid: function(feature, layer, myLayerConfig) {
+		
+
+		
+// if adding a record, add defaults to feature here?  maybe before they go to featureGrid?
+		
         var featureEditorGrid = new GeoExt.ux.FeatureEditorGrid({
+			myLayerConfig: myLayerConfig,
             nameField: "name",
             store: this.getNewAttributeStore(feature),
             feature: feature,
@@ -988,13 +1038,14 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             border: false,
             listeners: {
                 done: function(panel, e) {
-                    var feature = e.feature, modified = e.modified, myLayerConfig = false;
+                    var feature = e.feature, modified = e.modified, myLayerConfig = false, thisField;
                     for (var i = 0; i < this.manager.layerConfigs.length; i++) {
                         if (this.manager.layerConfigs[i].layerTitle == feature.layer.name) {
                             myLayerConfig = this.manager.layerConfigs[i];
                             break;
                         }
                     }
+					
                     if (feature._editSource == 'draw' && myLayerConfig !== false && myLayerConfig.split === true) {
                         var filter = new OpenLayers.Filter.Logical({
                             type: OpenLayers.Filter.Spatial.INTERSECTS,
@@ -1056,6 +1107,23 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      and return a new :class:`GeoExt.data.AttributeStore` object.
      */
     getNewAttributeStore: function(feature) {
+		var myLayerConfig,
+			aIgnoreFields = [];
+			
+		for (var i = 0; i < this.layerConfigs.length; i++) {
+			if (this.layerConfigs[i].layerTitle == feature.layer.name) {
+				myLayerConfig = this.layerConfigs[i];
+				break;
+			}
+		}	
+		// add to ignore fields for right panel
+		if (typeof myLayerConfig.fields != 'undefined' ) {
+			for (var j = 0; j < myLayerConfig.fields.length; j++) {
+				if (myLayerConfig.fields[j].hidden === true) {
+					aIgnoreFields.push(myLayerConfig.fields[j].name);
+				}
+			}	
+		}
         var params = Ext.applyIf(Ext.applyIf(
             this.describeFeatureTypeParams || {},
             this.DEFAULT_DESCRIBE_FEATURETYPE_PARAMS),
@@ -1064,7 +1132,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             feature: feature,
             url:  OpenLayers.ProxyHost+escape(Ext.urlAppend(feature.layer.protocol.url,
                                OpenLayers.Util.getParameterString(params))),
-            ignore: this.ignoredAttributes,
+            ignore: {name: this.ignoredAttributes.name.concat(aIgnoreFields)},
             autoLoad: true
         });
     },
@@ -1082,6 +1150,30 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      well for various purposes.
      */
     getNewFeatureGrid: function(layer) {
+		var myLayerConfig,
+			aIgnoreFields = ["the_geom","SHAPE"];
+			
+		for (var i = 0; i < this.layerConfigs.length; i++) {
+			if (this.layerConfigs[i].layerTitle == layer.name) {
+				myLayerConfig = this.layerConfigs[i];
+				break;
+			}
+		}	
+		
+		
+		// add to ignore fields for left panel
+		if (typeof myLayerConfig.fields !== 'undefined' ) {
+			for (var j = 0; j < myLayerConfig.fields.length; j++) {
+				if (myLayerConfig.fields[j].hidden === true) {
+					aIgnoreFields.push(myLayerConfig.fields[j].name);
+				}
+			}
+		}
+		
+		
+		// if draw mode, apply defaults?
+		
+		
         var store = this.getNewFeatureStore(layer);
         var featureGrid = new gxp.grid.FeatureGrid({
             title: layer.name,
@@ -1091,7 +1183,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             store: store,
             cls: "geoextux-wfstfeatureediting-featuregrid",
             // todo: create a public property for this
-            ignoreFields: ["the_geom","SHAPE"],
+            ignoreFields: aIgnoreFields,
             bbar: this.useFilter ? this.getNewFeatureGridToolbar(layer) : null,
             sm: new GeoExt.grid.FeatureSelectionModel({
                 layerFromStore: true,

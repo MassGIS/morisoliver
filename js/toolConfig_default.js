@@ -162,7 +162,7 @@
 	];	
 	
 	toolSettings.commentTool = {};
-	toolSettings.commentTool.status = 'hide';
+	toolSettings.commentTool.status = 'show';
 	toolSettings.commentTool.layer = {
 		//commentLabel: "Add comment",
 		commentDesc: "Leave a comment about an error in the data",
@@ -236,7 +236,7 @@
 			name : "COMMENTS",
 			hideLabel: true,
 			allowBlank: false,
-			required:true, // adds red asterisk
+			required:true, // adds red asterisk for comment only
 			plugins: [] , // necessary to override to avoid labelling this field
 			fieldLabel : "Comments",
 			maxLength : 500,
@@ -246,7 +246,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'hide';
+	toolSettings.editTool.status = 'show';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
@@ -265,7 +265,67 @@
 			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
 			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
 			split: true,
-			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
+			//snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"],
+			fields : [
+				{
+					name : "TEST_ID",
+					allowBlank: false,
+					value:123// doesn't work
+					
+				
+				},	
+				{
+					name : "NAME",
+					//hidden : true,
+				
+					//store: ["Road name incorrect","Missing openspace"],
+					store_val_labels: [["rd_inc","Road name incorrect"],["msg_os","Missing Openspace"],["wrong","Wrong stuff"],["oth","Other issue"]],	// vs. store_val_labels: [[val,label],[val,label],[val,label]]
+					
+					allowBlank: true,  // provides visual cue		 
+					//readOnly:true,
+					xtype: 'combo' // leave out for text
+					//,value: "This is a test default value"// 			
+				}	
+
+			]
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_LINE2",
+			layerTitle : "Geoserver Editable Line 2", // must match whatever is found in folderset for this layer.
+			fields : [
+				{
+					name : "ID", 		// field name
+					allowBlank : false  // required
+				},
+				{
+					name: "ORGCODE",	//field name
+					xtype: 'combo',		// override server data - make this a combobox/drop down
+					store_val_labels: [  // dropdown values, as an array of [val, label] pairs
+						["org1","Organization 1 despite a field length of 5"],
+						["org2","Organization 2 despite a field length of 5"],
+						["org3","Organization 3 despite a field length of 5"],
+						["org4","Organization 4 despite a field length of 5"],
+						["org5","Organization 5 despite a field length of 5"]
+					],
+					value: "org5" // set default value
+				},
+				{
+					name: "DATENTERED",		//field name
+					hidden:true 			//hide this field
+				},
+				{
+					name: "COMMENTS",		//field name
+					hidden: true,			//hide this field
+					value: "This is a default value, filled in by creating a hidden field" // set default value
+				},
+				{
+					name: "ISSUE",			//field name
+					xtype: 'combo',			// override server data - make this a combobox/drop down
+					store: ["Issue 1","Issue 2","Issue 3"]  // dropdown values (simple)
+				
+				}
+			
+			]
 		}
 /*,
 		{
