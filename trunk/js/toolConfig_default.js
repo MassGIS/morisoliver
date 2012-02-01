@@ -319,6 +319,11 @@
 					value: "This is a default value, filled in by creating a hidden field" // set default value
 				},
 				{
+					name: "EMAIL",
+					value:"josh@peoplegis.com",
+					readOnly: true
+				},
+				{
 					name: "ISSUE",			//field name
 					xtype: 'combo',			// override server data - make this a combobox/drop down
 					store: ["Issue 1","Issue 2","Issue 3"]  // dropdown values (simple)
