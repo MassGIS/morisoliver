@@ -228,14 +228,46 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
             ]
         });
 
+		// prep the required fields for use in renderer
+		var myLayerConfig = this.myLayerConfig;	
+		var aRequiredFields = [],
+			aReadOnlyFields = [];
+		for (var j=0; j < myLayerConfig.fields.length;j++){
+			if (typeof myLayerConfig.fields[j].allowBlank !== 'undefined' && myLayerConfig.fields[j].allowBlank === false) {
+				aRequiredFields.push(myLayerConfig.fields[j].name);
+			}
+			if (typeof myLayerConfig.fields[j].readOnly !== 'undefined' && myLayerConfig.fields[j].readOnly === true) {
+				aReadOnlyFields.push(myLayerConfig.fields[j].name);
+			}			
+		}
+		
         // create column model
-        var columns = [
-            { header: this.nameHeader, dataIndex: this.nameField },
+		var columns = [
+            { header: this.nameHeader, dataIndex: this.nameField, 
+				renderer: function(value, metaData, record, rowIndex, colIndex, store) {			
+					if (aRequiredFields.indexOf(value) !== -1) {
+						metaData.css = 'layer-editor-required-field';
+						//return value + '<span class="layer-editor-required-field"> * </span>';
+						return value;
+
+					} else {
+						return value;
+					}
+				}
+
+			},
             new Ext.grid.Column({
                 header: this.valueHeader,
                 dataIndex: "value",
                 editable: true,
-                getEditor: this.getEditor.createDelegate(this)
+                getEditor: this.getEditor.createDelegate(this),
+				renderer: function(value, metaData, record, rowIndex, colIndex, store) {			
+					if (aReadOnlyFields.indexOf(metaData.value) !== -1) {
+						metaData.css = 'layer-editor-readonly-field';
+					}
+					return value;
+				}
+				
             })
         ];
         if(this.extraColumns) {
@@ -302,10 +334,33 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
      *  Return a GridEditor object for a given row in the grid.
      */
     getEditor: function(rowIndex) {
+		var myLayerConfig = this.myLayerConfig, myFieldConfig, field;
         var record = this.store.getAt(rowIndex), config;
-//override datefields with text.  In theory, we might rather have these be split to date and timefields		
-        var field = (config = GeoExt.form.recordToField(record)) ?
+//override datefields with text.  In theory, we might rather have these be split to date and timefields	
+		config = GeoExt.form.recordToField(record);
+		if (typeof myLayerConfig.fields !== 'undefined' && config ) {
+			for (var i = 0, layerCt = myLayerConfig.fields.length; i < layerCt; i++) {
+				if (myLayerConfig.fields[i].name == config.name) {
+					myFieldConfig = myLayerConfig.fields[i];
+					break;
+				}
+			}
+		}
+		
+		if (myFieldConfig) {
+			if (typeof myFieldConfig.xtype !== 'undefined') {
+				field = Ext.ComponentMgr.create(myFieldConfig);
+			} else {
+				Ext.applyIf(config, myFieldConfig);
+				field = Ext.ComponentMgr.create(config);
+			}
+			// need to merge the fields so we can just 'flag as readonly', or otherwise use some options locally, but not all
+			// if config has an xtype, ignore server else, copy over fields.
+		} else {
+			field = config ?
             (config.xtype == 'datefield' ?  new Ext.form.TextField() : Ext.ComponentMgr.create(config)) : new Ext.form.TextField();
+			
+		}
         return new Ext.grid.GridEditor(field);
     },
 
@@ -419,8 +474,36 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
      *  Called when the "Save" button is clicked.
      */
     saveHandler: function(e) {
+		// rather, try and check if we have a validation fault here before declaring DONE
+		var myLayerConfig = this.myLayerConfig;
+		var feature = this.store.feature;
+		
+		// validate allowBlank
+		if (typeof myLayerConfig.fields != 'undefined' ) {
+			for (var j=0, fieldCt = myLayerConfig.fields.length;j< fieldCt; j++) {
+				thisField = myLayerConfig.fields[j];
+				if (typeof thisField.allowBlank != 'undefined' && (thisField.allowBlank == false)  && ( typeof feature.attributes[thisField.name] == "undefined" || feature.attributes[thisField.name] == "" ) ) {
+					for (var k=0, storeItemCt = this.store.data.items.length; k < storeItemCt; k++) {
+						if (this.store.data.items[k].data.name == myLayerConfig.fields[j].name) {
+							this.startEditing(k,1);
+							return false;
+						}
+					}
+				}
+				// additional validation (ex: maxLength) could go here
+
+				// handle default values for hidden fields
+				if (typeof thisField.hidden !== 'undefined' && thisField.hidden && typeof thisField.value !== 'undefined' && feature._editSource === 'draw') {
+					feature.attributes[thisField.name] = thisField.value;
+				}
+
+			}
+		} 
+		
+		
+		
         e = Ext.applyIf({
-            feature: this.store.feature,
+            feature: feature,
             modified: this.dirty
         }, e);
         this.fireEvent("done", this, e);

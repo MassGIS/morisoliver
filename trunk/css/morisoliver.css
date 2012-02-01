@@ -52,3 +52,15 @@
     -moz-user-focus: normal;
     outline: medium none;
 }
+
+.layer-editor-required-field > div:after {
+	padding-left:4px;
+	content:"*";
+	color:red;
+}
+
+.x-grid3-row td.layer-editor-readonly-field {
+	background-color:#EDEEF0;
+	color: gray;
+	font-style:italic;
+}
