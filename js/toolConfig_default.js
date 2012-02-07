@@ -307,11 +307,12 @@
 						["org4","Organization 4 despite a field length of 5"],
 						["org5","Organization 5 despite a field length of 5"]
 					],
+					triggerAction: 'all',
 					value: "org5" // set default value
 				},
 				{
 					name: "DATENTERED",		//field name
-					hidden:true 			//hide this field
+					auto_timestamp : "Y-m-d\TH:i:s.ms" // for more example timestamp formats, look at Date Patterns in http://docs.sencha.com/ext-js/3-4/#!/api/Date
 				},
 				{
 					name: "COMMENTS",		//field name
@@ -326,6 +327,7 @@
 				{
 					name: "ISSUE",			//field name
 					xtype: 'combo',			// override server data - make this a combobox/drop down
+					triggerAction: 'all',
 					store: ["Issue 1","Issue 2","Issue 3"]  // dropdown values (simple)
 				
 				}
