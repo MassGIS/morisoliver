@@ -115,12 +115,14 @@
 
 	
 	toolSettings.quickZoomTools = {};
-	toolSettings.quickZoomTools.status = 'hide';
+	toolSettings.quickZoomTools.status = 'show';
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
 		 label: 'Pick a town',
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
+		 width:125, // optional, defaults to 200
+		 resetOnMove : false,  // optional, defaults to true
 		 sortBy : 'TOWN', // optional, fieldname
 		 sortOrder : 'A', // optional, acceptable values = A, D
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
