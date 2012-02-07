@@ -11,6 +11,9 @@ if (typeof MorisOliverApp.thGridView == 'undefined') {
   MorisOliverApp.thGridView = Ext.grid.GridView;
 }
 
+if (typeof MorisOliverApp.quickZoomDefn == 'undefined') {
+  MorisOliverApp.quickZoomDefn ={};
+}
 var loadedWms = {};
 var maxAllowedFeatures = 25000;
 var map;
@@ -1732,10 +1735,32 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
     topToolBar_items.push('-');
     
     var quickZoomDefn = {},thisStore,thisComboBox,thisTool;
+	MorisOliverApp.quickZoomDefn = quickZoomDefn;
     quickZoomDefn.stores = {};
     quickZoomDefn.storeHandlers = {};
     quickZoomDefn.comboBoxes = {};
+	quickZoomDefn.mapMoveCt = 0;
     
+	quickZoomDefn.resetZoomBoxes = function () {
+		for (var thisCombo in quickZoomDefn.comboBoxes) {
+			if (quickZoomDefn.comboBoxes.hasOwnProperty(thisCombo)) {
+				if ( typeof quickZoomDefn.comboBoxes[thisCombo].initialConfig.resetOnMove == 'undefined' || quickZoomDefn.comboBoxes[thisCombo].initialConfig.resetOnMove ) {
+					quickZoomDefn.comboBoxes[thisCombo].setValue(quickZoomDefn.comboBoxes[thisCombo].initialConfig.label);
+					quickZoomDefn.comboBoxes[thisCombo].blur();
+				}
+			}
+		}
+	};	
+	
+	quickZoomDefn.mapMoveHandler = function () {
+		if (quickZoomDefn.mapMoveCt == 0) {
+			quickZoomDefn.mapMoveCt++;
+		} else {
+			map.events.unregister('moveend',undefined,quickZoomDefn.mapMoveHandler);
+			quickZoomDefn.resetZoomBoxes();
+		}
+	};
+	
     var storeListener_beforeLoad;
     for (var i = 0; i < toolSettings.quickZoomTools.tools.length; i++) {
       thisTool = toolSettings.quickZoomTools.tools[i];
@@ -1818,7 +1843,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         ) 
       });   
     
-
+	
     quickZoomDefn.stores[thisTool.id] = thisStore ;
       
       thisComboBox =  new Ext.form.ComboBox({
@@ -1832,8 +1857,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         queryParam: 'CQL_FILTER',
         typeAhead: true,
         loadingText: 'Searching...',
-        width: 200,
+        width: thisTool.width ? thisTool.width : 200,
         autoSelect: false,
+		resetOnMove : thisTool.resetOnMove,
         forceSelection:true,
         minChars:0,
         mode:'remote',
@@ -1843,6 +1869,11 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         hideTrigger:false,
         listeners : {
           select: function (that,record,idx) {
+			if ( typeof this.initialConfig.resetOnMove == 'undefined' || this.initialConfig.resetOnMove ) {
+				map.events.unregister('moveend',undefined,quickZoomDefn.mapMoveHandler);
+				quickZoomDefn.mapMoveCt = 0;
+				map.events.register('moveend',undefined,quickZoomDefn.mapMoveHandler);
+			}
             this.__selectedRecord = record;
             this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
             var bbox = record.json.properties.bbox;
