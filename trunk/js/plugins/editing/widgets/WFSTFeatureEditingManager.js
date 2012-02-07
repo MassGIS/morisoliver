@@ -661,6 +661,10 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 						myLayerConfig.fields[k].valueField = 'value';
 						myLayerConfig.fields[k].displayField = 'label';
 				}
+				
+				if (typeof myLayerConfig.fields[k].auto_timestamp !== 'undefined') {
+					myLayerConfig.fields[k].readOnly = true;
+				}
 			}
 		}	
 	
@@ -709,6 +713,10 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 						for (var i = 0; i < layer.layerConfig.fields.length; i++) {
 							if (typeof layer.layerConfig.fields[i].value !== 'undefined') {
 								feature.attributes[layer.layerConfig.fields[i].name] = layer.layerConfig.fields[i].value;
+							}
+							
+							if (typeof layer.layerConfig.fields[i].auto_timestamp !== 'undefined') {
+								feature.attributes[layer.layerConfig.fields[i].name] = new Date().format(layer.layerConfig.fields[i].auto_timestamp);
 							}
 						}
 					}
@@ -1169,10 +1177,6 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 				}
 			}
 		}
-		
-		
-		// if draw mode, apply defaults?
-		
 		
         var store = this.getNewFeatureStore(layer);
         var featureGrid = new gxp.grid.FeatureGrid({

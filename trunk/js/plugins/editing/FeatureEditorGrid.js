@@ -496,6 +496,13 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				if (typeof thisField.hidden !== 'undefined' && thisField.hidden && typeof thisField.value !== 'undefined' && feature._editSource === 'draw') {
 					feature.attributes[thisField.name] = thisField.value;
 				}
+				
+				if (typeof thisField.auto_timestamp !== 'undefined' && 
+					 (( typeof thisField.hidden !== 'undefined'	&& thisField.hidden) || 
+					( typeof thisField.readOnly !== 'undefined'	&& thisField.readOnly) ) 
+					) {
+						feature.attributes[thisField.name] =new Date().format(thisField.auto_timestamp);
+					}
 
 			}
 		} 
