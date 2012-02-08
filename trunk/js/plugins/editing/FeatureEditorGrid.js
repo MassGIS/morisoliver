@@ -232,15 +232,16 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 		var myLayerConfig = this.myLayerConfig;	
 		var aRequiredFields = [],
 			aReadOnlyFields = [];
-		for (var j=0; j < myLayerConfig.fields.length;j++){
-			if (typeof myLayerConfig.fields[j].allowBlank !== 'undefined' && myLayerConfig.fields[j].allowBlank === false) {
-				aRequiredFields.push(myLayerConfig.fields[j].name);
+		if (typeof myLayerConfig.fields !== 'undefined') {
+			for (var j=0; j < myLayerConfig.fields.length;j++){
+				if (typeof myLayerConfig.fields[j].allowBlank !== 'undefined' && myLayerConfig.fields[j].allowBlank === false) {
+					aRequiredFields.push(myLayerConfig.fields[j].name);
+				}
+				if (typeof myLayerConfig.fields[j].readOnly !== 'undefined' && myLayerConfig.fields[j].readOnly === true) {
+					aReadOnlyFields.push(myLayerConfig.fields[j].name);
+				}			
 			}
-			if (typeof myLayerConfig.fields[j].readOnly !== 'undefined' && myLayerConfig.fields[j].readOnly === true) {
-				aReadOnlyFields.push(myLayerConfig.fields[j].name);
-			}			
 		}
-		
         // create column model
 		var columns = [
             { header: this.nameHeader, dataIndex: this.nameField, 
