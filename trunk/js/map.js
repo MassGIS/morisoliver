@@ -2556,7 +2556,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       modal: false,
       closable: false,
       closeAction: 'hide',
-      width: 550,
+      width: 650,
       height: 450,
       title: "WFSTFeatureEditing",
       layout: 'fit',

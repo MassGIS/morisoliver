@@ -367,7 +367,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "title": this.featureEditorGridContainerTitleText,
             "border": true,
             "region": "east",
-            "width": 220,
+            "width": 360, // expand this to increase the amount of the total modal devoted to the values, orig: 220
             "layout": "fit"
         });
 

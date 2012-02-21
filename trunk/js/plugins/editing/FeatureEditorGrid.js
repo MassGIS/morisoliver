@@ -259,6 +259,7 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 			},
             new Ext.grid.Column({
                 header: this.valueHeader,
+				width: 250, // set this to increase the size of the value column.  Relevant esp for comboboxes.
                 dataIndex: "value",
                 editable: true,
                 getEditor: this.getEditor.createDelegate(this),
