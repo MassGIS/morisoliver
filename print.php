@@ -1,4 +1,6 @@
 <?php
+  include ("geoserver_secured_layers.php");
+
   $id      = time().'.'.rand();
   $tmp_dir = '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
   $tmp_url = '/temp/OL_MORIS_print/';
@@ -18,8 +20,28 @@
   $legSize = array(250,0);
 
   foreach ($json->{'layers'} as $k => $v) {
+    $opts = array();
+    foreach ($GS_SECURED_LAYERS as $sec_layer) {
+      if ( stripos( $v->img, $sec_layer ) !== FALSE) {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+          header('WWW-Authenticate: Basic realm="OLIVER Printing"');
+          header('HTTP/1.0 401 Unauthorized');
+          echo 'enter user/pass to print a secured layer in OLIVER';
+          exit;
+        }
+
+        $auth = base64_encode($_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
+        //$header = array("Authorization: Basic $auth");
+        $header = "Authorization: Basic $auth";
+        $opts = array( 'http' => array ('method'=>'GET','header'=>$header));
+        error_log("sending map request with authentication: ".$_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
+
+      }
+    }
+
+    $ctx = stream_context_create($opts);
     $handle = fopen($tmp_dir.$id.'.png','w');
-    fwrite($handle,@file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox"));
+    fwrite($handle,file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox",false,$ctx));
     fclose($handle);
     if (!getimagesize($tmp_dir.$id.'.png')) {
       $img = new Imagick('img/blank.png');
