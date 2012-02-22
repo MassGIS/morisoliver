@@ -2,6 +2,7 @@
 use strict;
 use CGI qw(:standard);
 use XML::Simple qw(:strict);
+use File::Temp qw/tempfile/;
 #use LWP::UserAgent;
 #use LWP::Protocol::http;
 #use URI::http;
@@ -22,9 +23,10 @@ read (STDIN,$t,$ENV{CONTENT_LENGTH});
 
 my $httpmeth = "http";
 my $authHeader = "";
-if ($ENV{HTTPS} eq "on") {
+if ($ENV{HTTPS} && $ENV{HTTPS} eq "on") {
     $httpmeth = "https";
     $authHeader = $ENV{"HTTP_AUTHORIZATION"};
+    print STDERR "Authorization: ".$authHeader."\n\n";
     #$authHeader =~ s/\ /\\\ /;
 }
 
@@ -69,31 +71,76 @@ foreach (@{$doc->{layer}}) {
   #$h{baseURL} =~ s/^($httpmeth):\/\/giswebservices.state.ma.us/http:\/\/170.63.98.114/;
   mkdir "$scratch_dir/".unsafeXML($h{name});
   my $r;
-  print "\n\n";
-  my $req = "wget -q '".unsafeXML($h{baseURL})."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" --no-check-certificate --header='Authorization:".$authHeader."'";
-  # print $req."\n\n";
-  @cmd_args = ("/bin/bash","-c",
-    $req
-  );
-
-  $r = system(@cmd_args);
-  if ($r != 0) {
-    warn "error fetching zip file ".unsafeXML($h{baseURL});
-    next;
-  }
 
   if (unsafeXML($h{baseURL}) =~ /outputformat=SHAPE-ZIP/) {
+    my ($wfsURL,$postBody) = split(/\?/,$h{baseURL},2);
+    my ($request,$version,$outputformat,$service,$typename,$filter,$srsname) = split(/&/,unsafeXML($postBody));
+    my @bits = split(/=/,$request,2);
+    $request = $bits[1];
+    @bits = split(/=/,$typename,2);
+    $typename = $bits[1];
+    @bits = split(/=/,$filter,2);
+    $filter = $bits[1];
+    @bits = split(/=/,$srsname,2);
+    $srsname = $bits[1];
+
+    my $postData = '<wfs:GetFeature service="WFS" version="1.1.0" xmlns:wfs="http://www.opengis.net/wfs" outputFormat="SHAPE-ZIP">'."\n";
+    $postData .= '<wfs:Query typeName="'.$typename.'" srsName="'.$srsname.'">'."\n";
+    $postData .= $filter."\n";
+    $postData .= '</wfs:Query>'."\n";
+    $postData .= '</wfs:GetFeature>'."\n";
+
+    my ($fh,$filename) = tempfile(SUFFIX => '.xml');
+    print $fh $postData;
+    close $fh;
+
+    my $req = "wget -q --post-file='".$filename."' '".$wfsURL."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" ".
+              "--no-check-certificate --header=\"content-type: text/xml\"";
+    if ($authHeader ne '') {
+      $req = $req." --header='Authorization:".$authHeader."'";
+    }
+    #print $req."\n\n";
+    @cmd_args = ("/bin/bash","-c",
+      $req
+    );
+
+    $r = system(@cmd_args);
+    unlink $filename;
+
+    if ($r != 0) {
+      print "error fetching zip file ".unsafeXML($h{baseURL})."\n\n";
+      next;
+    }
+
     rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip");
     $cmd = "cd '$scratch_dir/".unsafeXML($h{name})."'; /usr/bin/unzip '".unsafeXML($h{name}).".zip' > /dev/null ; rm '".$scratch_dir."/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip'";
-    #warn $cmd;
+    # print $cmd."\n\n";
     @cmd_args = ("/bin/bash","-c", $cmd);
     $r = system(@cmd_args);
   }
-  elsif (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
-    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
-  } else {
-    print STDERR "renaming file ".unsafeXML($h{baseURL})." to .tif extension";
-    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.tif');
+  else
+  {
+    my $req = "wget -q '".unsafeXML($h{baseURL})."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" ".
+              "--no-check-certificate --header=\"content-type: text/xml\"";
+    if ($authHeader ne '') {
+      $req = $req." --header='Authorization:".$authHeader."'";
+    }
+    #print $req."\n\n";
+    @cmd_args = ("/bin/bash","-c",
+      $req
+    );
+
+    $r = system(@cmd_args);
+    if ($r != 0) {
+      print "error fetching zip file ".unsafeXML($h{baseURL})."\n\n";
+      next;
+    }
+
+    if (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
+    } else {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.tif');
+    }
   }
 
   foreach (@{$h{metadata}}) {
