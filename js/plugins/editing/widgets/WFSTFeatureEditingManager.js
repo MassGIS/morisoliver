@@ -331,7 +331,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         this.drawMenuButton = new Ext.Button({
             "iconCls": "geoextux-wfstfeatureediting-button-draw",
             "text": this.drawMenuButtonText,
-            "menu": new Ext.menu.Menu(),
+            "menu": new Ext.menu.Menu({autoWidth:true}),
             "tooltip": this.drawMenuButtonTooltipText,
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
@@ -341,7 +341,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 ? "geoextux-wfstfeatureediting-button-filter"
                 : "geoextux-wfstfeatureediting-button-edit",
             "text": this.editMenuButtonText,
-            "menu": new Ext.menu.Menu(),
+            "menu": new Ext.menu.Menu({autoWidth:true}),
             "tooltip": this.editMenuButtonTooltipText,
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
@@ -637,7 +637,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *      - user filter control for "GetFeature" purpose
      */
     createEditingToolsForLayer: function(layer) {
-        var myLayerConfig = null;
+        var myLayerConfig = null, fieldList,thisTool, sort, thisField,restrictTool,restrictValue;
         for (var i = 0; i < this.layerConfigs.length; i++) {
             if (this.layerConfigs[i].layerTitle == layer.name) {
                 layer.layerConfig = myLayerConfig = this.layerConfigs[i];
@@ -647,23 +647,123 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 		// set up combobox layer stores as necessary
 		if (typeof myLayerConfig !== 'undefined' && typeof myLayerConfig.fields !== 'undefined') {
 			for (var k = 0; k< myLayerConfig.fields.length; k++) {
-				if (typeof myLayerConfig.fields[k].xtype !== 'undefined' && 
-					typeof myLayerConfig.fields[k].store === 'undefined' &&
-					typeof myLayerConfig.fields[k].store_val_labels !== 'undefined' ) {
+				thisField = myLayerConfig.fields[k];
+				if (typeof thisField.xtype !== 'undefined' && 
+					typeof thisField.store === 'undefined' &&
+					typeof thisField.store_val_labels !== 'undefined' ) {
 					// have component parts for a preset combo box with distinct stores and values
-						myLayerConfig.fields[k].store = new Ext.data.ArrayStore({
+						thisField.store = new Ext.data.ArrayStore({
 							storeId : myLayerConfig.featureType+'_'+k,
 							idIndex : 0,
 							fields : ['value','label'],
-							data :  myLayerConfig.fields[k].store_val_labels
+							data :  thisField.store_val_labels
 						});
-						myLayerConfig.fields[k].mode = 'local';
-						myLayerConfig.fields[k].valueField = 'value';
-						myLayerConfig.fields[k].displayField = 'label';
+						thisField.mode = 'local';
+						thisField.valueField = 'value';
+						thisField.displayField = 'label';
 				}
 				
-				if (typeof myLayerConfig.fields[k].auto_timestamp !== 'undefined') {
-					myLayerConfig.fields[k].readOnly = true;
+				// wfs driven edit combobox
+				if (typeof thisField.xtype !== 'undefined' && 
+					typeof thisField.store === 'undefined' &&
+					typeof thisField.store_remote !== 'undefined' ) {
+						fieldList = [];
+				      fieldList.push(thisField.store_remote.valueField);
+
+						sort = "";
+						if (thisField.store_remote.sortBy) {
+							sort = thisField.store_remote.sortBy;
+							if (thisField.store_remote.sortOrder ) {
+								sort += ' '+thisField.store_remote.sortOrder ;
+							}
+						} 
+						thisField.store_remote.storeHandler = function (d)  {
+							if (typeof this.restrict == 'undefined') {
+								d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+							} else if (this.restrict.type.toUpperCase() == 'URL') {
+								d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+this.restrict.restrictedValueField +" = '"+(editURLParams[this.restrict.value] ? editURLParams[this.restrict.value] : this.restrict.def_val ) +"'";							
+							} else if (this.restrict.type == 'quickzoom') {
+								restrictTool = MorisOliverApp.quickZoomDefn.comboBoxes[this.restrict.value];
+								restrictValue = (restrictTool.getValue() != '' && restrictTool.__selectedRecord ? restrictTool.__selectedRecord.json.properties[this.restrict.restrictedSourceField] : "");									
+								
+								if (typeof restrictTool.__selectedRecord == 'undefined' ) {
+									d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";								
+								} else {
+									d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+this.restrict.restrictedValueField +" = '"+restrictValue+"'";								
+								}
+
+							} else if (this.restrict.type == 'static') {
+								d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+this.restrict.restrictedValueField +" = '"+this.value+"'";
+							
+							}
+							return true;
+						}.createDelegate(thisField.store_remote);
+						
+						thisField.store = new Ext.data.Store ({
+							listeners: {
+							  beforeload : thisField.store_remote.storeHandler
+							},
+							baseParams: {
+							  "request" : "getfeature",
+							  "version" : "1.0.0",
+							  "service" : "wfs",
+							  "propertyname" : fieldList.join(',') ,  
+							  "typename" : thisField.store_remote.layer,
+							  "outputformat" : "json",
+							  "sortBy" : sort
+							},
+							proxy : new Ext.data.Geoserver_ScriptTagProxy ({
+							  url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+							  "method":"GET"  
+							}),
+							reader : new Ext.data.JsonReader ({
+							  root: "features",
+							  fields: [{name: 'properties', mapping: 'properties'}],
+							  idProperty: 'post_id'
+							  }
+							) 
+						});
+						Ext.applyIf(thisField, {
+							triggerAction:'all',
+							displayField:'values.properties.'+thisField.store_remote.valueField,  // values. is wrong, and breaks typeahead, as below
+							queryParam: 'CQL_FILTER',
+							typeAhead: true,
+							loadingText: 'Searching...',
+							autoSelect: false,
+							forceSelection:true,
+							minChars:0,
+							mode:'remote',
+							selectOnFocus:true,
+							shadow: 'drop',
+							//pageSize:10,
+							hideTrigger:false,	
+							lastQuery : '',
+							listeners : {
+							   beforequery: function(qe){
+								   delete qe.combo.lastQuery;
+							   },
+							   onTypeAhead : function(){
+								  if(this.store.getCount() > 0){
+									var r = this.store.getAt(0);
+									var newValue = r.data.properties[this.displayField.replace('values.properties.','')];
+									var len = newValue.length;
+									var selStart = this.getRawValue().length;
+									if(selStart != len){
+									  this.setRawValue(newValue);
+									  this.selectText(selStart, newValue.length);
+									}
+								  }
+								},
+							  select : function (that,record,idx) {
+							    this.__selectedRecord = record;
+					            this.setValue(record.json.properties[this.displayField.replace('values.properties.','')]); // this shouldn't be necessary
+							  }
+							}
+						
+						});
+				}
+				if (typeof thisField.auto_timestamp !== 'undefined') {
+					thisField.readOnly = true;
 				}
 			}
 		}	

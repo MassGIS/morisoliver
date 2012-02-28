@@ -123,9 +123,15 @@
 		 valueField: 'TOWN',
 		 width:125, // optional, defaults to 200
 		 resetOnMove : false,  // optional, defaults to true
+		 zoomOnSelect: true, // optional, defaults to true
 		 sortBy : 'TOWN', // optional, fieldname
 		 sortOrder : 'A', // optional, acceptable values = A, D
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
+		 spatialFilter : {
+			type: "INTERSECT",
+			geomField: "massgis:SHAPE",
+			checkForSingleValueOnMapMove: true
+		 },
 		 keyMap: {					// not required
 			"ctrl":true,			// not required if false
 			"alt": true,			// not required if false
@@ -318,8 +324,22 @@
 				},
 				{
 					name: "COMMENTS",		//field name
-					hidden: true,			//hide this field
-					value: "This is a default value, filled in by creating a hidden field" // set default value
+					xtype: 'combo',		
+					triggerAction : 'all',
+					store_remote : {
+						layer : 'massgis:GISDATA.OPENSPACE_POLY',
+						valueField : 'SITE_NAME',
+						sortBy : 'SITE_NAME', 
+						sortOrder : 'D', 
+						restrict : {
+							type: 'url'
+							,value: 'commenttown' // for url, this will become a url param of edit_<value>, ex: if value = commenttown, then edit_commenttown
+							,def_val: '250'
+							,restrictedValueField: 'TOWN_ID'  // name of the field in this layer
+							,restrictedSourceField: 'TOWN_ID' // name of the field in the layer we're restricting based on										
+						}
+					},
+					value: "URL based combobox" // set default value
 				},
 				{
 					name: "EMAIL",
@@ -330,23 +350,34 @@
 					name: "ISSUE",			//field name
 					xtype: 'combo',			// override server data - make this a combobox/drop down
 					triggerAction: 'all',
-					store: ["Issue 1","Issue 2","Issue 3"]  // dropdown values (simple)
-				
+					store_remote : {
+						layer : 'massgis:GISDATA.SCHOOLS_PT',
+						valueField : 'NAME',
+						sortBy : 'NAME', 
+						sortOrder : 'D', 
+						restrict : {
+							type : 'quickzoom' // or 'static', or 'url'
+							,value : 1 // qzID (or string, or url param_name
+							,def_val : 'foo'// only meaningful if type='url'
+							,restrictedValueField: 'TOWN'  // name of the field in this layer
+							,restrictedSourceField: 'TOWN' // name of the field in the layer we're restricting based on			
+						}
+					}
 				}
 			
 			]
-		}
-/*,
+		},
+
 		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
 			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
 		},
-		{
+/*,		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
 			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
-		}
+		},
 		*/
-		,{
+		{
 			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
 			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
 		}

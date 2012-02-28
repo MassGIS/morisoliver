@@ -59,14 +59,12 @@
 	color:red;
 }
 
+.layer-editor-required-field {
+	color: red;
+}
+
 .x-grid3-row td.layer-editor-readonly-field {
 	color: gray;
 	font-style:italic;
 }
 
-
-div.olLayerGoogleCopyright,
-div.olLayerGooglePoweredBy
-{
-  display: none !important;
-}

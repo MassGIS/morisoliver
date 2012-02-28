@@ -14,6 +14,7 @@ if (typeof MorisOliverApp.thGridView == 'undefined') {
 if (typeof MorisOliverApp.quickZoomDefn == 'undefined') {
   MorisOliverApp.quickZoomDefn ={};
 }
+
 var loadedWms = {};
 var maxAllowedFeatures = 25000;
 var map;
@@ -50,6 +51,7 @@ var featureBboxGridPanel;
 var measureType = 'length';
 var defaultCenter,defaultZoom;
 var loadError = [];
+var editURLParams = {};
 var lyrGeoLocate = new OpenLayers.Layer.Vector('geoLoacate',{styleMap :  new OpenLayers.StyleMap({
   'default' : new OpenLayers.Style({
      fillColor     : "#996600"
@@ -219,6 +221,9 @@ for (i in p) {
   }
   else if (i == 'zoom') {
     defaultZoom = p[i];
+  } 
+  else if ( i.indexOf('edit_') == 0 && i.length > 5) {
+	editURLParams[i.substring(5)] = p[i];
   }
 }
 
@@ -1734,9 +1739,10 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
   if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
     topToolBar_items.push('-');
     
-    var quickZoomDefn = {},thisStore,thisComboBox,thisTool;
+    var quickZoomDefn = {},thisStore,thisComboBox,thisTool,thisStoreConfig;
 	MorisOliverApp.quickZoomDefn = quickZoomDefn;
     quickZoomDefn.stores = {};
+	quickZoomDefn.storesStandalone = {};
     quickZoomDefn.storeHandlers = {};
     quickZoomDefn.comboBoxes = {};
 	quickZoomDefn.mapMoveCt = 0;
@@ -1767,11 +1773,11 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       
       if (thisTool.keyMap) {
         topToolBar_keyMaps.push({
-        keyMap: thisTool.keyMap,
-        itemId :'quickZoom'+thisTool.id ,
-        type   : 'combo'
+			keyMap: thisTool.keyMap,
+			itemId :'quickZoom'+thisTool.id ,
+			type   : 'combo'
         });
-        }     
+	}     
         
       if (thisTool.restrict) {
         quickZoomDefn.storeHandlers[thisTool.id] = function (d) {
@@ -1787,17 +1793,27 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             } else {
               thisTool.lastQuery = null
               d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+			  if (this.spatialFilter) {
+				d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
+			  }			  
               return true;            
             }
           }
           thisTool.lastQuery = null
           var localRestrictField = this.restrict.restrictedValueField;
           d.baseParams.CQL_FILTER = valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+localRestrictField +" = '"+restrictValue+"'";
+		  if (this.spatialFilter) {
+			d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
+		  }		  
           return true;
         }.createDelegate(thisTool);
       } else {
         quickZoomDefn.storeHandlers[thisTool.id] =  function (d)  {
           d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
+		  if (this.spatialFilter) {
+			d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
+		  }
+
           return true;
         }.createDelegate(thisTool);
       }
@@ -1816,8 +1832,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         if (thisTool.sortOrder ) {
           sort += ' '+thisTool.sortOrder ;
         }
-      }     
-      thisStore = new Ext.data.Store ({
+      }
+      thisStoreConfig = {
       // what about beforeLoad
         listeners: {
           beforeload : quickZoomDefn.storeHandlers[thisTool.id]
@@ -1841,10 +1857,41 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           idProperty: 'post_id'
           }
         ) 
-      });   
-    
-	
-    quickZoomDefn.stores[thisTool.id] = thisStore ;
+      };   
+	 quickZoomDefn.stores[thisTool.id] = thisStore = new Ext.data.Store ( thisStoreConfig);
+
+	 if (thisTool.spatialFilter && thisTool.spatialFilter.checkForSingleValueOnMapMove) {
+		// if configured to check the map bbox for this quick zoom for a single value on mapMove
+		// then we'll need another copy of the store, so as to avoid gratuitously activating our combobox
+		
+		thisStoreConfig.listeners.beforeload = function (d) {
+		// the other copy of the store has a modified before reload that also clears the CQL_FILTER
+			d.baseParams.CQL_FILTER = '';
+			quickZoomDefn.storeHandlers[this.id](d);
+		}.createDelegate(thisTool);
+		
+		thisStoreConfig.proxy = new Ext.data.Geoserver_ScriptTagProxy ({
+          url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+          "method":"GET", 
+		  autoAbort : true
+        }),
+		 quickZoomDefn.storesStandalone[thisTool.id] = new Ext.data.Store (thisStoreConfig); 
+		 
+		 // and a movend listener
+		 map.events.register('moveend',undefined, function () {
+			var that = this;
+			MorisOliverApp.quickZoomDefn.storesStandalone[this.id].load({
+				callback: function (r,opt,succ) {
+					var thisComboBox = MorisOliverApp.quickZoomDefn.comboBoxes[that.id];
+			        if (succ && r.length == 1) {
+						// if there is only one result, set that result into the associated quickzoom combobox, but without retriggering the combobox/zoom
+						thisComboBox.__selectedRecord = r[0];
+						thisComboBox.setValue(r[0].json.properties[thisComboBox.displayField.replace('values.properties.','')]);
+					}
+				}
+			});
+		 }.createDelegate(thisTool));
+	 }
       
       thisComboBox =  new Ext.form.ComboBox({
         itemId : 'quickZoom'+thisTool.id,
@@ -1860,6 +1907,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         width: thisTool.width ? thisTool.width : 200,
         autoSelect: false,
 		resetOnMove : thisTool.resetOnMove,
+		zoomOnSelect : thisTool.zoomOnSelect,
         forceSelection:true,
         minChars:0,
         mode:'remote',
@@ -1867,7 +1915,11 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         shadow: 'drop',
         //pageSize:10,
         hideTrigger:false,
+		lastQuery : '',
         listeners : {
+		  beforequery: function(qe){
+			delete qe.combo.lastQuery;
+		  },
           select: function (that,record,idx) {
 			if ( typeof this.initialConfig.resetOnMove == 'undefined' || this.initialConfig.resetOnMove ) {
 				map.events.unregister('moveend',undefined,quickZoomDefn.mapMoveHandler);
@@ -1882,8 +1934,10 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             var zoomTarget = new OpenLayers.Bounds();
             zoomTarget.extend(ll);
             zoomTarget.extend(ur);
-            map.zoomToExtent(zoomTarget);
-          },
+		    if ( typeof this.initialConfig.zoomOnSelect == 'undefined' || this.initialConfig.zoomOnSelect ) {
+			  map.zoomToExtent(zoomTarget);
+		    }
+		  },
           specialKey : function (field,e) {
             if (e.getKey() == e.ENTER ) {
               var record = this.store.getAt(0);
@@ -1899,7 +1953,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
                   var zoomTarget = new OpenLayers.Bounds();
                   zoomTarget.extend(ll);
                   zoomTarget.extend(ur);
-                  map.zoomToExtent(zoomTarget);
+		          if ( typeof this.initialConfig.zoomOnSelect == 'undefined' || this.initialConfig.zoomOnSelect ) {
+					map.zoomToExtent(zoomTarget);
+				  }
                 }
               } 
             }
