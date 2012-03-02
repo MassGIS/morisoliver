@@ -307,6 +307,7 @@
 				},
 				{
 					name: "ORGCODE",	//field name
+					fieldLabel: "Overridden with a long field name that is long",
 					xtype: 'combo',		// override server data - make this a combobox/drop down
 					store_val_labels: [  // dropdown values, as an array of [val, label] pairs
 						["org1","Organization 1 despite a field length of 5"],

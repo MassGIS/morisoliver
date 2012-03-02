@@ -186,7 +186,7 @@ gxp.grid.FeatureGrid = Ext.extend(Ext.grid.GridPanel, {
             if (this.ignoreFields.indexOf(name) === -1) {
                 columns.push({
                     dataIndex: name,
-                    header: name,
+                    header: (typeof this.fieldLabelOverrides[name] !== 'undefined' ? this.fieldLabelOverrides[name] : name ),
                     sortable: true,
                     xtype: xtype,
                     format: format,
