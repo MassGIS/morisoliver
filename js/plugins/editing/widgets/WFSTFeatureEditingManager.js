@@ -331,7 +331,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         this.drawMenuButton = new Ext.Button({
             "iconCls": "geoextux-wfstfeatureediting-button-draw",
             "text": this.drawMenuButtonText,
-            "menu": new Ext.menu.Menu({autoWidth:true}),
+            "menu": new Ext.menu.Menu(),
             "tooltip": this.drawMenuButtonTooltipText,
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
@@ -341,7 +341,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 ? "geoextux-wfstfeatureediting-button-filter"
                 : "geoextux-wfstfeatureediting-button-edit",
             "text": this.editMenuButtonText,
-            "menu": new Ext.menu.Menu({autoWidth:true}),
+            "menu": new Ext.menu.Menu(),
             "tooltip": this.editMenuButtonTooltipText,
             "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
@@ -1259,6 +1259,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      */
     getNewFeatureGrid: function(layer) {
 		var myLayerConfig,
+			aFieldLabelOverides = {},
 			aIgnoreFields = ["the_geom","SHAPE"];
 			
 		for (var i = 0; i < this.layerConfigs.length; i++) {
@@ -1275,6 +1276,9 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 				if (myLayerConfig.fields[j].hidden === true) {
 					aIgnoreFields.push(myLayerConfig.fields[j].name);
 				}
+				if (typeof myLayerConfig.fields[j].fieldLabel !== 'undefined' && myLayerConfig.fields[j].fieldLabel.length > 0) {
+					aFieldLabelOverides[myLayerConfig.fields[j].name] = myLayerConfig.fields[j].fieldLabel;
+				}					
 			}
 		}
 		
@@ -1288,6 +1292,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             cls: "geoextux-wfstfeatureediting-featuregrid",
             // todo: create a public property for this
             ignoreFields: aIgnoreFields,
+			fieldLabelOverrides : aFieldLabelOverides,
             bbar: this.useFilter ? this.getNewFeatureGridToolbar(layer) : null,
             sm: new GeoExt.grid.FeatureSelectionModel({
                 layerFromStore: true,

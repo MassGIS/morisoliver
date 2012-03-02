@@ -231,7 +231,8 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 		// prep the required fields for use in renderer
 		var myLayerConfig = this.myLayerConfig;	
 		var aRequiredFields = [],
-			aReadOnlyFields = [];
+			aReadOnlyFields = []
+			aFieldLabelOverides = {};
 		if (typeof myLayerConfig.fields !== 'undefined') {
 			for (var j=0; j < myLayerConfig.fields.length;j++){
 				if (typeof myLayerConfig.fields[j].allowBlank !== 'undefined' && myLayerConfig.fields[j].allowBlank === false) {
@@ -240,6 +241,9 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 				if (typeof myLayerConfig.fields[j].readOnly !== 'undefined' && myLayerConfig.fields[j].readOnly === true) {
 					aReadOnlyFields.push(myLayerConfig.fields[j].name);
 				}			
+				if (typeof myLayerConfig.fields[j].fieldLabel !== 'undefined' && myLayerConfig.fields[j].fieldLabel.length > 0) {
+					aFieldLabelOverides[myLayerConfig.fields[j].name] = myLayerConfig.fields[j].fieldLabel;
+				}						
 			}
 		}
         // create column model
@@ -249,11 +253,8 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
 					if (aRequiredFields.indexOf(value) !== -1) {
 						metaData.css = 'layer-editor-required-field';
 						//return value + '<span class="layer-editor-required-field"> * </span>';
-						return value;
-
-					} else {
-						return value;
-					}
+					} 
+					return ((typeof aFieldLabelOverides[value] !== 'undefined') ? aFieldLabelOverides[value] : value);					
 				}
 
 			},
