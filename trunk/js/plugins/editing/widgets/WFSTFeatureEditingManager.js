@@ -686,8 +686,9 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 								restrictTool = MorisOliverApp.quickZoomDefn.comboBoxes[this.restrict.value];
 								restrictValue = (restrictTool.getValue() != '' && restrictTool.__selectedRecord ? restrictTool.__selectedRecord.json.properties[this.restrict.restrictedSourceField] : "");									
 								
-								if (typeof restrictTool.__selectedRecord == 'undefined' ) {
-									d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";								
+								if (typeof restrictTool.__selectedRecord == 'undefined' || restrictValue == '' ) {
+									//d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";	
+									d.baseParams.CQL_FILTER	= " false = true " ;
 								} else {
 									d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+this.restrict.restrictedValueField +" = '"+restrictValue+"'";								
 								}
