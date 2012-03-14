@@ -1887,6 +1887,9 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 						// if there is only one result, set that result into the associated quickzoom combobox, but without retriggering the combobox/zoom
 						thisComboBox.__selectedRecord = r[0];
 						thisComboBox.setValue(r[0].json.properties[thisComboBox.displayField.replace('values.properties.','')]);
+					} else if (succ && r.length == 0) {
+						thisComboBox.setValue(thisComboBox.initialConfig.label);
+						thisComboBox.blur();						
 					}
 				}
 			});

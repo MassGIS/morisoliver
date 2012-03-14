@@ -688,7 +688,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 								
 								if (typeof restrictTool.__selectedRecord == 'undefined' || restrictValue == '' ) {
 									//d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";	
-									d.baseParams.CQL_FILTER	= " false = true " ;
+									d.baseParams.CQL_FILTER	=  this.valueField += "'__not_a_valid_value__' " ;
 								} else {
 									d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+this.restrict.restrictedValueField +" = '"+restrictValue+"'";								
 								}
