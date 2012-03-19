@@ -128,6 +128,7 @@
 		 sortOrder : 'A', // optional, acceptable values = A, D
 		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
 		 spatialFilter : {
+			maxScale: 10000, // maximum scale to use for querying
 			type: "INTERSECT",
 			geomField: "massgis:SHAPE",
 			checkForSingleValueOnMapMove: true

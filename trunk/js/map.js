@@ -1788,12 +1788,19 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           if (restrictValue == "") {
             if (this.restrict.required) {
               thisTool.store.removeAll();
-              thisTool.lastQuery = null
+              thisTool.lastQuery = null;
               return false;
             } else {
               thisTool.lastQuery = null
               d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
 			  if (this.spatialFilter) {
+				if (this.spatialFilter.maxScale && this.spatialFilter.maxScale <= map.getScale() ) {
+					thisTool.store.removeAll();
+					thisTool.lastQuery = null;			
+					thisTool.setValue(thisTool.initialConfig.label);
+					thisTool.blur();					
+					return false;
+				}
 				d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
 			  }			  
               return true;            
@@ -1803,6 +1810,13 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           var localRestrictField = this.restrict.restrictedValueField;
           d.baseParams.CQL_FILTER = valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%' AND "+localRestrictField +" = '"+restrictValue+"'";
 		  if (this.spatialFilter) {
+			if (this.spatialFilter.maxScale && this.spatialFilter.maxScale <= map.getScale() ) {
+				thisTool.store.removeAll();
+				thisTool.lastQuery = null;
+				thisTool.setValue(thisTool.initialConfig.label);
+				thisTool.blur();					
+				return false;
+			}		  
 			d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
 		  }		  
           return true;
@@ -1811,6 +1825,13 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         quickZoomDefn.storeHandlers[thisTool.id] =  function (d)  {
           d.baseParams.CQL_FILTER = this.valueField+' like '+"'"+d.baseParams.CQL_FILTER+"%'";
 		  if (this.spatialFilter) {
+			if (this.spatialFilter.maxScale && this.spatialFilter.maxScale <= map.getScale() ) {
+				thisTool.store.removeAll();
+				thisTool.lastQuery = null;		
+				thisTool.setValue(thisTool.initialConfig.label);
+				thisTool.blur();				
+				return false;
+			}		  
 			d.baseParams.CQL_FILTER += " AND "+ this.spatialFilter.type + "(" +this.spatialFilter.geomField+","+map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection(exportBbox.units.replace('dms',''))).toGeometry().toString() +")";
 		  }
 
@@ -1880,6 +1901,13 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 		 // and a movend listener
 		 map.events.register('moveend',undefined, function () {
 			var that = this;
+			if (that.spatialFilter.maxScale && that.spatialFilter.maxScale <= map.getScale() ) {			
+				MorisOliverApp.quickZoomDefn.comboBoxes[this.id].setValue(MorisOliverApp.quickZoomDefn.comboBoxes[this.id].initialConfig.label);
+				MorisOliverApp.quickZoomDefn.comboBoxes[this.id].blur();
+				MorisOliverApp.quickZoomDefn.comboBoxes[this.id].store.removeAll();
+				MorisOliverApp.quickZoomDefn.comboBoxes[this.id].lastQuery = null;				
+				return;
+			}			
 			MorisOliverApp.quickZoomDefn.storesStandalone[this.id].load({
 				callback: function (r,opt,succ) {
 					var thisComboBox = MorisOliverApp.quickZoomDefn.comboBoxes[that.id];
