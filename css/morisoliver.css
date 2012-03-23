@@ -68,3 +68,8 @@
 	font-style:italic;
 }
 
+div.olLayerGoogleCopyright,
+div.olLayerGooglePoweredBy,
+{
+  display: none
+}
