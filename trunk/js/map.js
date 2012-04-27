@@ -5058,7 +5058,7 @@ function launchExportWizard(aoi) {
               }
               var wfsMsg = 'testing...';
               // turn on options based on the ico (layer type)
-              if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0) || ico.indexOf('shp') >= 0) {
+              if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0 || ico.indexOf('shp') >= 0) {
                 Ext.getCmp('wizVectorFmt').enable();
               }
               else if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
