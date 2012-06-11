@@ -212,8 +212,8 @@
 }
 .x-form-check-wrap {overflow-x:hidden; !important;}
 
-.olLayerGoogleCopyright {
-  visibility : hidden; !important;
+div.olLayerGoogleCopyright, div.olLayerGooglePoweredBy {
+  display: none !important;
 }
 
 .x-form-check-wrap {
