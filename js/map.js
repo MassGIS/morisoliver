@@ -192,13 +192,22 @@ var p = OpenLayers.Util.getParameters();
 // pull out opacity first
 var defaultOpcty = String(p['opacity']).split(',');
 
+// any filters
+var defaultFilter = String(p['filt']).split('|');
+
 for (i in p) {
   if (i == 'lyrs') {
     defaultLyrs = [];
     var lyrs = String(p[i]).split('|');
     for (var j = 0; j < lyrs.length; j++) {
       var s = lyrs[j].split('~');
-      defaultLyrs.push({wms : s[1],title : s[0],styles : s[2],opacity : (defaultOpcty.length == lyrs.length ? defaultOpcty[j] : 1)});
+      defaultLyrs.push({
+         wms     : s[1]
+        ,title   : s[0]
+        ,styles  : s[2]
+        ,opacity : (defaultOpcty.length == lyrs.length ? defaultOpcty[j] : 1)
+        ,filter  : (defaultFilter.length == lyrs.length ? defaultFilter[j] : null)
+      });
     }
   }
   else if (i == 'bbox') {
@@ -385,6 +394,16 @@ var qryWin = new Ext.Window({
 	          if (lyr2type[title] == 'shp') {
 		        geomName = 'the_geom'; 
  	          }
+
+              var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+              var filter;
+              if (xmlFilter) {
+                var xml    = new OpenLayers.Format.XML();
+                var f      = xml.read(xmlFilter);
+                var parser = new OpenLayers.Format.Filter.v1_1_0();
+                filter     = parser.read(f.documentElement);
+              }
+
               featureBbox.protocol = OpenLayers.Protocol.WFS.fromWMSLayer(
                  activeLyr[title]
                 ,{
@@ -393,6 +412,7 @@ var qryWin = new Ext.Window({
                   ,featurePrefix : featurePrefix
                   ,version       : '1.1.0'
                   ,srs           : map.getProjection()
+                  ,defaultFilter : filter
                 }
               );
               featureBbox.setModifiers();
@@ -1120,7 +1140,16 @@ Ext.onReady(function() {
 
         // set the default layers
         for (var i = 0; i < defaultLyrs.length; i++) {
-          addLayer(defaultLyrs[i].wms,defaultLyrs[i].only_project,defaultLyrs[i].title,true,(defaultLyrs[i].opacity ? defaultLyrs[i].opacity : 1),wmsUrl,defaultLyrs[i].styles);
+          addLayer(
+             defaultLyrs[i].wms
+            ,defaultLyrs[i].only_project
+            ,defaultLyrs[i].title
+            ,true
+            ,(defaultLyrs[i].opacity ? defaultLyrs[i].opacity : 1)
+            ,wmsUrl
+            ,defaultLyrs[i].styles
+            ,defaultLyrs[i].filter
+          );
         } 
     
     // bad hack to fix tab Index issues.
@@ -2265,6 +2294,11 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         })
       }
      );
+
+// charlton
+   if (toolSettings.filter) {
+     topToolBar_items.unshift(toolSettings.filter.button);
+   }
   
    olMapPanel_topToolBar = new Ext.Toolbar({
     items: topToolBar_items
@@ -3694,7 +3728,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
   olLegendPanel.setHeight(getVPSize()[1] * 0.40);
 });
 
-function addLayer(wms,proj,title,viz,opacity,url,styles) {
+function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
   if (!activeLyr[title]) {
     activeLyr[title] = new OpenLayers.Layer.WMS(
        title
@@ -3706,6 +3740,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles) {
         ,style       : styles && styles != '' ? styles : wmsStyl[title]
         ,foo         : title
         ,version     : '1.1.1'
+        ,filter      : (new RegExp(/ogc/).test(filter) ? filter : null)
       }
       ,{
          projection         : map.getProjection()
@@ -4253,6 +4288,17 @@ function mkDataWizardURL(title,ico) {
     }
 
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
+      var customFilter = ['','',''];
+      var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+      if (xmlFilter) {
+        var xml    = new OpenLayers.Format.XML();
+        var f      = xml.read(xmlFilter);
+        customFilter = [
+           '<ogc:And>'
+          ,xml2str(f.getElementsByTagName("*")[1])
+          ,'</ogc:And>'
+        ];
+      }
       if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -4262,12 +4308,15 @@ function mkDataWizardURL(title,ico) {
            wfsUrl
           ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
           ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
+            ,customFilter[0]
             ,'<ogc:Intersects>'
               ,'<ogc:PropertyName>' + geomName + '</ogc:PropertyName>'
               ,'<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>'
                 ,poly.join(' ')
               ,'</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon>'
             ,'</ogc:Intersects>'
+            ,customFilter[1]
+            ,customFilter[2]
           ,'</ogc:Filter>'
           ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
         ).join('');
@@ -4277,10 +4326,13 @@ function mkDataWizardURL(title,ico) {
            wfsUrl
           ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
           ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
+            ,customFilter[0]
             ,'<ogc:Intersects>'
               ,'<ogc:PropertyName>' + geomName + '</ogc:PropertyName>'
               ,exportBbox.verts[0]
             ,'</ogc:Intersects>'
+            ,customFilter[1]
+            ,customFilter[2]
           ,'</ogc:Filter>'
           ,'&SRSNAME=' + Ext.getCmp('radioEpsg').items.get(0).getGroupValue()
         ).join('');
@@ -4462,10 +4514,29 @@ function runQueryStats(bounds) {
         geomName = 'the_geom';
       }
 
+      var customFilter = ['','',''];
+      var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+      if (xmlFilter) {
+        var xml    = new OpenLayers.Format.XML();
+        var f      = xml.read(xmlFilter);
+        customFilter = [
+           '<ogc:And>'
+          ,xml2str(f.getElementsByTagName("*")[1])
+          ,'</ogc:And>'
+        ];
+      } 
+
       var cfg = {
          method  : "POST"
         ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-        ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+        ,data    : '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+          + '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">'
+          + customFilter[0]
+          + '<ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects>'
+          + customFilter[1]
+          + customFilter[2]
+          + '</ogc:Filter>'
+          + '</wfs:Query></wfs:GetFeature>'
       };
       var request;
       if (ico.indexOf('raster') >= 0) {
@@ -4519,6 +4590,7 @@ function setMapCoord(c) {
 function mkPermalink() {
   var lyrs  = [];
   var opcty = [];
+  var filt  = [];
   var base;
   var baseO;
   for (var i = 0; i < map.layers.length; i++) {
@@ -4529,10 +4601,11 @@ function mkPermalink() {
     else if (String(lyr2wms[map.layers[i].name]).indexOf(featurePrefix) == 0 && map.layers[i].visibility) {
       lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']);
       opcty.push(map.layers[i].opacity);
+      filt.push(escape(OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['FILTER']));
     }
   }
 
-  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',') + '&baseO=' + baseO;
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',') + '&baseO=' + baseO + '&filt=' + filt.join('|')
 }
 
 // Array.unique( strict ) - Remove duplicate values
@@ -5125,15 +5198,41 @@ function launchExportWizard(aoi) {
                    geomName = 'the_geom';
                 }
 
+                var customFilter = ['','',''];
+                var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+                if (xmlFilter) {
+                  var xml    = new OpenLayers.Format.XML();
+                  var f      = xml.read(xmlFilter);
+                  customFilter = [
+                     '<ogc:And>'
+                    ,xml2str(f.getElementsByTagName("*")[1])
+                    ,'</ogc:And>'
+                  ];
+                }
+
                 if (exportBbox.verts.length == 5) {
                   var poly = [];
                   for (var j = 0; j < exportBbox.verts.length; j++) {
                     poly.push(exportBbox.verts[j].x + ' ' + exportBbox.verts[j].y);
                   }
-                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+                    + '<ogc:Filter xmlns:ogc="http://www.opengis.net/ogc">'
+                    + customFilter[0]
+                    + '<ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName><gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="EPSG:26986"><gml:exterior><gml:LinearRing><gml:posList>' + poly.join(' ') + '</gml:posList></gml:LinearRing></gml:exterior></gml:Polygon></ogc:Intersects>'
+                    + customFilter[1]
+                    + customFilter[2]
+                    + '</ogc:Filter>'
+                    + '</wfs:Query></wfs:GetFeature>'
                 }
                 else {
-                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '"><ogc:Filter xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc"><ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName>' + exportBbox.verts[0] + '</ogc:Intersects></ogc:Filter></wfs:Query></wfs:GetFeature>'
+                  data = '<wfs:GetFeature resultType="hits" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[title] + '" srsName="EPSG:26986" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+                    + '<ogc:Filter xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc">'
+                    + customFilter[0]
+                    + '<ogc:Intersects><ogc:PropertyName>' + geomName + '</ogc:PropertyName>' + exportBbox.verts[0] + '</ogc:Intersects>'
+                    + customFilter[1]
+                    + customFilter[2]
+                    + '</ogc:Filter>'
+                    + '</wfs:Query></wfs:GetFeature>'
                 }
                 var cfg = {
                    method  : "POST"
