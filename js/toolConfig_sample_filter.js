@@ -56,29 +56,29 @@ toolSettings.filter = {
         win.hide();
       }
 
-      addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
-      var lyr = map.getLayersByName(toolSettings.filter.wmsLayerName)[0];
-
       var parser = new OpenLayers.Format.Filter.v1_1_0();
       var xml    = new OpenLayers.Format.XML();
 
-      var xmlFilter = OpenLayers.Util.getParameters(lyr.getFullRequestString({}))['FILTER'];
+      var lyr       = map.getLayersByName(toolSettings.filter.wmsLayerName)[0];
       var defaults  = {};
-      if (xmlFilter) {
-        var f = xml.read(xmlFilter);
-        var between = f.getElementsByTagName("ogc:PropertyIsBetween");
-        for (var i = 0; i < between.length; i++) {
-          defaults[OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:PropertyName")[0])] = {
-             min : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:LowerBoundary")[0].getElementsByTagName("ogc:Literal")[0])
-            ,max : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:UpperBoundary")[0].getElementsByTagName("ogc:Literal")[0])
-          };
-        }
-        var like = f.getElementsByTagName("ogc:PropertyIsEqualTo");
-        for (var i = 0; i < like.length; i++) {
-          if (!defaults[OpenLayers.Util.getXmlNodeValue(like[i].getElementsByTagName("ogc:PropertyName")[0])]) {
-            defaults[OpenLayers.Util.getXmlNodeValue(like[i].getElementsByTagName("ogc:PropertyName")[0])] = {};
+      if (lyr) {
+        var xmlFilter = OpenLayers.Util.getParameters(lyr.getFullRequestString({}))['FILTER'];
+        if (xmlFilter) {
+          var f = xml.read(xmlFilter);
+          var between = f.getElementsByTagName("ogc:PropertyIsBetween");
+          for (var i = 0; i < between.length; i++) {
+            defaults[OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:PropertyName")[0])] = {
+               min : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:LowerBoundary")[0].getElementsByTagName("ogc:Literal")[0])
+              ,max : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:UpperBoundary")[0].getElementsByTagName("ogc:Literal")[0])
+            };
           }
-          defaults[OpenLayers.Util.getXmlNodeValue(like[i].getElementsByTagName("ogc:PropertyName")[0])][OpenLayers.Util.getXmlNodeValue(like[i].getElementsByTagName("ogc:Literal")[0])] = true;
+          var equalTo = f.getElementsByTagName("ogc:PropertyIsEqualTo");
+          for (var i = 0; i < equalTo.length; i++) {
+            if (!defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])]) {
+              defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])] = {};
+            }
+            defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])][OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:Literal")[0])] = true;
+          }
         }
       }
 
@@ -175,10 +175,10 @@ toolSettings.filter = {
             })
             ,listeners        : {viewready : function(gp) {
               var rows = [];
-              if (defaults[c]) {
+              if (defaults[gp.id]) {
                 var i = 0;
                 gp.getStore().each(function(rec) {
-                  if (defaults[c][rec.get('val')]) {
+                  if (defaults[gp.id][rec.get('val')]) {
                     rows.push(i);
                   }
                   i++;
@@ -276,7 +276,8 @@ toolSettings.filter = {
                   ]; 
                 }
 
-                lyr.mergeNewParams({FILTER : xml.write(parser.write(f[0]))});
+                addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
+                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0]))});
 
 /*
                 ctl = new OpenLayers.Control.GetFeature({
