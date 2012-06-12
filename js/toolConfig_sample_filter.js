@@ -16,9 +16,9 @@ toolSettings.filter = {
       ,label    : 'Arms-length'
       ,values   : [
          // 1st member of each pair = dbValue; 2nd member of each pair = displayValue
-         ['*','ALL']
-        ,['A','Arms']
-        ,['' ,'Non-arms']
+         ['*'   ,'ALL']
+        ,['A'   ,'Arms']
+        ,['-999','Non-arms']
       ]
     }
     ,'PROP_TYPE_ID' : {
