@@ -73,3 +73,7 @@ div.olLayerGooglePoweredBy,
 {
   display: none
 }
+
+.numberField {
+  margin-top:0px !important;
+}
