@@ -4115,6 +4115,18 @@ function loadLayerDescribeFeatureType(wms) {
              {text : 'Select all',handler : function() {featureBboxGridPanel.getSelectionModel().selectAll()}}
             ,'-'
             ,{text : 'Unselect all',handler : function() {featureBboxGridPanel.getSelectionModel().clearSelections()}}
+            ,'->'
+            ,{text : 'Zoom-to all',handler : function() {
+              var bounds = new OpenLayers.Bounds();
+              featureBboxStore.each(function(rec) {
+                for (var i = 0; i < featureBboxSelect.features.length; i++) {
+                  if (featureBboxSelect.features[i].fid == rec.get('fid')) {
+                    bounds.extend(featureBboxSelect.features[i].bounds);
+                  }
+                }
+              });
+              map.zoomToExtent(bounds.scale(2));
+            }}
           ]
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
           ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
@@ -5652,6 +5664,7 @@ function getCaps(n,u) {
                addRemoteWmsLayer(sel[i]);
              }
           }}
+
         ]
         ,store   : new GeoExt.data.WMSCapabilitiesStore({
            url      : u

@@ -202,6 +202,7 @@ toolSettings.filter = {
         ,height   : toolSettings.filter.display.winHeight
         ,defaults : {border : false}
         ,layout   : 'fit'
+        ,constrainHeader : true
         ,items    : new Ext.FormPanel({
            bodyStyle    : 'padding:6px;border-bottom: 1px solid #99BBE8'
           ,monitorValid : true
@@ -278,33 +279,8 @@ toolSettings.filter = {
 
                 addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
                 map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0]))});
-
-/*
-                ctl = new OpenLayers.Control.GetFeature({
-                   multiple   : true
-                  ,filterType : OpenLayers.Filter.Spatial.INTERSECTS
-                  ,protocol   :  OpenLayers.Protocol.WFS.fromWMSLayer(
-                     lyr
-                    ,{
-                       geometryName  : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
-                      ,featurePrefix : featurePrefix
-                      ,version       : '1.1.0'
-                      ,srs           : map.getProjection()
-                      ,defaultFilter : f[0]
-                    }
-                  )
-                });
-                ctl.setModifiers();
-                map.addControl(ctl);
-                ctl.activate();
-                ctl.request(new OpenLayers.Bounds(
-                   lyrMetadata[toolSettings.filter.wmsLayerName].maxExtent.left
-                  ,lyrMetadata[toolSettings.filter.wmsLayerName].maxExtent.bottom
-                  ,lyrMetadata[toolSettings.filter.wmsLayerName].maxExtent.right
-                  ,lyrMetadata[toolSettings.filter.wmsLayerName].maxExtent.top
-                ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
-                ctl.deactivate();
-*/
+                Ext.getCmp('queryBox').toggle(true);
+                runQueryStats(map.getExtent().toGeometry());
               }
             }
           ]
