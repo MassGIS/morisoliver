@@ -4125,7 +4125,7 @@ function loadLayerDescribeFeatureType(wms) {
                   }
                 }
               });
-              map.zoomToExtent(bounds.scale(2));
+              map.zoomToExtent(bounds.scale(1.5));
             }}
           ]
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
