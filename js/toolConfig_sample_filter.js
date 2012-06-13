@@ -38,7 +38,10 @@ toolSettings.filter = {
        type     : 'number'
       ,label    : 'Sale price ($)'
       ,required : false
-      ,values   : null
+      ,values   : [
+         0
+        ,9999999999
+      ]
     }
   }
   ,display : {
@@ -112,9 +115,12 @@ toolSettings.filter = {
                 ,width      : 100
                 ,minValue   : (toolSettings.filter.columns[c].values && toolSettings.filter.columns[c].values.length == 2 ? toolSettings.filter.columns[c].values[0] : Number.NEGATIVE_INFINITY)
                 ,maxValue   : (toolSettings.filter.columns[c].values && toolSettings.filter.columns[c].values.length == 2 ? toolSettings.filter.columns[c].values[1] : Number.MAX_VALUE)
-                ,listeners : {afterrender : function(el) {
+                ,listeners  : {afterrender : function(el) {
                   if (defaults[el.id.replace(/.min$/,'')]) {
                     el.setValue(defaults[el.id.replace(/.min$/,'')].min);
+                  }
+                  else {
+                    el.setValue(toolSettings.filter.columns[el.id.replace(/.min$/,'')].values && toolSettings.filter.columns[el.id.replace(/.min$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.min$/,'')].values[0] : Number.NEGATIVE_INFINITY);
                   }
                 }}
               })
@@ -131,9 +137,12 @@ toolSettings.filter = {
                 ,width      : 100
                 ,minValue   : (toolSettings.filter.columns[c].values && toolSettings.filter.columns[c].values.length == 2 ? toolSettings.filter.columns[c].values[0] : Number.NEGATIVE_INFINITY)
                 ,maxValue   : (toolSettings.filter.columns[c].values && toolSettings.filter.columns[c].values.length == 2 ? toolSettings.filter.columns[c].values[1] : Number.MAX_VALUE)
-                ,listeners : {afterrender : function(el) {
+                ,listeners  : {afterrender : function(el) {
                   if (defaults[el.id.replace(/.max$/,'')]) {
                     el.setValue(defaults[el.id.replace(/.max$/,'')].max);
+                  }
+                  else {
+                    el.setValue(toolSettings.filter.columns[el.id.replace(/.max$/,'')].values && toolSettings.filter.columns[el.id.replace(/.max$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.max$/,'')].values[1] : Number.MAX_VALUE);
                   }
                 }}
               })
