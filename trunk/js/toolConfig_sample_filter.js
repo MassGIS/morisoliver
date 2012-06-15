@@ -228,7 +228,11 @@ toolSettings.filter = {
                text     : 'Apply'
               ,formBind : true
               ,handler  : function() {
-                var f = [];
+                var f = [new OpenLayers.Filter.Spatial({
+                   type     : OpenLayers.Filter.Spatial.INTERSECTS
+                  ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
+                  ,value    : map.getExtent().toGeometry()
+                })];
                 for (var c in toolSettings.filter.columns) {
                   if (toolSettings.filter.columns[c].type == 'number') {
                     if (typeof Ext.getCmp(c + '.min').getValue() == 'number' && typeof Ext.getCmp(c + '.max').getValue() == 'number') {
