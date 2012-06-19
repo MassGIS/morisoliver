@@ -228,11 +228,7 @@ toolSettings.filter = {
                text     : 'Apply'
               ,formBind : true
               ,handler  : function() {
-                var f = [new OpenLayers.Filter.Spatial({
-                   type     : OpenLayers.Filter.Spatial.INTERSECTS
-                  ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
-                  ,value    : map.getExtent().toGeometry().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'))
-                })];
+                var f = [];
                 for (var c in toolSettings.filter.columns) {
                   if (toolSettings.filter.columns[c].type == 'number') {
                     if (typeof Ext.getCmp(c + '.min').getValue() == 'number' && typeof Ext.getCmp(c + '.max').getValue() == 'number') {
@@ -280,6 +276,12 @@ toolSettings.filter = {
                     }
                   }
                 }
+
+                f.unshift(new OpenLayers.Filter.Spatial({
+                   type     : OpenLayers.Filter.Spatial.INTERSECTS
+                  ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
+                  ,value    : map.getExtent().toGeometry().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'))
+                }));
 
                 if (f.length > 1) {
                   f = [
