@@ -280,7 +280,7 @@ toolSettings.filter = {
                 f.unshift(new OpenLayers.Filter.Spatial({
                    type     : OpenLayers.Filter.Spatial.INTERSECTS
                   ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
-                  ,value    : map.getExtent().toGeometry().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'))
+                  ,value    : map.getExtent().toGeometry()
                 }));
 
                 if (f.length > 1) {
@@ -293,7 +293,7 @@ toolSettings.filter = {
                 }
 
                 addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
-                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0]))});
+                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0])).replace('<gml:Polygon xmlns:gml="http://www.opengis.net/gml">','<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '">')});
                 Ext.getCmp('queryBox').toggle(true);
                 runQueryStats(map.getExtent().toGeometry());
               }
