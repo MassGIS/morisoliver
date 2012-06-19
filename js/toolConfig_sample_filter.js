@@ -38,10 +38,12 @@ toolSettings.filter = {
        type     : 'number'
       ,label    : 'Sale price ($)'
       ,required : false
+/*
       ,values   : [
          0
         ,9999999999
       ]
+*/
     }
   }
   ,display : {
@@ -141,7 +143,7 @@ toolSettings.filter = {
                   if (defaults[el.id.replace(/.min$/,'')]) {
                     el.setValue(defaults[el.id.replace(/.min$/,'')].min);
                   }
-                  else {
+                  else if (toolSettings.filter.columns[el.id.replace(/.min$/,'')].required) {
                     el.setValue(toolSettings.filter.columns[el.id.replace(/.min$/,'')].values && toolSettings.filter.columns[el.id.replace(/.min$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.min$/,'')].values[0] : Number.NEGATIVE_INFINITY);
                   }
                 }}
@@ -163,7 +165,7 @@ toolSettings.filter = {
                   if (defaults[el.id.replace(/.max$/,'')]) {
                     el.setValue(defaults[el.id.replace(/.max$/,'')].max);
                   }
-                  else {
+                  else if (toolSettings.filter.columns[el.id.replace(/.max$/,'')].required) {
                     el.setValue(toolSettings.filter.columns[el.id.replace(/.max$/,'')].values && toolSettings.filter.columns[el.id.replace(/.max$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.max$/,'')].values[1] : Number.MAX_VALUE);
                   }
                 }}
