@@ -280,7 +280,7 @@ var qryWin = new Ext.Window({
     {
        border : false
       ,id     : 'qryFeatureDirections'
-      ,html   : 'Select a data layer to highlight its features on the map and to view its feature details. You can view up to 2,000 features per data layer. To export data layers that are within or overlap the identify area, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> to launch the data export wizard <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
+      ,html   : 'Select a data layer to highlight its features on the map and to view its feature details. You can view up to 500 features per data layer. To export data layers that are within or overlap the identify area, click <a href="javascript:launchExportWizard({typ : \'poly\'})">here</a> to launch the data export wizard <a href="javascript:launchExportWizard({typ : \'poly\'})"><img style=\'margin-top:-10px;margin-bottom:-3px\' src=\'img/export.png\'></a>.<br>&nbsp;'
     }
     ,{
        xtype : 'fieldset'
@@ -382,8 +382,8 @@ var qryWin = new Ext.Window({
                 return;
               }
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
-              if (p.length == 2 && p[0] > 2000) {
-                Ext.Msg.alert('Identify details','This data layer has over 2,000 features within or overlapping the identify area. Feature details will not be provided.');
+              if (p.length == 2 && p[0] > 500) {
+                Ext.Msg.alert('Identify details','This data layer has over 500 features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
               grid.disable();
