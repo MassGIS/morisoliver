@@ -4300,18 +4300,19 @@ function mkDataWizardURL(title,ico) {
       geomName = 'the_geom';
     }
 
+    var customFilter = ['','',''];
+    var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+    if (xmlFilter) {
+      var xml    = new OpenLayers.Format.XML();
+      var f      = xml.read(xmlFilter);
+      customFilter = [
+         '<ogc:And>'
+        ,xml2str(f.getElementsByTagName("*")[1])
+        ,'</ogc:And>'
+      ];
+    }
+
     if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
-      var customFilter = ['','',''];
-      var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
-      if (xmlFilter) {
-        var xml    = new OpenLayers.Format.XML();
-        var f      = xml.read(xmlFilter);
-        customFilter = [
-           '<ogc:And>'
-          ,xml2str(f.getElementsByTagName("*")[1])
-          ,'</ogc:And>'
-        ];
-      }
       if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -4360,6 +4361,7 @@ function mkDataWizardURL(title,ico) {
         ,'&srs=EPSG:26986'
         ,'&height=100&width=100&styles='
         ,'&format=application/vnd.google-earth.kml+xml'
+        ,(xmlFilter ? '&filter=' + xml2str(f.getElementsByTagName("*")[1]) : '')
       ).join('');
     }
    else {
