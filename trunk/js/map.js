@@ -3796,6 +3796,7 @@ function refreshLayers() {
         ,viz     : map.layers[i].visibility
         ,opacity : map.layers[i].opacity
         ,styles  : OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']
+        ,filter  : OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['FILTER']
         ,url     : map.layers[i].url
       });
     }
@@ -3805,7 +3806,7 @@ function refreshLayers() {
     delete activeLyr[lyr[i].name];
   }
   for (var i = 0; i < lyr.length; i++) {
-    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,lyr[i].url,lyr[i].styles);
+    addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,lyr[i].url,lyr[i].styles,lyr[i].filter);
   }
 
   featureBbox.unselectAll();
