@@ -2136,7 +2136,12 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,icon    : 'img/12_permalink.png'
       ,handler  : function() {
         Ext.Msg.buttonText.ok = 'Close';
-        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + mkPermalink() + '">permalink</a> and use your browser menu options to share or save the current map. Options for sharing or saving vary among browsers.');
+        var s = mkPermalink();
+        var caution = '';
+        if (s.length > 2083) {
+          caution = ' <b>CAUTION: This permalink is too long and will not be compatible with Internet Explorer users. You may wish to shorten your custom filter, if applicable.</b>';
+        }
+        Ext.Msg.alert('Permalink','Right-click this <a target=_blank href="' + s + '">permalink</a> and use your browser menu options to share or save the current map. Options for sharing or saving vary among browsers.' + caution);
         Ext.Msg.buttonText.ok = 'OK';
       }
       })
@@ -4620,7 +4625,7 @@ function mkPermalink() {
     }
   }
 
-  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',') + '&baseO=' + baseO + '&filt=' + filt.join('|')
+  return String('?lyrs=' + lyrs.join('|') + '&bbox=' + map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:4326')).toArray() + '&coordUnit=' + currentCoordUnit + '&measureUnit=' + measureUnits + '&base=' + base + '&center=' + map.getCenter().lon + ',' + map.getCenter().lat + '&zoom=' + getZoomWithOffset(base)).replace(/ /g,'%20') + '&opacity=' + opcty.join(',') + '&baseO=' + baseO + '&filt=' + filt.join('|');
 }
 
 // Array.unique( strict ) - Remove duplicate values
