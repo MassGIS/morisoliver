@@ -231,7 +231,7 @@ toolSettings.filter = {
                 var f = [new OpenLayers.Filter.Spatial({
                    type     : OpenLayers.Filter.Spatial.INTERSECTS
                   ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
-                  ,value    : map.getExtent().toGeometry()
+                  ,value    : map.getExtent().toGeometry().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'))
                 })];
                 for (var c in toolSettings.filter.columns) {
                   if (toolSettings.filter.columns[c].type == 'number') {
