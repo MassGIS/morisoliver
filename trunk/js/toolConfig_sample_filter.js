@@ -30,7 +30,7 @@ toolSettings.filter = {
          ['*'  ,'ALL']
         ,['101','101']
         ,['102','102']
-        ,['104','104']
+        ,['104','104 asdfas fsda fas df asdf asd fas df asdf asd fas df asd fasd fa sdf asd f']
         ,['111','111']
       ]
     }
@@ -45,15 +45,21 @@ toolSettings.filter = {
     }
   }
   ,display : {
-     labelWidth : 150
-    ,winWidth   : 475
-    ,winHeight  : 375
+     labelWidth       : 150
+    ,multiSelectWidth : 290
+    ,winWidth         : 475
+    ,winHeight        : 375
   }
   ,button : {
      icon    : 'img/filter.png'
     ,scale   : 'medium'
     ,tooltip : 'Create a custom layer filter'
     ,handler :  function() {
+      function renderTip(val,metadata,rec) {
+        metadata.attr = 'ext:qtip="' + val + '"';
+        return val;
+      }
+
       var win = Ext.getCmp('filterBuilder');
       if (win && !win.hidden) {
         win.hide();
@@ -172,12 +178,12 @@ toolSettings.filter = {
           items.push(new Ext.grid.GridPanel({
              id               : c
             ,fieldLabel       : toolSettings.filter.columns[c].label + (toolSettings.filter.columns[c].required ? '*' : '')
-            ,width            : toolSettings.filter.display.labelWidth
+            ,width            : toolSettings.filter.display.multiSelectWidth
             ,height           : 100
             ,autoExpandColumn : 'lbl'
             ,enableHdMenu     : false
             ,hideHeaders      : true
-            ,columns          : [{id : 'lbl',dataIndex : 'lbl'}]
+            ,columns          : [{id : 'lbl',dataIndex : 'lbl',renderer : renderTip}]
             ,store          : new Ext.data.ArrayStore({
                fields : ['val','lbl']
               ,data   : toolSettings.filter.columns[c].values
