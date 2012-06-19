@@ -74,19 +74,35 @@ toolSettings.filter = {
         var xmlFilter = OpenLayers.Util.getParameters(lyr.getFullRequestString({}))['FILTER'];
         if (xmlFilter) {
           var f = xml.read(xmlFilter);
-          var between = f.getElementsByTagName("ogc:PropertyIsBetween");
+          var between = getElementsByTagNameNS(f,'http://www.opengis.net/ogc','ogc','PropertyIsBetween');
           for (var i = 0; i < between.length; i++) {
-            defaults[OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:PropertyName")[0])] = {
-               min : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:LowerBoundary")[0].getElementsByTagName("ogc:Literal")[0])
-              ,max : OpenLayers.Util.getXmlNodeValue(between[i].getElementsByTagName("ogc:UpperBoundary")[0].getElementsByTagName("ogc:Literal")[0])
+            defaults[OpenLayers.Util.getXmlNodeValue(
+              getElementsByTagNameNS(between[i],'http://www.opengis.net/ogc','ogc','PropertyName')[0]
+            )] = {
+              min : OpenLayers.Util.getXmlNodeValue(
+                getElementsByTagNameNS(
+                   getElementsByTagNameNS(between[i],'http://www.opengis.net/ogc','ogc','LowerBoundary')[0]
+                  ,'http://www.opengis.net/ogc'
+                  ,'ogc'
+                  ,'Literal'
+                )[0]
+              )
+              ,max : OpenLayers.Util.getXmlNodeValue(
+                getElementsByTagNameNS(
+                   getElementsByTagNameNS(between[i],'http://www.opengis.net/ogc','ogc','UpperBoundary')[0]
+                  ,'http://www.opengis.net/ogc'
+                  ,'ogc'
+                  ,'Literal'
+                )[0]
+              )
             };
           }
-          var equalTo = f.getElementsByTagName("ogc:PropertyIsEqualTo");
+          var equalTo = getElementsByTagNameNS(f,'http://www.opengis.net/ogc','ogc','PropertyIsEqualTo');
           for (var i = 0; i < equalTo.length; i++) {
-            if (!defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])]) {
-              defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])] = {};
+            if (!defaults[OpenLayers.Util.getXmlNodeValue(getElementsByTagNameNS(equalTo[i],'http://www.opengis.net/ogc','ogc','PropertyName')[0])]) {
+              defaults[OpenLayers.Util.getXmlNodeValue(getElementsByTagNameNS(equalTo[i],'http://www.opengis.net/ogc','ogc','PropertyName')[0])] = {};
             }
-            defaults[OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:PropertyName")[0])][OpenLayers.Util.getXmlNodeValue(equalTo[i].getElementsByTagName("ogc:Literal")[0])] = true;
+            defaults[OpenLayers.Util.getXmlNodeValue(getElementsByTagNameNS(equalTo[i],'http://www.opengis.net/ogc','ogc','PropertyName')[0])][OpenLayers.Util.getXmlNodeValue(getElementsByTagNameNS(equalTo[i],'http://www.opengis.net/ogc','ogc','Literal')[0])] = true;
           }
         }
       }
