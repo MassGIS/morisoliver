@@ -4428,7 +4428,7 @@ function rasterOK(name) {
   }
 }
 
-function runQueryStats(bounds) {
+function runQueryStats(bounds,lyr) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
 
@@ -4469,15 +4469,17 @@ function runQueryStats(bounds) {
       continue;
     }
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
-      var ico   = wms2ico[lyr2wms[title]];
-      qryLyrStore.add(new qryLyrStore.recordType(
-         {
-            ico   : ico
-           ,title : title
-           ,wfs   : 'testing...'
-        }
-        ,++queryLyrCount
-      ));
+      if (!lyr || (lyr && lyr.name == title)) {
+        var ico   = wms2ico[lyr2wms[title]];
+        qryLyrStore.add(new qryLyrStore.recordType(
+           {
+              ico   : ico
+             ,title : title
+             ,wfs   : 'testing...'
+          }
+          ,++queryLyrCount
+        ));
+      }
     }
   }
 
