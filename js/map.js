@@ -660,6 +660,14 @@ var triggerButton = function (toolbar, type, itemId) {
 };
 
 Ext.onReady(function() {
+  // radios won't support a value of '0' w/o this override in Ext 3.3.x
+  Ext.form.Radio.prototype.initComponent =
+    Ext.form.Radio.prototype.initComponent.createInterceptor(function() {
+      if ( this.inputValue === '0' ) {
+        this.inputValue = 0;
+      }
+  });
+
   Ext.QuickTips.init();
   lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
      key  : bingKey
