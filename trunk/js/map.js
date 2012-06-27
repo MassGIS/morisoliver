@@ -1777,6 +1777,10 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
         }
 
+        if (toolSettings.filter) {
+          topToolBar_items.push(toolSettings.filter.button);
+        }
+
   if (!toolSettings || !toolSettings.quickZoomTools || toolSettings.quickZoomTools.status == 'show') {
     topToolBar_items.push('-');
     
@@ -2308,11 +2312,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       }
      );
 
-// charlton
-   if (toolSettings.filter) {
-     topToolBar_items.unshift(toolSettings.filter.button);
-   }
-  
    olMapPanel_topToolBar = new Ext.Toolbar({
     items: topToolBar_items
   });
