@@ -37,15 +37,12 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
       var defaultBase         = 'custom';   
       var defaultBaseOpacity  = 1;
-      var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
+      var defaultCoordUnit    = 'dms';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.OCEANMASK_POLY_MASURVEYCOAST'            ,title : 'Ocean'}
-        ,{wms : 'massgis:GISDATA.NEMASK_POLY_MASURVEY'                    ,title : 'States Bordering MA plus ME'}
-        //,{wms : 'massgis:GISDATA.TOWNSSURVEY_POLY'                        ,title : 'Massachusetts Towns Survey Polygons Filled White With Labels'}
-        ,{wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'                         ,title : 'Massachusetts Towns Survey Boundaries Muted Colors'}
-        ,{wms : 'massgis:GISDATA.EOTMAJROADS_RTE_MAJOR'                   ,title : 'Major MassDOT Routes Muted Colors'}
-        ,{wms : 'massgis:GISDATA.TOWNS_POLY'				  ,title : 'Massachusetts Towns Black Labels'}
+         {wms : 'massgis:GISDATA.TOWNSSURVEY_POLY'          ,title : 'Massachusetts Towns From Survey Points Multipart Polygons' }
+        ,{wms : 'massgis:GISDATA.DAMS_PT'                  ,title : 'Dams (by Hazard Code)'}
+        ,{wms : 'massgis:GISDATA.DAMS_PT'                  ,title : 'Dams (by Hazard Code) Labels'}
       ];
       var defaultBbox = [-73.939378,41.041696,-69.177200,43.038347];
       var maxBbox     = [-76.211689,39.586711,-67.191604,44.798225];
@@ -55,7 +52,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/oliver_small.png" alt="small OLIVER icon"/></td><td>&nbsp;&nbsp;</td><td>OLIVER: MassGIS\'s Online Mapping Tool</td></tr>';
+      var bannerHTML = '<table style="font-family:Arial"><tr><td>Dams Viewer</td></tr>';
       var bannerHeight = 26;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
@@ -63,11 +60,6 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 //         ,getcaps : 'noaa_marine_protected_areas_getcaps.xml'
 //         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
 //       },
-        'http://mhc-macris.net:8080/geoserver/wms' : {
-         name    : 'MHC Historic Inventory'
-         ,getcaps : 'mhc_getcaps.xml'
-         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
-       },
         'http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/MapServer/WMSServer' : {
          name    : 'NOAA Charts (RNC)'
          ,getcaps : 'noaa_charts_wms_getcaps.xml'
@@ -88,12 +80,12 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       bingDisabled = false;
       bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
-      siteTitle    = 'OLIVER';
-      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/oliver.php';
+      siteTitle    = 'Dams Viewer';
+      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/dams.php';
     </script>
 
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_oliver.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_dams.js?<?php echo time(); ?>"></script>	
 	
     <script>
       document.title = siteTitle;
