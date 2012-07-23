@@ -63,14 +63,14 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 //         ,getcaps : 'noaa_marine_protected_areas_getcaps.xml'
 //         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
 //       },
-        'http://mhc-macris.net:8080/geoserver/wms' : {
-         name    : 'MHC Historic Inventory'
-         ,getcaps : 'mhc_getcaps.xml'
-         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
-       },
         'http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/MapServer/WMSServer' : {
          name    : 'NOAA Charts (RNC)'
          ,getcaps : 'noaa_charts_wms_getcaps.xml'
+         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
+       },
+        'http://209.80.128.252/ArcGIS/rest/services/MassGisCoq0809/MapServer' : {
+         name    : 'DEP COQ 2008/2009 Orthos'
+         ,getcaps : 'DEP_COQ0809_WMSServer.xml'
          ,proj    : {'EPSG:900913' : 'EPSG:3857'}
        }
       };
