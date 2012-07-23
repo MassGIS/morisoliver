@@ -20,7 +20,7 @@ import base64
 #                'sigma.openplans.org', 'maps.massgis.state.ma.us', 'giswebservices.massgis.state.ma.us',
 #                'giswebservices.massgis.state.ma.us:80', 'www.openstreetmap.org', '170.63.93.152', '170.63.93.153', '170.63.170.148', '170.63.170.149']
 
-allowedHosts = ['170.63.98.114','170.63.93.152','dev.virtualearth.net','70.37.131.143','wsgw.mass.gov','giswebservices.massgis.state.ma.us']
+allowedHosts = ['www.mapsonline.net','egisws02.nos.noaa.gov','170.63.98.114','170.63.93.152','dev.virtualearth.net','70.37.131.143','wsgw.mass.gov','giswebservices.massgis.state.ma.us','209.80.128.252']
 
 method = os.environ["REQUEST_METHOD"]
 	
@@ -66,8 +66,7 @@ try:
             headers = {"Content-Type": os.environ["CONTENT_TYPE"], "Referer": ref}
             if os.environ["HTTP_AUTHORIZATION"] != '':
                 headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
-                #sys.stderr.write("From Header - " + os.environ["HTTP_AUTHORIZATION"] + "\n")
-                #sys.stderr.write("Generated - Basic %s" % base64.b64encode("gs_test_pt:tf6bQhxM") + "\n")
+                sys.stderr.write("From Header - " + os.environ["HTTP_AUTHORIZATION"] + "\n")
                 #sys.stderr.write("adding auth header\n")
             #else:
                 #sys.stderr.write(str(os.environ))
@@ -101,13 +100,14 @@ except Exception, E:
         if E.code == 401:
             print "Status: 401 Unauthorized"
             print "WWW-Authenticate: Basic realm=''"
+ 	    #y.close()
             #sys.stderr.write("401 when accessing redirect url")
         else:
             raise Exception
     except:
-        sys.stderr.write("code is " + str(E.code) + "\n")
+        #sys.stderr.write("code is " + str(E.code) + "\n")
         print "Status: 500 Unknown Error"
-        sys.stderr.write("Some unexpected error occurred. Error text was: " + str(E))
+        sys.stderr.write("Some unexpected error occurred using proxy.cgi. Error text was: " + str(E))
 
     print "Content-Type: text/plain"
     print
