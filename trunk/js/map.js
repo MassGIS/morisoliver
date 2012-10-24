@@ -736,7 +736,7 @@ Ext.onReady(function() {
      'openStreetMap'
     ,'http://tile.openstreetmap.org/${z}/${x}/${y}.png'
   );
-  lyrBase['custom'] = new OpenLayers.Layer.WMS.Untiled(
+  lyrBase['custom'] = new OpenLayers.Layer.WMS(
      'custom'
     ,'img/bg.png'
     ,{}
@@ -941,6 +941,7 @@ Ext.onReady(function() {
     controls : [
        new OpenLayers.Control.Navigation()
       ,new OpenLayers.Control.PanZoomBar()
+//      ,new OpenLayers.Control.Attribution()
       ,featureBboxSelectHover
       ,mouseControl
       ,lengthControl
@@ -950,6 +951,18 @@ Ext.onReady(function() {
     ],projection:"EPSG:900913"
   });
   featureBboxSelectHover.activate();
+
+  map.events.register('changebaselayer',this,function() {
+    if (new RegExp(/Google/).test(map.baseLayer.name)) {
+      // get rid of the stupid google error link -- css won't control this!!!
+      var divs = document.getElementsByTagName('div');
+      for (var i = 0; i < divs.length; i++) {
+        if (new RegExp(/^gmnoprint$/).test(divs[i].className)) {
+          divs[i].id = 'googleMapErrorLink';
+        }
+      }
+    }
+  });
 
   var ctrl = new OpenLayers.Control.NavigationHistory({autoActivate : false});
   map.addControl(ctrl);
