@@ -68,12 +68,6 @@
 	font-style:italic;
 }
 
-div.olLayerGoogleCopyright,
-div.olLayerGooglePoweredBy,
-{
-  display: none
-}
-
 .numberField {
   margin-top:0px !important;
 }
