@@ -386,7 +386,7 @@ var qryWin = new Ext.Window({
                 Ext.Msg.alert('Identify details','This data layer has over 500 features within or overlapping the identify area. Feature details will not be provided.');
                 return;
               }
-              grid.disable();
+              Ext.getCmp('qryFeatureDetails').getEl().mask('<table><tr><td>Retrieving features...&nbsp;</td><td><img src="img/loading16.gif"></td></tr></table>','mask');
               featureBbox.unselectAll();
               title = qryLyrStore.getAt(rowIndex).get('title');
               loadLayerDescribeFeatureType(lyr2wms[title]);
@@ -992,7 +992,9 @@ Ext.onReady(function() {
     else if (!Ext.getCmp('featureDetails').isVisible()) {
       Ext.getCmp('featureDetails').show(); 
     }
-    Ext.getCmp('qryFeatureDetails').enable();
+    if (Ext.getCmp('qryFeatureDetails')) {
+      Ext.getCmp('qryFeatureDetails').getEl().unmask();
+    }
     qryWin.doLayout();
   });
 

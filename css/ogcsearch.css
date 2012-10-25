@@ -228,3 +228,7 @@
 #banner .x-panel-body {
   background-color : #D1DFF0;
 }
+
+.mask td {
+  font : 11px/13px tahoma,helvetica,sans-serif;
+}
