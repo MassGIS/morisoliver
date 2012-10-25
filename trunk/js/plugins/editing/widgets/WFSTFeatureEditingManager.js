@@ -523,10 +523,21 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
                 this.DEFAULT_DESCRIBE_FEATURETYPE_PARAMS),
                 {'TYPENAME': (layer.protocol.featurePrefix ? (layer.protocol.featurePrefix+":"+ layer.protocol.featureType) : layer.protocol.featureType)});
 
+            OpenLayers.Request.GET({
+               method  : 'GET'
+              ,url     : layer.protocol.url
+              ,params  : params
+              ,scope   : {layer : layer,manager : this}
+              ,success : this.onDescribeFeatureTypeSuccess
+              ,failure : this.onDescribeFeatureTypeFailure
+            });
+/*
+  won't work w/ OL 2.12
             OpenLayers.loadURL(layer.protocol.url, params,
                 {layer: layer, manager: this},
                 this.onDescribeFeatureTypeSuccess,
                 this.onDescribeFeatureTypeFailure);
+*/
         }, this);
     },
 
