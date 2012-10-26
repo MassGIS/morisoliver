@@ -441,6 +441,7 @@ var qryWin = new Ext.Window({
                  header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
                 ,filter : exportFilter
                 ,footer : '</wfs:Query></wfs:GetFeature>'
+                ,title  : title
               };
               featureBbox.request(qryBounds);
               featureBbox.deactivate();
@@ -4184,17 +4185,17 @@ function loadLayerDescribeFeatureType(wms) {
             {
                text    : 'Save all records as...'
               ,menu    : [
-                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007')}}
-                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel')}}
-                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv')}}
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx')}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls')}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv')}}
               ]
             }
             ,{
                text    : 'Save selected records as...'
               ,menu    : [
-                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007',featureBboxGridPanel)}}
-                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel',featureBboxGridPanel)}}
-                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv',featureBboxGridPanel)}}
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx',featureBboxGridPanel)}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls',featureBboxGridPanel)}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv',featureBboxGridPanel)}}
               ]
             }
           ]
@@ -5842,7 +5843,7 @@ function countTopLayers() {
   return active;
 }
 
-function saveResultsAs(request,format,gridPanel) {
+function saveResultsAs(request,format,extension,gridPanel) {
   var f;
   if (gridPanel) {
     var fids = [];
@@ -5864,6 +5865,30 @@ function saveResultsAs(request,format,gridPanel) {
     var parser = new OpenLayers.Format.Filter.v1_1_0();
     var xml    = new OpenLayers.Format.XML();
     var filter = request.header.replace('___FORMAT___',format) + xml.write(parser.write(f)) + request.footer;
-    alert(filter);
+    YUI().use("io",function(Y) {
+      var handleSuccess = function(ioId,o,args) {
+        Ext.MessageBox.hide();
+        Ext.MessageBox.show({
+           title     : 'Download exported data'
+          ,msg       : 'Click <a href="' + o.responseText + '" target=_blank onclick="Ext.MessageBox.hide()">here</a> to download your file.'
+          ,width     : 300
+        });
+      };
+      Y.on('io:success',handleSuccess,this,[]);
+      var cfg = {
+         method  : 'POST'
+        ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+        ,data    : filter
+      };
+      Ext.MessageBox.show({
+         title        : 'Exporting data'
+        ,msg          : 'Exporting data, please wait...'
+        ,progressText : 'Saving...'
+        ,width        : 300
+        ,wait         : true
+        ,waitConfig   : {interval:200}
+      });
+      var r = Y.io('getstore.php?name=' + request.title + '.' + extension + '&url=' + wfsUrl,cfg);
+    });
   }
 }
