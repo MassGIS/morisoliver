@@ -3755,7 +3755,7 @@ function loadLayerDescribeFeatureType(wms) {
         else if (allEle[i].getAttribute('type') == 'xsd:double' || allEle[i].getAttribute('type') == 'xsd:short') {
           typ = 'float';
         }
-        else if (allEle[i].getAttribute('type') == 'xsd:dateTime') {
+        else if (!Ext.isIE && allEle[i].getAttribute('type') == 'xsd:dateTime') {
           typ = 'date';
         }
         // keep everything, including the SHAPE, internally
