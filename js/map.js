@@ -4906,10 +4906,17 @@ function launchExportWizard(aoi) {
       downloadLyrStore.each(function(rec) {
         var title = rec.get('title').replace('&nbsp;&nbsp;&nbsp;&nbsp;','');
         if (!dataURL[title] & title.indexOf('http://') < 0) {
+          var layer = '';
+          if (rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >= 0 || lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel) {
+            layer = String(OpenLayers.Util.getParameters(rec.get('url'))['layers']).replace(featurePrefix + ':','');
+          }
+          else if (new RegExp(/outputformat=(excel2007|excel|csv)/).test(rec.get('url'))) {
+            layer = String(OpenLayers.Util.getParameters(rec.get('url'))['typename']).replace(featurePrefix + ':','');
+          }
           dataURL[title] = {
              base     : safeXML(rec.get('url'))
             ,metadata : []
-            ,layer    : rec.get('url').indexOf('application/vnd.google-earth.kml+xml') >= 0 || lyrMetadata[title].imgBytesPerPixel || lyrMetadata[title].imgUnitsPerPixel ? String(OpenLayers.Util.getParameters(rec.get('url'))['layers']).replace(featurePrefix + ':','') : ''
+            ,layer    : layer
             ,style    : ''
           };
           // pass along style for kml
