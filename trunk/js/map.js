@@ -438,7 +438,7 @@ var qryWin = new Ext.Window({
               }
               // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
               featureBbox.getFeatureOutputFormatRequest = {
-                 header : '<wfs:GetFeature outputFormat=___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+                 header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
                 ,filter : exportFilter
                 ,footer : '</wfs:Query></wfs:GetFeature>'
               };
@@ -4192,9 +4192,9 @@ function loadLayerDescribeFeatureType(wms) {
             ,{
                text    : 'Save selected records as...'
               ,menu    : [
-                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007')}}
-                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel')}}
-                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv')}}
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007',featureBboxGridPanel)}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel',featureBboxGridPanel)}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv',featureBboxGridPanel)}}
               ]
             }
           ]
@@ -5842,8 +5842,28 @@ function countTopLayers() {
   return active;
 }
 
-function saveResultsAs(request,format) {
-  var parser = new OpenLayers.Format.Filter.v1_1_0();
-  var xml    = new OpenLayers.Format.XML();
-  alert(xml.write(parser.write(request.filter)));
+function saveResultsAs(request,format,gridPanel) {
+  var f;
+  if (gridPanel) {
+    var fids = [];
+    var sel = gridPanel.getSelectionModel().getSelections();
+    if (sel.length == 0) {
+      Ext.Msg.alert('Save results error',"You haven't selected any rows for export.  Please select at least one row and try again.");
+    }
+    else {
+      for (var i = 0; i < sel.length; i++) {
+        fids.push(sel[i].get('fid'));
+      }
+      f = new OpenLayers.Filter.FeatureId({fids : fids});
+    }
+  }
+  else {
+    f = request.filter;
+  }
+  if (f) {
+    var parser = new OpenLayers.Format.Filter.v1_1_0();
+    var xml    = new OpenLayers.Format.XML();
+    var filter = request.header.replace('___FORMAT___',format) + xml.write(parser.write(f)) + request.footer;
+    alert(filter);
+  }
 }
