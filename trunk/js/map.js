@@ -3219,7 +3219,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         }
         else {
           n.select();
-          nodes.push(n);
+          nodes = [n];
           messageContextMenuActiveLyr.findById('zoomTo').enable();
           if (geom) {
             messageContextMenuActiveLyr.findById('setColor').enable();
