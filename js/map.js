@@ -436,10 +436,12 @@ var qryWin = new Ext.Window({
                   ]
                 });
               }
-              var parser = new OpenLayers.Format.Filter.v1_1_0();
-              var xml    = new OpenLayers.Format.XML();
               // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
-              featureBbox.getFeatureOutputFormatRequest = '<wfs:GetFeature outputFormat=___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">' + xml.write(parser.write(exportFilter)) + '</wfs:Query></wfs:GetFeature>';
+              featureBbox.getFeatureOutputFormatRequest = {
+                 header : '<wfs:GetFeature outputFormat=___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+                ,filter : exportFilter
+                ,footer : '</wfs:Query></wfs:GetFeature>'
+              };
               featureBbox.request(qryBounds);
               featureBbox.deactivate();
             }
@@ -4187,6 +4189,14 @@ function loadLayerDescribeFeatureType(wms) {
                 ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv')}}
               ]
             }
+            ,{
+               text    : 'Save selected records as...'
+              ,menu    : [
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007')}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel')}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv')}}
+              ]
+            }
           ]
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
           ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
@@ -5832,6 +5842,8 @@ function countTopLayers() {
   return active;
 }
 
-function saveResultsAs(filter,format) {
-  alert(filter.replace('___FORMAT___',format));
+function saveResultsAs(request,format) {
+  var parser = new OpenLayers.Format.Filter.v1_1_0();
+  var xml    = new OpenLayers.Format.XML();
+  alert(xml.write(parser.write(request.filter)));
 }
