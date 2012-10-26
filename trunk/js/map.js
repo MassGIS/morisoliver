@@ -2885,387 +2885,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,scale    : 'large'
         ,icon     : 'img/20_basemaps.png'
         ,menu     : [
-          {
-             text     : 'Create custom basemap'
-            ,group    : 'basemap'
-            ,checked  : defaultBase == 'custom'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Custom');
-              }
-            }]}
-            ,handler  : function () {
-              addBaseLayer('custom');
-              map.setOptions({fractionalZoom : true});
-              if (map.getProjection() == 'EPSG:26986') {
-                map.setBaseLayer(lyrBase['custom']);
-                Ext.getCmp('customScale').setDisabled(false);
-                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
-                Ext.getCmp('zoomToAScale').setDisabled(false);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'));
-                map.setBaseLayer(lyrBase['custom']);
-                Ext.getCmp('customScale').setDisabled(false);
-                Ext.getCmp('zoomToAScale').setDisabled(false);
-                Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
-                map.setOptions({maxExtent : maxExtent26986});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,'-'
-          ,{
-             text    : 'Bing Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingHybrid'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Bing Hybrid');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Roads'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingRoads'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Bing Roads');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingRoads');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingRoads']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Bing Satellite'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'bingAerial'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Bing Satellite');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('bingAerial');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['bingAerial']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['bingAerial']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'CloudMade'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'CloudMade'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('CloudMade');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              // cloudmade is having problems w/ non-standard maxExtents, so force it here
-              map.setOptions({maxExtent : new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508.34)});
-              addBaseLayer('CloudMade');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['CloudMade']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['CloudMade']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Google Hybrid'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'googleHybrid'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Google Hybrid');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleHybrid');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleHybrid']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Google Roadmap'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'googleRoadmap'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Google Roadmap');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleRoadmap');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleRoadmap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleRoadmap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Google Satellite'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'googleSatellite'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Google Satellite');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleSatellite');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleSatellite']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleSatellite']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'Google Terrain'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'googleTerrain'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('Google Terrain');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('googleTerrain');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['googleTerrain']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['googleTerrain']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'OpenStreetMap'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'openStreetMap'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('OpenStreetMap');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('openStreetMap');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['openStreetMap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['openStreetMap']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
-          ,{
-             text    : 'TopOSM-Massachusetts'
-            ,group   : 'basemap'
-            ,checked : defaultBase == 'TopOSM-MA'
-            ,menu    : {items : [{
-               text : 'View metadata'
-              ,iconCls : 'buttonIcon'
-              ,icon    : 'img/info1.png'
-              ,handler : function() {
-                showBaseLayerMetadata('TopOSM-MA');
-              }
-            }]}
-            ,handler : function () {
-              map.setOptions({fractionalZoom : false});
-              addBaseLayer('TopOSM-MA');
-              Ext.getCmp('opacitySliderBaseLayer').setValue(100);
-              if (map.getProjection() == 'EPSG:900913') {
-                map.setBaseLayer(lyrBase['TopOSM-MA']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                return;
-              }
-              else {
-                var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-                map.setBaseLayer(lyrBase['TopOSM-MA']);
-                Ext.getCmp('customScale').setDisabled(true);
-                Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
-                Ext.getCmp('zoomToAScale').setDisabled(true);
-                map.setOptions({maxExtent : maxExtent900913});
-                map.zoomToExtent(ext);
-                refreshLayers();
-              }
-            }
-          }
+          makeBasemapMenu()
           ,{
              text        : '0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opacity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100%'
             ,canActivate : false
@@ -5893,4 +5513,440 @@ function saveResultsAs(request,format,extension,gridPanel) {
       var r = Y.io('getstore.php?name=' + request.title + '.' + extension + '&url=' + wfsUrl,cfg);
     });
   }
+}
+
+function makeBasemapMenu() {
+  var bm = [];
+  for (i = 0; i < availableBase.length; i++) {
+    if (availableBase[i] == 'custom') {
+      bm.push(
+        {
+           text     : 'Create custom basemap'
+          ,group    : 'basemap'
+          ,checked  : defaultBase == 'custom'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Custom');
+            }
+          }]}
+          ,handler  : function () {
+            addBaseLayer('custom');
+            map.setOptions({fractionalZoom : true});
+            if (map.getProjection() == 'EPSG:26986') {
+              map.setBaseLayer(lyrBase['custom']);
+              Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
+              Ext.getCmp('zoomToAScale').setDisabled(false);
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'));
+              map.setBaseLayer(lyrBase['custom']);
+              Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('zoomToAScale').setDisabled(false);
+              Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
+              map.setOptions({maxExtent : maxExtent26986});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+        ,'-'
+      );
+    }
+    else if (availableBase[i] == 'bingHybrid') {
+      bm.push(
+        {
+           text    : 'Bing Hybrid'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'bingHybrid'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Bing Hybrid');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('bingHybrid');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['bingHybrid']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['bingHybrid']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'bingRoads') {
+      bm.push(
+        {
+           text    : 'Bing Roads'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'bingRoads'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Bing Roads');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('bingRoads');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['bingRoads']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['bingRoads']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'bingAerial') {
+      bm.push(
+        {
+           text    : 'Bing Satellite'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'bingAerial'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Bing Satellite');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('bingAerial');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['bingAerial']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['bingAerial']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'CloudMade') {
+      bm.push(
+        {
+           text    : 'CloudMade'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'CloudMade'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('CloudMade');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            // cloudmade is having problems w/ non-standard maxExtents, so force it here
+            map.setOptions({maxExtent : new OpenLayers.Bounds(-20037508,-20037508,20037508,20037508.34)});
+            addBaseLayer('CloudMade');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['CloudMade']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['CloudMade']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'googleHybrid') {
+      bm.push(
+        {
+           text    : 'Google Hybrid'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'googleHybrid'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Google Hybrid');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('googleHybrid');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['googleHybrid']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['googleHybrid']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'googleRoadmap') {
+      bm.push(
+        {
+           text    : 'Google Roadmap'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'googleRoadmap'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Google Roadmap');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('googleRoadmap');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['googleRoadmap']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['googleRoadmap']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'googleSatellite') {
+      bm.push(
+        {
+           text    : 'Google Satellite'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'googleSatellite'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Google Satellite');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('googleSatellite');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['googleSatellite']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['googleSatellite']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'googleTerrain') {
+      bm.push(
+        {
+           text    : 'Google Terrain'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'googleTerrain'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Google Terrain');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('googleTerrain');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['googleTerrain']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['googleTerrain']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'openStreetMap') {
+      bm.push(
+        {
+           text    : 'OpenStreetMap'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'openStreetMap'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('OpenStreetMap');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('openStreetMap');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['openStreetMap']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['openStreetMap']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'TopOSM-MA') {
+      bm.push(
+        {
+           text    : 'TopOSM-Massachusetts'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'TopOSM-MA'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('TopOSM-MA');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('TopOSM-MA');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['TopOSM-MA']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['TopOSM-MA']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+  }
+  // get rid of a dangling divider if any
+  if (bm.length == 2 && bm[1] == '-') {
+    bm.pop();
+  }
+  return bm;
 }
