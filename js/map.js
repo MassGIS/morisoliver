@@ -418,6 +418,28 @@ var qryWin = new Ext.Window({
               featureBbox.setModifiers();
               map.addControl(featureBbox);
               featureBbox.activate();
+
+              // create filters for the export options
+              var exportFilter = new OpenLayers.Filter.Spatial({
+                 type  : featureBbox.filterType
+                ,value : qryBounds
+              });
+              if (filter) {
+                exportFilter = new OpenLayers.Filter.Logical({
+                   type    : OpenLayers.Filter.Logical.AND
+                  ,filters : [
+                     new OpenLayers.Filter.Spatial({
+                       type  : featureBbox.filterType
+                      ,value : qryBounds
+                    })
+                    ,filter
+                  ]
+                });
+              }
+              var parser = new OpenLayers.Format.Filter.v1_1_0();
+              var xml    = new OpenLayers.Format.XML();
+              // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
+              featureBbox.getFeatureOutputFormatRequest = '<wfs:GetFeature outputFormat=___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">' + xml.write(parser.write(exportFilter)) + '</wfs:Query></wfs:GetFeature>';
               featureBbox.request(qryBounds);
               featureBbox.deactivate();
             }
@@ -4156,6 +4178,16 @@ function loadLayerDescribeFeatureType(wms) {
               map.zoomToExtent(bounds.scale(1.5));
             }}
           ]
+          ,bbar   : [
+            {
+               text    : 'Save all records as...'
+              ,menu    : [
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007')}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel')}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv')}}
+              ]
+            }
+          ]
           ,width  : Ext.getCmp('identifyResultsWin').getWidth() - 50
           ,height : Ext.getCmp('identifyResultsWin').getHeight() - Ext.getCmp('qryFeatureDetails').getHeight() - Ext.getCmp('qryFeatureDirections').getHeight() - 125
           ,id     : 'featureBboxGridPanel'
@@ -5798,4 +5830,8 @@ function countTopLayers() {
   featureBoxControl.polygon.layer  ? active++ : null;
   featurePolyControl.polygon.layer ? active++ : null;
   return active;
+}
+
+function saveResultsAs(filter,format) {
+  alert(filter.replace('___FORMAT___',format));
 }
