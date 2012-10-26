@@ -114,13 +114,13 @@ foreach (@{$doc->{layer}}) {
     }
 
     if (unsafeXML($h{baseURL}) =~ /excel2007/) {
-      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".xlsx");
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{wmsLayer}).".xlsx");
     }
     elsif (unsafeXML($h{baseURL}) =~ /excel/) {
-      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".xls");
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{wmsLayer}).".xls");
     }
     elsif (unsafeXML($h{baseURL}) =~ /csv/) {
-      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".csv");
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{wmsLayer}).".csv");
     }
     else {
       rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip");
@@ -149,7 +149,7 @@ foreach (@{$doc->{layer}}) {
     }
 
     if (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
-      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.kml');
     }
     else {
       rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.tif');
