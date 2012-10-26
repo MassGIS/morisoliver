@@ -137,6 +137,11 @@ toolSettings.filter = {
                   else if (toolSettings.filter.columns[el.id.replace(/.min$/,'')].required) {
                     el.setValue(toolSettings.filter.columns[el.id.replace(/.min$/,'')].values && toolSettings.filter.columns[el.id.replace(/.min$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.min$/,'')].values[0] : Number.NEGATIVE_INFINITY);
                   }
+                  win.resetItems.push({
+                     id  : c + '.min'
+                    ,typ : 'number'
+                    ,val : el.getValue()
+                  });
                 }}
               })
               ,{
@@ -159,6 +164,11 @@ toolSettings.filter = {
                   else if (toolSettings.filter.columns[el.id.replace(/.max$/,'')].required) {
                     el.setValue(toolSettings.filter.columns[el.id.replace(/.max$/,'')].values && toolSettings.filter.columns[el.id.replace(/.max$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.max$/,'')].values[1] : Number.MAX_VALUE);
                   }
+                  win.resetItems.push({
+                     id  : el.id
+                    ,typ : 'number'
+                    ,val : el.getValue()
+                  });
                 }}
               })
             ]
@@ -166,13 +176,20 @@ toolSettings.filter = {
         }
         else if (toolSettings.filter.columns[c].type == 'radioButtons') {
           var cbItems = [];
+          var defaultValue;
           for (var i = 0; i < toolSettings.filter.columns[c].values.length; i++) {
+            var checked = defaults[c] ? defaults[c][toolSettings.filter.columns[c].values[i][0]] : toolSettings.filter.columns[c].values[i][0] == '*';
+            var id = Ext.id();
             cbItems.push({
                name       : c
               ,boxLabel   : toolSettings.filter.columns[c].values[i][1]
               ,inputValue : toolSettings.filter.columns[c].values[i][0]
-              ,checked    : (defaults[c] ? defaults[c][toolSettings.filter.columns[c].values[i][0]] : toolSettings.filter.columns[c].values[i][0] == '*')
+              ,id         : id
+              ,checked    : checked
             });
+            if (checked) {
+              defaultValue = id;
+            }
           }
           items.push(new Ext.form.RadioGroup({
              fieldLabel       : toolSettings.filter.columns[c].label + (toolSettings.filter.columns[c].required ? '*' : '')
@@ -180,6 +197,14 @@ toolSettings.filter = {
             ,columns          : 1
             ,id               : c
             ,items            : cbItems
+            ,defaultValue     : defaultValue
+            ,listeners        : {afterrender : function(el) {
+              win.resetItems.push({
+                 id  : el.defaultValue
+                ,typ : 'radio'
+                ,val : true
+              });
+            }}
           }));
         }
         else if (toolSettings.filter.columns[c].type == 'multiSelect') {
@@ -214,6 +239,11 @@ toolSettings.filter = {
               else {
                 gp.getSelectionModel().selectRows(rows);
               }
+              win.resetItems.push({
+                 id  : gp.id
+                ,typ : 'grid'
+                ,val : rows
+              });
             }}
           }));
           items.push({html : '<img src="img/blank.png" height=3>',border : false});
@@ -227,6 +257,7 @@ toolSettings.filter = {
         ,defaults : {border : false}
         ,layout   : 'fit'
         ,constrainHeader : true
+        ,resetItems : []
         ,items    : new Ext.FormPanel({
            bodyStyle    : 'padding:6px;border-bottom: 1px solid #99BBE8'
           ,monitorValid : true
@@ -237,6 +268,24 @@ toolSettings.filter = {
                text    : 'Cancel'
               ,handler : function() {
                 win.hide();
+              }
+            }
+            ,{
+               text    : 'Reset'
+              ,handler : function() {
+                for (var i = 0; i < win.resetItems.length; i++) {
+                  if (win.resetItems[i].typ == 'number' || win.resetItems[i].typ == 'radio') {
+                    Ext.getCmp(win.resetItems[i].id).setValue(win.resetItems[i].val);
+                  }
+                  else if (win.resetItems[i].typ == 'grid') {
+                    if (win.resetItems[i].val.length == 0) {
+                      Ext.getCmp(win.resetItems[i].id).getSelectionModel().selectFirstRow();
+                    }
+                    else {
+                      Ext.getCmp(win.resetItems[i].id).getSelectionModel().selectRows(win.resetItems[i].val);
+                    }
+                  }
+                }
               }
             }
             ,{
