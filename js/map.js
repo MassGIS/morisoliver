@@ -4382,7 +4382,11 @@ function mkDataWizardURL(title,ico) {
       ];
     }
 
-    if (Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue() == 'shp') {
+    if (new RegExp(/shp|excel2007|excel|csv/).test(Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue())) {
+      var outputFormat = 'SHAPE-ZIP';
+      if (new RegExp(/excel2007|excel|csv/).test(Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue())) {
+        outputFormat = Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue();
+      }
       if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -4390,7 +4394,7 @@ function mkDataWizardURL(title,ico) {
         }
         return Array(
            wfsUrl
-          ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
+          ,'?request=getfeature&version=1.1.0&outputformat=' + outputFormat + '&service=wfs&typename=' + lyr2wms[title]
           ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
             ,customFilter[0]
             ,'<ogc:Intersects>'
@@ -4408,7 +4412,7 @@ function mkDataWizardURL(title,ico) {
       else {
         return Array(
            wfsUrl
-          ,'?request=getfeature&version=1.1.0&outputformat=SHAPE-ZIP&service=wfs&typename=' + lyr2wms[title]
+          ,'?request=getfeature&version=1.1.0&outputformat=' + outputFormat + '&service=wfs&typename=' + lyr2wms[title]
           ,'&filter=<ogc:Filter xmlns:ogc="http://ogc.org" xmlns:gml="http://www.opengis.net/gml">'
             ,customFilter[0]
             ,'<ogc:Intersects>'
@@ -5370,34 +5374,25 @@ function launchExportWizard(aoi) {
             ,title : 'Vector data output options'
             ,items  : [
               {
-                 layout   : 'column'
-                ,border   : false
-                ,items    : [
-                  {
-                     columnWidth : 1
-                    ,layout      : 'form'
-                    ,border      : false
-                    ,items       : [
-                      {
-                         xtype       : 'radiogroup'
-                        ,id          : 'wizVectorFmt'
-                        ,fieldLabel  : 'Format'
-                        ,items       : [
-                           {boxLabel : 'Shapefile (.shp)'        ,name : 'vectorFormat',inputValue : 'shp',checked : true}
-                          ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
-                        ]
-                        ,listeners   : {change : function(group,ckedRadio) {
-                          if (ckedRadio.getGroupValue() == 'kml') {
-                            Ext.getCmp('radioEpsg').disable();
-                          }
-                          else {
-                            Ext.getCmp('radioEpsg').enable();
-                          }
-                        }}
-                      }
-                    ]
-                  }
+                 xtype       : 'radiogroup'
+                ,id          : 'wizVectorFmt'
+                ,fieldLabel  : 'Format'
+                ,columns     : 2 
+                ,items       : [
+                   {boxLabel : 'Shapefile (.shp)'        ,name : 'vectorFormat',inputValue : 'shp',checked : true}
+                  ,{boxLabel : 'Google Earth file (.kml)',name : 'vectorFormat',inputValue : 'kml'               }
+                  ,{boxLabel : 'Excel 2007 (.xlsx)'      ,name : 'vectorFormat',inputValue : 'excel2007'         }
+                  ,{boxLabel : 'Excel 97-2003 (.xls)'    ,name : 'vectorFormat',inputValue : 'excel'             }
+                  ,{boxLabel : 'CSV (.csv)'              ,name : 'vectorFormat',inputValue : 'csv'               }
                 ]
+                ,listeners   : {change : function(group,ckedRadio) {
+                  if (ckedRadio.getGroupValue() == 'kml') {
+                    Ext.getCmp('radioEpsg').disable();
+                  }
+                  else {
+                    Ext.getCmp('radioEpsg').enable();
+                  }
+                }}
               }
             ]
           }
