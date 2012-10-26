@@ -72,7 +72,8 @@ foreach (@{$doc->{layer}}) {
   mkdir "$scratch_dir/".unsafeXML($h{name});
   my $r;
 
-  if (unsafeXML($h{baseURL}) =~ /outputformat=SHAPE-ZIP/) {
+  if (unsafeXML($h{baseURL}) =~ /outputformat=(SHAPE-ZIP|excel2007|excel|csv)/) {
+    my $format = $1;
     my ($wfsURL,$postBody) = split(/\?/,$h{baseURL},2);
     my ($request,$version,$outputformat,$service,$typename,$filter,$srsname) = split(/&/,unsafeXML($postBody));
     my @bits = split(/=/,$request,2);
@@ -84,7 +85,7 @@ foreach (@{$doc->{layer}}) {
     @bits = split(/=/,$srsname,2);
     $srsname = $bits[1];
 
-    my $postData = '<wfs:GetFeature service="WFS" version="1.1.0" xmlns:wfs="http://www.opengis.net/wfs" outputFormat="SHAPE-ZIP">'."\n";
+    my $postData = '<wfs:GetFeature service="WFS" version="1.1.0" xmlns:wfs="http://www.opengis.net/wfs" outputFormat="'.$format.'">'."\n";
     $postData .= '<wfs:Query typeName="'.$typename.'" srsName="'.$srsname.'">'."\n";
     $postData .= $filter."\n";
     $postData .= '</wfs:Query>'."\n";
@@ -112,11 +113,22 @@ foreach (@{$doc->{layer}}) {
       next;
     }
 
-    rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip");
-    $cmd = "cd '$scratch_dir/".unsafeXML($h{name})."'; /usr/bin/unzip '".unsafeXML($h{name}).".zip' > /dev/null ; rm '".$scratch_dir."/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip'";
-    # print $cmd."\n\n";
-    @cmd_args = ("/bin/bash","-c", $cmd);
-    $r = system(@cmd_args);
+    if (unsafeXML($h{baseURL}) =~ /excel2007/) {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".xlsx");
+    }
+    elsif (unsafeXML($h{baseURL}) =~ /excel/) {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".xls");
+    }
+    elsif (unsafeXML($h{baseURL}) =~ /csv/) {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".csv");
+    }
+    else {
+      rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip");
+      $cmd = "cd '$scratch_dir/".unsafeXML($h{name})."'; /usr/bin/unzip '".unsafeXML($h{name}).".zip' > /dev/null ; rm '".$scratch_dir."/".unsafeXML($h{name})."/".unsafeXML($h{name}).".zip'";
+      # print $cmd."\n\n";
+      @cmd_args = ("/bin/bash","-c", $cmd);
+      $r = system(@cmd_args);
+    }
   }
   else
   {
@@ -138,7 +150,8 @@ foreach (@{$doc->{layer}}) {
 
     if (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
       rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{name}).'.kml');
-    } else {
+    }
+    else {
       rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.tif');
     }
   }
@@ -179,7 +192,7 @@ my $res = system(@cmd_args);
 #warn "zip file $scratch_dir/$zipName.zip created";
 
 
-my $rmcmd = "cd $scratch_dir ; ls | grep -v .zip | tr \\\\n \\\\0 | xargs -0 rm -rf > /dev/null";
+my $rmcmd = "cd $scratch_dir ; ls | egrep -v '(.zip|.xlsx|.xls|.csv)$' | tr \\\\n \\\\0 | xargs -0 rm -rf > /dev/null";
 @cmd_args = ("/bin/bash","-c", $rmcmd);
 $res = system(@cmd_args);
 
