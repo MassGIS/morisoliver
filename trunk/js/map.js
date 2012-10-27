@@ -2212,18 +2212,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
     }
   }
 
-  if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
-  
-    if (toolSettings.exportData.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.exportData.keyMap,
-        itemId : "exportData",
-        type   : "basic"
-      });
-    }
-
- if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show')
-  {
+ if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show') {
    topToolBar_items.push({
        itemId   : 'printSave'
       ,scale    : 'large'
@@ -2238,11 +2227,11 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         itemId :'printSave' ,
         type   : 'basic'
       });
-
     }
-}
+  }
 
-  // export data functionality
+  if (!toolSettings || !toolSettings.exportData || toolSettings.exportData.status == 'show') {
+    // export data functionality
     topToolBar_items.push({
          itemId      : "exportData"
         ,tooltip     : 'Launch the data export wizard'
@@ -2252,6 +2241,14 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           launchExportWizard({typ : 'bbox'});
         }
       });
+
+    if (toolSettings.exportData.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.exportData.keyMap,
+        itemId : "exportData",
+        type   : "basic"
+      });
+    }
   }
 
       if (toolSettings.help &&  toolSettings.help.keyMap) {
