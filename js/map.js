@@ -1309,17 +1309,19 @@ Ext.onReady(function() {
   var topToolBar_keyMaps = [], bottomToolBar_keyMaps = [];
   
   // navigation functionality.  (zoom in, out, pan, max extent, active extent, forward, backwards, zoom to scale)
-  topToolBar_items.push(
+  var navigationToolsCount = 0;
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.zoomIn  || toolSettings.navigationTools.zoomIn.status == 'show') {
+    topToolBar_items.push(
       new GeoExt.Action({
          control      : new OpenLayers.Control.ZoomBox()
         ,map          : map
         ,toggleGroup  : 'navigation'
-    ,enableToggle : true
+        ,enableToggle : true
         ,allowDepress : false
         ,tooltip      : 'Zoom in'
         ,scale        : 'large'
         ,icon         : 'img/01_zoom_in.png'
-    ,itemId     : 'zoomIn'
+        ,itemId       : 'zoomIn'
         ,toggleHandler      : function() {
           if (navigator.appName == "Microsoft Internet Explorer") {
             Ext.getCmp('mappanel').body.applyStyles('cursor:url("img/zoom_in.cur")');
@@ -1329,7 +1331,20 @@ Ext.onReady(function() {
           }
         }
       })
-      ,new GeoExt.Action({
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomIn.keyMap,
+        itemId :'zoomIn' ,
+        type   : 'toggle'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.zoomOut  || toolSettings.navigationTools.zoomOut.status == 'show') {
+    topToolBar_items.push(
+      new GeoExt.Action({
          control      : new OpenLayers.Control.ZoomBox(Ext.apply({out: true}))
         ,map          : map
         ,toggleGroup  : 'navigation'
@@ -1348,7 +1363,20 @@ Ext.onReady(function() {
           }
         }
       })
-      ,{
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.zoomOut && toolSettings.navigationTools.zoomOut.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomOut.keyMap,
+        itemId :'zoomOut' ,
+        type   : 'toggle'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.zoomScale  || toolSettings.navigationTools.zoomScale.status == 'show') {
+    topToolBar_items.push(
+      {
          enableToggle: false
         ,id       : 'zoomToAScale'
         ,icon     : 'img/03_zoom_scale.png'
@@ -1434,7 +1462,20 @@ Ext.onReady(function() {
           }
         ]
       }
-      ,new GeoExt.Action({
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.zoomScale && toolSettings.navigationTools.zoomScale.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.zoomScale.keyMap,
+        itemId :'zoomScale' ,
+        type   : 'menu'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.pan  || toolSettings.navigationTools.pan.status == 'show') {
+    topToolBar_items.push(
+      new GeoExt.Action({
          control      : new OpenLayers.Control.DragPan()
         ,map          : map
         ,id           : 'dragPanButton'
@@ -1450,7 +1491,20 @@ Ext.onReady(function() {
           Ext.getCmp('mappanel').body.setStyle('cursor','move');
         }
       })
-      ,{
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.pan && toolSettings.navigationTools.pan.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.pan.keyMap,
+        itemId :'pan' ,
+        type   : 'toggle'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.initExtent  || toolSettings.navigationTools.initExtent.status == 'show') {
+    topToolBar_items.push(
+      {
          tooltip     : 'Zoom to initial extent'
         ,icon        : 'img/05_zoom_initial.png'
         ,scale       : 'large'
@@ -1459,7 +1513,20 @@ Ext.onReady(function() {
           map.zoomToExtent(new OpenLayers.Bounds(defaultBbox[0],defaultBbox[1],defaultBbox[2],defaultBbox[3]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject()));
         }
       }
-      ,new Ext.Action({
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.initExtent && toolSettings.navigationTools.initExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.initExtent.keyMap,
+        itemId :'initExtent' ,
+        type   : 'basic'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.maxExtent  || toolSettings.navigationTools.maxExtent.status == 'show') {
+    topToolBar_items.push(
+      new Ext.Action({
          tooltip     : 'Zoom to full extent of active data layers'
         ,scale       : 'large'
         ,icon        : 'img/06_zoom_active.png'
@@ -1479,8 +1546,26 @@ Ext.onReady(function() {
           }
         }
       })
-      ,'-'
-      ,new GeoExt.Action({
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.maxExtent && toolSettings.navigationTools.maxExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.maxExtent.keyMap,
+        itemId :'maxExtent' ,
+        type   : 'basic'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (navigationToolsCount > 0) {
+    topToolBar_items.push('-');
+  }
+
+  navigationToolsCount = 0; 
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.prevExtent  || toolSettings.navigationTools.prevExtent.status == 'show') {
+    topToolBar_items.push(
+      new GeoExt.Action({
          control  : ctrl.previous
         ,disabled : true
         ,tooltip  : 'Go back to previous extent'
@@ -1488,7 +1573,20 @@ Ext.onReady(function() {
         ,icon     : 'img/07_previous.png'
         ,itemId     : 'prevExtent'    
       })
-      ,new GeoExt.Action({
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.prevExtent && toolSettings.navigationTools.prevExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.prevExtent.keyMap,
+        itemId :'prevExtent' ,
+        type   : 'basic'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (!toolSettings || !toolSettings.navigationTools || !toolSettings.navigationTools.nextExtent  || toolSettings.navigationTools.nextExtent.status == 'show') {
+    topToolBar_items.push(
+      new GeoExt.Action({
          control  : ctrl.next
         ,disabled : true
         ,tooltip  : 'Go to next extent'
@@ -1496,7 +1594,20 @@ Ext.onReady(function() {
         ,icon     : 'img/08_next.png'
         ,itemId   : 'nextExtent'        
       })
-   );
+    );
+    if (toolSettings && toolSettings.navigationTools && toolSettings.navigationTools.nextExtent && toolSettings.navigationTools.nextExtent.keyMap) {
+      topToolBar_keyMaps.push({
+        keyMap: toolSettings.navigationTools.nextExtent.keyMap,
+        itemId :'nextExtent' ,
+        type   : 'basic'
+      });
+    }
+    navigationToolsCount++;
+  }
+
+  if (navigationToolsCount > 0) {
+    topToolBar_items.push('-');
+  }
 
   if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
     // bing search functionality
@@ -1517,8 +1628,7 @@ Ext.onReady(function() {
     });
     }
     
-      topToolBar_items.push( '-'
-      ,' '
+      topToolBar_items.push(' '
       ,' '
       ,{
          xtype     : 'textfield'
@@ -1637,69 +1747,6 @@ Ext.onReady(function() {
           geoLocateBnds = undefined;
         }
       });
-  }
-
-  if (toolSettings.navigationTools) {
-    if (toolSettings.navigationTools.zoomIn && toolSettings.navigationTools.zoomIn.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.zoomIn.keyMap,
-        itemId :'zoomIn' ,
-        type   : 'toggle'
-      });
-    }
-    if (toolSettings.navigationTools.zoomOut && toolSettings.navigationTools.zoomOut.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.zoomOut.keyMap,
-        itemId :'zoomOut' ,
-        type   : 'toggle'
-      });
-    }
-    if (toolSettings.navigationTools.pan && toolSettings.navigationTools.pan.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.pan.keyMap,
-        itemId :'pan' ,
-        type   : 'toggle'
-      });
-    }
-    if (toolSettings.navigationTools.nextExtent && toolSettings.navigationTools.nextExtent.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.nextExtent.keyMap,
-        itemId :'nextExtent' ,
-        type   : 'basic'
-      });
-    }
-    if (toolSettings.navigationTools.initExtent && toolSettings.navigationTools.initExtent.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.initExtent.keyMap,
-        itemId :'initExtent' ,
-        type   : 'basic'
-      });
-    }
-    if (toolSettings.navigationTools.prevExtent && toolSettings.navigationTools.prevExtent.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.prevExtent.keyMap,
-        itemId :'prevExtent' ,
-        type   : 'basic'
-      });
-    }
-    if (toolSettings.navigationTools.maxExtent && toolSettings.navigationTools.maxExtent.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.maxExtent.keyMap,
-        itemId :'maxExtent' ,
-        type   : 'basic'
-      });
-    }   
-    if (toolSettings.navigationTools.zoomScale && toolSettings.navigationTools.zoomScale.keyMap) {
-      topToolBar_keyMaps.push({
-        keyMap: toolSettings.navigationTools.zoomScale.keyMap,
-        itemId :'zoomScale' ,
-        type   : 'menu'
-      });
-    }     
-    
-
-
-
   }
 
 if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
