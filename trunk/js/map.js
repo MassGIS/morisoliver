@@ -441,7 +441,7 @@ var qryWin = new Ext.Window({
                  header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
                 ,filter : exportFilter
                 ,footer : '</wfs:Query></wfs:GetFeature>'
-                ,title  : title
+                ,title  : lyr2wms[activeLyr[title].name].replace(featurePrefix + ':','')
               };
               featureBbox.request(qryBounds);
               featureBbox.deactivate();
