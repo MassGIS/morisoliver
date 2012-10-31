@@ -138,7 +138,7 @@ toolSettings.filter = {
                     el.setValue(toolSettings.filter.columns[el.id.replace(/.min$/,'')].values && toolSettings.filter.columns[el.id.replace(/.min$/,'')].values.length == 2 ? toolSettings.filter.columns[el.id.replace(/.min$/,'')].values[0] : Number.NEGATIVE_INFINITY);
                   }
                   win.resetItems.push({
-                     id  : c + '.min'
+                     id  : el.id
                     ,typ : 'number'
                     ,val : el.getValue()
                   });
