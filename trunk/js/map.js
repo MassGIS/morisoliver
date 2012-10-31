@@ -1725,7 +1725,7 @@ Ext.onReady(function() {
                 }
                 Y.on('io:success',handleSuccess,this,[]);
                 if (Ext.getCmp('searchLocation').getValue() !== '') {
-                  var request = Y.io(proxyLocBing + escape('http://dev.virtualearth.net/REST/v1/Locations?q=' + escape(Ext.getCmp('searchLocation').getValue()) + '&key=' + bingKey));
+                  var request = Y.io(proxyLocBing + escape('http://70.37.131.143/REST/v1/Locations?q=' + escape(Ext.getCmp('searchLocation').getValue()) + '&key=' + bingKey));
                 }
               });
             }
