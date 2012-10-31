@@ -132,7 +132,11 @@ foreach (@{$doc->{layer}}) {
   }
   else
   {
-    my $req = "wget -q '".unsafeXML($h{baseURL})."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" ".
+
+    my $u = unsafeXML($h{baseURL});
+    $u =~ s/styles=/styles=$h{wmsStyle}/;
+
+    my $req = "wget -q '".$u."' -O \"$scratch_dir/".unsafeXML($h{name})."/file\" ".
               "--no-check-certificate --header=\"content-type: text/xml\"";
     if ($authHeader ne '') {
       $req = $req." --header='Authorization:".$authHeader."'";
@@ -144,11 +148,11 @@ foreach (@{$doc->{layer}}) {
 
     $r = system(@cmd_args);
     if ($r != 0) {
-      print "error fetching zip file ".unsafeXML($h{baseURL})."\n\n";
+      print "error fetching zip file ".$u."\n\n";
       next;
     }
 
-    if (unsafeXML($h{baseURL}) =~ /vnd.google-earth.kml\+xml/) {
+    if ($u =~ /vnd.google-earth.kml\+xml/) {
       rename("$scratch_dir/".unsafeXML($h{name})."/file","$scratch_dir/".unsafeXML($h{name}).'/'.unsafeXML($h{wmsLayer}).'.kml');
     }
     else {
