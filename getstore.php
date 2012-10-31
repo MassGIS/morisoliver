@@ -1,7 +1,7 @@
 <?php
   $session     = time().rand();
   $scratch_dir = "/opt/massgis/wwwroot/temp/GeoServer_extract/$session";
-  $web_dir     = "temp/GeoServer_extract/$session";
+  $web_dir     = "/temp/GeoServer_extract/$session";
 
   mkdir($scratch_dir);
 
