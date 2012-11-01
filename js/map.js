@@ -3852,17 +3852,17 @@ function loadLayerDescribeFeatureType(wms) {
             {
                text    : 'Save all records as...'
               ,menu    : [
-                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx')}}
-                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls')}}
-                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv')}}
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx','all',featureBboxGridPanel)}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls','all',featureBboxGridPanel)}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv','all',featureBboxGridPanel)}}
               ]
             }
             ,{
                text    : 'Save selected records as...'
               ,menu    : [
-                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx',featureBboxGridPanel)}}
-                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls',featureBboxGridPanel)}}
-                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv',featureBboxGridPanel)}}
+                 {text : 'Excel 2007 (.xlsx)'  ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel2007','xlsx','selection',featureBboxGridPanel)}}
+                ,{text : 'Excel 97-2003 (.xls)',handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'excel','xls','selection',featureBboxGridPanel)}}
+                ,{text : 'CSV (.csv)'          ,handler : function(){saveResultsAs(featureBbox.getFeatureOutputFormatRequest,'csv','csv','selection',featureBboxGridPanel)}}
               ]
             }
           ]
@@ -5512,18 +5512,28 @@ function countTopLayers() {
   return active;
 }
 
-function saveResultsAs(request,format,extension,gridPanel) {
+function saveResultsAs(request,format,extension,mode,gridPanel) {
   var f;
+  // this will always be true
   if (gridPanel) {
     var fids = [];
-    var sel = gridPanel.getSelectionModel().getSelections();
-    if (sel.length == 0) {
-      Ext.Msg.alert('Save results error',"You haven't selected any rows for export.  Please select at least one row and try again.");
-    }
-    else {
-      for (var i = 0; i < sel.length; i++) {
-        fids.push(sel[i].get('fid'));
+    if (mode == 'selection') {
+      var sel = gridPanel.getSelectionModel().getSelections();
+      if (sel.length == 0) {
+        Ext.Msg.alert('Save results error',"You haven't selected any rows for export.  Please select at least one row and try again.");
       }
+      else {
+        for (var i = 0; i < sel.length; i++) {
+          fids.push(sel[i].get('fid'));
+        }
+        f = new OpenLayers.Filter.FeatureId({fids : fids});
+      }
+    }
+    // a user may have removed a record from the list, so iterate through them to pull out fid's
+    else if (mode == 'all') {
+      gridPanel.getStore().each(function(rec) {
+        fids.push(rec.get('fid'));
+      });
       f = new OpenLayers.Filter.FeatureId({fids : fids});
     }
   }
