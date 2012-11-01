@@ -719,7 +719,10 @@ Ext.onReady(function() {
       ,"http://tile2.toposm.com/ma" + "/final/${z}/${x}/${y}.png"
       ,"http://tile3.toposm.com/ma" + "/final/${z}/${x}/${y}.png"
     ]
-    ,{numZoomLevels: 17}
+    ,{
+       numZoomLevels : 17
+      ,tileOptions   : {crossOriginKeyword : null}
+    }
   );
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
      'googleSatellite'
