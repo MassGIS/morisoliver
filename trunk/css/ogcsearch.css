@@ -232,3 +232,5 @@
 .mask td {
   font : 11px/13px tahoma,helvetica,sans-serif;
 }
+
+.olImageLoadError { display: none; }
