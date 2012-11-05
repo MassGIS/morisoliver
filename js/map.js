@@ -128,63 +128,6 @@ var lyrRasterQry = new OpenLayers.Layer.Vector(
 );
 
 OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
-OpenLayers.Util.onImageLoadError = function() {
-  var p = OpenLayers.Util.getParameters(this.src);
-  olActiveLayers.getRootNode().cascade(function(n) {
-    if (n.text == p['FOO']) {
-      var wms = lyr2wms[p['FOO']];
-      var cn = n.getUI().getIconEl().className.split(' ');
-      var a = [];
-      for (var i = 0; i < cn.length; i++) {
-        if (cn[i].indexOf('type' + wms2ico[wms]) < 0) {
-          a.push(cn[i]);
-        }
-      }
-      a.push('type' + wms2ico[wms] + 'Red');
-      n.getUI().getIconEl().className = a.join(' ');
-      n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
-      if (document.getElementById(n.attributes.layer.name + '.loading')) {
-        document.getElementById(n.attributes.layer.name + '.loading').src = 'img/blank.png';
-      }
-    }
-  });
-  loadError[p['FOO']] = 1;
-}
-
-OpenLayers.Util.onImageLoad = function() {
-  // we may need to clear out errors for layers who have magically come back to life
-  var p = OpenLayers.Util.getParameters(this.src);
-  if (olActiveLayers) {
-    olActiveLayers.getRootNode().cascade(function(n) {
-      if (n.text == p['FOO']) {
-        var wms = lyr2wms[p['FOO']];
-        var cn = n.getUI().getIconEl().className.split(' ');
-        var a = [];
-        var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0 || n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Yellow');
-        for (var i = 0; i < cn.length; i++) {
-          if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || map.getProjection().toLowerCase() != String(lyr2proj[p['FOO']]).toLowerCase() && String(lyr2proj[p['FOO']]) != 'undefined') {
-            a.push(cn[i]); 
-          }
-        }
-        if (a.join(' ').indexOf('type' + wms2ico[wms]) < 0) {
-          a.push('type' + wms2ico[wms]);
-        }
-        n.getUI().getIconEl().className = a.join(' ');
-        if (!keepQtip) {
-          n.getUI().getIconEl().qtip = undefined;
-        }
-      }
-    });
-    loadError[p['FOO']] = 0;
-  }
-
-  // original OL
-  if (!this.viewRequestID ||
-    (this.map && this.viewRequestID == this.map.viewRequestID)) {
-    this.style.display = "";
-  }
-  OpenLayers.Element.removeClass(this, "olImageLoadError");
-}
 
 // test to see if any startup params were passed
 var p = OpenLayers.Util.getParameters();
@@ -1036,11 +979,58 @@ Ext.onReady(function() {
       });
 
       e.layer.events.register('loadend',this,function(e) {
-        if (document.getElementById(e.object.name + '.loading')) {
-          document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
+        if (e.object.div.outerHTML.indexOf('olImageLoadError') > 0) {
+          olActiveLayers.getRootNode().cascade(function(n) {
+            if (n.text == e.object.name) {
+              var wms = lyr2wms[e.object.name];
+              var cn = n.getUI().getIconEl().className.split(' ');
+              var a = [];
+              for (var i = 0; i < cn.length; i++) {
+                if (cn[i].indexOf('type' + wms2ico[wms]) < 0) {
+                  a.push(cn[i]);
+                }
+              }
+              a.push('type' + wms2ico[wms] + 'Red');
+              n.getUI().getIconEl().className = a.join(' ');
+              n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
+              if (document.getElementById(n.attributes.layer.name + '.loading')) {
+                document.getElementById(n.attributes.layer.name + '.loading').src = 'img/blank.png';
+              }
+            }
+          });
+          loadError[e.object.name] = 1;
         }
-        loadedWms[e.object.name] = true;
-        syncIconScale();
+        else {
+          if (document.getElementById(e.object.name + '.loading')) {
+            document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
+          }
+          loadedWms[e.object.name] = true;
+          syncIconScale();
+          // we may need to clear out errors for layers who have magically come back to life
+          if (olActiveLayers) {
+            olActiveLayers.getRootNode().cascade(function(n) {
+              if (n.text == e.object.name) {
+                var wms = lyr2wms[e.object.name];
+                var cn = n.getUI().getIconEl().className.split(' ');
+                var a = [];
+                var keepQtip = n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') >= 0 || n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Yellow');
+                for (var i = 0; i < cn.length; i++) {
+                  if (cn[i] !== 'type' + wms2ico[wms] + 'Red' || map.getProjection().toLowerCase() != String(lyr2proj[e.object.name]).toLowerCase() && String(lyr2proj[e.object.name]) != 'undefined') {
+                    a.push(cn[i]);
+                  }
+                }
+                if (a.join(' ').indexOf('type' + wms2ico[wms]) < 0) {
+                  a.push('type' + wms2ico[wms]);
+                }
+                n.getUI().getIconEl().className = a.join(' ');
+                if (!keepQtip) {
+                  n.getUI().getIconEl().qtip = undefined;
+                }
+              }
+            });
+            loadError[e.object.name] = 0;
+          }
+        }
       });
     }
   });
