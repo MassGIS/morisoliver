@@ -5050,7 +5050,7 @@ function launchExportWizard(aoi) {
                   ,{boxLabel : 'CSV (.csv)'              ,name : 'vectorFormat',inputValue : 'csv'               }
                 ]
                 ,listeners   : {change : function(group,ckedRadio) {
-                  if (ckedRadio.getGroupValue() == 'kml') {
+                  if (new RegExp(/kml|excel2007|excel|csv/).test(ckedRadio.getGroupValue())) {
                     Ext.getCmp('radioEpsg').disable();
                   }
                   else {
