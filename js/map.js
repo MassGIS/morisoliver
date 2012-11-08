@@ -642,16 +642,40 @@ Ext.onReady(function() {
     ,type : 'Road'
     ,name : 'bingRoads'
   });
+  (function() {
+    var origGetUrl = lyrBase['bingRoads'].getURL;
+    lyrBase['bingRoads'].getURL = function(bounds) {
+      var url = origGetUrl.apply(this,arguments).replace("http","https");
+      //console.log(url);
+      return url;
+    };
+  })();
   lyrBase['bingAerial'] = new OpenLayers.Layer.Bing({
      key  : bingKey
     ,type : 'Aerial'
     ,name : 'bingAerial'
   });
+  (function() {
+    var origGetUrl = lyrBase['bingAerial'].getURL;
+    lyrBase['bingAerial'].getURL = function(bounds) {
+      var url = origGetUrl.apply(this,arguments).replace("http","https");
+      //console.log(url);
+      return url;
+    };
+  })();
   lyrBase['bingHybrid'] = new OpenLayers.Layer.Bing({
      key  : bingKey
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
   });
+  (function() {
+    var origGetUrl = lyrBase['bingHybrid'].getURL;
+    lyrBase['bingHybrid'].getURL = function(bounds) {
+      var url = origGetUrl.apply(this,arguments).replace("http","https");
+      //console.log(url);
+      return url;
+    };
+  })();
   lyrBase['CloudMade'] = new OpenLayers.Layer.CloudMade("CloudMade",{
      key     : '08c529c870d246baa3b9ddcdecdc1c3c'
     ,styleId : 1
