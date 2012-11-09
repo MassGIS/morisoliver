@@ -172,6 +172,7 @@
 .typegridRed { background-image: url(../img/grid-red.png) !important; }
 
 .typeline { background-image: url(../img/line.gif) !important; }
+.typeshpline { background-image: url(../img/line.gif) !important; }
 .typelineGray { background-image: url(../img/line-gray.gif) !important; }
 .typelineRed { background-image: url(../img/line-red.png) !important; }
 
@@ -180,10 +181,12 @@
 .typedefaultRed { background-image: url(../img/layers-red.png) !important; }
 
 .typepoly { background-image: url(../img/polygon.gif) !important; }
+.typeshppoly { background-image: url(../img/polygon.gif) !important; }
 .typepolyGray { background-image: url(../img/polygon-gray.gif) !important; }
 .typepolyRed { background-image: url(../img/polygon-red.png) !important; }
 
 .typept { background-image: url(../img/point.gif) !important; }
+.typeshppt { background-image: url(../img/point.gif) !important; }
 .typeptGray { background-image: url(../img/point-gray.gif) !important; }
 .typeptRed { background-image: url(../img/point-red.png) !important; }
 
