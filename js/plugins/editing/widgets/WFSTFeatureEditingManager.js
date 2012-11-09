@@ -131,7 +131,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
      *             :class:`GeoExt.Action` objects.
      */
     //DEFAULT_ACTION_GROUP: "wfstFeatureEditing",
-    DEFAULT_ACTION_GROUP: "navigation",
+    DEFAULT_ACTION_GROUP: null,
 
 
 /* i18n  */
@@ -333,7 +333,19 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.drawMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.drawMenuButtonTooltipText,
-            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            //"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            //"group" : this.actionGroup || this.DEFAULT_ACTION_GROUP
+        });
+        // I'm dumbfounded, but the following listener (coupled with the definition of dummyMenuItem below
+        // fixes one of MassGIS's persistent issues.
+        this.drawMenuButton.addListener('click',function() {
+            Ext.each(editManager.drawMenuButton.menu.items.items, function(item, idx) {
+                item.baseAction.control.deactivate();
+            });
+            Ext.each(editManager.editMenuButton.menu.items.items, function(item, idx) {
+                item.baseAction.control.deactivate();
+            });
+            dummyMenuItem.setChecked(true);
         });
     
         this.editMenuButton = new Ext.Button({
@@ -343,7 +355,20 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.editMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.editMenuButtonTooltipText,
-            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            //"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            //"group" : this.actionGroup || this.DEFAULT_ACTION_GROUP
+        });
+
+        // I'm dumbfounded, but the following listener (coupled with the definition of dummyMenuItem below
+        // fixes one of MassGIS's persistent issues.
+        this.editMenuButton.addListener('click',function() {
+            Ext.each(editManager.drawMenuButton.menu.items.items, function(item, idx) {
+                item.baseAction.control.deactivate();
+            });
+            Ext.each(editManager.editMenuButton.menu.items.items, function(item, idx) {
+                item.baseAction.control.deactivate();
+            });
+            dummyMenuItem.setChecked(true);
         });
 
         this.toolbarItems.push("-",this.drawMenuButton, this.editMenuButton, "-");        
@@ -905,6 +930,25 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         }
         this.map.addControl(drawControl);
 
+		// this is a "Dummy" menu item to use as the target for selection when we're done editing/drawing
+		// due to *something* in the togglegroup needing to be selected (maybe?)
+        var dummyAction = new GeoExt.Action({
+            text: layer.name,
+            hidden: true,
+            control: new OpenLayers.Control(),
+            map: this.map,
+            disabled: !layer.inRange,
+            // button options
+            toggleGroup: this.actionGroup || this.DEFAULT_ACTION_GROUP,
+            allowDepress: false,
+            enableToggle: false,
+            // check item options
+            group: this.actionGroup || this.DEFAULT_ACTION_GROUP
+        });
+        dummyMenuItem = new Ext.menu.CheckItem(dummyAction);
+        this.drawMenuButton.menu.addItem(dummyMenuItem);
+        dummyMenuItem.hide();
+
         // create the action, add it to BOTH the toolbar and menu (hidden) to
         // allow the toogleGroup and group properties to work properly.  Show
         // the menu item after it has been added
@@ -1386,10 +1430,10 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
         this.drawMenuButton.toggle(false);
         this.editMenuButton.toggle(false);
         Ext.each(this.drawMenuButton.menu.items.items, function (record, index) {
-            record.setChecked(false);
+            record.setChecked && record.setChecked(false, true);
         });
         Ext.each(this.editMenuButton.menu.items.items, function (record, index) {
-            record.setChecked(false);
+            record.setChecked && record.setChecked(false, true);
         });
     },
 
