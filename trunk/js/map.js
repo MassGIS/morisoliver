@@ -2801,12 +2801,12 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       items: []
     });
 
-    var editManager = new GeoExt.ux.WFSTFeatureEditingManager({
+    editManager = new GeoExt.ux.WFSTFeatureEditingManager({
       "layerConfigs" : toolSettings.editTool.layers,
       "map": map,
       "toolbarItems" : bottomToolBar_items,
       "url": wfsUrl,
-      "actionGroup": "navigation",
+      "actionGroup": "editor",
       "mainPanelContainer": editWindow
     });
   }
