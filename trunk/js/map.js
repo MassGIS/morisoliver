@@ -27,6 +27,7 @@ var wmsStyl          = [];
 var lyr2wms          = [];
 var lyr2proj         = {};
 var lyr2type         = {};
+var lyr2shp          = {};
 var wms2ico          = [];
 var activeLyr        = {};
 var lyrMetadata      = [];
@@ -334,7 +335,7 @@ var qryWin = new Ext.Window({
               title = qryLyrStore.getAt(rowIndex).get('title');
               loadLayerDescribeFeatureType(lyr2wms[title]);
               geomName = 'SHAPE';
-              if (lyr2type[title].indexOf('shp') !== -1) {
+              if (lyr2shp[title].indexOf('true') !== -1) {
 		        geomName = 'the_geom'; 
  	          }
 
@@ -1093,6 +1094,9 @@ Ext.onReady(function() {
         wms2ico[attr.name] = '';
         if (attr.type !== undefined) {
           wms2ico[attr.name] = attr.type;
+        }
+        if (attr.shp !== undefined) {
+          lyr2shp[attr.title] = attr.shp;
         }
 
         attr.leaf           = true;
@@ -4047,7 +4051,7 @@ function mkDataWizardURL(title,ico) {
   }
   else {
     geomName = 'SHAPE';
-    if (lyr2type[title].indexOf('shp') !== -1) {
+    if (lyr2shp[title].indexOf('true') !== -1) {
       geomName = 'the_geom';
     }
 
@@ -4282,7 +4286,7 @@ function runQueryStats(bounds,lyr) {
       poly.push(vertices[0].x + ' ' + vertices[0].y);
 
       geomName = 'SHAPE';
-      if (lyr2type[title].indexOf('shp') !== -1) {
+      if (lyr2shp[title].indexOf('true') !== -1) {
         geomName = 'the_geom';
       }
 
@@ -4910,7 +4914,7 @@ function launchExportWizard(aoi) {
               }
               var wfsMsg = 'testing...';
               // turn on options based on the ico (layer type)
-              if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0 || ico.indexOf('shp') >= 0) {
+              if (ico.indexOf('poly') >= 0 || ico.indexOf('pt') >= 0 || ico.indexOf('line') >= 0) {
                 Ext.getCmp('wizVectorFmt').enable();
               }
               else if (ico.indexOf('raster') >= 0 || ico.indexOf('grid') >= 0) {
