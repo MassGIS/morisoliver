@@ -334,7 +334,7 @@ var qryWin = new Ext.Window({
               title = qryLyrStore.getAt(rowIndex).get('title');
               loadLayerDescribeFeatureType(lyr2wms[title]);
               geomName = 'SHAPE';
-	          if (lyr2type[title] == 'shp') {
+              if (lyr2type[title].indexOf('shp') !== -1) {
 		        geomName = 'the_geom'; 
  	          }
 
@@ -1086,7 +1086,7 @@ Ext.onReady(function() {
       }
       else {
         attr.iconCls = 'typedefault';
-        if (String('polyptlinerastergridlayergroup').indexOf(attr.type) >= 0) {
+        if (String('polyptlinerastergridlayergroupshpptshplineshppoly').indexOf(attr.type) >= 0) {
           attr.iconCls = 'type' + attr.type;
         }
 
@@ -4047,7 +4047,7 @@ function mkDataWizardURL(title,ico) {
   }
   else {
     geomName = 'SHAPE';
-    if (lyr2type[title] == 'shp') {
+    if (lyr2type[title].indexOf('shp') !== -1) {
       geomName = 'the_geom';
     }
 
@@ -4282,7 +4282,7 @@ function runQueryStats(bounds,lyr) {
       poly.push(vertices[0].x + ' ' + vertices[0].y);
 
       geomName = 'SHAPE';
-      if (lyr2type[title] == 'shp') {
+      if (lyr2type[title].indexOf('shp') !== -1) {
         geomName = 'the_geom';
       }
 
