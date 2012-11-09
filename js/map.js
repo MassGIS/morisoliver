@@ -4977,7 +4977,7 @@ function launchExportWizard(aoi) {
                 Y.on('io:success',handleSuccess,this,[title,ico]);
      
                 geomName = 'SHAPE'; 
-                if (lyr2type[title] == 'shp') {
+                if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
                    geomName = 'the_geom';
                 }
 
