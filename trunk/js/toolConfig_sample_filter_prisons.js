@@ -179,7 +179,7 @@ toolSettings.filter = {
           var defaultValue;
           for (var i = 0; i < toolSettings.filter.columns[c].values.length; i++) {
             var checked = defaults[c] ? defaults[c][toolSettings.filter.columns[c].values[i][0]] : toolSettings.filter.columns[c].values[i][0] == '*';
-            var id = Ext.id();
+            var id = c + i;
             cbItems.push({
                name       : c
               ,boxLabel   : toolSettings.filter.columns[c].values[i][1]
@@ -273,16 +273,16 @@ toolSettings.filter = {
             ,{
                text    : 'Reset'
               ,handler : function() {
-                for (var i = 0; i < win.resetItems.length; i++) {
-                  if (win.resetItems[i].typ == 'number' || win.resetItems[i].typ == 'radio') {
-                    Ext.getCmp(win.resetItems[i].id).setValue(win.resetItems[i].val);
+                for (var i = 0; i < map.filterResetItems.length; i++) {
+                  if (map.filterResetItems[i].typ == 'number' || map.filterResetItems[i].typ == 'radio') {
+                    Ext.getCmp(map.filterResetItems[i].id).setValue(map.filterResetItems[i].val);
                   }
-                  else if (win.resetItems[i].typ == 'grid') {
-                    if (win.resetItems[i].val.length == 0) {
-                      Ext.getCmp(win.resetItems[i].id).getSelectionModel().selectFirstRow();
+                  else if (map.filterResetItems[i].typ == 'grid') {
+                    if (map.filterResetItems[i].val.length == 0) {
+                      Ext.getCmp(map.filterResetItems[i].id).getSelectionModel().selectFirstRow();
                     }
                     else {
-                      Ext.getCmp(win.resetItems[i].id).getSelectionModel().selectRows(win.resetItems[i].val);
+                      Ext.getCmp(map.filterResetItems[i].id).getSelectionModel().selectRows(map.filterResetItems[i].val);
                     }
                   }
                 }
@@ -364,7 +364,14 @@ toolSettings.filter = {
             }
           ]
         })
-        ,listeners : {hide : function(win) {win.destroy()}}
+        ,listeners : {
+           hide        : function(win) {win.destroy()}
+          ,afterrender : function(win) {
+            if (!map.filterResetItems) {
+              map.filterResetItems = win.resetItems;
+            }
+          }
+        }
       });
       win.show();
     }
