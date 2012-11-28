@@ -2810,7 +2810,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       "map": map,
       "toolbarItems" : bottomToolBar_items,
       "url": wfsUrl,
-      "actionGroup": "editor",
+      "actionGroup": "navigation",
       "mainPanelContainer": editWindow
     });
   }

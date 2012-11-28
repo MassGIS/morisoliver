@@ -333,7 +333,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.drawMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.drawMenuButtonTooltipText,
-            //"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
             //"group" : this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
         // I'm dumbfounded, but the following listener (coupled with the definition of dummyMenuItem below
@@ -355,7 +355,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             "text": this.editMenuButtonText,
             "menu": new Ext.menu.Menu(),
             "tooltip": this.editMenuButtonTooltipText,
-            //"toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
+            "toggleGroup":this.actionGroup || this.DEFAULT_ACTION_GROUP
             //"group" : this.actionGroup || this.DEFAULT_ACTION_GROUP
         });
 
