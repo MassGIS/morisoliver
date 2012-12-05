@@ -10,11 +10,8 @@
 	
 	var toolSettings = {};
 	
-        toolSettings.externalWMS = {};
-        toolSettings.externalWMS.status = 'hide';
-
 	toolSettings.measureTool = {};
-	toolSettings.measureTool.status = 'hide';
+	toolSettings.measureTool.status = 'show';
 	toolSettings.measureTool.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -37,7 +34,7 @@
 	};	
 	
 	toolSettings.scaleSettings = {};
-	toolSettings.scaleSettings.status = 'hide';
+	toolSettings.scaleSettings.status = 'show';
 	toolSettings.scaleSettings.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -66,7 +63,7 @@
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
         toolSettings.identify.status = 'show';
-        toolSettings.identifyPoly.status = 'hide';
+        toolSettings.identifyPoly.status = 'show';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -81,7 +78,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -112,42 +109,23 @@
         };
 
 	
-        toolSettings.quickZoomTools = {};
-        toolSettings.quickZoomTools.status = 'show';
-        toolSettings.quickZoomTools.tools = [
-                {id: 1,                                                 // ids must be unique
-                 label: 'Pick a town',
-                 layer: 'massgis:GISDATA.TOWNS_POLYM',
-                 valueField: 'TOWN',
-                 width : 150,
-                 sortBy : 'TOWN',
-                 sortOrder : 'A',
-                 additionalFields : 'TOWN_ID'
-                },
-                {id: 2,                                                 // ids must be unique
-                 label: 'Pick a dam by name',
-                 layer: 'massgis:GISDATA.DAMS_PT',
-                 valueField: 'DAMNAME',
-                 width : 260,
-                 sortBy : 'DAMNAME',
-                 sortOrder : 'A', // optional, acceptable values = A, D
-                 restrict : {
-                        restrictToolId: 1,
-                        restrictedValueField: 'TOWN_ID',  // name of the field in this layer
-                        restrictedSourceField: 'TOWN_ID', // name of the field in the layer we're restricting based on
-                        required: true
-                 }
-                },
-                {id: 3,                                                 // ids must be unique
-                 label: 'Pick a dam by id',
-                 layer: 'massgis:GISDATA.DAMS_PT',
-                 valueField: 'NATID',
-                 width : 110,
-                 sortBy : 'NATID', // optional, fieldname
-                 sortOrder : 'A' // optional, acceptable values = A, D
-                }
-
-        ];
+	toolSettings.quickZoomTools = {};
+	toolSettings.quickZoomTools.status = 'show';
+	toolSettings.quickZoomTools.tools = [
+		{id: 1,   						// ids must be unique
+		 label: 'Pick a town',
+		 layer: 'massgis:GISDATA.TOWNS_POLYM',
+		 valueField: 'TOWN',
+		 sortBy : 'TOWN', // optional, fieldname
+		 sortOrder : 'A', // optional, acceptable values = A, D
+		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
+		 keyMap: {					// not required
+			"ctrl":true,			// not required if false
+			"alt": true,			// not required if false
+			"key": "t"
+			}
+		}
+	];	
 	
 	toolSettings.commentTool = {};
 	toolSettings.commentTool.status = 'hide';
@@ -234,7 +212,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'hide';
+	toolSettings.editTool.status = 'show';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
@@ -250,37 +228,119 @@
 	
 	toolSettings.editTool.layers = [
 		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
-			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
-			split: true,
-			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
+			featureType: "EOHED.FY12_EO525_INVEST_EEA",
+			layerTitle : "EO 525 FY12 Investments - EEA", // must match whatever is found in folderset for this layer.
+                        split: false,
+                        fields : [
+                                {
+                                        name : "AGENCY",
+					fieldLabel : "Agency",
+					allowBlank : false,
+					readOnly: true,
+					value: "EEA"
+                                },
+				{
+					name : "TOWN",
+					fieldLabel: "Municipality" 
+                                },
+				{
+					name : "PROG_NAME",
+					fieldLabel : "Program Name"
+				},
+				{
+					name : "PROJ_NAME",
+					fieldLabel : "Project Name"
+				},
+				{
+					name : "PROJ_ID",
+					fieldLabel : "Project ID"
+				},
+				{
+					name : "ADDRESS",
+					fieldLabel : "Address"
+				},
+				{
+					name : "LOC_DESC",
+					fieldLabel : "Location Descr."
+				},
+				{
+					name : "INVESTTYPE",
+					fieldLabel : "Type"
+				},
+				{
+					name : "DESCR",
+					fieldLabel : "Description"
+				},
+				{
+					name : "AWARDEE",
+					fieldLabel : "Awardee"
+				},
+				{
+					name : "TOT_INVEST",
+					fieldLabel : "Total Investment"
+				},
+				{
+					name : "F_YEAR",
+					fieldLabel : "Fiscal Year",
+					triggerAction : 'all',
+					xtype : 'combo',
+					store : ["2005","2006","2007","2008","2009","2010","2011","2012"]
+				},
+				{
+					name : "FY12_SPEND",
+					fieldLabel : "FY12 Spending"
+				},
+				{
+					name : "OTHFUNDSYN",
+					fieldLabel : "Other funds",
+                                        triggerAction : 'all',
+                                        xtype : 'combo',
+					store : ["1","0","Unsure"]
+				},
+				{
+					name : "OTH_FD_SRC",
+					fieldLabel : "Other funds Src"
+				},
+				{
+					name : "OTH_FUNDS",
+					fieldLabel : "Other funds ($)"
+				},
+				{
+					name : "NOTES",
+					fieldLabel : "Notes"
+				},
+				{
+					name : "PDA",
+					fieldLabel : "PDA",
+                                        triggerAction : 'all',
+                                        xtype : 'combo',
+                                        store : ["1","0","Unsure"]
+				},
+				{
+					name : "PPA",
+					fieldLabel : "PPA",
+                                        triggerAction : 'all',
+                                        xtype : 'combo',
+                                        store : ["1","0","Unsure"]
+				},
+				{
+					name : "CONSISTENT",
+					fieldLabel : "Consistent",
+                                        triggerAction : 'all',
+                                        xtype : 'combo',
+                                        store : ["1","0","Unsure"]
+				},
+				{
+                                        name: "DATENTERED",
+                                        auto_timestamp : "Y-m-d\\TH:i:s",
+                                        hidden: true
+                                }
+			]
 		}
-/*,
-		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
-			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
-		},
-		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
-			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
-		}
-		*/
-		,{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
-			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
-		}
-	/*
-		,{
-			featureType: "test_geoserver_line",
-			layerTitle : "MapsOnline Geoserver Line", // must match whatever is found in folderset for this layer.
-			split: true
-		}
-*/
 	];
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
-        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -288,7 +348,6 @@
 	};
 	
 	toolSettings.navigationTools.zoomOut = {};
-        toolSettings.navigationTools.zoomOut.status = 'show';
 	toolSettings.navigationTools.zoomOut.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -297,7 +356,6 @@
 	
 	
 	toolSettings.navigationTools.pan = {};
-        toolSettings.navigationTools.pan.status = 'show';
 	toolSettings.navigationTools.pan.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -305,7 +363,6 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
-        toolSettings.navigationTools.nextExtent.status = 'show';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -313,7 +370,6 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
-        toolSettings.navigationTools.maxExtent.status = 'show';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -321,7 +377,6 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
-        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -329,7 +384,6 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -337,7 +391,6 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
-        toolSettings.navigationTools.zoomScale.status = 'show';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

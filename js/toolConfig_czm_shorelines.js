@@ -9,12 +9,12 @@
 
 	
 	var toolSettings = {};
-	
+
         toolSettings.externalWMS = {};
-        toolSettings.externalWMS.status = 'hide';
+        toolSettings.externalWMS.status = 'hide';	
 
 	toolSettings.measureTool = {};
-	toolSettings.measureTool.status = 'hide';
+	toolSettings.measureTool.status = 'show';
 	toolSettings.measureTool.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -46,7 +46,7 @@
 
 
 	toolSettings.mapUnits = {};
-	toolSettings.mapUnits.status = 'show';
+	toolSettings.mapUnits.status = 'hide';
 	toolSettings.mapUnits.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -81,7 +81,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -116,39 +116,17 @@
         toolSettings.quickZoomTools.status = 'show';
         toolSettings.quickZoomTools.tools = [
                 {id: 1,                                                 // ids must be unique
-                 label: 'Pick a town',
-                 layer: 'massgis:GISDATA.TOWNS_POLYM',
-                 valueField: 'TOWN',
-                 width : 150,
-                 sortBy : 'TOWN',
-                 sortOrder : 'A',
-                 additionalFields : 'TOWN_ID'
-                },
-                {id: 2,                                                 // ids must be unique
-                 label: 'Pick a dam by name',
-                 layer: 'massgis:GISDATA.DAMS_PT',
-                 valueField: 'DAMNAME',
-                 width : 260,
-                 sortBy : 'DAMNAME',
+                 label: 'Zoom to a Transect',
+                 layer: 'massgis:MORIS.TRANSECTS_ARC',
+                 valueField: 'TRANSECT_N',
+                 zoomOnSelect: true, // optional, defaults to true
+                 sortBy : 'TRANSECT_N', // optional, fieldname
                  sortOrder : 'A', // optional, acceptable values = A, D
-                 restrict : {
-                        restrictToolId: 1,
-                        restrictedValueField: 'TOWN_ID',  // name of the field in this layer
-                        restrictedSourceField: 'TOWN_ID', // name of the field in the layer we're restricting based on
-                        required: true
-                 }
-                },
-                {id: 3,                                                 // ids must be unique
-                 label: 'Pick a dam by id',
-                 layer: 'massgis:GISDATA.DAMS_PT',
-                 valueField: 'NATID',
-                 width : 110,
-                 sortBy : 'NATID', // optional, fieldname
-                 sortOrder : 'A' // optional, acceptable values = A, D
+                 additionalFields : 'TRANSECT_N'        // optional will be requested, often used by other restriction filters
                 }
-
         ];
-	
+
+
 	toolSettings.commentTool = {};
 	toolSettings.commentTool.status = 'hide';
 	toolSettings.commentTool.layer = {
