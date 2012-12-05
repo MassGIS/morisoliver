@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
 <!--
@@ -35,6 +36,19 @@ this license.
       var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
       var moreInfoWidth = 300;
 
+      var availableBase       = [
+          'custom'
+         ,'googleSatellite'
+         ,'googleTerrain'
+         ,'googleRoadmap'
+         ,'googleHybrid'
+         ,'openStreetMap'
+         ,'bingRoads'
+         ,'bingAerial'
+         ,'bingHybrid'
+         ,'CloudMade'
+         ,'TopOSM-MA'
+       ];
       var defaultBase         = 'googleRoadmap';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
@@ -114,7 +128,7 @@ this license.
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.11/OpenLayers.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.12-rc7/OpenLayers-closure.js"></script>
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>

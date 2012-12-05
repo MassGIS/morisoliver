@@ -30,7 +30,7 @@ this license.
 
       //
       // site-specific variables which may be modified but MUST be set
-      var foldersetLoc = '/temp/habitatatlas_folderset.xml';
+      var foldersetLoc = '/temp/mass_ocean_plan_folderset.xml';
 var moreInfoHTML='<table border="0" cellspacing="10" cellpadding="0" width="100%"><tr><td style="font-family:Lucida Sans Unicode;font-size:17px;font-weight:400; background:url(img/czm_banner.png);width:100%;height:24px;text-shadow:-1px 1px #fff;vertical-align:top"><a href="http://www.mass.gov/czm/mapping/index.htm" target="_blank" title="Massachusetts Ocean Resource Information System: CZM&rsquo;s Online Mapping Tool" style="text-decoration:none;color:#000"><img src="img/czm_wave.png" alt="CZM" style="border:0px;vertical-align:top" /> &nbsp;MORIS: CZM&rsquo;s Online Mapping Tool</a></td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:14px;font-weight:400;width:100%;font-weight:bold">About MORIS</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">The <a href="http://www.mass.gov/czm/mapping" target="_blank">Massachusetts Ocean Resource Information System</a> (MORIS) is an online mapping tool created by the <a href="http://www.mass.gov/czm" target="_blank">Massachusetts Office of Coastal Zone Management</a> (CZM), the <a href="http://www.mass.gov/mgis" target="_blank">Office of Geographic Information</a> (MassGIS), <a href="http://www.seaplan.org/" target="_blank">SeaPlan</a> (formerly Massachusetts Ocean Partnership), <a href="http://www.asascience.com" target="_blank">Applied Science Associates</a> (ASA), <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. MORIS can be used to search, display, and share spatial data pertaining to Massachusetts coastal and ocean resources. Users can quickly create and share maps and download data for use in a Geographic Information System (GIS). In 2011, the MORIS system was upgraded to a new web-based thin client using <a href="http://www.geoext.org" target="_blank">GeoExt</a> and <a href="http://www.openlayers.org" target="_blank">OpenLayers<a>. It continues to use <a href="http://www.geoserver.org" target="_blank">GeoServer</a>-based <a href="https://wiki.state.ma.us/confluence/display/massgis/Home" target="_blank">MassGIS web mapping services</a>. The project was graciously funded by SeaPlan.</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;"><strong style="font-weight:bold">Terms and Conditions:</strong> By using MORIS you agree to the following <a href="http://www.mass.gov/czm/mapping/index.htm#disclaimer" target="_blank">terms</a>.</td></tr><tr>	<td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">MORIS was developed using open source technology&#151;the MORIS codebase is free for use and modification under the GNU General Public License. More information about the open source nature of MORIS can be found in the <a href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm" target="_blank">MORIS Developers Documentation</a> or at <a href="http://code.google.com/p/morisoliver" target="_blank">Google Code</a>.</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources. As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast. CZM is funded primarily through the Commonwealth of Massachusetts, the National Oceanic and Atmospheric Administration (NOAA), and the U.S. Environmental Protection Agency (EPA).</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">MassGIS is the Office of Geographic Information within the Information Technology Division (ITD). Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information. The state legislature has established MassGIS as the official state agency assigned to the collection, storage, and dissemination of geographic data. In addition, the legislative mandate includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">SeaPlan aims to advance science-based and stakeholder-informed ocean management by enhancing knowledge, relationships, and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products. The MORIS application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related-uses.</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;">Please contact <a href="mailto:Daniel.Sampson@state.ma.us">Daniel.Sampson@state.ma.us</a> with questions or comments. Last updated January 9, 2012.</td></tr><tr><td style="font-family:Lucida Sans Unicode;font-size:12px;font-weight:400;width:100%;text-align:center;"><a href="http://www.mass.gov/czm" target="_blank" title="Massachusetts Office of Coastal Zone Management"><img src="img/czm_sda2.png" alt="CZM Logo" style="height:55px;border:0px;margin:0px 10px;"></a><a href="http://www.mass.gov/mgis" target="_blank" title="Office of Geographic Information"><img src="img/massgis.png" alt="MassGIS Logo" style="height:55px;border:0px;margin:0px 10px;"></a><a href="http://www.seaplan.org/" target="_blank" title="SeaPlan"><img src="img/mop.png" alt="SeaPlan Logo" style="height:55px;border:0px;margin:0px 10px;"></a></td></tr></table>';
       var moreInfoWidth = 850;
       var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
@@ -50,15 +50,17 @@ var moreInfoHTML='<table border="0" cellspacing="10" cellpadding="0" width="100%
          ,'TopOSM-MA'
        ];
 
-      var defaultBase         = 'googleSatellite';   
+      var defaultBase         = 'custom';   
       var defaultBaseOpacity  = 1;
-      var defaultCoordUnit    = 'dms';    // can be one of 'dms','dd','m'
-      var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
+      var defaultCoordUnit    = 'dd';    // can be one of 'dms','dd','m'
+      var defaultMeasureUnit  = 'nm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'          ,title : 'Massachusetts Municipal Boundaries Lines'}
-         ,{wms : 'massgis:MORIS.HA_HYDROLOGIC_UNITS_POLY'           ,title : 'Hydrologic Units'}
+         {wms : 'massgis:GISDATA.OCEANMASK_POLY_MASURVEYCOAST' ,title : 'Ocean'}
+        ,{wms : 'massgis:GISDATA.NEMASK_POLY_MASURVEY'         ,title : 'New England'}
+        ,{wms : 'massgis:GISDATA.TOWNSSURVEY_POLY'             ,title : 'Massachusetts Municipal Boundaries Polygons'}
+        ,{wms : 'massgis:MORIS.OM_PLANNING_AREA_POLY'          ,title : 'Massachusetts Ocean Management Planning Area'}
       ];
-      var defaultBbox         = [-71.36423968499797,42.13956521406532,-70.69476031500159,42.55417899124114];  // decimal degrees E
+      var defaultBbox         = [-72.12520730140146,41.01594581045086,-68.7766982052202,43.029064493971575];  // decimal degrees E
       var maxBbox             = [-76.211689,39.586711,-67.191604,44.798225];  // decimal degrees E
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
@@ -66,12 +68,20 @@ var moreInfoHTML='<table border="0" cellspacing="10" cellpadding="0" width="100%
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr style="font-family:Lucida Sans Unicode;font-size:1.0625em;font-weight:400; background:url(img/habitatatlas_banner.png);width:100%;height:24px;text-shadow:-1px 1px #fff;vertical-align:top"><td><a href="http://www.mass.gov/envir/massbays/bhha_home.htm" target="_blank" title="Massachusetts Bays Program: Boston Harbor Habitat Atlas" style="text-decoration:none;color:#000"><img src="img/mbp_logo_small.png" style="border:0px;vertical-align:top" /> &nbsp;Boston Harbor Habitat Atlas</a></td></tr></table>';
+      var bannerHTML='<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr style="font-family:Lucida Sans Unicode;font-size:1.0625em;font-weight:400; background:url(img/mass_ocean_plan_banner.png);width:100%;height:24px;text-shadow:-1px 1px #fff;vertical-align:top"><td><a href="http://www.mass.gov/eea/ocean-coastal-management/mass-ocean-plan/" target="_blank" title="Massachusetts Ocean Management Plan" style="text-decoration:none;color:#000"><img src="img/czm_wave.png" style="border:0px;vertical-align:top" /> &nbsp;MORIS: Massachusetts Ocean Management Plan Data</a></td></tr></table>';
       var bannerHeight = 26;
-      var externalGetCaps = [
-         {name : 'None Available',url : ''}
-      ];
-
+      var externalGetCaps = {
+//        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
+//         name    : 'NOAA : Marine Protected Areas'
+//         ,getcaps : 'noaa_marine_protected_areas_getcaps.xml'
+//         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
+//       },
+        'http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/MapServer/WMSServer' : {
+         name    : 'NOAA Raster Navigational Charts (RNC)'
+         ,getcaps : 'noaa_charts_wms_getcaps.xml'
+         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
+       }
+      };
     </script>
 
     <!-- pick one of the following blocks & make sure it's not commented out -->
@@ -86,12 +96,12 @@ var moreInfoHTML='<table border="0" cellspacing="10" cellpadding="0" width="100%
       bingDisabled = false;
       bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
-      siteTitle    = 'Boston Harbor Habitat Atlas';
-      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/habitatatlas.php';
+      siteTitle    = 'MORIS';
+      siteUrl      = 'http://170.63.166.213/map_ol/moris.php';
     </script>
 	
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_habitatatlas.js?<?php echo time(); ?>"></script>
+	<script type="text/javascript" src="js/toolConfig_moris.js?<?php echo time(); ?>"></script>
 
     <script>
       document.title = siteTitle;
