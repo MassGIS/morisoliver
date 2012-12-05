@@ -285,6 +285,7 @@
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -292,6 +293,7 @@
 	};
 	
 	toolSettings.navigationTools.zoomOut = {};
+        toolSettings.navigationTools.zoomOut.status = 'show';
 	toolSettings.navigationTools.zoomOut.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -300,6 +302,7 @@
 	
 	
 	toolSettings.navigationTools.pan = {};
+        toolSettings.navigationTools.pan.status = 'show';
 	toolSettings.navigationTools.pan.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -307,6 +310,7 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
+        toolSettings.navigationTools.nextExtent.status = 'show';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -314,6 +318,7 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
+        toolSettings.navigationTools.maxExtent.status = 'show';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -321,6 +326,7 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
+        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -328,6 +334,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -335,6 +342,7 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
+        toolSettings.navigationTools.zoomScale.status = 'show';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
