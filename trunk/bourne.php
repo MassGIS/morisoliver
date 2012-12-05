@@ -30,11 +30,11 @@ this license.
 
       //
       // site-specific variables which may be modified but MUST be set
-      var foldersetLoc = '/temp/mbap_folderset.xml';
-var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center" <img border=none src="img/oliver_logo_lcase.jpg" alt="OLIVER logo"></td><td align="right"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts OnLIne ViewER (OLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. OLIVER can be used to search, display, and share spatial data pertaining to Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="http://lyceum.massgis.state.ma.us">MassGIS web mapping services</a>.  The project was graciously funded by SeaPlan.<br/><br/>OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">OLIVER Developer web site</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/mgis/mandate.htm">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/><a target="_blank" href="http://www.seaplan.org">SeaPlan</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated November 30, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.seaplan.org"><img border=none src="img/mop.png" alt="SeaPlan Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com" <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
-      var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
-      var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
-      var moreInfoWidth = 850;
+      var foldersetLoc = '/temp/bourne_folderset.xml';
+var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/munimapper_logo.jpg" alt="MuniMapper Logo"></a></td><td align="center"><img border=none src="img/state_seal.png" alt="MA State Seal"></td><td align="right"><a target="_blank" href="http://www.mass.gov"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify">The Municipal Mapper (MuniMapper) is based on an online mapping tool called OLIVER, which was created for the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. MuniMapper can be used to search, display, and share spatial data pertaining to municipalities.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis">MassGIS web mapping services</a>.  The project was graciously funded by <a target="_blank" href="http://www.seaplan.org">SeaPlan</a>.  OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">OLIVER Developer web site</a>.<br><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/about-massgis/mandate.html">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated October 2, 2012.</p></td></tr><tr><td></td><td></td><td align=right><a target="_blank" href="http://www.mass.gov"><img border=none src="img/itd-logo-200x91.jpg" alt="ITD Logo"></a></td></tr></table>';
+      var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/munimapper_users_documentation.htm';
+      var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/MuniMapper_users_documentation.pdf';
+      var moreInfoWidth = 675;
 
        var availableBase       = [
           'custom'
@@ -50,24 +50,24 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'TopOSM-MA'
        ];
 
-      var defaultBase         = 'custom';   
+      var defaultBase         = 'googleHybrid';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'          ,title : 'Towns'}
-         ,{wms : 'massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V'     ,title : 'All Butterflies Grid'}
+         {wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'                    ,title : 'MA Towns Survey Boundaries'  }
       ];
-      var defaultBbox = [-73.939378,41.041696,-69.177200,43.038347];
-      var maxBbox     = [-76.211689,39.586711,-67.191604,44.798225];
+      var defaultBbox = [-70.74063,41.64842,-70.45320,41.80795];
+      var maxBbox     = [-70.74063,41.64842,-70.45320,41.80795];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
       var wcsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wcs';
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table style="font-family:Arial"><tr><td><a target="_blank" href="http://www.massaudubon.org"><img src="../images/audubon_logo.gif" alt="MA Audubon logo"/></a></td><td>&nbsp;&nbsp;</td><td><font size="+2">Massachusetts Butterfly Atlas</font></td><td>&nbsp;</td><td><img src="../images/acadianhairstreak1_small.png" alt="Acadian Hairstreak"/></td><td>Acadian Hairstreak</td><td>&nbsp;&nbsp;</td><td><a target="_blank" href="http://massaudubon.org/butterflyatlas/about.php">About the Atlas</a></td><td>&nbsp;&nbsp;</td><td><a target="_blank" href="http://www.mass.gov/mgis"><img src="../images/massgis.gif" alt="MassGIS Logo"/></a></td></tr>';
-      var bannerHeight = 95;
+
+var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><td><a target="_blank" href="http://www.townofbourne.com"><img src="img/bourne_seal_color_transparent.png" alt="Bourne, MA town seal"/></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=+3>MuniMapper: Bourne, MA</font><br/><font size=-1><a target="_blank" href="http://www.townofbourne.com">Town of Bourne Web Site</a><br/><a target="_blank" href="munimapper_disclaimer.html">Disclaimer<font></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="img/munimapper_web.png" alt="MuniMapper logo"></td></tr>';
+      var bannerHeight = 135;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
 //         name    : 'NOAA : Marine Protected Areas'
@@ -94,13 +94,13 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       bingDisabled = false;
       bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
-      siteTitle    = 'MA Butterfly Atlas';
-      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/mbap.php';
+      siteTitle    = 'MuniMapper: Bourne, MA';
+      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/bourne.php';
     </script>
 
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_oliver.js?<?php echo time(); ?>"></script>	
-	
+	<script type="text/javascript" src="js/toolConfig_bourne.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_sample_filter_bourne.js?<?php echo time(); ?>"></script>	
     <script>
       document.title = siteTitle;
     </script>

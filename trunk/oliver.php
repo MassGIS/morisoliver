@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
 <!--
@@ -34,6 +35,20 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
       var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
       var moreInfoWidth = 850;
+       var availableBase       = [
+          'custom'
+         ,'googleSatellite'
+         ,'googleTerrain'
+         ,'googleRoadmap'
+         ,'googleHybrid'
+         ,'openStreetMap'
+         ,'bingRoads'
+         ,'bingAerial'
+         ,'bingHybrid'
+         ,'CloudMade'
+         ,'TopOSM-MA'
+       ];
+
 
       var defaultBase         = 'custom';   
       var defaultBaseOpacity  = 1;
@@ -100,14 +115,14 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     </script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
 	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />
-    <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/ext-3.4.0/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
 
 	<!-- editing tools -->
 	<link rel="stylesheet" type="text/css" href="css/statusbar.css" />
 	
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/ext-3.4.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/ext-3.4.0/ext-all.js"></script>
 
 	
 	<!-- editing tools -->
@@ -124,7 +139,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.11/OpenLayers.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.12-rc7/OpenLayers-closure.js"></script>
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
