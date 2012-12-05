@@ -343,7 +343,7 @@ toolSettings.filter = {
 
                 f.unshift(new OpenLayers.Filter.Spatial({
                    type     : OpenLayers.Filter.Spatial.INTERSECTS
-                  ,property : lyr2type[toolSettings.filter.wmsLayerName] == 'shp' ? 'the_geom' : 'SHAPE'
+                  ,property : lyr2shp[toolSettings.filter.wmsLayerName] == 'true' ? 'the_geom' : 'SHAPE'
                   ,value    : map.getExtent().toGeometry()
                 }));
 
