@@ -28,6 +28,7 @@ var lyr2wms          = [];
 var lyr2proj         = {};
 var lyr2type         = {};
 var lyr2shp          = {};
+var lyr2tiled_overlays = {};
 var wms2ico          = [];
 var activeLyr        = {};
 var lyrMetadata      = [];
@@ -181,7 +182,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|MassGIS_Basemap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -746,6 +747,31 @@ Ext.onReady(function() {
       ,maxExtent         : maxExtent26986
     }
   );
+  lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.OSM(
+     'openStreetMap'
+    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png',
+      'http://170.63.206.116/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png']
+//    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MichaelBasemapCacheTest/${z}/${y}/${x}.jpg',
+//      'http://170.63.206.116/tiles/Basemaps_MichaelBasemapCacheTest/${z}/${y}/${x}.jpg']
+    ,{
+        tileOptions: { crossOriginKeyword: null }
+    }
+  );
+/*
+     'custom'
+    ,'img/bg.png'
+    ,{}
+    ,{
+       isBaseLayer : true
+      ,maxScale    : 100
+      ,minScale    : 5000000
+      ,projection  : new OpenLayers.Projection("EPSG:26986")
+      ,displayProjection : new OpenLayers.Projection("EPSG:4326")
+      ,units             : 'm'
+      ,maxExtent         : maxExtent26986
+    }
+  );
+*/
 
   scaleRatioControl = new OpenLayers.Control.Scale();
   scaleRatioControl.updateScale = 
@@ -995,7 +1021,7 @@ Ext.onReady(function() {
   });
 
   map.events.register('preaddlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms')) {
+    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms') || lyr2tiled_overlays[e.layer.name] == 'true') {
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
@@ -1015,7 +1041,7 @@ Ext.onReady(function() {
                   a.push(cn[i]);
                 }
               }
-              a.push('type' + wms2ico[wms] + 'Red');
+              e.layer.name && lyr2tiled_overlays[e.layer.name] == 'true' && a.push('type' + wms2ico[wms] + 'Red');
               n.getUI().getIconEl().className = a.join(' ');
               n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
               if (document.getElementById(n.attributes.layer.name + '.loading')) {
@@ -1097,6 +1123,9 @@ Ext.onReady(function() {
         }
         if (attr.shp !== undefined) {
           lyr2shp[attr.title] = attr.shp;
+        }
+        if (attr.tiled_overlay !== undefined) {
+          lyr2tiled_overlays[attr.title] = attr.tiled_overlay;
         }
 
         attr.leaf           = true;
@@ -3467,51 +3496,63 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
 function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
   if (!activeLyr[title]) {
-    activeLyr[title] = new OpenLayers.Layer.WMS(
-       title
-      ,url + (url.indexOf('?') < 0 ? '?' : '')
-      ,{
-         layers      : wms
-        ,transparent : true
-        ,styles      : styles && styles != '' ? styles : wmsStyl[title]
-        ,style       : styles && styles != '' ? styles : wmsStyl[title]
-        ,foo         : title
-        ,version     : '1.1.1'
-        ,filter      : (new RegExp(/ogc/).test(filter) ? filter : null)
-      }
-      ,{
-         projection         : map.getProjection()
-        ,singleTile         : true
-        ,isBaseLayer        : false
-        ,opacity            : opacity
-        ,addToLayerSwitcher : false
-        ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
-      }
-    );
-
+    if (lyr2tiled_overlays[title] == 'true') {
+      activeLyr[title] = new OpenLayers.Layer.OSM(
+        title
+        ,['http://gisprpxy.itd.state.ma.us/tiles/' + wms + '/${z}/${y}/${x}.png',
+          'http://170.63.206.116/tiles/' + wms + '/${z}/${y}/${x}.png']
+        ,{
+          tileOptions: { crossOriginKeyword: null },
+          visibility: true,
+          isBaseLayer: false,
+          addToLayerSwitcher: false
+        });
+    } else {
+      activeLyr[title] = new OpenLayers.Layer.WMS(
+         title
+        ,url + (url.indexOf('?') < 0 ? '?' : '')
+        ,{
+           layers      : wms
+          ,transparent : true
+          ,styles      : styles && styles != '' ? styles : wmsStyl[title]
+          ,style       : styles && styles != '' ? styles : wmsStyl[title]
+          ,foo         : title
+          ,version     : '1.1.1'
+          ,filter      : (new RegExp(/ogc/).test(filter) ? filter : null)
+        }
+        ,{
+           projection         : map.getProjection()
+          ,singleTile         : true
+          ,isBaseLayer        : false
+          ,opacity            : opacity
+          ,addToLayerSwitcher : false
+          ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
+        }
+      );
+    }
     if (externalGetCaps[url.split('?')[0]]) {
       // override projections for externalWMS
       activeLyr[title].getFullRequestString = function(newParams, altUrl) {
-          var mapProjection = this.map.getProjectionObject();
-          var projectionCode = this.projection && this.projection.equals(mapProjection) ?
-              this.projection.getCode() :
-              mapProjection.getCode();
-          if (externalGetCaps[this.url.split('?')[0]].proj[mapProjection.getCode()]) {
-              projectionCode = externalGetCaps[this.url.split('?')[0]].proj[projectionCode];
-          }
-          var value = (projectionCode == "none") ? null : projectionCode;
-          if (parseFloat(this.params.VERSION) >= 1.3) {
-              this.params.CRS = value;
-          } else {
-              this.params.SRS = value;
-          }
-  
-          if (typeof this.params.TRANSPARENT == "boolean") {
-              newParams.TRANSPARENT = this.params.TRANSPARENT ? "TRUE" : "FALSE";
-          }
-  
-          return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
-                                                      this, arguments);
+        var mapProjection = this.map.getProjectionObject();
+        var projectionCode = this.projection && this.projection.equals(mapProjection) ?
+            this.projection.getCode() :
+            mapProjection.getCode();
+        if (externalGetCaps[this.url.split('?')[0]].proj[mapProjection.getCode()]) {
+            projectionCode = externalGetCaps[this.url.split('?')[0]].proj[projectionCode];
+        }
+        var value = (projectionCode == "none") ? null : projectionCode;
+        if (parseFloat(this.params.VERSION) >= 1.3) {
+          this.params.CRS = value;
+        } else {
+          this.params.SRS = value;
+        }
+
+        if (typeof this.params.TRANSPARENT == "boolean") {
+            newParams.TRANSPARENT = this.params.TRANSPARENT ? "TRUE" : "FALSE";
+        }
+
+        return OpenLayers.Layer.Grid.prototype.getFullRequestString.apply(
+                                                  this, arguments);
       }
     }
 
@@ -5612,14 +5653,14 @@ function makeBasemapMenu() {
             map.setOptions({fractionalZoom : true});
             if (map.getProjection() == 'EPSG:26986') {
               map.setBaseLayer(lyrBase['custom']);
-              Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
               Ext.getCmp('zoomToAScale').setDisabled(false);
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'));
               map.setBaseLayer(lyrBase['custom']);
-              Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('zoomToAScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Type a custom scale below and press Enter.  A leading "1:" is optional.');
               map.setOptions({maxExtent : maxExtent26986});
@@ -6008,6 +6049,45 @@ function makeBasemapMenu() {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
               map.setBaseLayer(lyrBase['TopOSM-MA']);
               Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'MassGIS_Basemap') {
+      bm.push(
+        {
+           text    : 'MassGIS Statewide Basemap'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'MassGIS_Basemap'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('MassGIS_Basemap');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('MassGIS_Basemap');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['MassGIS_Basemap']);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['MassGIS_Basemap']);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
               map.setOptions({maxExtent : maxExtent900913});
