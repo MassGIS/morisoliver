@@ -28,7 +28,6 @@ var lyr2wms          = [];
 var lyr2proj         = {};
 var lyr2type         = {};
 var lyr2shp          = {};
-var lyr2tiled_overlays = {};
 var wms2ico          = [];
 var activeLyr        = {};
 var lyrMetadata      = [];
@@ -748,7 +747,7 @@ Ext.onReady(function() {
     }
   );
   lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.OSM(
-     'openStreetMap'
+     'MassGIS_Basemap'
     ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png',
       'http://170.63.206.116/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png']
 //    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MichaelBasemapCacheTest/${z}/${y}/${x}.jpg',
@@ -1021,7 +1020,7 @@ Ext.onReady(function() {
   });
 
   map.events.register('preaddlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms') || lyr2tiled_overlays[e.layer.name] == 'true') {
+    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms') || lyr2type[e.layer.name] == 'tiled_overlay') {
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
@@ -1041,7 +1040,7 @@ Ext.onReady(function() {
                   a.push(cn[i]);
                 }
               }
-              e.layer.name && lyr2tiled_overlays[e.layer.name] == 'true' && a.push('type' + wms2ico[wms] + 'Red');
+              e.layer.name && lyr2type[e.layer.name] == 'tiled_overlay' && a.push('type' + wms2ico[wms] + 'Red');
               n.getUI().getIconEl().className = a.join(' ');
               n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
               if (document.getElementById(n.attributes.layer.name + '.loading')) {
@@ -1123,9 +1122,6 @@ Ext.onReady(function() {
         }
         if (attr.shp !== undefined) {
           lyr2shp[attr.title] = attr.shp;
-        }
-        if (attr.tiled_overlay !== undefined) {
-          lyr2tiled_overlays[attr.title] = attr.tiled_overlay;
         }
 
         attr.leaf           = true;
@@ -3216,7 +3212,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active data layers on'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
+            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
               activeLyr[i].setVisibility(true);
             }
           }
@@ -3232,7 +3228,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active data layers off'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms') {
+            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
               if (activeLyr[i].visibility) {
                 activeLyr[i].setVisibility(false);
               }
@@ -3249,7 +3245,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,text         : 'Remove all'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix) == 0 || lyr2type[i] == 'externalWms') {
+            if (String(lyr2wms[i]).indexOf(featurePrefix) == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
               map.removeLayer(activeLyr[i]);
               delete activeLyr[i];
             }
@@ -3496,7 +3492,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
 function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
   if (!activeLyr[title]) {
-    if (lyr2tiled_overlays[title] == 'true') {
+    if (lyr2type[title] == 'tiled_overlay') {
       activeLyr[title] = new OpenLayers.Layer.OSM(
         title
         ,['http://gisprpxy.itd.state.ma.us/tiles/' + wms + '/${z}/${y}/${x}.png',
