@@ -748,10 +748,8 @@ Ext.onReady(function() {
   );
   lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.OSM(
      'MassGIS_Basemap'
-    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png',
-      'http://170.63.206.116/tiles/Basemaps_MassGISBasemapWithLabels1/${z}/${y}/${x}.png']
-//    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MichaelBasemapCacheTest/${z}/${y}/${x}.jpg',
-//      'http://170.63.206.116/tiles/Basemaps_MichaelBasemapCacheTest/${z}/${y}/${x}.jpg']
+    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg',
+      'http://170.63.206.116/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg']
     ,{
         tileOptions: { crossOriginKeyword: null }
     }
@@ -1040,7 +1038,7 @@ Ext.onReady(function() {
                   a.push(cn[i]);
                 }
               }
-              e.layer.name && lyr2type[e.layer.name] == 'tiled_overlay' && a.push('type' + wms2ico[wms] + 'Red');
+              e.object.layer.name && lyr2type[e.object.layer.name] == 'tiled_overlay' && a.push('type' + wms2ico[wms] + 'Red');
               n.getUI().getIconEl().className = a.join(' ');
               n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
               if (document.getElementById(n.attributes.layer.name + '.loading')) {
@@ -3015,6 +3013,9 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
+                if (lyrBase['MassGIS_Basemap'].map) {
+                  lyrBase['MassGIS_Basemap'].setOpacity(newVal/100);
+                }
                 if (lyrBase['TopOSM-MA'].map) {
                   lyrBase['TopOSM-MA'].setOpacity(newVal/100);
                 }
@@ -3503,6 +3504,10 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           isBaseLayer: false,
           addToLayerSwitcher: false
         });
+      // need this fake layer object for loading events (tilesets aren't layers)
+      activeLyr[title].layer = {
+        name : title
+      };
     } else {
       activeLyr[title] = new OpenLayers.Layer.WMS(
          title
@@ -5363,7 +5368,8 @@ function showBaseLayerMetadata(l) {
     ,'Google Hybrid'    : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
-    ,'TopOSM-MA'         : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
+    ,'TopOSM-MA'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
+    ,'MassGIS_Basemap'  : 'http://maps.massgis.state.ma.us/map_ol_tile/MassGIS_Basemap_Metadata.htm'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
