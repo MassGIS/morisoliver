@@ -1027,6 +1027,7 @@ Ext.onReady(function() {
       });
 
       e.layer.events.register('loadend',this,function(e) {
+console.dir({l : e.object.name,d : e.object.div.outerHTML});
         if (e.object.div.outerHTML.indexOf('olImageLoadError') > 0) {
           olActiveLayers.getRootNode().cascade(function(n) {
             if (n.text == e.object.name) {
@@ -1053,7 +1054,6 @@ Ext.onReady(function() {
             document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
           }
           loadedWms[e.object.name] = true;
-          syncIconScale();
           // we may need to clear out errors for layers who have magically come back to life
           if (olActiveLayers) {
             olActiveLayers.getRootNode().cascade(function(n) {
@@ -1079,6 +1079,8 @@ Ext.onReady(function() {
             loadError[e.object.name] = 0;
           }
         }
+        // a scale trumps any errors
+        syncIconScale();
       });
     }
   });
@@ -3468,10 +3470,6 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
   Ext.getCmp('mappanel').body.setStyle('cursor','move');
 
-  map.events.register('zoomend',this,function() {
-    syncIconScale();
-  });
-
   map.events.register('click',this,function() {
     messageContextMenuFeatureCtrlBbox ? messageContextMenuFeatureCtrlBbox.hide() : null;
     messageContextMenuActiveLyr ? messageContextMenuActiveLyr.hide() : null;
@@ -3611,7 +3609,6 @@ function syncIconScale() {
       wms = lyr2wms[n.attributes.layer.name];
       var scaleInfo = scaleOK(n.attributes.layer.name);
       var qtip = undefined;
-      // an erroring layer trumps scale
       if (!scaleInfo.isOK) {
         if (n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') < 0) {
           n.getUI().getIconEl().className = n.getUI().getIconEl().className.replace('type' + wms2ico[wms],'type' + wms2ico[wms] + 'Gray');
