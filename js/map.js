@@ -1085,7 +1085,7 @@ Ext.onReady(function() {
 
   map.events.register('addlayer',this,function(e) {
     // keep important stuff on top
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms')) {
+    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || new RegExp(/layergroup|externalWms|tiled_overlay/).test(lyr2type[e.layer.name]))) {
       map.setLayerIndex(e.layer,map.layers.length - 1 - countTopLayers());
     }
   });
@@ -4420,6 +4420,11 @@ function mkPermalink() {
       lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['STYLES']);
       opcty.push(map.layers[i].opacity);
       filt.push(escape(OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['FILTER']));
+    }
+    else if (lyr2type[map.layers[i].name] == 'tiled_overlay' && map.layers[i].visibility) {
+      lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + '');
+      opcty.push(map.layers[i].opacity);
+      filt.push('undefined');
     }
   }
 
