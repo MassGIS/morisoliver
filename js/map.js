@@ -1027,7 +1027,6 @@ Ext.onReady(function() {
       });
 
       e.layer.events.register('loadend',this,function(e) {
-console.dir({l : e.object.name,d : e.object.div.outerHTML});
         if (e.object.div.outerHTML.indexOf('olImageLoadError') > 0) {
           olActiveLayers.getRootNode().cascade(function(n) {
             if (n.text == e.object.name) {
