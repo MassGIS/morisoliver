@@ -192,6 +192,11 @@
 .typelayergroupRed { background-image: url(../img/layers-red.png) !important; }
 .typelayergroupYellow { background-image: url(../img/layers-yellow.png) !important; }
 
+.typetiled_overlay { background-image: url(../img/tile.png) !important; }
+.typetiled_overlayGray { background-image: url(../img/tile-gray.png) !important; }
+.typetiled_overlayRed { background-image: url(../img/tile-red.png) !important; }
+.typetiled_overlayYellow { background-image: url(../img/tile-yellow.png) !important; }
+
 #myAutoComplete {
     width:15em; /* set width here or else widget will expand to fit its container */
     padding-bottom:2em;
