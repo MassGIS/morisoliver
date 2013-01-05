@@ -3528,7 +3528,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
         }
       );
     }
-    if (externalGetCaps[url.split('?')[0]]) {
+    if (typeof url == 'string' && externalGetCaps[url.split('?')[0]]) {
       // override projections for externalWMS
       activeLyr[title].getFullRequestString = function(newParams, altUrl) {
         var mapProjection = this.map.getProjectionObject();
