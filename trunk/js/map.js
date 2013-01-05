@@ -587,7 +587,7 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       grayIcon = 'Gray';
       qtip     = 'Data layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
     } 
-    if (String('polyptlinerastergridlayergroup').indexOf(wms2ico[wms]) >= 0) {
+    if (String('polyptlinerastergridlayergrouptiled_overlay').indexOf(wms2ico[wms]) >= 0) {
       this.iconNode.className += ' type' + wms2ico[wms] + grayIcon;
     }
     else {
@@ -1111,7 +1111,7 @@ Ext.onReady(function() {
       }
       else {
         attr.iconCls = 'typedefault';
-        if (String('polyptlinerastergridlayergroupshpptshplineshppoly').indexOf(attr.type) >= 0) {
+        if (String('polyptlinerastergridlayergroupshpptshplineshppolytiled_overlay').indexOf(attr.type) >= 0) {
           attr.iconCls = 'type' + attr.type;
         }
 
@@ -3610,12 +3610,24 @@ function syncIconScale() {
       var qtip = undefined;
       if (!scaleInfo.isOK) {
         if (n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') < 0) {
-          n.getUI().getIconEl().className = n.getUI().getIconEl().className.replace('type' + wms2ico[wms],'type' + wms2ico[wms] + 'Gray');
+          var p = n.getUI().getIconEl().className.split(' ');
+          for (var i = 0; i < p.length; i++) {
+            if (p[i].indexOf('type' + wms2ico[wms]) >= 0) {
+              p[i] = 'type' + wms2ico[wms] + 'Gray';
+            }
+          }
+          n.getUI().getIconEl().className = p.join(' ');
         }
         qtip = 'Data layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
       }
       else {
-        n.getUI().getIconEl().className = n.getUI().getIconEl().className.replace('type' + wms2ico[wms] + 'Gray','type' + wms2ico[wms]);
+        var p = n.getUI().getIconEl().className.split(' ');
+        for (var i = 0; i < p.length; i++) {
+          if (p[i].indexOf('type' + wms2ico[wms]) >= 0) {
+            p[i] = 'type' + wms2ico[wms];
+          }
+        }
+        n.getUI().getIconEl().className = p.join(' ');
       }
       n.getUI().getIconEl().qtip = qtip;
     }
