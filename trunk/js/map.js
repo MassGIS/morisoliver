@@ -3585,7 +3585,10 @@ function syncIconScale() {
       wms = lyr2wms[n.attributes.layer.name];
       var scaleInfo = scaleOK(n.attributes.layer.name);
       var qtip = undefined;
-      if (map.getProjection().toLowerCase() != String(lyr2proj[n.attributes.layer.name]).toLowerCase() && String(lyr2proj[n.attributes.layer.name]) != 'undefined') {
+      if (
+        (map.getProjection().toLowerCase() != String(lyr2proj[n.attributes.layer.name]).toLowerCase() && String(lyr2proj[n.attributes.layer.name]) != 'undefined')
+        || (lyr2type[n.attributes.layer.name] == 'tiled_overlay' && map.getProjection().toLowerCase() != 'epsg:900913')
+      ) {
         var p = n.getUI().getIconEl().className.split(' ');
         var found = false;
         for (var i = 0; i < p.length; i++) {
