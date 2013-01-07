@@ -15,7 +15,6 @@ if (typeof MorisOliverApp.quickZoomDefn == 'undefined') {
   MorisOliverApp.quickZoomDefn ={};
 }
 
-var loadedWms = {};
 var maxAllowedFeatures = 25000;
 var map;
 var lyrBase          = [];
@@ -546,8 +545,6 @@ var maxExtent26986  = new OpenLayers.Bounds(maxBbox[0],maxBbox[1],maxBbox[2],max
 
 OpenLayers.ProxyHost = proxyLoc;
 
-// I should be able to do this via a uiProviders w/i the olActiveLayers'
-// LayerLoader, but I can't get that to work.  So override it here.
 Ext.override(GeoExt.tree.LayerNodeUI,{
   render : function(bulkRender) {
     var a = this.node.attributes;
@@ -567,33 +564,11 @@ Ext.override(GeoExt.tree.LayerNodeUI,{
       Ext.get(cb).remove();
       this.checkbox = radio;
     }
-    var imgSrc = !a.layer.visibility || loadedWms[a.layer.name] || (String(lyr2proj[a.layer.name]).toLowerCase() != 'undefined' && map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase()) ? 'img/blank.png' : 'img/loading.gif';
+    var el = document.getElementById(a.layer.name + '.loading');
+    var loadingWms = el && el.src == 'img/loading.gif';
+    var imgSrc = !a.layer.visibility || !loadingWms || (String(lyr2proj[a.layer.name]).toLowerCase() != 'undefined' && map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase()) ? 'img/blank.png' : 'img/loading.gif';
     Ext.DomHelper.insertBefore(cb,'<img id="' + a.layer.name + '.loading" height=12 width=12 style="margin-left:2px;margin-right:2px" src="' + imgSrc + '">');
-    this.enforceOneVisible();
-    // New icon part!
-    wms = lyr2wms[a.layer.name];
-    var scaleInfo = scaleOK(a.layer.name);
-    var grayIcon  = '';
-    var qtip      = undefined;
-    if (map.getProjection().toLowerCase() != String(lyr2proj[a.layer.name]).toLowerCase() && String(lyr2proj[a.layer.name]) != 'undefined') {
-      grayIcon = 'Yellow';
-      qtip     = 'This layer cannot be drawn with this basemap.';
-    }
-    else if (loadError[a.layer.name] == 1) {
-      grayIcon = 'Red';
-      qtip     = 'There was an error drawing this data layer.';
-    }
-    else if (!scaleInfo.isOK) {
-      grayIcon = 'Gray';
-      qtip     = 'Data layer not visible at this scale. Available range is ' + scaleInfo.range.join(' and ') + '.';
-    } 
-    if (String('polyptlinerastergridlayergrouptiled_overlay').indexOf(wms2ico[wms]) >= 0) {
-      this.iconNode.className += ' type' + wms2ico[wms] + grayIcon;
-    }
-    else {
-      this.iconNode.className += ' typedefault' + grayIcon;
-    }
-    this.iconNode.qtip = qtip;
+    syncIconScale();
   }
 });
 
@@ -1017,13 +992,16 @@ Ext.onReady(function() {
     qryWin.doLayout();
   });
 
+  map.events.register('changelayer',this,function(e) {
+    syncIconScale();
+  });
+
   map.events.register('preaddlayer',this,function(e) {
     if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms') || lyr2type[e.layer.name] == 'tiled_overlay') {
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
         }
-        loadedWms[e.object.name] = false;
       });
 
       e.layer.events.register('loadend',this,function(e) {
@@ -1052,7 +1030,6 @@ Ext.onReady(function() {
           if (document.getElementById(e.object.name + '.loading')) {
             document.getElementById(e.object.name + '.loading').src = 'img/blank.png';
           }
-          loadedWms[e.object.name] = true;
           // we may need to clear out errors for layers who have magically come back to life
           if (olActiveLayers) {
             olActiveLayers.getRootNode().cascade(function(n) {
@@ -3604,17 +3581,37 @@ function refreshLayers() {
 
 function syncIconScale() {
   olActiveLayers.getRootNode().cascade(function(n) {
-    if (n.attributes.layer) {
+    if (n.attributes.layer && n.getUI().getIconEl()) {
       wms = lyr2wms[n.attributes.layer.name];
       var scaleInfo = scaleOK(n.attributes.layer.name);
       var qtip = undefined;
-      if (!scaleInfo.isOK) {
+      if (map.getProjection().toLowerCase() != String(lyr2proj[n.attributes.layer.name]).toLowerCase() && String(lyr2proj[n.attributes.layer.name]) != 'undefined') {
+        var p = n.getUI().getIconEl().className.split(' ');
+        var found = false;
+        for (var i = 0; i < p.length; i++) {
+          if (p[i].indexOf('type' + wms2ico[wms]) >= 0) {
+            p[i] = 'type' + wms2ico[wms] + 'Yellow';
+            found = true;
+          }
+        }
+        if (!found) {
+          p.push('type' + wms2ico[wms] + 'Yellow');
+        }
+        n.getUI().getIconEl().className = p.join(' ');
+        qtip = 'This layer cannot be drawn with this basemap.';
+      }
+      else if (!scaleInfo.isOK) {
         if (n.getUI().getIconEl().className.indexOf('type' + wms2ico[wms] + 'Gray') < 0) {
           var p = n.getUI().getIconEl().className.split(' ');
+          var found = false;
           for (var i = 0; i < p.length; i++) {
             if (p[i].indexOf('type' + wms2ico[wms]) >= 0) {
               p[i] = 'type' + wms2ico[wms] + 'Gray';
+              found = true;
             }
+          }
+          if (!found) {
+            p.push('type' + wms2ico[wms] + 'Yellow');
           }
           n.getUI().getIconEl().className = p.join(' ');
         }
@@ -3622,12 +3619,18 @@ function syncIconScale() {
       }
       else {
         var p = n.getUI().getIconEl().className.split(' ');
+        var found = false;
         for (var i = 0; i < p.length; i++) {
           if (p[i].indexOf('type' + wms2ico[wms]) >= 0) {
             p[i] = 'type' + wms2ico[wms];
+            found = true;
           }
         }
+        if (!found) {
+          p.push('type' + wms2ico[wms]);
+        }
         n.getUI().getIconEl().className = p.join(' ');
+        qtip = '';
       }
       n.getUI().getIconEl().qtip = qtip;
     }
