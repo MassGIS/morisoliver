@@ -5,7 +5,10 @@
   $tmp_dir = '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
   $tmp_url = '/temp/OL_MORIS_print/';
 
-  $json = json_decode(file_get_contents('php://input')); // json_decode($HTTP_RAW_POST_DATA);
+  // for newer versions of PHP
+  // $json = json_decode(file_get_contents('php://input'));
+  // for older version of PHP
+  $json = json_decode($HTTP_RAW_POST_DATA);
 
   $w = str_replace('px','',$json->{'w'});
   $h = str_replace('px','',$json->{'h'});
