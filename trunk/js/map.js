@@ -3476,7 +3476,8 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           tileOptions: { crossOriginKeyword: null },
           visibility: true,
           isBaseLayer: false,
-          addToLayerSwitcher: false
+          addToLayerSwitcher: false,
+          opacity : opacity
         });
       // need this fake layer object for loading events (tilesets aren't layers)
       activeLyr[title].layer = {
