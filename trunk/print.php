@@ -45,6 +45,8 @@
 
       $ctx = stream_context_create($opts);
       $handle = fopen($tmp_dir.$id.'.png','w');
+      // DEBUG
+      file_put_contents('/tmp/maplog',$v->{'url'}.($v->{'grid'} ? '' : "&width=$w&height=$h&bbox=$bbox")."\n",FILE_APPEND);
       fwrite($handle,file_get_contents($v->{'url'}.($v->{'grid'} ? '' : "&width=$w&height=$h&bbox=$bbox"),false,$ctx));
       fclose($handle);
       if (!getimagesize($tmp_dir.$id.'.png')) {
