@@ -5,7 +5,7 @@
   $tmp_dir = '/opt/massgis/wwwroot/temp/OL_MORIS_print/';
   $tmp_url = '/temp/OL_MORIS_print/';
 
-  $json = json_decode($HTTP_RAW_POST_DATA);
+  $json = json_decode(file_get_contents('php://input')); // json_decode($HTTP_RAW_POST_DATA);
 
   $w = str_replace('px','',$json->{'w'});
   $h = str_replace('px','',$json->{'h'});
@@ -19,46 +19,50 @@
   $titles  = array();
   $legSize = array(250,0);
 
-  foreach ($json->{'layers'} as $k => $v) {
-    $opts = array();
-    foreach ($GS_SECURED_LAYERS as $sec_layer) {
-      if ( stripos( $v->img, $sec_layer ) !== FALSE) {
-        if (!isset($_SERVER['PHP_AUTH_USER'])) {
-          header('WWW-Authenticate: Basic realm="OLIVER Printing"');
-          header('HTTP/1.0 401 Unauthorized');
-          echo 'enter user/pass to print a secured layer in OLIVER';
-          exit;
+  foreach ($json->{'layers'} as $k => $a) {
+    foreach ($a as $v) {
+      $opts = array();
+      foreach ($GS_SECURED_LAYERS as $sec_layer) {
+        if ( stripos( $v->url, $sec_layer ) !== FALSE) {
+          if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header('WWW-Authenticate: Basic realm="OLIVER Printing"');
+            header('HTTP/1.0 401 Unauthorized');
+            echo 'enter user/pass to print a secured layer in OLIVER';
+            exit;
+          }
+
+          $auth = base64_encode($_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
+          //$header = array("Authorization: Basic $auth");
+          $header = "Authorization: Basic $auth";
+          $opts = array( 'http' => array ('method'=>'GET','header'=>$header));
+          error_log("sending map request with authentication: ".$_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
+
         }
-
-        $auth = base64_encode($_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
-        //$header = array("Authorization: Basic $auth");
-        $header = "Authorization: Basic $auth";
-        $opts = array( 'http' => array ('method'=>'GET','header'=>$header));
-        error_log("sending map request with authentication: ".$_SERVER['PHP_AUTH_USER'].':'.$_SERVER['PHP_AUTH_PW']);
-
       }
-    }
 
-    $ctx = stream_context_create($opts);
-    $handle = fopen($tmp_dir.$id.'.png','w');
-    fwrite($handle,file_get_contents($v->{'img'}."&width=$w&height=$h&bbox=$bbox",false,$ctx));
-    fclose($handle);
-    if (!getimagesize($tmp_dir.$id.'.png')) {
-      $img = new Imagick('img/blank.png');
+      $ctx = stream_context_create($opts);
+      $handle = fopen($tmp_dir.$id.'.png','w');
+      fwrite($handle,file_get_contents($v->{'url'}.($v->{'grid'} ? '' : "&width=$w&height=$h&bbox=$bbox"),false,$ctx));
+      fclose($handle);
+      if (!getimagesize($tmp_dir.$id.'.png')) {
+        $img = new Imagick('img/blank.png');
+      }
+      else {
+        $img = new Imagick($tmp_dir.$id.'.png');
+      }
+      // leave initially opaque cells alone
+      $img->evaluateImage(Imagick::EVALUATE_MULTIPLY,$v->{'opacity'},Imagick::CHANNEL_ALPHA);
+      $canvas->compositeImage($img,imagick::COMPOSITE_OVER,$v->{'x'},$v->{'y'});
     }
-    else {
-      $img = new Imagick($tmp_dir.$id.'.png');
-    }
-    // leave initially opaque cells alone
-    $img->evaluateImage(Imagick::EVALUATE_MULTIPLY,$v->{'opacity'},Imagick::CHANNEL_ALPHA);
-    $canvas->compositeImage($img,imagick::COMPOSITE_OVER,0,0);
+  }
 
+  foreach ($json->{'legends'} as $k => $v) {
     $handle = fopen($tmp_dir.$id.'.'.count($legends).'.png','w');
-    fwrite($handle,@file_get_contents(mkLegendUrl($v->{'legend'})));
+    fwrite($handle,@file_get_contents(mkLegendUrl($v)));
     fclose($handle);
     // use a blank image if no real legend came through
     if (!getimagesize($tmp_dir.$id.'.'.count($legends).'.png')) {
-      array_push($legends,new Imagick('img/blank.png'));  
+      array_push($legends,new Imagick('img/blank.png'));
     }
     else {
       array_push($legends,new Imagick($tmp_dir.$id.'.'.count($legends).'.png'));
@@ -69,7 +73,7 @@
   }
 
   $i = 0;
-  foreach ($json->{'layers'} as $k => $v) {
+  foreach ($json->{'legends'} as $k => $v) {
     array_push($titles,wordwrap($k,$legSize[0] / 6.5));
     $p = explode("\n",wordwrap($k,$legSize[0] / 6.5));
     $legSize[1] += $legends[$i++]->getImageHeight() + 20 + 12 * (count($p) - 1);
@@ -131,7 +135,6 @@
   $canvas->setImageFormat('png');
   $runningHt = 15;
   for ($i = count($legends) - 1; $i >= 0; $i--) {
-    // charlton
     $p = explode("\n",$titles[$i]);
     $draw = new ImagickDraw();
     $draw->setFont('Helvetica');
