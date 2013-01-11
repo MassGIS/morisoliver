@@ -3594,6 +3594,9 @@ function refreshLayers() {
 }
 
 function syncIconScale() {
+  if (!olActiveLayers) {
+    return;
+  }
   olActiveLayers.getRootNode().cascade(function(n) {
     if (n.attributes.layer && n.getUI().getIconEl()) {
       wms = lyr2wms[n.attributes.layer.name];
