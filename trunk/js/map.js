@@ -5847,7 +5847,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'bingAerial') {
       bm.push(
         {
-           text    : 'Bing Satellite'
+           text    : 'Bing Aerial'
           ,group   : 'basemap'
           ,checked : defaultBase == 'bingAerial'
           ,menu    : {items : [{
@@ -6117,7 +6117,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'TopOSM-MA') {
       bm.push(
         {
-           text    : 'TopOSM-Massachusetts'
+           text    : 'Massachusetts Topopgraphic Map'
           ,group   : 'basemap'
           ,checked : defaultBase == 'TopOSM-MA'
           ,menu    : {items : [{
