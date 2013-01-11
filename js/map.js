@@ -3479,6 +3479,19 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           addToLayerSwitcher: false,
           opacity : opacity
         });
+      // Bing is evil -- its zoom index is off by 1 when compared to tiled overlays.
+      // For whatever reason I can't fix this in the Bing init w/ a zoomOffset, so fix it here.  :(
+      activeLyr[title].getURL = function (bounds) {
+        var xyz = this.getXYZ(bounds);
+        xyz.z += map.baseLayer.name.indexOf('bing') == 0 ? 1 : 0;
+        var url = this.url;
+        if (OpenLayers.Util.isArray(url)) {
+            var s = '' + xyz.x + xyz.y + xyz.z;
+            url = this.selectUrl(s, url);
+        }
+
+        return OpenLayers.String.format(url, xyz);
+      };
       // need this fake layer object for loading events (tilesets aren't layers)
       activeLyr[title].layer = {
         name : title
