@@ -127,7 +127,8 @@ var lyrRasterQry = new OpenLayers.Layer.Vector(
   })}
 );
 
-OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
+//OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
+OpenLayers.DOTS_PER_INCH = 96;
 
 // test to see if any startup params were passed
 var p = OpenLayers.Util.getParameters();
