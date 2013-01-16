@@ -3478,7 +3478,8 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           visibility: true,
           isBaseLayer: false,
           addToLayerSwitcher: false,
-          opacity : opacity
+          opacity : opacity,
+	  numZoomLevels : 20
         });
       // Bing is evil -- its zoom index is off by 1 when compared to tiled overlays.
       // For whatever reason I can't fix this in the Bing init w/ a zoomOffset, so fix it here.  :(
