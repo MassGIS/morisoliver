@@ -727,7 +727,8 @@ Ext.onReady(function() {
     ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg',
       'http://170.63.206.116/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg']
     ,{
-        tileOptions: { crossOriginKeyword: null }
+	numZoomLevels : 20 
+        ,tileOptions: { crossOriginKeyword: null }
     }
   );
 /*
@@ -3474,7 +3475,22 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
         ,['http://gisprpxy.itd.state.ma.us/tiles/' + wms + '/${z}/${y}/${x}.png',
           'http://170.63.206.116/tiles/' + wms + '/${z}/${y}/${x}.png']
         ,{
-          tileOptions: { crossOriginKeyword: null },
+          tileOptions: { crossOriginKeyword: null,
+            eventListeners: {
+              'loaderror': function(evt) {
+                this.layer.errorTiles && this.layer.errorTiles.push(evt.object.url);
+                !this.layer.errorTiles && (this.layer.errorTiles = [evt.object.url]);
+                //console.log("error loading tile ",evt.object.url);
+              },
+              'loadend': function(evt) {
+                if (this.layer.errorTiles && this.layer.errorTiles.indexOf(evt.object.url) !== -1) {
+                  //console.log("tried to re-load tile with known bum url");
+                  evt.object.imgDiv.parentNode.removeChild(evt.object.imgDiv);
+                }
+                //console.log("loaded tile", evt);
+              }
+            }
+          },
           visibility: true,
           isBaseLayer: false,
           addToLayerSwitcher: false,
@@ -5849,7 +5865,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'bingAerial') {
       bm.push(
         {
-           text    : 'Bing Aerial'
+           text    : 'Bing Satellite'
           ,group   : 'basemap'
           ,checked : defaultBase == 'bingAerial'
           ,menu    : {items : [{
@@ -6119,7 +6135,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'TopOSM-MA') {
       bm.push(
         {
-           text    : 'Massachusetts Topopgraphic Map'
+           text    : 'TopOSM-Massachusetts'
           ,group   : 'basemap'
           ,checked : defaultBase == 'TopOSM-MA'
           ,menu    : {items : [{
