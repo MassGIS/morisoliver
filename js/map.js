@@ -5479,7 +5479,7 @@ function showBaseLayerMetadata(l) {
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
     ,'TopOSM-MA'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
-    ,'MassGIS_Basemap'  : 'http://maps.massgis.state.ma.us/map_ol_tile/MassGIS_Basemap_Metadata.htm'
+    ,'MassGIS_Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
