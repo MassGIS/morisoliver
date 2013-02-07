@@ -37,26 +37,29 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var moreInfoWidth = 675;
 
        var availableBase       = [
-          'custom'
-         ,'googleSatellite'
-         ,'googleTerrain'
-         ,'googleRoadmap'
-         ,'googleHybrid'
-         ,'openStreetMap'
-         ,'bingRoads'
+         'openStreetMap'
          ,'bingAerial'
          ,'bingHybrid'
-         ,'CloudMade'
          ,'TopOSM-MA'
+         ,'MassGIS_Basemap'
        ];
 
-      var defaultBase         = 'googleHybrid';   
+      var defaultBase         = 'MassGIS_Basemap';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
+
+
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'                    ,title : 'MA Towns Survey Boundaries'  }
+         {wms : 'Basemaps_Structures'                       ,title : 'Structures'}
+        ,{wms : 'Basemaps_L3Parcels'                        ,title : 'Tax Parcels'}
+        ,{wms : 'Basemaps_MassGISBasemapWithLabels2'        ,title : 'Detailed Features'}
+        ,{wms : 'massgis:AvonEnvironsL3TaxParAssess'        ,title : 'Tax Parcels for Query'}
+        ,{wms : 'massgis:GISDATA.NAVTEQRDS_ARC'             ,title : 'Roads for Query'}
+//        ,{wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'         ,title : 'MA Towns Survey Boundaries'  }
       ];
+
+
       var defaultBbox = [-71.10064,42.10359,-70.99774,42.15287];
       var maxBbox     = [-71.10064,42.10359,-70.99774,42.15287];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';

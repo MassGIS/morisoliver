@@ -47,23 +47,24 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'bingHybrid'
          ,'CloudMade'
          ,'TopOSM-MA'
+	 ,'MassGIS_Basemap'
        ];
 
 
-      var defaultBase         = 'custom';   
+      var defaultBase         = 'MassGIS_Basemap';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.OCEANMASK_POLY_MASURVEYCOAST'            ,title : 'Ocean'}
-        ,{wms : 'massgis:GISDATA.NEMASK_POLY_MASURVEY'                    ,title : 'States Bordering MA plus ME'}
-        //,{wms : 'massgis:GISDATA.TOWNSSURVEY_POLY'                        ,title : 'Massachusetts Towns Survey Polygons Filled White With Labels'}
-        ,{wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'                         ,title : 'Massachusetts Towns Survey Boundaries Muted Colors'}
-        ,{wms : 'massgis:GISDATA.EOTMAJROADS_RTE_MAJOR'                   ,title : 'Major MassDOT Routes Muted Colors'}
-        ,{wms : 'massgis:GISDATA.TOWNS_POLY'				  ,title : 'Massachusetts Towns Black Labels'}
+        {wms : 'Basemaps_Structures'                       ,title : 'Structures'}
+        ,{wms : 'Basemaps_L3Parcels'                       ,title : 'Tax Parcels'}
+	,{wms : 'Basemaps_MassGISBasemapWithLabels2'       ,title : 'Detailed Features'}
+        ,{wms : 'massgis:l3parcels_east'	           ,title : 'Tax Parcels East for Query'}
+        ,{wms : 'massgis:l3parcels_west'                   ,title : 'Tax Parcels West for Query'}
+//        ,{wms : 'massgis:GISDATA.NAVTEQRDS_ARC'	   ,title : 'Streets for Query'}
       ];
-      var defaultBbox = [-73.939378,41.041696,-69.177200,43.038347];
-      var maxBbox     = [-76.211689,39.586711,-67.191604,44.798225];
+      var defaultBbox = [-73.72946,41.15860,-69.64804,42.93893];
+      var maxBbox     = [-73.72946,41.15860,-69.64804,42.93893];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
       var wcsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wcs';
