@@ -36,27 +36,27 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/MuniMapper_users_documentation.pdf';
       var moreInfoWidth = 675;
        var availableBase       = [
-          'custom'
-         ,'googleSatellite'
-         ,'googleTerrain'
-         ,'googleRoadmap'
-         ,'googleHybrid'
-         ,'openStreetMap'
-         ,'bingRoads'
+         'openStreetMap'
          ,'bingAerial'
          ,'bingHybrid'
-         ,'CloudMade'
          ,'TopOSM-MA'
+         ,'MassGIS_Basemap'
        ];
 
 
-      var defaultBase         = 'googleHybrid';   
+      var defaultBase         = 'MassGIS_Basemap';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
+
       var defaultLyrs         = [
-	 {wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'                    ,title : 'MA Towns Survey Boundaries Arcs'  }
+         {wms : 'Basemaps_Structures'                       ,title : 'Structures'}
+        ,{wms : 'Basemaps_L3Parcels'                        ,title : 'Tax Parcels'}
+        ,{wms : 'Basemaps_MassGISBasemapWithLabels2'        ,title : 'Detailed Features'}
+        ,{wms : 'massgis:HamiltonEnvironsL3TaxParAssess'     ,title : 'Tax Parcels for Query'}
+        ,{wms : 'massgis:GISDATA.NAVTEQRDS_ARC'             ,title : 'Roads for Query'}
       ];
+
       var defaultBbox = [-70.94323,42.59504,-70.78715,42.65917];
       var maxBbox     = [-70.94323,42.59504,-70.78715,42.65917];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
