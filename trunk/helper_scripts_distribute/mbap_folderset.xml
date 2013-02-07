@@ -1,0 +1,105 @@
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="MA Butterfly Atlas Layers">
+           <Layer title="Towns" style="GISDATA.TOWNSSURVEY_POLYM::Default" name="massgis:GISDATA.TOWNSSURVEY_POLYM" type="poly"/>
+           <Layer title="All Butterflies Grid" style="Light_Grey_Outlines" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Acadian Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Acadian_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="American Copper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::American_Copper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="American Lady" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::American_Lady" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="American Snout" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::American_Snout" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Aphrodite Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Aphrodite_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Appalachian Brown" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Appalachian_Brown" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Arctic Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Arctic_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Atlantis Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Atlantis_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Baltimore Checkerspot" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Baltimore_Checkerspot" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Banded Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Banded_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Black Dash" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Black_Dash" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Bog Copper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Bog_Copper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Broad-winged Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Broad_Winged_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Bronze Copper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Bronze_Copper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Brown Elfin" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Brown_Elfin" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Cabbage White" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Cabbage_White" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Clouded Sulphur" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Clouded_Sulphur" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Cloudless Sulphur" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Cloudless_Sulphur" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Cobweb Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Cobweb_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Common Buckeye" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Common_Buckeye" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Common Ringlet" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Common_Ringlet" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Common Roadside Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Common_Roadside_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Common Sootywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Common_Sootywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Common Wood Nymph" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Common_Wood_Nymph" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Compton Tortoiseshell" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Compton_Tortoiseshell" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Coral Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Coral_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Crossline Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Crossline_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Delaware Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Delaware_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Dreamy Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Dreamy_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Dun Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Dun_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Dusted Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Dusted_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Early Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Early_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eastern Black Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Eastern_Black_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eastern Comma" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Eastern_Comma" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eastern Pine Elfin" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Eastern_Pine_Elfin" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eastern Tailed Blue" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Eastern_Tailed_Blue" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eastern Tiger Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Tiger_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Edwards' Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Edwards_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="European Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::European_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Eyed Brown" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Eyed_Brown" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Fiery Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Fiery_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Frosted Elfin" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Frosted_Elfin" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Gray Comma" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Gray_Comma" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Gray Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Gray_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Great Spangled Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Great_Spangled_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Hackberry Emperor" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Hackberry_Emperor" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Harris' Checkerspot" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Harris_Checkerspot" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Harvester" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Harvester" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Henry's Elfin" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Henrys_Elfin" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Hessel's Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Hessels_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Hoary Edge" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Hoary_Edge" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Hoary Elfin" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Hoary_Elfin" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Hobomok Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Hobomok_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Horace's Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Horaces_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Indian Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Indian_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Juniper Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Juniper_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Juvenal's Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Juvenals_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Least Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Least_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Leonard's Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Leonards_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Little Glassywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Little_Glassywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Little Wood Satyr" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Little_Wood_Satyr" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Little Yellow" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Little_Yellow" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Long Dash" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Long_Dash" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Long-tailed Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Long_Tailed_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Meadow Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Meadow_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Milbert's Tortoiseshell" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Milberts_Tortoiseshell" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Monarch" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Monarch" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Mourning Cloak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Mourning_Cloak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Mulberry Wing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Mulberry_Wing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Mustard White" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Mustard_White" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Northern Broken Dash" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Northern_Broken_Dash" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Northern Cloudywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Northern_Cloudywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Northern Pearly Eye" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Northern_Pearly_Eye" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Orange Sulphur" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Orange_Sulphur" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Painted Lady" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Painted_Lady" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Pearl Crescent" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Pearl_Crescent" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Peck's Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Pecks_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Pepper and Salt Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Pepper_and_Salt_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Pipevine Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Pipevine_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Question Mark" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Question_Mark" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Red Admiral" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Red_Admiral" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Red Spotted Purple/White Admiral" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Red_Spotted_Purple_White_Admiral" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Regal Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Regal_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Silver-bordered Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Silver_Bordered_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Silver-spotted Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Silver_Spotted_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Sleepy Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Sleepy_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Southern Cloudywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Southern_Cloudywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Southern/Northern/Oak Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Southern_Northern_Oak_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Spicebush Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Spicebush_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Spring Azure" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Spring_Azure" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Striped Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Striped_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Tawny-edged Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Tawny_Edged_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Two-spotted Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Two_Spotted_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Variegated Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Variegated_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Viceroy" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Viceroy" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="West Virginia White" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::West_Virginia_White" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="White M Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::White_M_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Wild Indigo Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Wild_Indigo_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/> 
+           <Layer title="Zabulon Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Zabulon_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+        </Folder>
+</FolderSet>

@@ -1,0 +1,38 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="General Geography">
+           <Layer title="South Coast Rail Region" style="Brown_Lines_Width_2" name="massgis:EOHED.SCR_REGION_POLY" type="poly"/>
+           <Layer title="Massachusetts Towns Boundaries" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Thick_Dashed_Yellow_Non_Coast" type="poly"/>
+           <Layer title="Massachusetts Towns - Labels" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Yellow_Labels" type="poly"/>
+           <Layer title="Regional Planning Agencies - Outline" name="massgis:GISDATA.RPAS_POLY" style="GISDATA.RPAS_POLY::Outlines" type="poly"/>
+           <Layer title="Regional Planning Agencies - Labels"  name="massgis:GISDATA.RPAS_POLY" style="GISDATA.RPAS_POLY::Labels" type="poly"/>
+        </Folder>
+	<Folder title="South Coast Rail Line">
+           <Layer title="South Coast Rail Line: Southern Triangle" style="Black_Lines_Width_2" name="massgis:EOHED.SCR_SOUTHERN_TRIANGLE_ARC" type="line"/>
+           <Layer title="South Coast Rail Line: Stoughton Route" style="Red_Lines_Width_2" name="massgis:EOHED.SCR_STOUGHTON_ROUTE_ARC" type="line"/>
+        </Folder>
+        <Folder title="Target Areas">
+           <Layer title="Chapter 43D Districts" style="Grey_Polys" name="massgis:GISDATA.CHAPTER43D_POLY" type="poly"/>
+           <Layer title="Growth District Initiative Areas" style="Pink_Polys" name="massgis:GISDATA.GDI_DISTRICTS_EEA_POLY" type="poly"/>
+           <Layer title="Chapter 43E Districts" style="Orange_Polys" name="massgis:GISDATA.CHAPTER43E_DISTRICTS_POLY" type="poly"/>
+           <Layer title="Chapter 40R Subdistricts" style="GISDATA.CHAPTER40R_SUBDISTRICTS_POLY::Default" name="massgis:GISDATA.CHAPTER40R_SUBDISTRICTS_POLY" type="poly"/>
+           <Layer title="Economic Target Areas" style="EOHED.ETA_POLY::Default" name="massgis:EOHED.ETA_POLY" type="poly"/>
+        </Folder>
+        <Folder title="Priority Areas">
+           <Layer title="Local Priority Areas" style="EOHED.SRPEDD_LOCAL_PDA_PPA_POLY::Default" name="massgis:EOHED.SRPEDD_LOCAL_PDA_PPA_POLY" type="poly"/>
+           <Layer title="Regional Priority Areas" style="EOHED.SRPEDD_REGIONAL_PDA_PPA_POLY::Default" name="massgis:EOHED.SRPEDD_REGIONAL_PDA_PPA_POLY" type="poly"/>
+           <Layer title="State Priority Areas" style="EOHED.SCR_PDA_PPA_POLY::Default" name="massgis:EOHED.SCR_PDA_PPA_POLY" type="poly"/>
+           <Layer title="New Bedford Local Priority Areas - to Edit" style="EOHED.SRPEDD_LOCAL_PDA_PPA_POLY::To_Edit" name="massgis:EOHED.SRPEDD_LOCAL_PDA_PPA_POLY_201" type="poly"/>
+        </Folder>
+        <Folder title="Other">
+           <Layer title="State Lease Facilities Max 20000" style="GISDATA.STATE_LEASE_PTS::Max_20000" name="massgis:GISDATA.STATE_LEASE_PTS" type="pt"/>
+           <Layer title="DCAM State Facilities Max 20000" style="GISDATA.DCAM_FAC_20101216::Max_20000" name="massgis:GISDATA.DCAM_FAC_20101216" type="pt"/>
+           <Layer title="State Lease Facilities Min 20000" style="GISDATA.STATE_LEASE_PTS::Min_20000" name="massgis:GISDATA.STATE_LEASE_PTS" type="pt"/>
+           <Layer title="DCAM State Facilities Min 20000" style="GISDATA.DCAM_FAC_20101216::Min_20000" name="massgis:GISDATA.DCAM_FAC_20101216" type="pt"/>
+           <Layer title="Green Community Designation, May 2012" name="massgis:EOHED.GREEN_COMM" style="Green_Polys" type="poly"/>
+           <Layer title="Stretch Community Designation, May 2012" name="massgis:EOHED.STRETCH_COMM" style="Beige_Polys" type="poly"/>
+        </Folder>
+        <Folder title="MassGIS Default Map">
+           <Layer title="MassGIS Default Map" style="" name="massgis_basemap" type="layergroup" only_project="EPSG:26986"/>
+        </Folder>
+</FolderSet>

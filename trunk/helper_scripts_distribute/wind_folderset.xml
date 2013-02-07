@@ -1,0 +1,63 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="Wind Energy Large Scale Site Screening Tool">
+           <Layer title="States Bordering MA plus ME" name="massgis:GISDATA.NEMASK_POLY_MASURVEY" style="Med_Grey_Polys_Black_Outlines" type="poly"/>        
+           <Layer title="Annual Mean Wind Speeds at 70 Meters" name="massgis:DMARRIER.WINDGRID200M_DISS70" style="DMARRIER.WINDGRID200M_DISS70::Default" type="poly"/>
+           <Layer title="Lakes and Ponds" name="massgis:GISDATA.HYDRO25K_POLY" style="GISDATA.HYDRO25K_POLY::24000_to_100000" type="poly"/>
+           <Layer title="Hydrography Linear Features" name="massgis:GISDATA.HYDRO25K_ARC" style="GISDATA.HYDRO25K_ARC::24000_to_100000" type="line"/>
+           <Layer title="DEP Wetlands Polygons" style="GISDATA.WETLANDSDEP_POLY::General_Categories_Max_24000" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+           <Layer title="DEP Wetlands Linear Features" style="GISDATA.WETLANDSDEP_ARC::Linear_Features_2_Categories_Max_24000" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+           <Layer title="Higher Wind Resources Annual Mean Wind Speeds at 70 Meters (Colored Cells)" style="GISDATA.WINDSPEEDGRID200_POLY::70_M_Colored_Cells" name="massgis:GISDATA.WINDSPEEDGRID200_POLY" type="poly"/>
+           <Layer title="Elevation Contour Intervals" style="GISDATA.CONTOURS5K_ARC::Dark_Orange_And_Labels" name="massgis:GISDATA.CONTOURS5K_ARC" type="line"/>
+           <Layer title="NHESP Estimated Habitats of Rare Wildlife" style="GISDATA.ESTHAB_POLY::Green_Dash_Max_100000" name="massgis:GISDATA.ESTHAB_POLY" type="poly"/>
+           <Layer title="NHESP Priority Habitats of Rare Species" style="GISDATA.PRIHAB_POLY::Green_Dash_Max_100000" name="massgis:GISDATA.PRIHAB_POLY" type="poly"/>
+           <Layer title="Lower Wind Speed Area (Mask)" style="GISDATA.WINDSPEEDGRID200_POLY::Lower_Speed_Grey_Mask_70M" name="massgis:GISDATA.WINDSPEEDGRID200_POLY" type="poly"/>
+           <Layer title="Environmental Concerns" style="DMARRIER.WINDDEV_ENV_CONCERNS::Default" name="massgis:DMARRIER.WINDDEV_ENV_CONCERNS" type="poly"/>
+           <Layer title="Environmental Exclusions" style="DMARRIER.WINDDEV_ENV_EXCLUSIONS::Default" name="massgis:DMARRIER.WINDDEV_ENV_EXCLUSIONS" type="poly"/>
+           <Layer title="Protected OpenSpace" style="GISDATA.OPENSPACE_POLY::Protected_Max_200000" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+           <Layer title="1000 Ft. Residential Buffer" style="DMARRIER.RESBUFF1000::Default" name="massgis:DMARRIER.RESBUFF1000" type="poly"/>
+           <Layer title="Residential Landuse (2005)" style="GISDATA.LANDUSE2005_POLY::Residential_Landuse_Max_200000" name="massgis:GISDATA.LANDUSE2005_POLY" type="poly"/>
+           <Layer title="Important Bird Areas" style="DMARRIER.IBA_POLY::Default" name="massgis:DMARRIER.IBA_POLY" type="poly"/>
+           <Layer title="Higher Wind Resources Annual Mean Wind Speeds at 70 Meters (Dot Pattern)" style="DMARRIER.WINDGRID200M_DISS70::Dot_Pattern" name="massgis:DMARRIER.WINDGRID200M_DISS70" type="poly"/>
+           <Layer title="Higher Wind Resource (Boundary)" style="DMARRIER.HIGHWIND_BNDRY_70M::Default" name="massgis:DMARRIER.HIGHWIND_BNDRY_70M" type="poly"/>
+           <Layer title="Parcel Status" name="massgis:GISDATA.PARCEL_STATUS" style="GISDATA.PARCEL_STATUS::Default" type="poly"/>
+           <Layer title="Parcels Level 3 Assessor Records Fiscal Year" name="massgis:GISDATA.L3_TOWNFY" style="GISDATA.L3_TOWNFY::Default" type="poly"/>
+           <Layer title="Parcels Level 3 No Roads" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Yellow_With_Black_Outline" type="poly" shp="false"/>
+           <Layer title="Parcels Level 3 Other Legal Interests" name="massgis:GISDATA.L3_OTHLEG_POLY" style="GISDATA.L3_OTHLEG_POLY::Default" type="poly"/>
+           <Layer title="Parcels Level 3 Miscellaneous Features" name="massgis:GISDATA.L3_MISC_POLY" style="GISDATA.L3_MISC_POLY::Default" type="poly"/>
+           <Layer title="Parcels Level 3 Site Address Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address" type="poly"/>
+           <Layer title="Parcels Level 3 Map Par Id Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID" type="poly"/>
+           <Layer title="Parcels Level 3 Site Address Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Yellow_Labels" type="poly"/>
+           <Layer title="Parcels Level 3 Map Par Id Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Yellow_Labels" type="poly"/>
+           <Layer title="Parcels Level 3 FTP Download Links by Town" name="massgis:GISDATA.L3_PARCEL_FTP_LINKS" style="Black_Outlines" type="poly"/>
+           <Layer title="Parcels Level 2 No Roads" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC::Default" type="poly"/>
+           <Layer title="Parcels Level 2 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address" type="poly"/>
+           <Layer title="Parcels Level 2 No Roads Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id" type="poly"/>
+           <Layer title="Parcels Level 2 No Roads For Ortho" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos" type="poly"/>
+           <Layer title="Parcels Level 0 No Roads" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Default" type="poly"/>
+           <Layer title="Parcels Level 0 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr" type="poly"/>
+           <Layer title="Parcels Level 0 No Roads Map Id Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id" type="poly"/>
+           <Layer title="Parcels Level 0 No Roads Acres Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Acres" type="poly"/>
+           <Layer title="Parcels Level 0 No Roads Yellow Outlines" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Yellow_Outlines" type="poly"/>
+           <Layer title="Major MassDOT Routes" name="massgis:GISDATA.EOTMAJROADS_RTE_MAJOR" style="GISDATA.EOTMAJROADS_RTE_MAJOR::Admin_Min_300000" type="line"/>
+           <Layer title="MassDOT Roads by Admin" style="GISDATA.EOTROADS_ARC::Admin_Max_300000" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
+           <Layer title="MassDOT Roads Shields" style="GISDATA.EOTROADS_ARC::Shields_Max_300000" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
+           <Layer title="MassDOT Roads Street Names" style="GISDATA.EOTROADS_ARC::Labels" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
+           <Layer title="MassDOT Exits" name="massgis:GISDATA.EXITS_PT" style="GISDATA.EXITS_PT::Default" type="pt"/>
+           <Layer title="Town Boundaries" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Default" type="poly"/>
+           <Layer title="Town Boundaries Labels" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Yellow_Labels" type="poly"/>
+           <Layer title="Airports" name="massgis:GISDATA.AIRPORTS_PT" style="GISDATA.AIRPORTS_PT::Ownership_Type_Max_500000" type="pt"/>
+           <Layer title="Town Contact Info" name="massgis:DMARRIER.TOWNPHONE" style="DMARRIER.TOWNPHONE::Default" type="poly" />
+           <Layer title="State Representative House Districts 2002 Polygons Outlines" name="massgis:GISDATA.HOUSE02_POLY" style="GISDATA.HOUSE02_POLY::Default" type="poly"/>
+           <Layer title="State Representative House Districts 2002 Labels" style="GISDATA.HOUSE02_POLY::Labels" name="massgis:GISDATA.HOUSE02_POLY" type="poly"/>
+           <Layer title="State Senate Districts 2002 Polygons Outlines" name="massgis:GISDATA.SENATE02_POLY" style="GISDATA.SENATE02_POLY::Default" type="poly"/>
+           <Layer title="State Senate Districts 2002 Labels" style="GISDATA.SENATE02_POLY::Labels" name="massgis:GISDATA.SENATE02_POLY" type="poly"/>
+           <Layer title="Potential Wind Development Sites Final Non-State Sites" style="DMARRIER.RERL_FINAL_NONSTATE_SITES::Default" name="massgis:DMARRIER.RERL_FINAL_NONSTATE_SITES" type="poly"/>
+           <Layer title="Potential Wind Development Sites Final State Sites" style="DMARRIER.RERL_FINAL_STATE_SITES::Default" name="massgis:DMARRIER.RERL_FINAL_STATE_SITES" type="poly"/>
+           <Layer title="Potential Wind Development Sites - Non-State Land, pts" style="DMARRIER.RERL_FINAL_NONSTATE_SITES_PTS::Default" name="massgis:DMARRIER.RERL_FINAL_NONSTATE_SITES_PTS" type="pt"/>
+           <Layer title="Potential Wind Development Sites - State Land, pts" style="DMARRIER.RERL_FINAL_STATE_SITES_PTS::Default" name="massgis:DMARRIER.RERL_FINAL_STATE_SITES_PTS" type="pt"/>
+           <Layer title="Place Names" name="massgis:GISDATA.GEONAMES_PT_PLACES" style="GISDATA.GEONAMES_PT_PLACES::Default" type="pt"/>
+           <Layer title="Land Feature Names" name="massgis:GISDATA.GEONAMES_PT_HYPSO" style="GISDATA.GEONAMES_PT_HYPSO::Default" type="pt"/>
+           <Layer title="Hydrography Names" name="massgis:GISDATA.GEONAMES_LINE_HYDRO" style="GISDATA.GEONAMES_LINE_HYDRO::Default" type="line"/>
+	</Folder>
+</FolderSet>
