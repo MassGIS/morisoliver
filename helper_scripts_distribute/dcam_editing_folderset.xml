@@ -1,0 +1,188 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="DCAM Editing">
+           <Layer title="Roofprints" style="Thick_Blue_Polys_Max_5000" name="massgis:GISDATA.ROOFPRINTS_POLY" type="poly"/>
+           <Layer title="Statewide Buildings Points" style="AFREEMAN.DCAM_BLDG_PTS_20120229::Default" name="massgis:AFREEMAN.DCAM_BLDG_PTS_20120229" type="pt"/>
+        </Folder>
+	<Folder title="Conservation / Recreation">
+		<Folder title="Openspace">
+			<Folder title="All Openspace by Ownership Solid">
+				<Layer title="Openspace Restrictions" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Openspace Arcs Grey" style="GISDATA.OPENSPACE_ARC::Grey" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+				<Layer title="Openspace by Ownership Solid" name="massgis:GISDATA.OPENSPACE_POLY" style="GISDATA.OPENSPACE_POLY::Default" type="poly"/>
+			</Folder>
+		</Folder>
+	</Folder>
+	<Folder title="Images">
+		<Folder title="Impervious Surface">
+			<Layer title="Impervious Surface" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" type="raster"/>
+		</Folder>
+		<Folder title="Orthophotos">
+			<Folder title="Color Coastal Orthos 10k Index">
+				<Layer style="GISDATA.COQMAIN_POLY::Default" title="Color Coastal Orthos 10k Index" name="massgis:GISDATA.COQMAIN_POLY" type="poly"/>
+			</Folder>
+			<Layer title="USGS Color Ortho Imagery 2009 30cm" name="massgis:GISDATA.IMG_COQ2009_30CM" style="GISDATA.IMG_COQ2009_30CM::Default" type="raster"/>
+			<Layer title="USGS Color Ortho Imagery 2008 30cm" name="massgis:GISDATA.IMG_COQ2008_30CM" style="GISDATA.IMG_COQ2008_30CM::Default" type="raster"/>
+			<Layer title="2005 Color Orthos" name="massgis:GISDATA.IMG_COQ2005" style="GISDATA.IMG_COQ2005::Default" type="raster"/>
+			<Layer title="2001 Color Orthos" name="massgis:GISDATA.IMG_COQ2001" style="GISDATA.IMG_COQ2001::Default" type="raster"/>
+			<Layer title="1990s Black and White Orthos" name="massgis:GISDATA.IMG_BWORTHOS" style="GISDATA.IMG_BWORTHOS::Default" type="raster"/>
+<!--			<Layer title="1994 Coastal Color Ortho Mainland" name="massgis:GISDATA.IMG_COLOROQ1" style="GISDATA.IMG_COLOROQ1::Default" type="raster"/>
+			<Layer title="1994 Coastal Color Ortho Island" name="massgis:GISDATA.IMGCAT_COLOROQ1" style="GISDATA.IMGCAT_COLOROQ1::Default" type="raster"/>  -->
+		</Folder>
+		<Folder title="USGS Topographic Maps">
+			<Layer style="GISDATA.QUADS_POLY_REVDATE::Default" title="USGS Quads Last Revised" name="massgis:GISDATA.QUADS_POLY_REVDATE" type="poly"/>
+			<Layer title="USGS Topographic Maps" name="massgis:GISDATA.IMG_USGSQUADM" style="GISDATA.IMG_USGSQUADM::Default" type="raster"/>
+		</Folder>
+	</Folder>
+	<Folder title="Infrastructure">
+		<Folder title="Acute Care Hospitals">
+			<Layer title="Acute Care Hospitals Buildings" name="massgis:GISDATA.HOSPITALS_PT" style="GISDATA.HOSPITALS_PT::Default" type="pt"/>
+			<Layer title="Acute Care Hospitals Labels" style="GISDATA.HOSPITALS_PT::Labels" name="massgis:GISDATA.HOSPITALS_PT" type="pt"/>
+			<Layer title="Acute Care Hospitals By Trauma Center Status" name="massgis:GISDATA.HOSPITALS_PT" style="GISDATA.HOSPITALS_PT::Trauma" type="pt"/>
+			<Layer title="Acute Care Hospitals By Teaching Status" name="massgis:GISDATA.HOSPITALS_PT" style="GISDATA.HOSPITALS_PT::Teaching" type="pt"/>
+		</Folder>
+		<Folder title="Airports">
+			<Layer title="Airports" name="massgis:GISDATA.AIRPORTS_PT" style="GISDATA.AIRPORTS_PT::Default" type="pt"/>
+			<Layer title="Airports Labels" style="GISDATA.AIRPORTS_PT::Labels" name="massgis:GISDATA.AIRPORTS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Building Footprints 2-D from Lidar">
+			<Layer title="Building Footprints" name="massgis:GISDATA.BUILDINGFP_POLY" style="GISDATA.BUILDINGFP_POLY::Default" type="poly"/>
+		</Folder>
+                <Folder title="Buildings UMass Boston NDSM">
+	                <Layer title="UMass Boston NDSM" style="GISDATA.UMASS_BOSTON_NDSM1_INT_POLY::Default" name="massgis:GISDATA.UMASS_BOSTON_NDSM1_INT_POLY" type="poly"/>
+		</Folder>
+		<Folder title="DCR Pools Open">
+			<Layer title="DCR Pools Open" name="massgis:GISDATA.DCRPOOLS_PT" style="GISDATA.DCRPOOLS_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="Fire Stations">
+			<Layer title="Fire Stations" name="massgis:GISDATA.FIRESTATIONS_PT_MEMA" style="GISDATA.FIRESTATIONS_PT_MEMA::Default" type="pt"/>
+			<Layer title="Fire Stations Labels" style="GISDATA.FIRESTATIONS_PT_MEMA::Labels" name="massgis:GISDATA.FIRESTATIONS_PT_MEMA" type="pt"/>
+		</Folder>
+		<Folder title="Ice Rinks">
+			<Layer title="Ice Rinks" name="massgis:GISDATA.ICERINKS_PT" style="GISDATA.ICERINKS_PT::Default" type="pt"/>
+			<Layer title="Ice Rinks Labels" style="GISDATA.ICERINKS_PT::Labels" name="massgis:GISDATA.ICERINKS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Libraries">
+			<Layer title="Libraries Buildings" name="massgis:GISDATA.LIBRARIES_PT" style="GISDATA.LIBRARIES_PT::Default" type="pt"/>
+			<Layer title="Libraries Labels" style="GISDATA.LIBRARIES_PT::Labels" name="massgis:GISDATA.LIBRARIES_PT" type="pt"/>
+		</Folder>
+		<Folder title="Long Term Care Residences">
+			<Layer title="Long Term Care Residences" name="massgis:GISDATA.LONGTERMCARE_PT" style="GISDATA.LONGTERMCARE_PT::Default" type="pt"/>
+			<Layer title="Long Term Care Residences Labels" style="GISDATA.LONGTERMCARE_PT::Labels" name="massgis:GISDATA.LONGTERMCARE_PT" type="pt"/>
+		</Folder>
+		<Folder title="MBTA Parking Lots">
+			<Layer title="MBTA Parking Lots" name="massgis:GISDATA.MBTAPARKINGLOTS_PT" style="GISDATA.MBTAPARKINGLOTS_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="NavTeq Streets">
+			<Folder title="MA NavTeq Streets">
+				<Layer title="Major Streets Route Shields and Numbers" style="GISDATA.EOTROADS_ARC::Shields" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
+				<Layer title="NavTeq MA Interstate Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_INT" style="GISDATA.NAVTEQRDS_ARC_INT::Default" type="line"/>
+				<Layer title="NavTeq MA US Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_US" style="GISDATA.NAVTEQRDS_ARC_US::Default" type="line"/>
+				<Layer title="NavTeq MA State Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_STATE" style="GISDATA.NAVTEQRDS_ARC_STATE::Default" type="line"/>
+				<Layer title="NavTeq MA Other Streets Names" style="GISDATA.NAVTEQRDS_ARC::Labels" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+				<Layer title="NavTeq MA Other Streets" name="massgis:GISDATA.NAVTEQRDS_ARC" style="GISDATA.NAVTEQRDS_ARC::Default" type="line"/>
+			</Folder>
+			<Folder title="Out of State NavTeq Streets">
+				<Layer title="NavTeq Out of State Interstate Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_OOS_INT" style="GISDATA.NAVTEQRDS_ARC_OOS_INT::Default" type="line"/>
+				<Layer title="NavTeq Out Of State US Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_OOS_US" style="GISDATA.NAVTEQRDS_ARC_OOS_US::Default" type="line"/>
+				<Layer title="NavTeq Out of State State Highways" name="massgis:GISDATA.NAVTEQRDS_ARC_OOS_STATE" style="GISDATA.NAVTEQRDS_ARC_OOS_STATE::Default" type="line"/>
+				<Layer title="NavTeq Out of State Other Streets Names" style="GISDATA.NAVTEQRDS_ARC_OOS::Labels" name="massgis:GISDATA.NAVTEQRDS_ARC_OOS" type="line"/>
+				<Layer title="NavTeq Out of State Other Streets" name="massgis:GISDATA.NAVTEQRDS_ARC_OOS" style="GISDATA.NAVTEQRDS_ARC_OOS::Default" type="line"/>
+			</Folder>
+		</Folder>
+		<Folder title="Park and Ride Lots">
+			<Layer title="Park and Ride Lots" name="massgis:GISDATA.PARKRIDELOTS_PT" style="GISDATA.PARKRIDELOTS_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="Police Stations">
+			<Layer title="Police Stations" name="massgis:GISDATA.POLICESTATIONS_PT_MEMA" style="GISDATA.POLICESTATIONS_PT_MEMA::Default" type="pt"/>
+			<Layer title="Police Stations Labels" style="GISDATA.POLICESTATIONS_PT_MEMA::Labels" name="massgis:GISDATA.POLICESTATIONS_PT_MEMA" type="pt"/>
+		</Folder>
+		<Folder title="Prisons">
+			<Layer title="Prisons Buildings" name="massgis:GISDATA.PRISONS_PT" style="GISDATA.PRISONS_PT::Default" type="pt"/>
+			<Layer style="GISDATA.PRISONS_PT::Labels" title="Prisons Labels" name="massgis:GISDATA.PRISONS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Schools">
+			<Layer title="Colleges and Universities Buildings" name="massgis:GISDATA.COLLEGES_PT" style="GISDATA.COLLEGES_PT::Default" type="pt"/>
+			<Layer title="Colleges and Universities Labels" style="GISDATA.COLLEGES_PT::Labels" name="massgis:GISDATA.COLLEGES_PT" type="pt"/>
+			<Layer title="Pre-kindergarten to High School Buildings" name="massgis:GISDATA.SCHOOLS_PT" style="GISDATA.SCHOOLS_PT::Default" type="pt"/>
+			<Layer title="Pre-kindergarten to High School Labels" style="GISDATA.SCHOOLS_PT::Labels" name="massgis:GISDATA.SCHOOLS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Seaports">
+			<Layer title="Seaports" name="massgis:GISDATA.SEAPORTS_PT" style="GISDATA.SEAPORTS_PT::Default" type="pt"/>
+			<Layer title="Seaports Labels" style="GISDATA.SEAPORTS_PT::Labels" name="massgis:GISDATA.SEAPORTS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Tollbooths">
+			<Layer title="Tollbooths" name="massgis:GISDATA.TOLLBOOTHS_PT" style="GISDATA.TOLLBOOTHS_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="Town Halls">
+			<Layer title="Town Halls" name="massgis:GISDATA.TOWNHALLS_PT_MEMA" style="GISDATA.TOWNHALLS_PT_MEMA::Default" type="pt"/>
+			<Layer title="Town Halls Labels" style="GISDATA.TOWNHALLS_PT_MEMA::Labels" name="massgis:GISDATA.TOWNHALLS_PT_MEMA" type="pt"/>
+		</Folder>
+		<Folder title="Trains">
+			<Folder title="Commuter Rail">
+				<Layer title="Commuter Rail Lines" name="massgis:GISDATA.TRAINS_RTE_TRAIN" style="GISDATA.TRAINS_RTE_TRAIN::Default" type="line"/>
+				<Layer title="Commuter Rail Stations" name="massgis:GISDATA.TRAINS_NODE" style="GISDATA.TRAINS_NODE::Default" type="pt"/>
+				<Layer title="Commuter Rail Stations Labels" style="GISDATA.TRAINS_NODE::Labels" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+				<Layer title="Proposed Commuter Rail Lines" style="GISDATA.TRAINS_ARC::Commuter_Rail_Proposed" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Proposed Commuter Rail Stations" style="GISDATA.TRAINS_NODE::Proposed_Stations" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+				<Layer title="Proposed Commuter Rail Stations Labels" style="GISDATA.TRAINS_NODE::Proposed_Stations_Labels" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+			</Folder>
+			<Folder title="MBTA Rapid Transit">
+				<Layer title="MBTA Rapid Transit Lines" name="massgis:GISDATA.MBTA_ARC" style="GISDATA.MBTA_ARC::Default" type="line"/>
+				<Layer title="MBTA Rapid Transit Stations" name="massgis:GISDATA.MBTA_NODE" style="GISDATA.MBTA_NODE::Default" type="pt"/>
+				<Layer title="MBTA Rapid Transit Labels" style="GISDATA.MBTA_NODE::Labels" name="massgis:GISDATA.MBTA_NODE" type="pt"/>
+			</Folder>
+			<Folder title="Railroads">
+				<Layer title="Railroads by Type of Service" style="GISDATA.TRAINS_ARC::Type_Of_Service" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Freight Operation" style="GISDATA.TRAINS_ARC::Freight_Operation" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Ownership" style="GISDATA.TRAINS_ARC::Ownership" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Passenger Operation" style="GISDATA.TRAINS_ARC::Passenger_Operation" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+			</Folder>
+		</Folder>
+	</Folder>
+	<Folder title="Physical Resources">
+		<Folder title="Hydrography Water Features">
+			<Folder title="USGS 25k Rivers and Water Bodies">
+				<Layer title="USGS Rivers and Streams 25k" name="massgis:GISDATA.HYDRO25K_ARC" style="GISDATA.HYDRO25K_ARC::Default" type="line"/>
+				<Layer title="USGS Water Bodies 25k" name="massgis:GISDATA.HYDRO25K_POLY" style="GISDATA.HYDRO25K_POLY::Default" type="poly"/>
+			</Folder>
+			<Folder title="DEP Wetlands 12k">
+				<Layer title="DEP Wetlands Detailed" name="massgis:GISDATA.WETLANDSDEP_POLY" style="GISDATA.WETLANDSDEP_POLY::Default" type="poly"/>
+				<Layer title="DEP Wetlands Linear Features" style="GISDATA.WETLANDSDEP_ARC::Linear_Features" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+				<Layer title="DEP Wetlands Hydrologic Connections" style="GISDATA.WETLANDSDEP_ARC::Hydrologic_Connections" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+			</Folder>
+		</Folder>
+		<Folder title="Land Use">
+			<Layer title="Land Use 2005" style="GISDATA.LANDUSE2005_POLY::Default" name="massgis:GISDATA.LANDUSE2005_POLY" type="poly"/>
+		</Folder>
+	</Folder>
+	<Folder title="Political / Administrative Boundaries">
+		<Folder title="Assessors Parcels">
+                        <Layer title="Parcel Status" name="massgis:GISDATA.PARCEL_STATUS" style="GISDATA.PARCEL_STATUS::Default" type="poly"/>
+                        <Folder title="Level 3">
+                                <Layer title="Parcels Level 3 Assessor Records Fiscal Year" name="massgis:GISDATA.L3_TOWNFY" style="GISDATA.L3_TOWNFY::Default" type="poly"/>
+                                <Layer title="Parcels Level 3" style="Thick_Magenta_Polys_Max_5000" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" type="poly" shp="false"/>
+	                        <Layer title="Parcels Level 3 Other Legal Interests" name="massgis:GISDATA.L3_OTHLEG_POLY" style="GISDATA.L3_OTHLEG_POLY::Default" type="poly"/>
+        	                <Layer title="Parcels Level 3 Miscellaneous Features" name="massgis:GISDATA.L3_MISC_POLY" style="GISDATA.L3_MISC_POLY::Default" type="poly"/>
+                	        <Layer title="Parcels Level 3 Site Address Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Magenta_Labels" type="poly"/>
+                        	<Layer title="Parcels Level 3 Map Par Id Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Magenta_Labels" type="poly"/>
+			</Folder>
+			<Folder title="Level 2">
+	                        <Layer title="Parcels Level 2" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos_Magenta" type="poly"/>
+        	                <Layer title="Parcels Level 2 Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address_Magenta" type="poly"/>
+                	        <Layer title="Parcels Level 2 Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id_Magenta" type="poly"/>
+			</Folder>
+			<Folder title="Level 0">
+	                        <Layer title="Parcels Level 0" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Magenta_Outlines" type="poly"/>
+        	                <Layer title="Parcels Level 0 Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr_Magenta" type="poly"/>
+                	        <Layer title="Parcels Level 0 Map Id Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id_Magenta" type="poly"/>
+                        	<Layer title="Parcels Level 0 Acres Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Acres_Magenta" type="poly"/>
+			</Folder>
+		</Folder>
+		<Folder title="MA Town Boundaries">
+			<Layer title="MA Town Boundaries Arcs" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Default" type="line"/>
+			<Layer title="MA Town Boundaries Polygons" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Default" type="poly"/>
+			<Layer title="MA Town Brown Italic Labels" style="GISDATA.TOWNS_POLY::Brown_Italic_Labels" name="massgis:GISDATA.TOWNS_POLY" type="poly"/>
+		</Folder>
+	</Folder>
+</FolderSet>

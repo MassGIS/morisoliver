@@ -1,0 +1,68 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="General Geography">
+           <Layer title="495/MetroWest Compact Plan Region" name="massgis:EOHED.REGION_495_POLY" style="Tan_Polys" type="poly"/>
+           <Layer title="Massachusetts Cities and Towns" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Thick_Dashed_Yellow_Non_Coast" type="poly"/>
+           <Layer title="Massachusetts Cities and Towns - Labels" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Black_Labels" type="poly"/>
+           <Layer title="Regional Planning Agencies - Outline" name="massgis:GISDATA.RPAS_POLY" style="GISDATA.RPAS_POLY::Outlines_With_Labels" type="poly"/>
+           <Layer title="South Coast Rail Region" style="Brown_Lines_Width_2" name="massgis:EOHED.SCR_REGION_POLY" type="poly"/>
+           <Layer title="MassGIS Default Map" style="" name="massgis_basemap" type="layergroup" only_project="EPSG:26986"/>
+        </Folder>
+        <Folder title="Zoning and Permitting">
+           <Layer title="Chapter 43D Districts" style="Grey_Polys" name="massgis:GISDATA.CHAPTER43D_POLY" type="poly"/>
+           <Layer title="Economic Target Areas" style="EOHED.ETA_POLY::Default" name="massgis:EOHED.ETA_POLY" type="poly"/>
+           <Layer title="Growth District Initiative Areas" style="Pink_Polys" name="massgis:GISDATA.GDI_DISTRICTS_EEA_POLY" type="poly"/>
+           <Layer title="Chapter 43E Districts" style="Orange_Polys" name="massgis:GISDATA.CHAPTER43E_DISTRICTS_POLY" type="poly"/>
+           <Layer title="Chapter 40R Subdistricts" style="GISDATA.CHAPTER40R_SUBDISTRICTS_POLY::Default" name="massgis:GISDATA.CHAPTER40R_SUBDISTRICTS_POLY" type="poly"/>
+           <Folder title="Zoning">
+              <Layer title="Primary Use Solid" style="GISDATA.ZONING_POLY::Primary_Use_Solid" name="massgis:GISDATA.ZONING_POLY" type="poly"/>
+              <Layer title="General Use Solid" name="massgis:GISDATA.ZONING_POLY" style="GISDATA.ZONING_POLY::General_Use_Solid" type="poly"/>
+              <Layer title="Zoning District Outlines" style="GISDATA.ZONING_POLY::District_Outlines" name="massgis:GISDATA.ZONING_POLY" type="poly"/>
+           </Folder>
+        </Folder>
+        <Folder title="Infrastructure">
+                <Folder title="Trains">
+                        <Folder title="Commuter Rail">
+                                <Layer title="Commuter Rail Lines" name="massgis:GISDATA.TRAINS_RTE_TRAIN" style="GISDATA.TRAINS_RTE_TRAIN::Default" type="line"/>
+                                <Layer title="Commuter Rail Stations" name="massgis:GISDATA.TRAINS_NODE" style="GISDATA.TRAINS_NODE::Default" type="pt"/>
+                                <Layer title="Commuter Rail Stations Labels" style="GISDATA.TRAINS_NODE::Labels" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+                                <Layer title="Proposed Commuter Rail Lines" style="GISDATA.TRAINS_ARC::Commuter_Rail_Proposed" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+                                <Layer title="Proposed Commuter Rail Stations" style="GISDATA.TRAINS_NODE::Proposed_Stations" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+                                <Layer title="Proposed Commuter Rail Stations Labels" style="GISDATA.TRAINS_NODE::Proposed_Stations_Labels" name="massgis:GISDATA.TRAINS_NODE" type="pt"/>
+                        </Folder>
+                        <Folder title="MBTA Rapid Transit">
+                                <Layer title="MBTA Rapid Transit Lines" name="massgis:GISDATA.MBTA_ARC" style="GISDATA.MBTA_ARC::Default" type="line"/>
+                                <Layer title="MBTA Rapid Transit Stations" name="massgis:GISDATA.MBTA_NODE" style="GISDATA.MBTA_NODE::Default" type="pt"/>
+                                <Layer title="MBTA Rapid Transit Labels" style="GISDATA.MBTA_NODE::Labels" name="massgis:GISDATA.MBTA_NODE" type="pt"/>
+                                <Layer title="MBTA Rapid Transit Stations 1 Mile Buffer" name="massgis:EOHED.MBTA_NODE_1_MILE_BUFFER" style="Light_Teal_Polys_75_Percent_Transparent" type="poly"/>
+                        </Folder>
+                </Folder>
+        </Folder>
+        <Folder title="Planning">
+	   <Layer title="Planning Ahead for Growth Identifier" style="EOHED.PAG_IDENTIFIER_POLY::Default" name="massgis:EOHED.PAG_IDENTIFIER_POLY" type="poly"/>
+           <Folder title="495 Region">
+             <Layer title="495 Local Priority Areas" style="EOHED.REGION_495_PDA_PPA_POLY::Default" name="massgis:EOHED.REGION_495_PDA_PPA_POLY" type="poly"/>
+             <Layer title="495 State Priority Areas" style="EOHED.STATE_495_PDA_PPA_POLY::Default" name="massgis:EOHED.STATE_495_PDA_PPA_POLY" type="poly"/>
+           </Folder>
+	   <Folder title="South Coast Region">
+             <Layer title="South Coast Local Priority Areas" style="EOHED.SRPEDD_LOCAL_PDA_PPA_POLY::Default" name="massgis:EOHED.SRPEDD_LOCAL_PDA_PPA_POLY" type="poly"/>
+             <Layer title="South Coast Regional Priority Areas" style="EOHED.SRPEDD_REGIONAL_PDA_PPA_POLY::Default" name="massgis:EOHED.SRPEDD_REGIONAL_PDA_PPA_POLY" type="poly"/>
+             <Layer title="South Coast State Priority Areas" style="EOHED.SCR_PDA_PPA_POLY::Default" name="massgis:EOHED.SCR_PDA_PPA_POLY" type="poly"/>
+	   </Folder>
+        </Folder>
+        <Folder title="Other">
+                <Folder title="Community Preservation Act">
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Default" title="Community Preservation Act (CPA) Towns by Surcharge" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Year_Adopted" title="Community Preservation Act (CPA) Towns by Year Adopted" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Exemptions" title="Community Preservation Act (CPA) Towns by Exemptions" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Ballot_Path" title="Community Preservation Act (CPA) Towns by Ballot Path" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Percent_Yes" title="Community Preservation Act (CPA) Towns by Percent Yes" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="GISDATA.TOWNS_POLY_V_CPA::Percent_No" title="Community Preservation Act (CPA) Towns by Percent No" name="massgis:GISDATA.TOWNS_POLY_V_CPA" type="poly"/>
+                        <Layer style="AFREEMAN.CPA_COMBINED_V_PT::Default" title="Community Preservation Act (CPA) Points" name="massgis:AFREEMAN.CPA_COMBINED_V_PT" type="pt"/>
+                </Folder>
+           <Layer title="Building Footprints" name="massgis:GISDATA.BUILDINGFP_POLY" style="GISDATA.BUILDINGFP_POLY::Default" type="poly"/>
+           <Layer title="Gateway Cities" name="massgis:GISDATA.GATEWAY_CITIES_POLY" style="Purple_Lines" type="poly"/>
+           <Layer title="Green Community Designation, May 2012" name="massgis:EOHED.GREEN_COMM" style="Green_Polys" type="poly"/>
+           <Layer title="Stretch Community Designation, May 2012" name="massgis:EOHED.STRETCH_COMM" style="Beige_Polys" type="poly"/>
+        </Folder>
+</FolderSet>

@@ -1,0 +1,212 @@
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+        <Folder title="MA Breeding Bird Atlas Layers">
+           <Layer title="Towns" style="GISDATA.TOWNSSURVEY_POLYM::Default" name=":massgis:GISDATA.TOWNSSURVEY_POLYM" type="poly"/>
+           <Layer title="All Birds Grid" style="Light_Grey_Outlines" name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Canada Goose" style="AFREEMAN.AUDUBON_BIRD_S_V::Canada_Goose" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Mute Swan" style="AFREEMAN.AUDUBON_BIRD_S_V::Mute_Swan" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Wood Duck" style="AFREEMAN.AUDUBON_BIRD_S_V::Wood_Duck" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Gadwall" style="AFREEMAN.AUDUBON_BIRD_S_V::Gadwall" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Black Duck" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Black_Duck" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Mallard" style="AFREEMAN.AUDUBON_BIRD_S_V::Mallard" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blue-winged Teal" style="AFREEMAN.AUDUBON_BIRD_S_V::Blue_Winged_Teal" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Shoveler" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Shoveler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Pintail" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Pintail" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Green-winged Teal" style="AFREEMAN.AUDUBON_BIRD_S_V::Green_Winged_Teal" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ring-necked Duck" style="AFREEMAN.AUDUBON_BIRD_S_V::Ring_Necked_Duck" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Eider" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Eider" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Hooded Merganser" style="AFREEMAN.AUDUBON_BIRD_S_V::Hooded_Merganser" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Merganser" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Merganser" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-breasted Merganser" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Breasted_Merganser" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ruddy Duck" style="AFREEMAN.AUDUBON_BIRD_S_V::Ruddy_Duck" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ring-necked Pheasant" style="AFREEMAN.AUDUBON_BIRD_S_V::Ring_Necked_Pheasant" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ruffed Grouse" style="AFREEMAN.AUDUBON_BIRD_S_V::Ruffed_Grouse" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Wild Turkey" style="AFREEMAN.AUDUBON_BIRD_S_V::Wild_Turkey" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Bobwhite" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Bobwhite" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Loon" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Loon" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Pied-billed Grebe" style="AFREEMAN.AUDUBON_BIRD_S_V::Pied_Billed_Grebe" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Leach's Storm-Petrel" style="AFREEMAN.AUDUBON_BIRD_S_V::Leachs_Storm_Petrel" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Double-crested Cormorant" style="AFREEMAN.AUDUBON_BIRD_S_V::Double_Crested_Cormorant" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Bittern" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Bittern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Least Bittern" style="AFREEMAN.AUDUBON_BIRD_S_V::Least_Bittern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Great Blue Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Great_Blue_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Great Egret" style="AFREEMAN.AUDUBON_BIRD_S_V::Great_Egret" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Snowy Egret" style="AFREEMAN.AUDUBON_BIRD_S_V::Snowy_Egret" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Little Blue Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Little_Blue_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Tricolored Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Tricolored_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Cattle Egret" style="AFREEMAN.AUDUBON_BIRD_S_V::Cattle_Egret" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Green Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Green_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-crowned Night-Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Crowned_Night_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-crowned Night-Heron" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Crowned_Night_Heron" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Glossy Ibis" style="AFREEMAN.AUDUBON_BIRD_S_V::Glossy_Ibis" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Turkey Vulture" style="AFREEMAN.AUDUBON_BIRD_S_V::Turkey_Vulture" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Osprey" style="AFREEMAN.AUDUBON_BIRD_S_V::Osprey" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Harrier" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Harrier" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Sharp-shinned Hawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Sharp_Shinned_Hawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Cooper's Hawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Coopers_Hawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Goshawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Goshawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-shouldered Hawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Shouldered_Hawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Broad-winged Hawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Broad_Winged_Hawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-tailed Hawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Tailed_Hawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Kestrel" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Kestrel" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Clapper Rail" style="AFREEMAN.AUDUBON_BIRD_S_V::Clapper_Rail" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="King Rail" style="AFREEMAN.AUDUBON_BIRD_S_V::King_Rail" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Virginia Rail" style="AFREEMAN.AUDUBON_BIRD_S_V::Virginia_Rail" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Sora" style="AFREEMAN.AUDUBON_BIRD_S_V::Sora" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Moorhen" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Moorhen" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Coot" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Coot" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Piping Plover" style="AFREEMAN.AUDUBON_BIRD_S_V::Piping_Plover" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Killdeer" style="AFREEMAN.AUDUBON_BIRD_S_V::Killdeer" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Oystercatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Oystercatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Willet" style="AFREEMAN.AUDUBON_BIRD_S_V::Willet" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Spotted Sandpiper" style="AFREEMAN.AUDUBON_BIRD_S_V::Spotted_Sandpiper" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Upland Sandpiper" style="AFREEMAN.AUDUBON_BIRD_S_V::Upland_Sandpiper" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Least Sandpiper" style="AFREEMAN.AUDUBON_BIRD_S_V::Least_Sandpiper" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Wilson's Snipe" style="AFREEMAN.AUDUBON_BIRD_S_V::Wilsons_Snipe" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Woodcock" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Woodcock" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Wilson's Phalarope" style="AFREEMAN.AUDUBON_BIRD_S_V::Wilsons_Phalarope" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Laughing Gull" style="AFREEMAN.AUDUBON_BIRD_S_V::Laughing_Gull" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Herring Gull" style="AFREEMAN.AUDUBON_BIRD_S_V::Herring_Gull" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Great Black-backed Gull" style="AFREEMAN.AUDUBON_BIRD_S_V::Great_Black_Backed_Gull" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Roseate Tern" style="AFREEMAN.AUDUBON_BIRD_S_V::Roseate_Tern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Tern" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Tern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Arctic Tern" style="AFREEMAN.AUDUBON_BIRD_S_V::Arctic_Tern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Least Tern" style="AFREEMAN.AUDUBON_BIRD_S_V::Least_Tern" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black Skimmer" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Skimmer" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Rock Pigeon" style="AFREEMAN.AUDUBON_BIRD_S_V::Rock_Pigeon" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Mourning Dove" style="AFREEMAN.AUDUBON_BIRD_S_V::Mourning_Dove" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-billed Cuckoo" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Billed_Cuckoo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-billed Cuckoo" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Billed_Cuckoo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Barn Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Barn_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Screech-Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Screech_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Great Horned Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Great_Horned_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Barred Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Barred_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Long-eared Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Long_Eared_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Short-eared Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Short_Eared_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Saw-whet Owl" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Saw_Whet_Owl" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Nighthawk" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Nighthawk" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Chuck-will's-widow" style="AFREEMAN.AUDUBON_BIRD_S_V::Chuck_Wills_Widow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Whip-poor-will" style="AFREEMAN.AUDUBON_BIRD_S_V::Whip_Poor_Will" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Chimney Swift" style="AFREEMAN.AUDUBON_BIRD_S_V::Chimney_Swift" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ruby-throated Hummingbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Ruby_Throated_Hummingbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Belted Kingfisher" style="AFREEMAN.AUDUBON_BIRD_S_V::Belted_Kingfisher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-headed Woodpecker" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Headed_Woodpecker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-bellied Woodpecker" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Bellied_Woodpecker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-bellied Sapsucker" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Bellied_Sapsucker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Downy Woodpecker" style="AFREEMAN.AUDUBON_BIRD_S_V::Downy_Woodpecker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Hairy Woodpecker" style="AFREEMAN.AUDUBON_BIRD_S_V::Hairy_Woodpecker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-shafted Flicker" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Shafted_Flicker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Pileated Woodpecker" style="AFREEMAN.AUDUBON_BIRD_S_V::Pileated_Woodpecker" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Olive-sided Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Olive_Sided_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Wood-Pewee" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Wood_Pewee" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-bellied Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Bellied_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Acadian Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Acadian_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Alder Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Alder_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Willow Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Willow_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Least Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Least_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Phoebe" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Phoebe" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Great Crested Flycatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Great_Crested_Flycatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Kingbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Kingbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="White-eyed Vireo" style="AFREEMAN.AUDUBON_BIRD_S_V::White_Eyed_Vireo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-throated Vireo" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Throated_Vireo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blue-headed Vireo" style="AFREEMAN.AUDUBON_BIRD_S_V::Blue_Headed_Vireo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Warbling Vireo" style="AFREEMAN.AUDUBON_BIRD_S_V::Warbling_Vireo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-eyed Vireo" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Eyed_Vireo" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blue Jay" style="AFREEMAN.AUDUBON_BIRD_S_V::Blue_Jay" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Crow" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Crow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Fish Crow" style="AFREEMAN.AUDUBON_BIRD_S_V::Fish_Crow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Raven" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Raven" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Horned Lark" style="AFREEMAN.AUDUBON_BIRD_S_V::Horned_Lark" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Purple Martin" style="AFREEMAN.AUDUBON_BIRD_S_V::Purple_Martin" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Tree Swallow" style="AFREEMAN.AUDUBON_BIRD_S_V::Tree_Swallow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Rough-winged Swallow" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Rough_Winged_Swallow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Bank Swallow" style="AFREEMAN.AUDUBON_BIRD_S_V::Bank_Swallow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Cliff Swallow" style="AFREEMAN.AUDUBON_BIRD_S_V::Cliff_Swallow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Barn Swallow" style="AFREEMAN.AUDUBON_BIRD_S_V::Barn_Swallow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-capped Chickadee" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Capped_Chickadee" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Tufted Titmouse" style="AFREEMAN.AUDUBON_BIRD_S_V::Tufted_Titmouse" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-breasted Nuthatch" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Breasted_Nuthatch" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="White-breasted Nuthatch" style="AFREEMAN.AUDUBON_BIRD_S_V::White_Breasted_Nuthatch" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Brown Creeper" style="AFREEMAN.AUDUBON_BIRD_S_V::Brown_Creeper" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Carolina Wren" style="AFREEMAN.AUDUBON_BIRD_S_V::Carolina_Wren" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="House Wren" style="AFREEMAN.AUDUBON_BIRD_S_V::House_Wren" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Winter Wren" style="AFREEMAN.AUDUBON_BIRD_S_V::Winter_Wren" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Sedge Wren" style="AFREEMAN.AUDUBON_BIRD_S_V::Sedge_Wren" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Marsh Wren" style="AFREEMAN.AUDUBON_BIRD_S_V::Marsh_Wren" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Golden-crowned Kinglet" style="AFREEMAN.AUDUBON_BIRD_S_V::Golden_Crowned_Kinglet" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ruby-crowned Kinglet" style="AFREEMAN.AUDUBON_BIRD_S_V::Ruby_Crowned_Kinglet" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blue-gray Gnatcatcher" style="AFREEMAN.AUDUBON_BIRD_S_V::Blue_Gray_Gnatcatcher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Bluebird" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Bluebird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Veery" style="AFREEMAN.AUDUBON_BIRD_S_V::Veery" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Swainson's Thrush" style="AFREEMAN.AUDUBON_BIRD_S_V::Swainsons_Thrush" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Hermit Thrush" style="AFREEMAN.AUDUBON_BIRD_S_V::Hermit_Thrush" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Wood Thrush" style="AFREEMAN.AUDUBON_BIRD_S_V::Wood_Thrush" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Robin" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Robin" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Gray Catbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Gray_Catbird" type="poly"/>
+	   <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Mockingbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Mockingbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Brown Thrasher" style="AFREEMAN.AUDUBON_BIRD_S_V::Brown_Thrasher" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="European Starling" style="AFREEMAN.AUDUBON_BIRD_S_V::European_Starling" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Cedar Waxwing" style="AFREEMAN.AUDUBON_BIRD_S_V::Cedar_Waxwing" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blue-winged Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Blue_Winged_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Golden-winged Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Golden_Winged_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Brewster's Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Brewsters_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Lawrence's Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Lawrences_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Tennessee Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Tennessee_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Nashville Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Nashville_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northen Parula" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Parula" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Chestnut-sided Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Chestnut_Sided_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Magnolia Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Magnolia_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-throated Blue Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Throated_Blue_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-rumped Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Rumped_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-throated Green Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_Throated_Green_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blackburnian Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Blackburnian_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Pine Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Pine_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Prairie Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Prairie_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Blackpoll Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Blackpoll_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Cerulean Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Cerulean_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Black-and-white Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Black_and_White_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Redstart" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Redstart" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Worm-eating Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Worm_Eating_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Ovenbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Ovenbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Waterthrush" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Waterthrush" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Louisiana Waterthrush" style="AFREEMAN.AUDUBON_BIRD_S_V::Louisiana_Waterthrush" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Mourning Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Mourning_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Yellowthroat" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Yellowthroat" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Hooded Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Hooded_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Canada Warbler" style="AFREEMAN.AUDUBON_BIRD_S_V::Canada_Warbler" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Yellow-breasted Chat" style="AFREEMAN.AUDUBON_BIRD_S_V::Yellow_Breasted_Chat" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Scarlet Tanager" style="AFREEMAN.AUDUBON_BIRD_S_V::Scarlet_Tanager" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Towhee" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Towhee" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Chipping Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Chipping_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Field Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Field_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Vesper Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Vesper_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Savannah Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Savannah_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Grasshopper Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Grasshopper_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Henslow's Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Henslows_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Saltmarsh Sharp-tailed Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Saltmarsh_Sharp_Tailed_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Seaside Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Seaside_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Song Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Song_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Swamp Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Swamp_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="White-throated Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::White_Throated_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Lincoln's Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::Lincolns_Sparrow" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Slate-colored Junco" style="AFREEMAN.AUDUBON_BIRD_S_V::Slate_Colored_Junco" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Northern Cardinal" style="AFREEMAN.AUDUBON_BIRD_S_V::Northern_Cardinal" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Rose-breasted Grosbeak" style="AFREEMAN.AUDUBON_BIRD_S_V::Rose_Breasted_Grosbeak" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Indigo Bunting" style="AFREEMAN.AUDUBON_BIRD_S_V::Indigo_Bunting" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Bobolink" style="AFREEMAN.AUDUBON_BIRD_S_V::Bobolink" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red-winged Blackbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Winged_Blackbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Eastern Meadowlark" style="AFREEMAN.AUDUBON_BIRD_S_V::Eastern_Meadowlark" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Rusty Blackbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Rusty_Blackbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Common Grackle" style="AFREEMAN.AUDUBON_BIRD_S_V::Common_Grackle" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Brown-headed Cowbird" style="AFREEMAN.AUDUBON_BIRD_S_V::Brown_Headed_Cowbird" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Orchard Oriole" style="AFREEMAN.AUDUBON_BIRD_S_V::Orchard_Oriole" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Baltimore Oriole" style="AFREEMAN.AUDUBON_BIRD_S_V::Baltimore_Oriole" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Purple Finch" style="AFREEMAN.AUDUBON_BIRD_S_V::Purple_Finch" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="House Finch" style="AFREEMAN.AUDUBON_BIRD_S_V::House_Finch" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Red Crossbill" style="AFREEMAN.AUDUBON_BIRD_S_V::Red_Crossbill" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Pine Siskin" style="AFREEMAN.AUDUBON_BIRD_S_V::Pine_Siskin" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="American Goldfinch" style="AFREEMAN.AUDUBON_BIRD_S_V::American_Goldfinch" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="Evening Grosbeak" style="AFREEMAN.AUDUBON_BIRD_S_V::Evening_Grosbeak" type="poly"/>
+           <Layer name="massgis:AFREEMAN.AUDUBON_BIRD_S_V" title="House Sparrow" style="AFREEMAN.AUDUBON_BIRD_S_V::House_Sparrow" type="poly"/>
+        </Folder>
+</FolderSet>

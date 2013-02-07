@@ -1,0 +1,1247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="1 - Boston Harbor Habitat Atlas Menu">
+	<Folder title="Base Data">
+		<Folder title="2000 Census">
+			<Layer title="2000 U.S. Census Blocks" style="GISDATA.CENSUS2000BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Block Groups" style="GISDATA.CENSUS2000BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKGROUPS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Tracts" style="GISDATA.CENSUS2000TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2000TRACTS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Total Number of Households" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="2000 U.S. Census Total Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="2000 U.S. Census Total Population" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPop" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+		</Folder>
+		<Folder title="2010 Census">
+			<Layer title="2010 U.S. Census Blocks" style="GISDATA.CENSUS2010BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Block Groups" style="GISDATA.CENSUS2010BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKGROUPS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Tracts" style="GISDATA.CENSUS2010TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2010TRACTS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Population per Square Mile" style="GISDATA.CENSUS2010TOWNS_POLY::POP2010_SQMI" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Areas of Critical Environmental Concern (ACECs)">
+			<Layer title="Areas of Critical Environmental Concern (ACECs)" style="GISDATA.ACECS_POLY::Default" name="massgis:GISDATA.ACECS_POLY" type="poly"/>
+			<Layer title="Areas of Critical Environmental Concern (ACECs) Boundaries" style="GISDATA.ACECS_ARC::Default" name="massgis:GISDATA.ACECS_ARC" type="line"/>
+		</Folder>
+		<Folder title="Bathymetry">
+			<Layer title="Bathymetry: All Massachusetts Waters (fathoms)" style="MORIS.BATHY_FATHOMS_POLY::Default" name="massgis:MORIS.BATHY_FATHOMS_POLY" type="poly"/>
+			<Layer title="Bathymetry: Gulf of Maine Bathymetric Contours" style="MORIS.GOM15CTR_ARC::Default" name="massgis:MORIS.GOM15CTR_ARC" type="line"/>
+			<Layer title="Bathymetry: New York Bight and Gulf of Maine Bathymetric Contours" style="MORIS.NY_GOME_CONTOURS_ARC::Default" name="massgis:MORIS.NY_GOME_CONTOURS_ARC" type="line"/>
+			<Layer title="Bathymetry: Stellwagen Bank Bathymetric Contours" style="MORIS.BATHY_ARC::Default" name="massgis:MORIS.BATHY_ARC" type="line"/>
+		</Folder>
+		<Folder title="DEP Integrated List of Waters (305(b)/303(d))">
+			<Layer title="DEP 2002 Integrated List of Waters - Lakes" style="GISDATA.WBS2002_POLY::Default" name="massgis:GISDATA.WBS2002_POLY" type="poly"/>
+			<Layer title="DEP 2002 Integrated List of Waters - Rivers" style="GISDATA.WBS2002_ARC::Default" name="massgis:GISDATA.WBS2002_ARC" type="line"/>
+			<Layer title="DEP 2010 Integrated List of Waters - Lakes" style="GISDATA.IL_2010_POLY::Default" name="massgis:GISDATA.IL_2010_POLY_V" type="poly"/>
+			<Layer title="DEP 2010 Integrated List of Waters - Rivers" style="GISDATA.IL_2010_ARC::Default" name="massgis:GISDATA.IL_2010_ARC_V" type="line"/>
+			<Layer title="DEP 2010 Integrated List of Waters - Watershed Delineations" style="GISDATA.IL_DWM_WATERSHEDS_POLY::Default" name="massgis:GISDATA.IL_DWM_WATERSHEDS_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Elevation">
+			<Layer title="Elevation (1:5,000)" style="GISDATA.IMG_ELEV5K_I::Default" name="massgis:GISDATA.IMG_ELEV5K_I" type="raster"/>
+			<Layer title="Elevation Contours (3-meter interval)" style="GISDATA.CONTOURS5K_ARC::Default" name="massgis:GISDATA.CONTOURS5K_ARC" type="line"/>
+			<Layer title="Elevation Contours Labels (3-meter interval)" style="GISDATA.CONTOURS5K_ARC::Labels_Meters" name="massgis:GISDATA.CONTOURS5K_ARC" type="line"/>
+			<Layer title="Shaded Relief (1:5,000)" style="GISDATA.IMG_SHDREL5K::Default" name="massgis:GISDATA.IMG_SHDREL5K" type="raster"/>
+		</Folder>
+		<Folder title="Hydrography">
+			<Layer title="Mega Basins" style="GISDATA.MEGABASINS_POLY::Default" name="massgis:GISDATA.MEGABASINS_POLY" type="poly"/>
+			<Layer title="Major Basins" style="GISDATA.MAJBAS_POLY::Default" name="massgis:GISDATA.MAJBAS_POLY" type="poly"/>
+			<Layer title="Major Watersheds" style="GISDATA.WATERSHEDS_POLY::Default" name="massgis:GISDATA.WATERSHEDS_POLY" type="poly"/>
+			<Layer title="Sub-Basins" style="GISDATA.SUBBASINS_POLY::Default" name="massgis:GISDATA.SUBBASINS_POLY" type="poly"/>
+			<Layer title="HUC 8 Basins" style="GISDATA.NRCSHUC8_POLY::Default" name="massgis:GISDATA.NRCSHUC8_POLY" type="poly"/>
+			<Layer title="HUC 10 Basins" style="GISDATA.NRCSHUC10_POLY::Default" name="massgis:GISDATA.NRCSHUC10_POLY" type="poly"/>
+			<Layer title="HUC 12 Basins" style="GISDATA.NRCSHUC12_POLY::Default" name="massgis:GISDATA.NRCSHUC12_POLY" type="poly"/>
+			<Layer title="DEP Rivers and Streams (1:25,000)" style="GISDATA.HYDRO25K_ARC::Default" name="massgis:GISDATA.HYDRO25K_ARC" type="line"/>
+			<Layer title="DEP Water Bodies (1:25,000)" style="GISDATA.HYDRO25K_POLY::Default" name="massgis:GISDATA.HYDRO25K_POLY" type="poly"/>
+			<Layer title="DEP Wetlands (1:12,000) - Change" style="GISDATA.WETCHANGE_POLY::Default" name="massgis:GISDATA.WETCHANGE_POLY" type="poly"/>
+			<Layer title="DEP Wetlands (1:12,000) - Detailed" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+			<Layer title="DEP Wetlands (1:12,000) - General" style="GISDATA.WETLANDSDEP_POLY::General_Categories" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+			<Layer title="DEP Wetlands (1:12,000) - Hydrologic Connections" style="GISDATA.WETLANDSDEP_ARC::Hydrologic_Connections" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+			<Layer title="DEP Wetlands (1:12,000) - Linear Features" style="GISDATA.WETLANDSDEP_ARC::Linear_Features" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+			<Layer title="National Wetlands Inventory Streams" style="GISDATA.NWI_ARC::Default" name="massgis:GISDATA.NWI_ARC" type="line"/>
+			<Layer title="National Wetlands Inventory Wetlands" style="GISDATA.NWI_POLY::Default" name="massgis:GISDATA.NWI_POLY" type="poly"/>
+			<Layer title="Major Streams" style="GISDATA.MAJSTRM_ARC::Default" name="massgis:GISDATA.MAJSTRM_ARC" type="line"/>
+			<Layer title="Major Ponds" style="GISDATA.MAJPOND_POLY::Default" name="massgis:GISDATA.MAJPOND_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Land Use/Land Cover">
+			<Layer title="Impervious Surface" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" type="raster"/>
+			<Layer title="Land Use 1971" style="GISDATA.LANDUSE_POLY::21_Classes_1971_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1985" style="GISDATA.LANDUSE_POLY::21_Classes_1985_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1999" style="GISDATA.LANDUSE_POLY::21_Classes_1999_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 2005" style="GISDATA.LANDUSE2005_POLY::Default" name="massgis:GISDATA.LANDUSE2005_POLY" type="poly"/>
+			<Layer title="Land Use Change 1971-1985" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1985" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use Change 1971-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use Change 1985-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1985_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Massachusetts Municipal Boundaries">
+			<Layer title="Massachusetts Municipal Boundaries Labels" style="GISDATA.TOWNS_POLYM::Labels_Max_400000" name="massgis:GISDATA.TOWNS_POLYM" type="poly"/>
+			<Layer title="Massachusetts Municipal Boundaries Lines" style="GISDATA.TOWNSSURVEY_ARC::Default" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+			<Layer title="Massachusetts Municipal Boundaries Polygons" style="GISDATA.TOWNSSURVEY_POLY::Default" name="massgis:GISDATA.TOWNSSURVEY_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Open Space">
+			<Layer title="Protected and Recreational Open Space Boundaries" style="GISDATA.OPENSPACE_ARC::Default" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+			<Layer title="Protected and Recreational Open Space Boundaries by Type" style="GISDATA.OPENSPACE_ARC::Bounds_Type" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+			<Layer title="Protected and Recreational Open Space by Level of Protection" style="GISDATA.OPENSPACE_POLY::Level_Protection" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Protected and Recreational Open Space by Ownership" style="GISDATA.OPENSPACE_POLY::Default" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Protected and Recreational Open Space by Primary Purpose" style="GISDATA.OPENSPACE_POLY::Primary_Purpose" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Protected and Recreational Open Space Legal Interests" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Protected and Recreational Open Space Site Labels" style="GISDATA.OPENSPACE_POLY::Site_Labels" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Orthophotos (Aerial Photography)">
+			<Layer title="USGS 2009 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2009_30CM::Default" name="massgis:GISDATA.IMG_COQ2009_30CM" type="raster"/>
+			<Layer title="USGS 2008 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2008_30CM::Default" name="massgis:GISDATA.IMG_COQ2008_30CM" type="raster"/>
+			<Layer title="2005 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2005::Default" name="massgis:GISDATA.IMG_COQ2005" type="raster"/>
+			<Layer title="2001 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2001::Default" name="massgis:GISDATA.IMG_COQ2001" type="raster"/>
+<!--			<Layer title="1994 Coastal Color Orthophotos Mainland (1-meter resolution)" style="GISDATA.IMG_COLOROQ1::Default" name="massgis:GISDATA.IMG_COLOROQ1" type="raster"/>
+			<Layer title="1994 Coastal Color Orthophotos Islands (1-meter resolution)" style="GISDATA.IMGCAT_COLOROQ1::Default" name="massgis:GISDATA.IMGCAT_COLOROQ1" type="raster"/> -->
+			<Layer title="1990s Black and White Orthophotos" style="GISDATA.IMG_BWORTHOS::Default" name="massgis:GISDATA.IMG_BWORTHOS" type="raster"/>
+		</Folder>
+		<Folder title="Priority Natural Vegetation Communities">
+			<Layer title="Priority Natural Vegetation Communities - Acidic Peatland" style="GISDATA.VCPEATLAND_POLY::Default" name="massgis:GISDATA.VCPEATLAND_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal" style="GISDATA.VCCOASTAL_POLY::Default" name="massgis:GISDATA.VCCOASTAL_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass for Selected Embayments 2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal Plain Pond" style="GISDATA.VCCOASTALPLAINPOND_POLY::Default" name="massgis:GISDATA.VCCOASTALPLAINPOND_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Maritime Sandplain" style="GISDATA.VCSANDPLAIN_POLY::Default" name="massgis:GISDATA.VCSANDPLAIN_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Pine Barrens" style="GISDATA.VCPINEBARRENS_POLY::Default" name="massgis:GISDATA.VCPINEBARRENS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Pine Barrens (UMass)" style="GISDATA.VCPINEBARRENS2_POLY::Default" name="massgis:GISDATA.VCPINEBARRENS2_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Riverine" style="GISDATA.VCRIVERINE_POLY::Default" name="massgis:GISDATA.VCRIVERINE_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Upland Forest" style="GISDATA.VCFOREST_POLY::Default" name="massgis:GISDATA.VCFOREST_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Vernal Pool (NHESP Certified Vernal Pools)" style="GISDATA.CVP_PT::Default" name="massgis:GISDATA.CVP_PT" type="pt"/>
+			<Layer title="Priority Natural Vegetation Communities - Vernal Pool (NHESP Potential Vernal Pools)" style="GISDATA.PVP_PT::Default" name="massgis:GISDATA.PVP_PT" type="pt"/>
+		</Folder>
+		<Folder title="Roads">
+			<Layer title="NAVTEQ MA Interstate Highways" style="GISDATA.NAVTEQRDS_ARC_INT::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_INT" type="line"/>
+			<Layer title="NAVTEQ MA US Highways" style="GISDATA.NAVTEQRDS_ARC_US::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_US" type="line"/>
+			<Layer title="NAVTEQ MA State Highways" style="GISDATA.NAVTEQRDS_ARC_STATE::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_STATE" type="line"/>
+			<Layer title="NAVTEQ MA Other Streets" style="GISDATA.NAVTEQRDS_ARC::Default" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+			<Layer title="NAVTEQ MA Other Streets Names" style="GISDATA.NAVTEQRDS_ARC::Labels" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+		</Folder>
+		<Folder title="Topographic Maps">
+			<Layer title="USGS Historical Coastal Topographic Maps (c. 1900)" style="GISDATA.IMG_USGS_HIST_COASTAL::Default" name="massgis:GISDATA.IMG_USGS_HIST_COASTAL" type="raster"/>
+<!--			<Layer title="USGS Surficial Geology Topographic Base Maps" style="GISDATA.IMG_USGSQUAD_SGBASE::Default" name="massgis:GISDATA.IMG_USGSQUAD_SGBASE" type="raster"/> -->
+			<Layer title="USGS Topographic Maps" style="GISDATA.IMG_USGSQUADM::Default" name="massgis:GISDATA.IMG_USGSQUADM" type="raster"/>
+		</Folder>
+		<Layer title="Hydrologic Units" style="Black_Outlines" name="massgis:MORIS.HA_HYDROLOGIC_UNITS_POLY" type="poly"/>
+		<Layer title="Outstanding Resource Waters (ORWs)" style="GISDATA.ORW_POLY::Default" name="massgis:GISDATA.ORW_POLY" type="poly"/>
+		<Layer title="New England" style="GISDATA.NEMASK_POLY_MASURVEY::Default" name="massgis:GISDATA.NEMASK_POLY_MASURVEY" type="poly"/>
+		<Layer title="NHESP Living Waters Core Habitats" style="GISDATA.LWCORE_POLY::Default" name="massgis:GISDATA.LWCORE_POLY" type="poly"/>
+		<Layer title="NHESP Natural Communities" style="GISDATA.NATCOMM_POLY::Default" name="massgis:GISDATA.NATCOMM_POLY" type="poly"/>
+		<Layer title="Physiographic Zones: Boston Harbor and Approaches" style="MORIS.BH_BOTTOMTYPE_POLY::Default" name="massgis:MORIS.BH_BOTTOMTYPE_POLY" type="poly"/>
+		<Layer title="Soils (SSURGO)" style="GISDATA.SOILS_POLY_SV_MUNAME::Default" name="massgis:GISDATA.SOILS_POLY_SV_MUNAME" type="poly"/>
+	</Folder>
+	<Folder title="Human Dimension">
+		<Folder title="2000 Census">
+			<Layer title="2000 U.S. Census Blocks" style="GISDATA.CENSUS2000BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Block Groups" style="GISDATA.CENSUS2000BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKGROUPS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Tracts" style="GISDATA.CENSUS2000TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2000TRACTS_POLY" type="poly"/>
+			<Layer title="2000 U.S. Census Total Number of Households" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="2000 U.S. Census Total Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="2000 U.S. Census Total Population" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPop" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+		</Folder>
+		<Folder title="2010 Census">
+			<Layer title="2010 U.S. Census Blocks" style="GISDATA.CENSUS2010BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Block Groups" style="GISDATA.CENSUS2010BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKGROUPS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Tracts" style="GISDATA.CENSUS2010TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2010TRACTS_POLY" type="poly"/>
+			<Layer title="2010 U.S. Census Population per Square Mile" style="GISDATA.CENSUS2010TOWNS_POLY::POP2010_SQMI" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Land Use/Land Cover">
+			<Layer title="Impervious Surface" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" type="raster"/>
+			<Layer title="Land Use 1971 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1971_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1985 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1985_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1985 37 Classes" style="GISDATA.LANDUSE_POLY::37_Classes_1985_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1999 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1999_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 1999 37 Classes" style="GISDATA.LANDUSE_POLY::37_Classes_1999_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use 2005" style="GISDATA.LANDUSE2005_POLY::Default" name="massgis:GISDATA.LANDUSE2005_POLY" type="poly"/>
+			<Layer title="Land Use Change 1971-1985" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1985" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use Change 1971-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+			<Layer title="Land Use Change 1985-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1985_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Roads">
+			<Layer title="NAVTEQ MA Interstate Highways" style="GISDATA.NAVTEQRDS_ARC_INT::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_INT" type="line"/>
+			<Layer title="NAVTEQ MA U.S. Routes" style="GISDATA.NAVTEQRDS_ARC_US::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_US" type="line"/>
+			<Layer title="NAVTEQ MA State Highways" style="GISDATA.NAVTEQRDS_ARC_STATE::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_STATE" type="line"/>
+			<Layer title="NAVTEQ MA Other Streets Names" style="GISDATA.NAVTEQRDS_ARC::Labels" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+			<Layer title="NAVTEQ MA Other Streets" style="GISDATA.NAVTEQRDS_ARC::Default" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+		</Folder>
+		<Layer title="Marinas 2007" style="MORIS.MARINAS_PT::Default" name="massgis:MORIS.MARINAS_PT" type="pt"/>
+		<Layer title="Mooring Fields" style="MORIS.MOORING_FIELDS_POLY::Default" name="massgis:MORIS.MOORING_FIELDS_POLY" type="poly"/>
+	</Folder>
+	<Folder title="Anadromous Fish Habitat">
+		<Folder title="Extent">
+			<Folder title="Anadromous Fish">
+				<Layer title="Anadromous Fish" style="GISDATA.ANADFISH_PT::Default" name="massgis:GISDATA.ANADFISH_PT" type="pt"/>
+				<Layer title="Anadromous Fish by Dam Presence" style="GISDATA.ANADFISH_PT::By_Dam_Presence" name="massgis:GISDATA.ANADFISH_PT_DAMPRESENCE" type="pt"/>
+				<Layer title="Anadromous Fish by Fishway Effect" style="GISDATA.ANADFISH_PT::By_Fishway_Effect" name="massgis:GISDATA.ANADFISH_PT_FISHWAYEFFECT" type="pt"/>
+				<Layer title="Anadromous Fish by Fishway Type" style="GISDATA.ANADFISH_PT::By_Fishway_Type" name="massgis:GISDATA.ANADFISH_PT_FISHWAYTYPE" type="pt"/>
+				<Layer title="Anadromous Fish by Man-Made Barriers" style="GISDATA.ANADFISH_PT::By_Manmade_Barriers" name="massgis:GISDATA.ANADFISH_PT_MANBARRIERTYPE" type="pt"/>
+				<Layer title="Anadromous Fish by Natural Barriers" style="GISDATA.ANADFISH_PT::By_Natural_Barriers" name="massgis:GISDATA.ANADFISH_PT_NATBARRIERTYPE" type="pt"/>
+			</Folder>
+			<Layer title="Fish Traps 1998" style="GISDATA.FISHTRAPS_PT::Default" name="massgis:GISDATA.FISHTRAPS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>
+<!--<Folder title="Brackish Marsh">
+		<Folder title="Extent">
+			<Layer title="Priority Natural Vegetation Communities - Coastal" style="GISDATA.VCCOASTAL_POLY::Default" name="massgis:GISDATA.VCCOASTAL_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass for Selected Embayments 2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>-->
+	<Folder title="Intertidal Flats Habitat">
+		<Folder title="Extent">
+			<Layer title="Priority Natural Vegetation Communities - Coastal" style="GISDATA.VCCOASTAL_POLY::Default" name="massgis:GISDATA.VCCOASTAL_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass for Selected Embayments 2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+			<Layer title="DEP Wetlands (1:12,000) - Detailed" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>
+<!--<Folder title="Rare and Endangered Species Habitat">
+		<Folder title="Extent">
+			<Layer title="NHESP Estimated Habitats of Rare Wildlife" style="GISDATA.ESTHAB_POLY::Default" name="massgis:GISDATA.ESTHAB_POLY" type="poly"/>
+			<Layer title="NHESP Living Waters Core Habitats" style="GISDATA.LWCORE_POLY::Default" name="massgis:GISDATA.LWCORE_POLY" type="poly"/>
+			<Layer title="NHESP Living Waters Critical Supporting Watersheds" style="GISDATA.LWCSW_POLY::Default" name="massgis:GISDATA.LWCSW_POLY" type="poly"/>
+			<Layer title="NHESP Natural Communities" style="GISDATA.NATCOMM_POLY::Default" name="massgis:GISDATA.NATCOMM_POLY" type="poly"/>
+			<Layer title="NHESP Priority Habitats of Rare Species" style="GISDATA.PRIHAB_POLY::Default" name="massgis:GISDATA.PRIHAB_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>-->
+	<Folder title="Rocky Intertidal">
+		<Folder title="Extent">
+			<Layer title="DEP Wetlands (1:12,000) - Detailed" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+			<Layer title="Seabed Sediment, Mass CZM" style="MORIS.HA_SEABED_SEDIMENT_POLY::Default" name="massgis:MORIS.HA_SEABED_SEDIMENT_POLY" type="poly"/>
+			<Layer title="Bathymetry, USGS 2011 (DRAFT)" style="MORIS.HA_BATHY_POLY::Default" name="massgis:MORIS.HA_BATHY_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>
+	<Folder title="Salt Marsh">
+		<Folder title="Extent">
+			<Layer title="DEP Wetlands (1:12,000) - Salt Marsh" style="GISDATA.WETLANDSDEP_POLY::Salt_Marsh" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+			<Layer title="Northeast Salt Marsh Projects" style="GISDATA.SALTMARSHRSTR_PT::Default" name="massgis:GISDATA.SALTMARSHRSTR_PT" type="pt"/>
+			<Layer title="100 Years of Estuarine Marsh Trends in Massachusetts (1893 to 1995): Boston Harbor, Cape Cod, Nantucket, Martha’s Vineyard, and the Elizabeth Islands" style="Black_Outlines" name="massgis:MORIS.HA_CARLISLE_ET_AL_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+			<Layer title="Atlas of Tidal Restrictions on the South Shore of Massachusetts - Study Area" style="Black_Outlines" name="massgis:MORIS.HA_SOUTH_SHORE_ATLAS_POLY" type="poly"/>
+			<Layer title="Atlas of Tidal Restrictions on the South Shore of Massachusetts - Tidal Restrictions" style="MORIS.HA_SOUTH_SHORE_ATLAS_PT::Default" name="massgis:MORIS.HA_SOUTH_SHORE_ATLAS_PT" type="pt"/>
+			<Layer title="Rumney Marshes Area of Critical Environmental Concern: Salt Marsh Restoration Plan" style="Black_Outlines" name="massgis:MORIS.HA_RUMNEY_MARSHES_POLY" type="poly"/>
+		</Folder>
+	</Folder>
+	<Folder title="Seagrass Beds">
+		<Folder title="Extent">
+			<Layer title="DEP Seagrass (1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="DEP Seagrass (2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="DEP Seagrass for Selected Embayments (2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+			<Layer title="Twelve-Year Mapping and Change Analysis of Eelgrass (Zostera marina) Areal Abundance in Massachusetts (USA) Identifies Statewide Declines" style="Black_Outlines" name="massgis:MORIS.HA_COSTELLO_AND_KENWORTHY_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+			<Layer title="Successful Eelgrass (Zostera marina) Restoration in a Formerly Eutrophic Estuary (Boston Harbor) Supports the Use of a Multifaceted Watershed Approach to Mitigating Eelgrass Loss" style="Black_Outlines" name="massgis:MORIS.HA_LESCHEN_ET_AL_POLY" type="poly"/>
+		</Folder>
+	</Folder>
+	<Folder title="Shallow Submerged">
+		<Folder title="Extent">
+			<Layer title="DEP Wetlands (1:12,000) - Detailed" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+			<Layer title="Coastal Barrier Resource Units" style="GISDATA.CBRS_POLY::Default" name="massgis:GISDATA.CBRS_POLY" type="poly"/>
+			<Layer title="Barrier Beaches (Executive Order No. 181)" style="Black_Outlines" name="massgis:MORIS.GEOREG_BARB_POLY" type="poly"/>
+			<Layer title="Barrier Beaches" style="GISDATA.BARRIERB_POLY::Default" name="massgis:GISDATA.BARRIERB_POLY" type="poly"/>
+			<Layer title="Marine Beaches Lines" style="GISDATA.MARINEBEACHES_ARC::Default" name="massgis:GISDATA.MARINEBEACHES_ARC" type="line"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>
+	<Folder title="Shellfish Beds">
+		<Folder title="Extent">
+			<Layer title="Designated Shellfish Growing Areas" style="GISDATA.DSGA_POLY::Default" name="massgis:GISDATA.DSGA_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Invertebrates" style="MORIS.ESI_INVERT_POLY::Default" name="massgis:MORIS.ESI_INVERT_POLY" type="poly"/>
+			<Layer title="Shellfish Sampling Stations" style="GISDATA.SHLFSHST_PT::Default" name="massgis:GISDATA.SHLFSHST_PT" type="pt"/>
+			<Layer title="Shellfish Suitability" style="GISDATA.SHELLFISHSUIT_POLY::Default" name="massgis:GISDATA.SHELLFISHSUIT_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Condition">
+		</Folder>
+		<Folder title="Protection and Restoration Potential">
+		</Folder>
+	</Folder>
+	<Folder title="All MORIS Data Layers">
+		<Folder title="Base Data Layers">
+			<Folder title="Bathymetry">
+				<Layer title="Bathymetry: All Massachusetts Waters (fathoms)" style="MORIS.BATHY_FATHOMS_POLY::Default" name="massgis:MORIS.BATHY_FATHOMS_POLY" type="poly"/>
+				<Layer title="Bathymetry: Gulf of Maine Bathymetric Contours" style="MORIS.GOM15CTR_ARC::Default" name="massgis:MORIS.GOM15CTR_ARC" type="line"/>
+				<Layer title="Bathymetry: New York Bight and Gulf of Maine Bathymetric Contours" style="MORIS.NY_GOME_CONTOURS_ARC::Default" name="massgis:MORIS.NY_GOME_CONTOURS_ARC" type="line"/>
+				<Layer title="Bathymetry: Stellwagen Bank Bathymetric Contours" style="MORIS.BATHY_ARC::Default" name="massgis:MORIS.BATHY_ARC" type="line"/>
+			</Folder>
+			<Folder title="Elevation">
+				<Layer title="Elevation (1:5,000)" style="GISDATA.IMG_ELEV5K_I::Default" name="massgis:GISDATA.IMG_ELEV5K_I" type="raster"/>
+				<Layer title="Elevation Contours (3-meter interval)" style="GISDATA.CONTOURS5K_ARC::Default" name="massgis:GISDATA.CONTOURS5K_ARC" type="line"/>
+				<Layer title="Elevation Contours Labels (3-meter interval)" style="GISDATA.CONTOURS5K_ARC::Labels_Meters" name="massgis:GISDATA.CONTOURS5K_ARC" type="line"/>
+				<Layer title="Shaded Relief (1:5,000)" style="GISDATA.IMG_SHDREL5K::Default" name="massgis:GISDATA.IMG_SHDREL5K" type="raster"/>
+			</Folder>
+			<Folder title="Hydrography">
+				<Layer title="Mega Basins" style="GISDATA.MEGABASINS_POLY::Default" name="massgis:GISDATA.MEGABASINS_POLY" type="poly"/>
+				<Layer title="Major Basins" style="GISDATA.MAJBAS_POLY::Default" name="massgis:GISDATA.MAJBAS_POLY" type="poly"/>
+				<Layer title="Major Watersheds" style="GISDATA.WATERSHEDS_POLY::Default" name="massgis:GISDATA.WATERSHEDS_POLY" type="poly"/>
+				<Layer title="Sub-Basins" style="GISDATA.SUBBASINS_POLY::Default" name="massgis:GISDATA.SUBBASINS_POLY" type="poly"/>
+				<Layer title="HUC 8 Basins" style="GISDATA.NRCSHUC8_POLY::Default" name="massgis:GISDATA.NRCSHUC8_POLY" type="poly"/>
+				<Layer title="HUC 10 Basins" style="GISDATA.NRCSHUC10_POLY::Default" name="massgis:GISDATA.NRCSHUC10_POLY" type="poly"/>
+				<Layer title="HUC 12 Basins" style="GISDATA.NRCSHUC12_POLY::Default" name="massgis:GISDATA.NRCSHUC12_POLY" type="poly"/>
+				<Layer title="Aquifers" style="GISDATA.AQUIFERS_POLY::Default" name="massgis:GISDATA.AQUIFERS_POLY" type="poly"/>
+				<Layer title="Aquifers - EPA Designated Sole Source Aquifers" style="GISDATA.AQSOLE_POLY::Default" name="massgis:GISDATA.AQSOLE_POLY" type="poly"/>
+				<Layer title="DEP Rivers and Streams (1:25,000)" style="GISDATA.HYDRO25K_ARC::Default" name="massgis:GISDATA.HYDRO25K_ARC" type="line"/>
+				<Layer title="DEP Water Bodies (1:25,000)" style="GISDATA.HYDRO25K_POLY::Default" name="massgis:GISDATA.HYDRO25K_POLY" type="poly"/>
+				<Layer title="DEP Wetlands (1:12,000) - Change" style="GISDATA.WETCHANGE_POLY::Default" name="massgis:GISDATA.WETCHANGE_POLY" type="poly"/>
+				<Layer title="DEP Wetlands (1:12,000) - Detailed" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+				<Layer title="DEP Wetlands (1:12,000) - General" style="GISDATA.WETLANDSDEP_POLY::General_Categories" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+				<Layer title="DEP Wetlands (1:12,000) - Hydrologic Connections" style="GISDATA.WETLANDSDEP_ARC::Hydrologic_Connections" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+				<Layer title="DEP Wetlands (1:12,000) - Linear Features" style="GISDATA.WETLANDSDEP_ARC::Linear_Features" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+				<Layer title="National Wetlands Inventory Streams" style="GISDATA.NWI_ARC::Default" name="massgis:GISDATA.NWI_ARC" type="line"/>
+				<Layer title="National Wetlands Inventory Wetlands" style="GISDATA.NWI_POLY::Default" name="massgis:GISDATA.NWI_POLY" type="poly"/>
+				<Layer title="USGS Ponds and Lakes (1:100,000)" style="GISDATA.HYDRO100K_POLY::Default" name="massgis:GISDATA.HYDRO100K_POLY" type="poly"/>
+				<Layer title="USGS Rivers and Streams (1:100,000)" style="GISDATA.HYDRO100K_ARC::Default" name="massgis:GISDATA.HYDRO100K_ARC" type="line"/>
+			</Folder>
+			<Folder title="Land Use/Land Cover">
+				<Layer title="Building Footprints" style="GISDATA.BUILDINGFP_POLY::Default" name="massgis:GISDATA.BUILDINGFP_POLY" type="poly"/>
+				<Layer title="Impervious Surface" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" type="raster"/>
+				<Layer title="Land Use 1951 21 Classes (Cape Cod)" style="GISDATA.LANDUSE_POLY_1951::Default" name="massgis:GISDATA.LANDUSE_POLY_1951" type="poly"/>
+				<Layer title="Land Use 1971 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1971_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use 1985 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1985_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use 1985 37 Classes" style="GISDATA.LANDUSE_POLY::37_Classes_1985_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use 1999 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1999_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use 1999 37 Classes" style="GISDATA.LANDUSE_POLY::37_Classes_1999_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use 2005" style="GISDATA.LANDUSE2005_POLY::Default" name="massgis:GISDATA.LANDUSE2005_POLY" type="poly"/>
+				<Layer title="Land Use Change 1971-1985" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1985" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use Change 1971-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1971_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="Land Use Change 1985-1999" style="GISDATA.LANDUSE_POLY::Landuse_Change_1985_1999" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
+				<Layer title="NOAA C-CAP Land Cover 1996" style="MORIS.CCAP_MA_96_RD::Default" name="massgis:MORIS.CCAP_MA_96_RD" type="raster"/>
+				<Layer title="NOAA C-CAP Land Cover 2001" style="MORIS.CCAP_MA_01_RD::Default" name="massgis:MORIS.CCAP_MA_01_RD" type="raster"/>
+				<Layer title="NOAA C-CAP Land Cover 2006" style="MORIS.CCAP_MA_06_RD::Default" name="massgis:MORIS.CCAP_MA_06_RD" type="raster"/>
+				<Layer title="NOAA C-CAP Land Cover Change 1996-2001" style="MORIS.CCAP_MA_96_01_RD::Default" name="massgis:MORIS.CCAP_MA_96_01_RD" type="raster"/>
+				<Layer title="NOAA C-CAP Land Cover Change 2001-2006" style="MORIS.CCAP_MA_01_06_RD::Default" name="massgis:MORIS.CCAP_MA_01_06_RD" type="raster"/>
+				<Layer title="Protected and Recreational Open Space Boundaries by Type" style="GISDATA.OPENSPACE_ARC::Bounds_Type" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+				<Layer title="Protected and Recreational Open Space by Level of Protection" style="GISDATA.OPENSPACE_POLY::Level_Protection" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Protected and Recreational Open Space by Ownership" style="GISDATA.OPENSPACE_POLY::Default" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Protected and Recreational Open Space by Primary Purpose" style="GISDATA.OPENSPACE_POLY::Primary_Purpose" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Protected and Recreational Open Space Legal Interests" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Latitude Longitude Grid">
+				<Layer title="1 Minute Latitude Longitude Grid" style="GISDATA.MINLL1_ARC::Default" name="massgis:GISDATA.MINLL1_ARC" type="line"/>
+				<Layer title="10 Minute Latitude Longitude Grid" style="GISDATA.MINLL10_ARC::Default" name="massgis:GISDATA.MINLL10_ARC" type="line"/>
+			</Folder>
+			<Folder title="Nautical Charts">
+				<Layer title="NOAA Charts Index" name="massgis:NOAA.NOAA_INDEX_POLY" style="Black_Outlines" type="poly"/>
+				<Layer title="NOAA Chart 13006: West Quoddy Head to New York" name="massgis:NOAA.NOAA_13006_1" style="NOAA.NOAA_13006_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13009: Gulf of Maine and Georges Bank" name="massgis:NOAA.NOAA_13009_1" style="NOAA.NOAA_13009_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13200: Georges Bank and Nantucket Shoals" name="massgis:NOAA.NOAA_13200_1" style="NOAA.NOAA_13200_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13203: Georges Bank Western Part" name="massgis:NOAA.NOAA_13203_1" style="NOAA.NOAA_13203_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13204: Georges Bank Eastern Part" name="massgis:NOAA.NOAA_13204_1" style="NOAA.NOAA_13204_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13218: Martha's Vineyard to Block Island" name="massgis:NOAA.NOAA_13218_1" style="NOAA.NOAA_13218_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13221: Narragansett Bay" name="massgis:NOAA.NOAA_13221_1" style="NOAA.NOAA_13221_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13224: Providence River and Head of Narragansett Bay" name="massgis:NOAA.NOAA_13224_1" style="NOAA.NOAA_13224_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13224: Seekonk River, Cold Spring Point to Pawtucket" name="massgis:NOAA.NOAA_13224_2" style="NOAA.NOAA_13224_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13226: Mount Hope Bay" name="massgis:NOAA.NOAA_13226_1" style="NOAA.NOAA_13226_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13226: Extension to Taunton" name="massgis:NOAA.NOAA_13226_2" style="NOAA.NOAA_13226_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13227: Fall River Harbor" name="massgis:NOAA.NOAA_13227_1" style="NOAA.NOAA_13227_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13227: State Pier" name="massgis:NOAA.NOAA_13227_2" style="NOAA.NOAA_13227_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13228: Westport River and Approaches" name="massgis:NOAA.NOAA_13228_1" style="NOAA.NOAA_13228_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Barnstable-Chatham)" name="massgis:NOAA.NOAA_13229_1" style="NOAA.NOAA_13229_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Lewis Bay-Hyannis Harbor Inset)" name="massgis:NOAA.NOAA_13229_3" style="NOAA.NOAA_13229_3::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Gosnold-Barnstable)" name="massgis:NOAA.NOAA_13229_4" style="NOAA.NOAA_13229_4::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Great Harbor Inset)" name="massgis:NOAA.NOAA_13229_6" style="NOAA.NOAA_13229_6::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Robinsons Hole Inset)" name="massgis:NOAA.NOAA_13229_7" style="NOAA.NOAA_13229_7::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Cuttyhunk Harbor Inset)" name="massgis:NOAA.NOAA_13229_8" style="NOAA.NOAA_13229_8::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Gosnold)" name="massgis:NOAA.NOAA_13229_9" style="NOAA.NOAA_13229_9::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Dartmouth-Falmouth)" name="massgis:NOAA.NOAA_13229_10" style="NOAA.NOAA_13229_10::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Buzzards Bay)" name="massgis:NOAA.NOAA_13229_11" style="NOAA.NOAA_13229_11::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Acushnet River Inset)" name="massgis:NOAA.NOAA_13229_12" style="NOAA.NOAA_13229_12::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (Cape Cod Canal)" name="massgis:NOAA.NOAA_13229_13" style="NOAA.NOAA_13229_13::Default" type="raster"/>
+				<Layer title="NOAA Chart 13229: South Coast of Cape Cod and Buzzards Bay (North Bay Extension)" name="massgis:NOAA.NOAA_13229_14" style="NOAA.NOAA_13229_14::Default" type="raster"/>
+				<Layer title="NOAA Chart 13230: Buzzards Bay" name="massgis:NOAA.NOAA_13230_1" style="NOAA.NOAA_13230_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13230: Quicks Hole" name="massgis:NOAA.NOAA_13230_2" style="NOAA.NOAA_13230_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13232: New Bedford Harbor and Approaches" name="massgis:NOAA.NOAA_13232_1" style="NOAA.NOAA_13232_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13232: Continuation of Apponagansett Bay" name="massgis:NOAA.NOAA_13232_2" style="NOAA.NOAA_13232_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13233: Martha's Vineyard" name="massgis:NOAA.NOAA_13233_1" style="NOAA.NOAA_13233_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13233: Menemsha Pond" name="massgis:NOAA.NOAA_13233_2" style="NOAA.NOAA_13233_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13235: Woods Hole" name="massgis:NOAA.NOAA_13235_1" style="NOAA.NOAA_13235_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13236: Cape Cod Channel and Approaches" name="massgis:NOAA.NOAA_13236_1" style="NOAA.NOAA_13236_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13236: Cape Cod Channel and Approaches Extension" name="massgis:NOAA.NOAA_13236_2" style="NOAA.NOAA_13236_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13237: Nantucket Sound and Approaches" name="massgis:NOAA.NOAA_13237_1" style="NOAA.NOAA_13237_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13238: Martha's Vineyard - Eastern Part" name="massgis:NOAA.NOAA_13238_1" style="NOAA.NOAA_13238_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13238: Oak Bluffs Harbor" name="massgis:NOAA.NOAA_13238_2" style="NOAA.NOAA_13238_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13238: Edgartown Harbor" name="massgis:NOAA.NOAA_13238_4" style="NOAA.NOAA_13238_4::Default" type="raster"/>
+				<Layer title="NOAA Chart 13241: Nantucket Island" name="massgis:NOAA.NOAA_13241_1" style="NOAA.NOAA_13241_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13242: Nantucket Harbor" name="massgis:NOAA.NOAA_13242_1" style="NOAA.NOAA_13242_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13244: Eastern Entrance to Nantucket Sound" name="massgis:NOAA.NOAA_13244_1" style="NOAA.NOAA_13244_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13246: Cape Cod Bay" name="massgis:NOAA.NOAA_13246_1" style="NOAA.NOAA_13246_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13248: Chatham Harbor and Pleasant Bay" name="massgis:NOAA.NOAA_13248_1" style="NOAA.NOAA_13248_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13249: Provincetown Harbor" name="massgis:NOAA.NOAA_13249_1" style="NOAA.NOAA_13249_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13250: Wellfleet Harbor" name="massgis:NOAA.NOAA_13250_1" style="NOAA.NOAA_13250_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13251: Barnstable Harbor" name="massgis:NOAA.NOAA_13251_1" style="NOAA.NOAA_13251_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13253: Harbors of Plymouth, Kingston and Duxbury" name="massgis:NOAA.NOAA_13253_1" style="NOAA.NOAA_13253_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13260: Bay of Fundy to Cape Cod" name="massgis:NOAA.NOAA_13260_1" style="NOAA.NOAA_13260_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13267: Massachusetts Bay" name="massgis:NOAA.NOAA_13267_1" style="NOAA.NOAA_13267_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13267: North River" name="massgis:NOAA.NOAA_13267_2" style="NOAA.NOAA_13267_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13269: Cohasset and Scituate Harbors" name="massgis:NOAA.NOAA_13269_1" style="NOAA.NOAA_13269_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13270: Boston Harbor" name="massgis:NOAA.NOAA_13270_1" style="NOAA.NOAA_13270_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13272: Boston Inner Harbor" name="massgis:NOAA.NOAA_13272_1" style="NOAA.NOAA_13272_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13272: Mystic River Extension" name="massgis:NOAA.NOAA_13272_2" style="NOAA.NOAA_13272_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13274: Portsmouth Harbor to Boston Harbor (Cape Ann to Hampton Harbor)" name="massgis:NOAA.NOAA_13274_1" style="NOAA.NOAA_13274_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13274: Portsmouth Harbor to Boston Harbor (Great Boars Head to Cutts Island)" name="massgis:NOAA.NOAA_13274_2" style="NOAA.NOAA_13274_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13274: Merrimack River Extension - Haverhill" name="massgis:NOAA.NOAA_13274_3" style="NOAA.NOAA_13274_3::Default" type="raster"/>
+				<Layer title="NOAA Chart 13274: Merrimack River Extension" name="massgis:NOAA.NOAA_13274_4" style="NOAA.NOAA_13274_4::Default" type="raster"/>
+				<Layer title="NOAA Chart 13274: Portsmouth Harbor to Boston Harbor (Deer Island to Cape Ann)" name="massgis:NOAA.NOAA_13274_5" style="NOAA.NOAA_13274_5::Default" type="raster"/>
+				<Layer title="NOAA Chart 13275: Salem and Lynn Harbors" name="massgis:NOAA.NOAA_13275_1" style="NOAA.NOAA_13275_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13275: Manchester Harbor" name="massgis:NOAA.NOAA_13275_2" style="NOAA.NOAA_13275_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13276: Salem, Marblehead and Beverly Harbors" name="massgis:NOAA.NOAA_13276_1" style="NOAA.NOAA_13276_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13278: Portsmouth to Cape Ann" name="massgis:NOAA.NOAA_13278_1" style="NOAA.NOAA_13278_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13278: Hampton Harbor" name="massgis:NOAA.NOAA_13278_2" style="NOAA.NOAA_13278_2::Default" type="raster"/>
+				<Layer title="NOAA Chart 13279: Ipswich Bay to Gloucester Harbor" name="massgis:NOAA.NOAA_13279_1" style="NOAA.NOAA_13279_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13281: Gloucester Harbor and Annisquam River" name="massgis:NOAA.NOAA_13281_1" style="NOAA.NOAA_13281_1::Default" type="raster"/>
+				<Layer title="NOAA Chart 13282: Newburyport Harbor and Plum Island Sound" name="massgis:NOAA.NOAA_13282_1" style="NOAA.NOAA_13282_1::Default" type="raster"/>
+			</Folder>
+			<Folder title="Orthophotos (Aerial Photography)">
+				<Layer title="USGS 2009 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2009_30CM::Default" name="massgis:GISDATA.IMG_COQ2009_30CM" type="raster"/>
+				<Layer title="USGS 2008 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2008_30CM::Default" name="massgis:GISDATA.IMG_COQ2008_30CM" type="raster"/>
+				<Layer title="2005 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2005::Default" name="massgis:GISDATA.IMG_COQ2005" type="raster"/>
+				<Layer title="2001 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2001::Default" name="massgis:GISDATA.IMG_COQ2001" type="raster"/>
+<!--				<Layer title="1994 Coastal Color Orthophotos Mainland (1-meter resolution)" style="GISDATA.IMG_COLOROQ1::Default" name="massgis:GISDATA.IMG_COLOROQ1" type="raster"/>
+				<Layer title="1994 Coastal Color Orthophotos Islands (1-meter resolution)" style="GISDATA.IMGCAT_COLOROQ1::Default" name="massgis:GISDATA.IMGCAT_COLOROQ1" type="raster"/> -->
+				<Layer title="1990s Black and White Orthophotos" style="GISDATA.IMG_BWORTHOS::Default" name="massgis:GISDATA.IMG_BWORTHOS" type="raster"/>
+			</Folder>
+			<Folder title="Topographic Maps">
+				<Layer title="USGS Historical Coastal Topographic Maps (c. 1900)" style="GISDATA.IMG_USGS_HIST_COASTAL::Default" name="massgis:GISDATA.IMG_USGS_HIST_COASTAL" type="raster"/>
+				<Layer title="USGS Surficial Geology Topographic Base Maps" style="GISDATA.IMG_USGSQUAD_SGBASE::Default" name="massgis:GISDATA.IMG_USGSQUAD_SGBASE" type="raster"/>
+				<Layer title="USGS Topographic Maps" style="GISDATA.IMG_USGSQUADM::Default" name="massgis:GISDATA.IMG_USGSQUADM" type="raster"/>
+			</Folder>
+			<Layer title="Geographic Place Names - Civic Features" style="GISDATA.GEONAMES_PT_PLACES::Default" name="massgis:GISDATA.GEONAMES_PT_PLACES" type="pt"/>
+			<Layer title="Geographic Place Names - Hydrographic Features" style="GISDATA.GEONAMES_LINE_HYDRO::Default" name="massgis:GISDATA.GEONAMES_LINE_HYDRO" type="line"/>
+			<Layer title="Geographic Place Names - Hypsographic Features" style="GISDATA.GEONAMES_LINE_HYPSO::Default" name="massgis:GISDATA.GEONAMES_LINE_HYPSO" type="line"/>
+		</Folder>
+		<Folder title="Boundaries">
+			<Folder title="Municipal and County">
+				<Folder title="Assessor's Parcels">
+					<Layer title="Assessor's Parcel Status" name="massgis:GISDATA.PARCEL_STATUS" style="GISDATA.PARCEL_STATUS::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - FTP Download Links by Town" name="massgis:GISDATA.L3_PARCEL_FTP_LINKS" style="Black_Outlines" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Map Block Lot Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Map Block Lot Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Yellow_Labels" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Miscellaneous Features" name="massgis:GISDATA.L3_MISC_POLY" style="GISDATA.L3_MISC_POLY::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Other Legal Interests" name="massgis:GISDATA.L3_OTHLEG_POLY" style="GISDATA.L3_OTHLEG_POLY::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Site Address Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address" type="poly"/>
+					<Layer title="Assessor's Parcels Level 3 - Site Address Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Yellow_Labels" type="poly"/>
+					<Layer title="Assessor's Parcels Level II" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level II - For Orthophotos" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos" type="poly"/>
+					<Layer title="Assessor's Parcels Level II - Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id" type="poly"/>
+					<Layer title="Assessor's Parcels Level II - Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address" type="poly"/>
+					<Layer title="Assessor's Parcels Level 0" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Default" type="poly"/>
+					<Layer title="Assessor's Parcels Level 0 - For Orthophotos" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Yellow_Outlines" type="poly"/>
+					<Layer title="Assessor's Parcels Level 0 - Map Block Lot Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id" type="poly"/>
+					<Layer title="Assessor's Parcels Level 0 - Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr" type="poly"/>
+				</Folder>
+				<Layer title="Massachusetts Municipal Boundaries Labels" style="GISDATA.TOWNS_POLYM::Labels_Max_400000" name="massgis:GISDATA.TOWNS_POLYM" type="poly"/>
+				<Layer title="Massachusetts Municipal Boundaries Lines" style="GISDATA.TOWNSSURVEY_ARC::Default" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+				<Layer title="Massachusetts Municipal Boundaries Multipart Polygons" style="GISDATA.TOWNSSURVEY_POLYM::Default" name="massgis:GISDATA.TOWNSSURVEY_POLYM" type="poly"/>
+				<Layer title="Massachusetts Municipal Boundaries Polygons" style="GISDATA.TOWNSSURVEY_POLY::Default" name="massgis:GISDATA.TOWNSSURVEY_POLY" type="poly"/>
+				<Layer title="Massachusetts Municipal Boundaries Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+				<Layer title="Massachusetts Counties Lines" style="GISDATA.COUNTIES_ARC::Default" name="massgis:GISDATA.COUNTIES_ARC" type="line"/>
+				<Layer title="Massachusetts Counties Polygons" style="GISDATA.COUNTIES_POLY::Default" name="massgis:GISDATA.COUNTIES_POLY" type="poly"/>
+				<Layer title="Zoning General Use" style="GISDATA.ZONING_POLY::General_Use_Solid" name="massgis:GISDATA.ZONING_POLY" type="poly"/>
+				<Layer title="Zoning Primary Use" style="GISDATA.ZONING_POLY::Primary_Use_Solid" name="massgis:GISDATA.ZONING_POLY" type="poly"/>
+			</Folder>
+			<Folder title="State">
+				<Folder title="Designated Port Areas (DPAs)">
+					<Layer title="Beverly Harbor Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_BEVERLY_HARBOR_ARC" type="line"/>
+					<Layer title="Chelsea Creek Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_CHELSEA_CREEK_ARC" type="line"/>
+					<Layer title="East Boston Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_EAST_BOSTON_ARC" type="line"/>
+					<Layer title="Gloucester Inner Harbor Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_GLOUC_INNER_HARBOR_ARC" type="line"/>
+					<Layer title="Lynn Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_LYNN_ARC" type="line"/>
+					<Layer title="Mount Hope Bay Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_MOUNT_HOPE_BAY_ARC" type="line"/>
+					<Layer title="Mystic River Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_MYSTIC_RIVER_ARC" type="line"/>
+					<Layer title="New Bedford-Fairhaven Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_NEW_BEDFORD_FAIRHAVEN_ARC" type="line"/>
+					<Layer title="Salem Harbor Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_SALEM_HARBOR_ARC" type="line"/>
+					<Layer title="South Boston Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_SOUTH_BOSTON_ARC" type="line"/>
+					<Layer title="Weymouth Fore River Designated Port Area (DPA) Boundary" style="DPA" name="massgis:MORIS.DPA_WEYMOUTH_FORE_RIVER_ARC" type="line"/>
+					</Folder>
+				<Folder title="Public Waterfront Act (Chapter 91)">
+					<Layer title="Public Waterfront Act (Chapter 91) - Contemporary High Water" style="GISDATA.CZM_CONTEMP_HIGHWATER::Default" name="massgis:GISDATA.CZM_CONTEMP_HIGHWATER" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Historic High Water" style="GISDATA.CZM_HISTORIC_HIGHWATER::Default" name="massgis:GISDATA.CZM_HISTORIC_HIGHWATER" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Inferred Contemporary High Water" style="GISDATA.CZM_INFERRED_CONTEMP::Default" name="massgis:GISDATA.CZM_INFERRED_CONTEMP" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Inferred Historic High Water" style="GISDATA.CZM_INFERRED_HISTORIC::Default" name="massgis:GISDATA.CZM_INFERRED_HISTORIC" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Jurisdiction" style="GISDATA.CZM_JURISDICTION::Default" name="massgis:GISDATA.CZM_JURISDICTION" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Landlocked Tidelands" style="GISDATA.CZM_LANDLOCK::Default" name="massgis:GISDATA.CZM_LANDLOCK" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Marsh Boundary (Landward)" style="GISDATA.CZM_MARSHPERIMETER::Default" name="massgis:GISDATA.CZM_MARSHPERIMETER" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Marsh Boundary (Seaward)" style="GISDATA.CZM_CONTEMP_MARSH::Default" name="massgis:GISDATA.CZM_CONTEMP_MARSH" type="line"/>
+					<Layer title="Public Waterfront Act (Chapter 91) - Public Way" style="GISDATA.CZM_PUBLICWAY::Default" name="massgis:GISDATA.CZM_PUBLICWAY" type="line"/>
+				</Folder>
+				<!--<Layer title="401 Water Quality Certification for Dredging" style="Black_Outlines" name="massgis:MORIS.GEOREG_401_WQCD_POLY" type="poly"/>-->
+				<Layer title="Areas of Critical Environmental Concern (ACECs)" style="GISDATA.ACECS_POLY::Default" name="massgis:GISDATA.ACECS_POLY" type="poly"/>
+				<Layer title="Barrier Beaches (Executive Order No. 181)" style="Black_Outlines" name="massgis:MORIS.GEOREG_BARB_POLY" type="poly"/>
+				<Layer title="CZM Regions" style="GISDATA.REGCZM_POLY::Default" name="massgis:GISDATA.REGCZM_POLY" type="poly"/>
+				<!--<Layer title="Federal Consistency Review" style="Black_Outlines" name="massgis:MORIS.GEOREG_FCR_POLY" type="poly"/>
+				<Layer title="Flood Plains (Executive Order No. 149: FEMA and Flood Plain Use)" style="Black_Outlines" name="massgis:MORIS.GEOREG_FLOOD_POLY" type="poly"/>
+				<Layer title="Hazardous Materials Guide" style="Black_Outlines" name="massgis:MORIS.GEOREG_HMR_POLY" type="poly"/>-->
+				<Layer title="DEP 2002 Integrated List of Waters - Lakes" style="GISDATA.WBS2002_POLY::Default" name="massgis:GISDATA.WBS2002_POLY" type="poly"/>
+				<Layer title="DEP 2002 Integrated List of Waters - Rivers" style="GISDATA.WBS2002_ARC::Default" name="massgis:GISDATA.WBS2002_ARC" type="line"/>
+				<Layer title="DEP 2010 Integrated List of Waters - Lakes" style="GISDATA.IL_2010_POLY::Default" name="massgis:GISDATA.IL_2010_POLY_V" type="poly"/>
+				<Layer title="DEP 2010 Integrated List of Waters - Rivers" style="GISDATA.IL_2010_ARC::Default" name="massgis:GISDATA.IL_2010_ARC_V" type="line"/>
+				<Layer title="DEP 2010 Integrated List of Waters - Watershed Delineations" style="GISDATA.IL_DWM_WATERSHEDS_POLY::Default" name="massgis:GISDATA.IL_DWM_WATERSHEDS_POLY" type="poly"/>
+				<Layer title="Historic District" style="MORIS.GEOREG_HDA_POLY::Default" name="massgis:MORIS.GEOREG_HDA_POLY" type="poly"/>
+				<!--<Layer title="Interbasin Transfer Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_ITA_POLY" type="poly"/>
+				<Layer title="Massachusetts Clean Air Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MCAA_POLY" type="poly"/>
+				<Layer title="Massachusetts Clean Water Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MCWA_POLY" type="poly"/>
+				<Layer title="Massachusetts Coastal Wetlands Restrictions" style="Black_Outlines" name="massgis:MORIS.GEOREG_MCWR_POLY" type="poly"/>-->
+				<Layer title="Massachusetts Coastal Zone" style="GISDATA.CSTZONE_POLY::Default" name="massgis:GISDATA.CSTZONE_POLY" type="poly"/>
+				<Layer title="Massachusetts Coastal Zone Boundary" style="GISDATA.CSTZONE_ARC::Default" name="massgis:GISDATA.CSTZONE_ARC" type="line"/>
+				<!--<Layer title="Massachusetts Coastal Zone Management Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MCZ_POLY" type="poly"/>
+				<Layer title="Massachusetts Endangered Species Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MESA_POLY" type="poly"/>
+				<Layer title="Massachusetts Environmental Policy Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MEPA_POLY" type="poly"/>-->
+				<Layer title="Massachusetts House Legislative Districts 2002" style="GISDATA.HOUSE02_POLY::Default" name="massgis:GISDATA.HOUSE02_POLY" type="poly"/>
+				<Layer title="Massachusetts House Legislative Districts 2012" style="GISDATA.HOUSE2012_POLY::Default" name="massgis:GISDATA.HOUSE2012_POLY" type="poly"/>
+				<Layer title="Massachusetts Lateral Boundaries" style="MORIS.MASS_LATERAL_BOUNDARIES_ARC::Default" name="massgis:MORIS.MASS_LATERAL_BOUNDARIES_ARC" type="line"/>
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Massachusetts Senate Legislative Districts 2002" style="GISDATA.SENATE02_POLY::Default" name="massgis:GISDATA.SENATE02_POLY" type="poly"/>
+				<Layer title="Massachusetts Senate Legislative Districts 2012" style="GISDATA.SENATE2012_POLY::Default" name="massgis:GISDATA.SENATE2012_POLY" type="poly"/>
+				<Layer title="Massachusetts State Boundary" style="GISDATA.OUTLINE25K_ARC::Default" name="massgis:GISDATA.OUTLINE25K_ARC" type="line"/>
+				<!--<Layer title="Massachusetts State Building Code" style="Black_Outlines" name="massgis:MORIS.GEOREG_BUILD_POLY" type="poly"/>
+				<Layer title="Massachusetts Wetlands Protection Act and River Protection Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_WPA_POLY" type="poly"/>-->
+				<Layer title="Ocean Sanctuaries Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_OSA_POLY" type="poly"/>
+				<Layer title="Outstanding Resource Waters (ORWs)" style="GISDATA.ORW_POLY::Default" name="massgis:GISDATA.ORW_POLY" type="poly"/>
+				<!--<Layer title="Public Waterfront Act (Chapter 91)" style="Black_Outlines" name="massgis:MORIS.GEOREG_PWACH91_POLY" type="poly"/>-->
+				<Layer title="Regional Planning Agencies" style="GISDATA.RPAS_POLY::Default" name="massgis:GISDATA.RPAS_POLY" type="poly"/>
+				<!--<Layer title="Solid Waste Requirements" style="Black_Outlines" name="massgis:MORIS.GEOREG_SWR_POLY" type="poly"/>
+				<Layer title="State Environmental Code (Title 5)" style="Black_Outlines" name="massgis:MORIS.GEOREG_TITLE5_POLY" type="poly"/>
+				<Layer title="State Fisheries Regulations" style="Black_Outlines" name="massgis:MORIS.GEOREG_FISH_POLY" type="poly"/>
+				<Layer title="Underwater Archaeological Resources" style="Black_Outlines" name="massgis:MORIS.GEOREG_UAR_POLY" type="poly"/>
+				<Layer title="Water Management Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_WMA_POLY" type="poly"/>
+				<Layer title="Wildlife Management Areas/Natural Heritage Areas" style="Black_Outlines" name="massgis:MORIS.WMA_NHA_POLY" type="poly"/>
+				<Layer title="Zoning By-Laws (Massachusetts Zoning Act)" style="Black_Outlines" name="massgis:MORIS.GEOREG_MZA_POLY" type="poly"/>-->
+			</Folder>
+			<Folder title="Federal">
+				<!--<Layer title="Army Corps of Engineers Permits" style="Black_Outlines" name="massgis:MORIS.GEOREG_ACOE_PERMITS_POLY" type="poly"/>-->
+				<Layer title="Atlantic Cadastral Data - Baseline Points" style="MORIS.ATBSLNPT_PT::Default" name="massgis:MORIS.ATBSLNPT_PT" type="pt"/>
+				<Layer title="Atlantic Cadastral Data - Bay Closing Lines" style="MORIS.BAY_CLOSURE_LINES_ARC::Default" name="massgis:MORIS.BAY_CLOSURE_LINES_ARC" type="line"/>
+				<Layer title="Atlantic Cadastral Data - Continental Shelf Boundary" style="MORIS.CSB_ARC::Default" name="massgis:MORIS.CSB_ARC" type="line"/>
+				<Layer title="Atlantic Cadastral Data - Limit of '8(g) Zone'" style="MORIS.LINE8G_ARC::Default" name="massgis:MORIS.LINE8G_ARC" type="line"/>
+				<Layer title="Atlantic Cadastral Data - Official Protraction Diagram (OPD) Outlines" style="MORIS.PROTLMT_POLY::Default" name="massgis:MORIS.PROTLMT_POLY" type="poly"/>
+				<Layer title="Atlantic Cadastral Data - Official Protraction Diagram (OPD) Outlines (Clipped)" style="MORIS.PROT_CLP_POLY::Default" name="massgis:MORIS.PROT_CLP_POLY" type="poly"/>
+				<Layer title="Atlantic Cadastral Data - Outer Continental Shelf (OCS) Blocks" style="MORIS.BLK_CLP_POLY::Default" name="massgis:MORIS.BLK_CLP_POLY" type="poly"/>
+				<Layer title="Atlantic Cadastral Data - Outer Continental Shelf (OCS) Planning Areas" style="MORIS.PLANAREA_POLY::Default" name="massgis:MORIS.PLANAREA_POLY" type="poly"/>
+				<Layer title="Atlantic Cadastral Data - Submerged Lands Act (SLA) Boundary" style="MORIS.SLA_ARC::Default" name="massgis:MORIS.SLA_ARC" type="line"/>
+				<!--<Layer title="Clean Air Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_CAA_POLY" type="poly"/>-->
+				<Layer title="Coastal Barrier Resources Act" style="MORIS.GEOREG_CBRA_POLY::Default" name="massgis:MORIS.GEOREG_CBRA_POLY" type="poly"/>
+				<!--<Layer title="Coastal Zone Management Act" style="MORIS.GEOREG_CZMA_POLY::Default" name="massgis:MORIS.GEOREG_CZMA_POLY" type="poly"/>
+				<Layer title="Coastal Zone Management Act: Federal Consistency" style="Black_Outlines" name="massgis:MORIS.GEOREG_CZ_307_POLY" type="poly"/>
+				<Layer title="Construction Stormwater General Permit" style="Black_Outlines" name="massgis:MORIS.GEOREG_CSGP_POLY" type="poly"/>
+				<Layer title="Endangered Species Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_ESA_POLY" type="poly"/>
+				<Layer title="Federal Water Pollution Control Act (Clean Water Act)" style="Black_Outlines" name="massgis:MORIS.GEOREG_CWA_POLY" type="poly"/>-->
+				<Layer title="FEMA National Flood Hazard Layer" style="GISDATA.FEMA_NFHL_POLY::Default" name="massgis:GISDATA.FEMA_NFHL_POLY" type="poly"/>
+				<Layer title="Gerry E. Studds Stellwagen Bank National Marine Sanctuary" style="MORIS.GEOREG_NMS_POLY::Default" name="massgis:MORIS.GEOREG_NMS_POLY" type="poly"/>
+				<!--<Layer title="Marine Mammal Protection Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_MMPA_POLY" type="poly"/>-->
+				<Layer title="Marine Managed Areas: National Marine Fisheries Service" style="MORIS.MPA_NMFS_MA_POLY::Default" name="massgis:MORIS.MPA_NMFS_MA_POLY" type="poly"/>
+				<Layer title="Marine Protected Areas: National Estuarine Research Reserves" style="MORIS.MPA_NERR_MA_POLY::Default" name="massgis:MORIS.MPA_NERR_MA_POLY" type="poly"/>
+				<Layer title="Marine Protected Areas: National Marine Sanctuaries" style="MORIS.MPA_NMS_MA_POLY::Default" name="massgis:MORIS.MPA_NMS_MA_POLY" type="poly"/>
+				<!--<Layer title="Massachusetts Programmatic General Permit (ACOE Regulations)" style="Black_Outlines" name="massgis:MORIS.GEOREG_PGP_POLY" type="poly"/>
+				<Layer title="National Environmental Policy Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_NEPA_POLY" type="poly"/>
+				<Layer title="National Estuarine Research Reserve" style="MORIS.GEOREG_NERRS_POLY::Default" name="massgis:MORIS.GEOREG_NERRS_POLY" type="poly"/>-->
+				<Layer title="National Park Service" style="Black_Outlines" name="massgis:MORIS.GEOREG_NPS_POLY" type="poly"/>
+				<!--<Layer title="National Pollution Elimination Discharge System (NPDES)" style="Black_Outlines" name="massgis:MORIS.GEOREG_NPDES_POLY" type="poly"/>-->
+				<Layer title="National Wildlife Refuge System" style="MORIS.GEOREG_NWR_POLY::Default" name="massgis:MORIS.GEOREG_NWR_POLY" type="poly"/>
+				<Layer title="New England" style="GISDATA.NEMASK_POLY_MASURVEY::Default" name="massgis:GISDATA.NEMASK_POLY_MASURVEY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Critical Habitat and Seasonal Area Management (SAM) Areas" style="MORIS.RIGHT_WHALE_CRIT_HAB_POLY::Default" name="massgis:MORIS.RIGHT_WHALE_CRIT_HAB_POLY" type="poly"/>
+				<!--<Layer title="Resource Conservation and Recovery Act (RCRA)" style="Black_Outlines" name="massgis:MORIS.GEOREG_RCRA_POLY" type="poly"/>
+				<Layer title="Rivers and Harbors Act" style="Black_Outlines" name="massgis:MORIS.GEOREG_RHA_POLY" type="poly"/>
+				<Layer title="Sect. 404, Federal Water Pollution Control Act (Clean Water Act)" style="Black_Outlines" name="massgis:MORIS.GEOREG_CWA_404_POLY" type="poly"/>-->
+				<Layer title="U.S. Congressional Districts (108th)" style="GISDATA.CONGRESS108_POLY::Default" name="massgis:GISDATA.CONGRESS108_POLY" type="poly"/>
+				<Layer title="U.S. Congressional Districts (113th)" style="GISDATA.CONGRESS113_POLY::Default" name="massgis:GISDATA.CONGRESS113_POLY" type="poly"/>
+			</Folder>
+			<Layer title="Atlantic Canadian Provinces" style="GISDATA.ATLNPROV_POLY::Default" name="massgis:GISDATA.ATLNPROV_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Biology">
+			<Folder title="Marine Invasive Species">
+				<Folder title="2008 Monitoring">
+					<Layer title="Ascidiella aspersa (European Sea Squirt) 2008" style="MORIS.ASCIDIELLA_ASPERSA_2008_PT::Default" name="massgis:MORIS.ASCIDIELLA_ASPERSA_2008_PT" type="pt"/>
+					<Layer title="Botrylloides violaceus (Sheath Tunicate) 2008" style="MORIS.BOTRYLLOIDES_VIOLACEUS_2008_PT::Default" name="massgis:MORIS.BOTRYLLOIDES_VIOLACEUS_2008_PT" type="pt"/>
+					<Layer title="Botryllus schlosseri (Star Tunicate) 2008" style="MORIS.BOTRYLLUS_SCHLOSSERI_2008_PT::Default" name="massgis:MORIS.BOTRYLLUS_SCHLOSSERI_2008_PT" type="pt"/>
+					<Layer title="Carcinus maenas (Green Crab) 2008" style="MORIS.CARCINUS_MAENAS_2008_PT::Default" name="massgis:MORIS.CARCINUS_MAENAS_2008_PT" type="pt"/>
+					<Layer title="Codium fragile (Green Fleece) 2008" style="MORIS.CODIUM_FRAGILE_2008_PT::Default" name="massgis:MORIS.CODIUM_FRAGILE_2008_PT" type="pt"/>
+					<Layer title="Diadumene lineata (Orange Striped Anemone) 2008" style="MORIS.DIADUMENE_LINEATA_2008_PT::Default" name="massgis:MORIS.DIADUMENE_LINEATA_2008_PT" type="pt"/>
+					<Layer title="Didemnum vexillum (Colonial Tunicate) 2008" style="MORIS.DIDEMNUM_VEXILLUM_2008_PT::Default" name="massgis:MORIS.DIDEMNUM_VEXILLUM_2008_PT" type="pt"/>
+					<Layer title="Diplosoma listerianum (Colonial Tunicate) 2008" style="MORIS.DIPLOSOMA_LISTERIANUM_2008_PT::Default" name="massgis:MORIS.DIPLOSOMA_LISTERIANUM_2008_PT" type="pt"/>
+					<Layer title="Grateloupia turuturu (Red Algae) 2008" style="MORIS.GRATELOUPIA_TURUTURU_2008_PT::Default" name="massgis:MORIS.GRATELOUPIA_TURUTURU_2008_PT" type="pt"/>
+					<Layer title="Hemigrapsus sanguineus (Asian Shore Crab) 2008" style="MORIS.HEMIGRAPSUS_SANGUINEUS_2008_PT::Default" name="massgis:MORIS.HEMIGRAPSUS_SANGUINEUS_2008_PT" type="pt"/>
+					<Layer title="Membranipora membranacea (Lacy Crust) 2008" style="MORIS.MEMBRANIPORA_MEMBRANACEA_08_PT::Default" name="massgis:MORIS.MEMBRANIPORA_MEMBRANACEA_08_PT" type="pt"/>
+					<Layer title="Ostrea edulis (European Oyster) 2008" style="MORIS.OSTREA_EDULIS_2008_PT::Default" name="massgis:MORIS.OSTREA_EDULIS_2008_PT" type="pt"/>
+					<Layer title="Styela clava (Club Tunicate) 2008" style="MORIS.STYELA_CLAVA_2008_PT::Default" name="massgis:MORIS.STYELA_CLAVA_2008_PT" type="pt"/>
+					<Layer title="MIMIC 2008 Monitoring Sites" style="MORIS.MIMIC_SITES_2008_PT::Default" name="massgis:MORIS.MIMIC_SITES_2008_PT" type="pt"/>
+				</Folder>
+				<Folder title="2009 Monitoring">
+					<Layer title="Ascidiella aspersa (European Sea Squirt) 2009" style="MORIS.ASCIDIELLA_ASPERSA_2009_PT::Default" name="massgis:MORIS.ASCIDIELLA_ASPERSA_2009_PT" type="pt"/>
+					<Layer title="Botrylloides violaceus (Sheath Tunicate) 2009" style="MORIS.BOTRYLLOIDES_VIOLACEUS_2009_PT::Default" name="massgis:MORIS.BOTRYLLOIDES_VIOLACEUS_2009_PT" type="pt"/>
+					<Layer title="Botryllus schlosseri (Star Tunicate) 2009" style="MORIS.BOTRYLLUS_SCHLOSSERI_2009_PT::Default" name="massgis:MORIS.BOTRYLLUS_SCHLOSSERI_2009_PT" type="pt"/>
+					<Layer title="Carcinus maenas (Green Crab) 2009" style="MORIS.CARCINUS_MAENAS_2009_PT::Default" name="massgis:MORIS.CARCINUS_MAENAS_2009_PT" type="pt"/>
+					<Layer title="Codium fragile (Green Fleece) 2009" style="MORIS.CODIUM_FRAGILE_2009_PT::Default" name="massgis:MORIS.CODIUM_FRAGILE_2009_PT" type="pt"/>
+					<Layer title="Diadumene lineata (Orange Striped Anemone) 2009" style="MORIS.DIADUMENE_LINEATA_2009_PT::Default" name="massgis:MORIS.DIADUMENE_LINEATA_2009_PT" type="pt"/>
+					<Layer title="Didemnum vexillum (Colonial Tunicate) 2009" style="MORIS.DIDEMNUM_VEXILLUM_2009_PT::Default" name="massgis:MORIS.DIDEMNUM_VEXILLUM_2009_PT" type="pt"/>
+					<Layer title="Diplosoma listerianum (Colonial Tunicate) 2009" style="MORIS.DIPLOSOMA_LISTERIANUM_2009_PT::Default" name="massgis:MORIS.DIPLOSOMA_LISTERIANUM_2009_PT" type="pt"/>
+					<Layer title="Grateloupia turuturu (Red Algae) 2009" style="MORIS.GRATELOUPIA_TURUTURU_2009_PT::Default" name="massgis:MORIS.GRATELOUPIA_TURUTURU_2009_PT" type="pt"/>
+					<Layer title="Hemigrapsus sanguineus (Asian Shore Crab) 2009" style="MORIS.HEMIGRAPSUS_SANGUINEUS_2009_PT::Default" name="massgis:MORIS.HEMIGRAPSUS_SANGUINEUS_2009_PT" type="pt"/>
+					<Layer title="Membranipora membranacea (Lacy Crust) 2009" style="MORIS.MEMBRANIPORA_MEMBRANACEA_09_PT::Default" name="massgis:MORIS.MEMBRANIPORA_MEMBRANACEA_09_PT" type="pt"/>
+					<Layer title="Styela clava (Club Tunicate) 2009" style="MORIS.STYELA_CLAVA_2009_PT::Default" name="massgis:MORIS.STYELA_CLAVA_2009_PT" type="pt"/>
+					<Layer title="MIMIC 2009 Monitoring Sites" style="MORIS.MIMIC_SITES_2009_PT::Default" name="massgis:MORIS.MIMIC_SITES_2009_PT" type="pt"/>
+				</Folder>
+				<Folder title="2010 Monitoring">
+					<Layer title="Ascidiella aspersa (European Sea Squirt) 2010" style="MORIS.ASCIDIELLA_ASPERSA_2010_PT::Default" name="massgis:MORIS.ASCIDIELLA_ASPERSA_2010_PT" type="pt"/>
+					<Layer title="Botrylloides violaceus (Sheath Tunicate) 2010" style="MORIS.BOTRYLLOIDES_VIOLACEUS_2010_PT::Default" name="massgis:MORIS.BOTRYLLOIDES_VIOLACEUS_2010_PT" type="pt"/>
+					<Layer title="Botryllus schlosseri (Star Tunicate) 2010" style="MORIS.BOTRYLLUS_SCHLOSSERI_2010_PT::Default" name="massgis:MORIS.BOTRYLLUS_SCHLOSSERI_2010_PT" type="pt"/>
+					<Layer title="Carcinus maenas (Green Crab) 2010" style="MORIS.CARCINUS_MAENAS_2010_PT::Default" name="massgis:MORIS.CARCINUS_MAENAS_2010_PT" type="pt"/>
+					<Layer title="Codium fragile (Green Fleece) 2010" style="MORIS.CODIUM_FRAGILE_2010_PT::Default" name="massgis:MORIS.CODIUM_FRAGILE_2010_PT" type="pt"/>
+					<Layer title="Diadumene lineata (Orange Striped Anemone) 2010" style="MORIS.DIADUMENE_LINEATA_2010_PT::Default" name="massgis:MORIS.DIADUMENE_LINEATA_2010_PT" type="pt"/>
+					<Layer title="Didemnum vexillum (Colonial Tunicate) 2010" style="MORIS.DIDEMNUM_VEXILLUM_2010_PT::Default" name="massgis:MORIS.DIDEMNUM_VEXILLUM_2010_PT" type="pt"/>
+					<Layer title="Diplosoma listerianum (Colonial Tunicate) 2010" style="MORIS.DIPLOSOMA_LISTERIANUM_2010_PT::Default" name="massgis:MORIS.DIPLOSOMA_LISTERIANUM_2010_PT" type="pt"/>
+					<Layer title="Grateloupia turuturu (Red Algae) 2010" style="MORIS.GRATELOUPIA_TURUTURU_2010_PT::Default" name="massgis:MORIS.GRATELOUPIA_TURUTURU_2010_PT" type="pt"/>
+					<Layer title="Hemigrapsus sanguineus (Asian Shore Crab) 2010" style="MORIS.HEMIGRAPSUS_SANGUINEUS_2010_PT::Default" name="massgis:MORIS.HEMIGRAPSUS_SANGUINEUS_2010_PT" type="pt"/>
+					<Layer title="Membranipora membranacea (Lacy Crust) 2010" style="MORIS.MEMBRANIPORA_MEMBRANACEA_10_PT::Default" name="massgis:MORIS.MEMBRANIPORA_MEMBRANACEA_10_PT" type="pt"/>
+					<Layer title="Ostrea edulis (European Oyster) 2010" style="MORIS.OSTREA_EDULIS_2010_PT::Default" name="massgis:MORIS.OSTREA_EDULIS_2010_PT" type="pt"/>
+					<Layer title="Styela clava (Club Tunicate) 2010" style="MORIS.STYELA_CLAVA_2010_PT::Default" name="massgis:MORIS.STYELA_CLAVA_2010_PT" type="pt"/>
+					<Layer title="MIMIC 2010 Monitoring Sites" style="MORIS.MIMIC_SITES_2010_PT::Default" name="massgis:MORIS.MIMIC_SITES_2010_PT" type="pt"/>
+				</Folder>
+				<Folder title="2011 Monitoring">
+					<Layer title="Ascidiella aspersa (European Sea Squirt) 2011" style="MORIS.ASCIDIELLA_ASPERSA_2011_PT::Default" name="massgis:MORIS.ASCIDIELLA_ASPERSA_2011_PT" type="pt"/>
+					<Layer title="Botrylloides violaceus (Sheath Tunicate) 2011" style="MORIS.BOTRYLLOIDES_VIOLACEUS_2011_PT::Default" name="massgis:MORIS.BOTRYLLOIDES_VIOLACEUS_2011_PT" type="pt"/>
+					<Layer title="Botryllus schlosseri (Star Tunicate) 2011" style="MORIS.BOTRYLLUS_SCHLOSSERI_2011_PT::Default" name="massgis:MORIS.BOTRYLLUS_SCHLOSSERI_2011_PT" type="pt"/>
+					<Layer title="Bugula neritina (Purple Bushy Bryozoan) 2011" style="MORIS.BUGULA_NERITINA_2011_PT::Default" name="massgis:MORIS.BUGULA_NERITINA_2011_PT" type="pt"/>
+					<Layer title="Caprella mutica (Skeleton Shrimp) 2011" style="MORIS.CAPRELLA_MUTICA_2011_PT::Default" name="massgis:MORIS.CAPRELLA_MUTICA_2011_PT" type="pt"/>
+					<Layer title="Carcinus maenas (Green Crab) 2011" style="MORIS.CARCINUS_MAENAS_2011_PT::Default" name="massgis:MORIS.CARCINUS_MAENAS_2011_PT" type="pt"/>
+					<Layer title="Codium fragile (Green Fleece) 2011" style="MORIS.CODIUM_FRAGILE_2011_PT::Default" name="massgis:MORIS.CODIUM_FRAGILE_2011_PT" type="pt"/>
+					<Layer title="Diadumene lineata (Orange Striped Anemone) 2011" style="MORIS.DIADUMENE_LINEATA_2011_PT::Default" name="massgis:MORIS.DIADUMENE_LINEATA_2011_PT" type="pt"/>
+					<Layer title="Didemnum vexillum (Colonial Tunicate) 2011" style="MORIS.DIDEMNUM_VEXILLUM_2011_PT::Default" name="massgis:MORIS.DIDEMNUM_VEXILLUM_2011_PT" type="pt"/>
+					<Layer title="Diplosoma listerianum (Colonial Tunicate) 2011" style="MORIS.DIPLOSOMA_LISTERIANUM_2011_PT::Default" name="massgis:MORIS.DIPLOSOMA_LISTERIANUM_2011_PT" type="pt"/>
+					<Layer title="Grateloupia turuturu (Red Algae) 2011" style="MORIS.GRATELOUPIA_TURUTURU_2011_PT::Default" name="massgis:MORIS.GRATELOUPIA_TURUTURU_2011_PT" type="pt"/>
+					<Layer title="Hemigrapsus sanguineus (Asian Shore Crab) 2011" style="MORIS.HEMIGRAPSUS_SANGUINEUS_2011_PT::Default" name="massgis:MORIS.HEMIGRAPSUS_SANGUINEUS_2011_PT" type="pt"/>
+					<Layer title="Membranipora membranacea (Lacy Crust) 2011" style="MORIS.MEMBRANIPORA_MEMBRANACEA_11_PT::Default" name="massgis:MORIS.MEMBRANIPORA_MEMBRANACEA_11_PT" type="pt"/>
+					<Layer title="Ostrea edulis (European Oyster) 2011" style="MORIS.OSTREA_EDULIS_2011_PT::Default" name="massgis:MORIS.OSTREA_EDULIS_2011_PT" type="pt"/>
+					<Layer title="Palaemon elegans (European Rock Shrimp) 2011" style="MORIS.PALAEMON_ELEGANS_2011_PT::Default" name="massgis:MORIS.PALAEMON_ELEGANS_2011_PT" type="pt"/>
+					<Layer title="Styela clava (Club Tunicate) 2011" style="MORIS.STYELA_CLAVA_2011_PT::Default" name="massgis:MORIS.STYELA_CLAVA_2011_PT" type="pt"/>
+					<Layer title="MIMIC 2011 Monitoring Sites" style="MORIS.MIMIC_SITES_2011_PT::Default" name="massgis:MORIS.MIMIC_SITES_2011_PT" type="pt"/>
+				</Folder>
+			</Folder>
+			<Folder title="Natural Heritage and Endangered Species Program (NHESP) Data Layers">
+				<Folder title="BioMap2">
+					<Folder title="Core Habitat Components">
+						<Layer title="BioMap2 Core Habitat - Aquatic Core" style="GISDATA.BM2_CH_AQUATIC_CORE::Default" name="massgis:GISDATA.BM2_CH_AQUATIC_CORE" type="poly"/>
+						<Layer title="BioMap2 Core Habitat - Forest Core" style="GISDATA.BM2_CH_FOREST_CORE::Default" name="massgis:GISDATA.BM2_CH_FOREST_CORE" type="poly"/>
+						<Layer title="BioMap2 Core Habitat - Priority Natural Communities" style="GISDATA.BM2_CH_PRIORITY_NATURAL_COMMS::Default" name="massgis:GISDATA.BM2_CH_PRIORITY_NATURAL_COMMS" type="poly"/>
+						<Layer title="BioMap2 Core Habitat - Species of Conservation Concern" style="GISDATA.BM2_CH_SPECIES_CONS_CONCERN::Default" name="massgis:GISDATA.BM2_CH_SPECIES_CONS_CONCERN" type="poly"/>
+						<Layer title="BioMap2 Core Habitat - Vernal Pool Core" style="GISDATA.BM2_CH_VERNAL_POOL_CORE::Default" name="massgis:GISDATA.BM2_CH_VERNAL_POOL_CORE" type="poly"/>
+						<Layer title="BioMap2 Core Habitat - Wetlands" style="GISDATA.BM2_CH_BIOMAP2_WETLANDS::Default" name="massgis:GISDATA.BM2_CH_BIOMAP2_WETLANDS" type="poly"/>
+					</Folder>
+					<Folder title="Critical Natural Landscape Components">
+						<Layer title="BioMap2 Critical Natural Landscape - Coastal Adaptation Analysis" style="GISDATA.BM2_CNL_COASTAL_ADAPT_AN::Default" name="massgis:GISDATA.BM2_CNL_COASTAL_ADAPT_AN" type="poly"/>
+						<Layer title="BioMap2 Critical Natural Landscape - Landscape Blocks" style="GISDATA.BM2_CNL_LANDSCAPE_BLOCKS::Default" name="massgis:GISDATA.BM2_CNL_LANDSCAPE_BLOCKS" type="poly"/>
+						<Layer title="BioMap2 Critical Natural Landscape - Tern Foraging" style="GISDATA.BM2_CNL_TERN_FORAGING::Default" name="massgis:GISDATA.BM2_CNL_TERN_FORAGING" type="poly"/>
+						<Layer title="BioMap2 Critical Natural Landscape - Upland Buffer of Aquatic Core" style="GISDATA.BM2_CNL_AQUATIC_BUFFER::Default" name="massgis:GISDATA.BM2_CNL_AQUATIC_BUFFER" type="poly"/>
+						<Layer title="BioMap2 Critical Natural Landscape - Upland Buffer of Wetlands" style="GISDATA.BM2_CNL_WETLAND_BUFFER::Default" name="massgis:GISDATA.BM2_CNL_WETLAND_BUFFER" type="poly"/>
+					</Folder>
+					<Layer title="BioMap2 Core Habitat" style="GISDATA.BM2_CORE_HABITAT::Default" name="massgis:GISDATA.BM2_CORE_HABITAT" type="poly"/>
+					<Layer title="BioMap2 Critical Natural Landscape" style="GISDATA.BM2_CRITICAL_NATURAL_LANDSCAPE::Default" name="massgis:GISDATA.BM2_CRITICAL_NATURAL_LANDSCAPE" type="poly"/>
+				</Folder>
+				<Layer title="NHESP Certified Vernal Pools" style="GISDATA.CVP_PT::Default" name="massgis:GISDATA.CVP_PT" type="pt"/>
+				<Layer title="NHESP Estimated Habitats of Rare Wildlife" style="GISDATA.ESTHAB_POLY::Default" name="massgis:GISDATA.ESTHAB_POLY" type="poly"/>
+				<Layer title="NHESP Living Waters Core Habitats" style="GISDATA.LWCORE_POLY::Default" name="massgis:GISDATA.LWCORE_POLY" type="poly"/>
+				<Layer title="NHESP Living Waters Critical Supporting Watersheds" style="GISDATA.LWCSW_POLY::Default" name="massgis:GISDATA.LWCSW_POLY" type="poly"/>
+				<Layer title="NHESP Natural Communities" style="GISDATA.NATCOMM_POLY::Default" name="massgis:GISDATA.NATCOMM_POLY" type="poly"/>
+				<Layer title="NHESP Potential Vernal Pools" style="GISDATA.PVP_PT::Default" name="massgis:GISDATA.PVP_PT" type="pt"/>
+				<Layer title="NHESP Priority Habitats of Rare Species" style="GISDATA.PRIHAB_POLY::Default" name="massgis:GISDATA.PRIHAB_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Acidic Peatland" style="GISDATA.VCPEATLAND_POLY::Default" name="massgis:GISDATA.VCPEATLAND_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Coastal" style="GISDATA.VCCOASTAL_POLY::Default" name="massgis:GISDATA.VCCOASTAL_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass 2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Coastal (DEP Seagrass for Selected Embayments 2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Coastal Plain Pond" style="GISDATA.VCCOASTALPLAINPOND_POLY::Default" name="massgis:GISDATA.VCCOASTALPLAINPOND_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Maritime Sandplain" style="GISDATA.VCSANDPLAIN_POLY::Default" name="massgis:GISDATA.VCSANDPLAIN_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Pine Barrens" style="GISDATA.VCPINEBARRENS_POLY::Default" name="massgis:GISDATA.VCPINEBARRENS_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Pine Barrens (UMass)" style="GISDATA.VCPINEBARRENS2_POLY::Default" name="massgis:GISDATA.VCPINEBARRENS2_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Riverine" style="GISDATA.VCRIVERINE_POLY::Default" name="massgis:GISDATA.VCRIVERINE_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Upland Forest" style="GISDATA.VCFOREST_POLY::Default" name="massgis:GISDATA.VCFOREST_POLY" type="poly"/>
+				<Layer title="Priority Natural Vegetation Communities - Vernal Pool (NHESP Certified Vernal Pools)" style="GISDATA.CVP_PT::Default" name="massgis:GISDATA.CVP_PT" type="pt"/>
+				<Layer title="Priority Natural Vegetation Communities - Vernal Pool (NHESP Potential Vernal Pools)" style="GISDATA.PVP_PT::Default" name="massgis:GISDATA.PVP_PT" type="pt"/>
+			</Folder>
+			<Layer title="Anadromous Fish" style="GISDATA.ANADFISH_PT::Default" name="massgis:GISDATA.ANADFISH_PT" type="pt"/>
+			<Layer title="Anadromous Fish by Dam Presence" style="GISDATA.ANADFISH_PT::By_Dam_Presence" name="massgis:GISDATA.ANADFISH_PT_DAMPRESENCE" type="pt"/>
+			<Layer title="Anadromous Fish by Fishway Effect" style="GISDATA.ANADFISH_PT::By_Fishway_Effect" name="massgis:GISDATA.ANADFISH_PT_FISHWAYEFFECT" type="pt"/>
+			<Layer title="Anadromous Fish by Fishway Type" style="GISDATA.ANADFISH_PT::By_Fishway_Type" name="massgis:GISDATA.ANADFISH_PT_FISHWAYTYPE" type="pt"/>
+			<Layer title="Anadromous Fish by Man-Made Barriers" style="GISDATA.ANADFISH_PT::By_Manmade_Barriers" name="massgis:GISDATA.ANADFISH_PT_MANBARRIERTYPE" type="pt"/>
+			<Layer title="Anadromous Fish by Natural Barriers" style="GISDATA.ANADFISH_PT::By_Natural_Barriers" name="massgis:GISDATA.ANADFISH_PT_NATBARRIERTYPE" type="pt"/>
+			<Layer title="DEP Seagrass (1995)" style="GISDATA.EELGRASS_POLY::1995_Mapping" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="DEP Seagrass (2001)" style="GISDATA.EELGRASS_POLY::Default" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+			<Layer title="DEP Seagrass for Selected Embayments (2006-2007)" style="GISDATA.EELGRASS2006_7_POLY::Default" name="massgis:GISDATA.EELGRASS2006_7_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Index" style="MORIS.ESI_MAP_INDEX_POLY::Default" name="massgis:MORIS.ESI_MAP_INDEX_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Bird Nesting" style="MORIS.ESI_NESTS_PT::Default" name="massgis:MORIS.ESI_NESTS_PT" type="pt"/>
+			<Layer title="Environmental Sensitivity Analysis - Birds" style="MORIS.ESI_BIRDS_POLY::Default" name="massgis:MORIS.ESI_BIRDS_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Fish" style="MORIS.ESI_FISH_POLY::Default" name="massgis:MORIS.ESI_FISH_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Invertebrates" style="MORIS.ESI_INVERT_POLY::Default" name="massgis:MORIS.ESI_INVERT_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Mammals" style="MORIS.ESI_MAMMAL_POLY::Default" name="massgis:MORIS.ESI_MAMMAL_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Reptiles" style="MORIS.ESI_REPTILES_POLY::Default" name="massgis:MORIS.ESI_REPTILES_POLY" type="poly"/>
+			<Layer title="Environmental Sensitivity Analysis - Shoreline Classification Lines" style="MORIS.ESI_SHORECLASS_ARC::Default" name="massgis:MORIS.ESI_SHORECLASS_ARC" type="line"/>
+			<Layer title="Environmental Sensitivity Analysis - Shoreline Classification Polygons" style="MORIS.ESI_SHORECLASSP_POLY::Default" name="massgis:MORIS.ESI_SHORECLASSP_POLY" type="poly"/>
+			<Layer title="EPA Ecoregions" style="GISDATA.ECOREGIONS_POLY::Default" name="massgis:GISDATA.ECOREGIONS_POLY" type="poly"/>
+			<Layer title="EPA Ecoregions Transitional Areas" style="GISDATA.ECOREGIONS_POLY::Transitional_Areas" name="massgis:GISDATA.ECOREGIONS_POLY" type="poly"/>
+			<Layer title="Fin Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_FIN_WHALES_POLY::Default" name="massgis:MORIS.OM_FIN_WHALES_POLY" type="poly"/>
+			<Layer title="Humpback Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_HUMPBACK_WHALES_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_WHALES_POLY" type="poly"/>
+			<Layer title="North Atlantic Right Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY::Default" name="massgis:MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Geology">
+			<Folder title="Seafloor">
+				<Layer title="Backscatter: Boston Harbor and Approaches (1-meter resolution)" style="MORIS.BH_1MBS_RD::Default" name="massgis:MORIS.BH_1MBS_RD" type="raster"/>
+				<Layer title="Backscatter: Boston Harbor and Approaches (5-meter resolution)" style="MORIS.BH_5MBS_RD::Default" name="massgis:MORIS.BH_5MBS_RD" type="raster"/>
+				<Layer title="Backscatter: Boston Harbor and Approaches Survey Lines of Sidescan Sonar System" style="MORIS.BH_SURVEYLINES_SSS_ARC::Default" name="massgis:MORIS.BH_SURVEYLINES_SSS_ARC" type="line"/>
+				<Layer title="Backscatter: Nahant to Gloucester (1-meter resolution)" style="MORIS.NAH2GLO_SS_MOS1M_RD::Default" name="massgis:MORIS.NAH2GLO_SS_MOS1M_RD" type="raster"/>
+				<Layer title="Backscatter: Northern and Eastern Cape Cod (4-meter resolution)" style="MORIS.CC_BACKSCATTER_RD::Default" name="massgis:MORIS.CC_BACKSCATTER_RD" type="raster"/>
+				<Layer title="Backscatter: Northern and Eastern Cape Cod (4-meter resolution, pseudo-color)" style="MORIS.CC_PSEUDOCOLOR_BACKSCATTER_RD::Default" name="massgis:MORIS.CC_PSEUDOCOLOR_BACKSCATTER_RD" type="raster"/>
+				<Layer title="Bathymetry: All Massachusetts Waters (fathoms)" style="MORIS.BATHY_FATHOMS_POLY::Default" name="massgis:MORIS.BATHY_FATHOMS_POLY" type="poly"/>
+				<Layer title="Bathymetry: Boston Harbor and Approaches (2-meter resolution)" style="MORIS.BH_2MMBBATH_RD::Default" name="massgis:MORIS.BH_2MMBBATH_RD" type="raster"/>
+				<Layer title="Bathymetry: Boston Harbor and Approaches Shaded-Relief Bathymetry (2-meter resolution)" style="MORIS.BH_2MMBHS_RD::Default" name="massgis:MORIS.BH_2MMBHS_RD" type="raster"/>
+				<Layer title="Bathymetry: Boston Harbor and Approaches Shaded-Relief Bathymetry (30-meter resolution)" style="MORIS.BH_30MHS_RD::Default" name="massgis:MORIS.BH_30MHS_RD" type="raster"/>
+				<Layer title="Bathymetry: Gulf of Maine Bathymetric Contours" style="MORIS.GOM15CTR_ARC::Default" name="massgis:MORIS.GOM15CTR_ARC" type="line"/>
+				<Layer title="Bathymetry: Nahant to Gloucester (5-meter resolution)" style="MORIS.NAH2GLO_SE_5MBATH_RD::Default" name="massgis:MORIS.NAH2GLO_SE_5MBATH_RD" type="raster"/>
+				<Layer title="Bathymetry: New York Bight and Gulf of Maine Bathymetric Contours" style="MORIS.NY_GOME_CONTOURS_ARC::Default" name="massgis:MORIS.NY_GOME_CONTOURS_ARC" type="line"/>
+				<Layer title="Bathymetry: Northern and Eastern Cape Cod Sun-Illuminated Bathymetry (4-meter resolution)" style="MORIS.CC_SUN_ILLUM_BATHY_RD::Default" name="massgis:MORIS.CC_SUN_ILLUM_BATHY_RD" type="raster"/>
+				<Layer title="Bathymetry: Stellwagen Bank Bathymetric Contours" style="MORIS.BATHY_ARC::Default" name="massgis:MORIS.BATHY_ARC" type="line"/>
+				<Layer title="Physiographic Zones: Boston Harbor and Approaches" style="MORIS.BH_BOTTOMTYPE_POLY::Default" name="massgis:MORIS.BH_BOTTOMTYPE_POLY" type="poly"/>
+				<Layer title="Physiographic Zones: Nahant to Gloucester Inshore" style="MORIS.NAH2GLO_PHYS_ZONES_IN_POLY::Default" name="massgis:MORIS.NAH2GLO_PHYS_ZONES_IN_POLY" type="poly"/>
+				<Layer title="Physiographic Zones: Nahant to Gloucester Offshore" style="MORIS.NAH2GLO_PHYS_ZONES_POLY::Default" name="massgis:MORIS.NAH2GLO_PHYS_ZONES_POLY" type="poly"/>
+				<Layer title="Sub-Bottom: Nahant to Gloucester Depth to Bedrock" style="MORIS.NAH2GLO_BEDROCK_DEPTH_RD::Default" name="massgis:MORIS.NAH2GLO_BEDROCK_DEPTH_RD" type="raster"/>
+				<Layer title="Surficial Sediment: Continental Margin" style="MORIS.CONMAPSG_POLY::Default" name="massgis:MORIS.CONMAPSG_POLY" type="poly"/>
+				<Layer title="Surficial Sediment: Nahant to Gloucester Bottom Classification" style="MORIS.NAH2GLO_MLCLASS5_RD::Default" name="massgis:MORIS.NAH2GLO_MLCLASS5_RD" type="raster"/>
+				<Layer title="Surficial Sediment: Northern and Eastern Cape Cod" style="MORIS.CC_SED_DIST_POLY::Default" name="massgis:MORIS.CC_SED_DIST_POLY" type="poly"/>
+				<Layer title="Surficial Sediment: Northern and Eastern Cape Cod Grain-Size Data" style="MORIS.CC_SURFICIAL_SED_PT::Default" name="massgis:MORIS.CC_SURFICIAL_SED_PT" type="pt"/>
+				<Layer title="Surficial Sediment: USGS Field Activity 04019" style="MORIS.BH_SEDGRABS_PT::Default" name="massgis:MORIS.BH_SEDGRABS_PT" type="pt"/>
+				<Layer title="Surficial Sediment: usSEABED Calculated Surficial Sediment Data" style="MORIS.ATL_CLC_PT::Default" name="massgis:MORIS.ATL_CLC_PT" type="pt"/>
+				<Layer title="Surficial Sediment: usSEABED Component and Features Surficial Sediment Data" style="MORIS.ATL_CMP_PT::Default" name="massgis:MORIS.ATL_CMP_PT" type="pt"/>
+				<Layer title="Surficial Sediment: usSEABED Extracted Surficial Sediment Data" style="MORIS.ATL_EXT_PT::Default" name="massgis:MORIS.ATL_EXT_PT" type="pt"/>
+				<Layer title="Surficial Sediment: usSEABED Facies Surficial Sediment Data" style="MORIS.ATL_FAC_PT::Default" name="massgis:MORIS.ATL_FAC_PT" type="pt"/>
+				<Layer title="Surficial Sediment: usSEABED Parsed Surficial Sediment Data" style="MORIS.ATL_PRS_PT::Default" name="massgis:MORIS.ATL_PRS_PT" type="pt"/>
+				<Layer title="Northern and Eastern Cape Cod Sedimentary Environments" style="MORIS.CC_SED_ENVIRON_POLY::Default" name="massgis:MORIS.CC_SED_ENVIRON_POLY" type="poly"/>
+				<Layer title="Stellwagen Bank National Marine Sanctuary Backscatter Intensity and Sun-Illuminated Seafloor Topography" style="MORIS.BCKSCTTER_RD::Default" name="massgis:MORIS.BCKSCTTER_RD" type="raster"/>
+				<Layer title="Stellwagen Bank National Marine Sanctuary Bedrock Outcrops" style="MORIS.BEDROCK_POLY::Default" name="massgis:MORIS.BEDROCK_POLY" type="poly"/>
+				<Layer title="Stellwagen Bank National Marine Sanctuary Sun-Illuminated Seafloor Topography" style="MORIS.SUNILLUM_RD::Default" name="massgis:MORIS.SUNILLUM_RD" type="raster"/>
+				<Layer title="Stellwagen Bank National Marine Sanctuary Terrain Ruggedness" style="MORIS.RUGGED_RD::Default" name="massgis:MORIS.RUGGED_RD" type="raster"/>
+			</Folder>
+			<Folder title="Shoreline">
+				<Layer title="Barrier Beaches" style="GISDATA.BARRIERB_POLY::Default" name="massgis:GISDATA.BARRIERB_POLY" type="poly"/>
+				<Layer title="Shoreline Change" style="GISDATA.SHORELINES_ARC::Default" name="massgis:GISDATA.SHORELINES_ARC" type="line"/>
+				<Layer title="Shoreline Change Transects" style="GISDATA.TRANSECTS_ARC::Default" name="massgis:GISDATA.TRANSECTS_ARC" type="line"/>
+			</Folder>
+			<Layer title="Bedrock Lithology - Detailed" style="GISDATA.BEDROCKLITHOLOGY_POLY::Group_B_Detailed" name="massgis:GISDATA.BEDROCKLITHOLOGY_POLY" type="poly"/>
+			<Layer title="Bedrock Lithology - Drainage Basin" style="GISDATA.BEDROCKLITHOLOGY_POLY::Drainage_Basin" name="massgis:GISDATA.BEDROCKLITHOLOGY_POLY" type="poly"/>
+			<Layer title="Bedrock Lithology - General" style="GISDATA.BEDROCKLITHOLOGY_POLY::Default" name="massgis:GISDATA.BEDROCKLITHOLOGY_POLY" type="poly"/>
+			<Layer title="Bedrock Lithology - Geologic Provinces" style="GISDATA.BEDROCKLITHOLOGY_POLY::Geologic_Provinces" name="massgis:GISDATA.BEDROCKLITHOLOGY_POLY" type="poly"/>
+			<Layer title="Cape Cod and the Islands Geologic Map" style="MORIS.CAPE_GEOLGEOG_POLY::Default" name="massgis:MORIS.CAPE_GEOLGEOG_POLY" type="poly"/>
+			<Layer title="Surficial Geology (1:250,000)" style="GISDATA.SURFGEO250K_POLY::Default" name="massgis:GISDATA.SURFGEO250K_POLY" type="poly"/>
+			<Layer title="Surficial Geology (1:250,000) - Depth in Feet" style="GISDATA.SURFGEO250K_POLY::Depth" name="massgis:GISDATA.SURFGEO250K_POLY" type="poly"/>
+			<Layer title="Western Cape Cod Bedrock Data" style="MORIS.CC_WELLSITE_PT::Default" name="massgis:MORIS.CC_WELLSITE_PT" type="pt"/>
+		</Folder>
+		<Folder title="Oceanography and Climatology">
+			<Layer title="Environmental Monitoring Buoys in New England" style="MORIS.NBDC_BUOYS_PT::Default" name="massgis:MORIS.NBDC_BUOYS_PT" type="pt"/>
+			<Layer title="Hurricane Tracks for the Atlantic Basin 1851-2008" style="MORIS.ATL_HURTRACK_ARC::Default" name="massgis:MORIS.ATL_HURTRACK_ARC" type="line"/>
+			<Layer title="Hurricanes Making Landfall in New England 1851-2008" style="MORIS.NE_HURTRACK_ARC::Default" name="massgis:MORIS.NE_HURTRACK_ARC" type="line"/>
+			<Layer title="Modeled Wind Speed at 30 meters" style="GISDATA.IMG_WIND_SPD30M::Default" name="massgis:GISDATA.IMG_WIND_SPD30M" type="raster"/>
+			<Layer title="Modeled Wind Speed at 50 meters" style="GISDATA.IMG_WIND_SPD50M::Default" name="massgis:GISDATA.IMG_WIND_SPD50M" type="raster"/>
+			<Layer title="Modeled Wind Speed at 70 meters" style="GISDATA.IMG_WIND_SPD70M::Default" name="massgis:GISDATA.IMG_WIND_SPD70M" type="raster"/>
+			<Layer title="Modeled Wind Speed at 100 meters" style="GISDATA.IMG_WIND_SPD100M::Default" name="massgis:GISDATA.IMG_WIND_SPD100M" type="raster"/>
+			<Layer title="Tidal Currents Greater than 3 knots" style="MORIS.TIDAL_CURRENTS_GT_3KNOTS_PT::Default" name="massgis:MORIS.TIDAL_CURRENTS_GT_3KNOTS_PT" type="pt"/>
+			<Layer title="Tide Gauge Stations" style="MORIS.TIDE_STATIONS_PT::Default" name="massgis:MORIS.TIDE_STATIONS_PT" type="pt"/>
+		</Folder>
+		<Folder title="Fisheries">
+			<Layer title="Commercial Fisheries Activity" style="MORIS.OM_COMM_FISH_ACTIVITY_POLY::Default" name="massgis:MORIS.OM_COMM_FISH_ACTIVITY_POLY" type="poly"/>
+			<Layer title="Designated Shellfish Growing Areas" style="GISDATA.DSGA_POLY::Default" name="massgis:GISDATA.DSGA_POLY" type="poly"/>
+			<Layer title="Fish Traps 1998" style="GISDATA.FISHTRAPS_PT::Default" name="massgis:GISDATA.FISHTRAPS_PT" type="pt"/>
+			<Layer title="Fisheries Resources" style="MORIS.OM_FISHERIES_RESOURCES_POLY::Default" name="massgis:MORIS.OM_FISHERIES_RESOURCES_POLY" type="poly"/>
+			<Layer title="Lobster Harvest Zones 1997" style="GISDATA.LOBHARV_POLY::Default" name="massgis:GISDATA.LOBHARV_POLY" type="poly"/>
+			<Layer title="Lobster Harvest: Massachusetts 1990-2001" style="MORIS.LOBSTER_HARVEST_POLY::Default" name="massgis:MORIS.LOBSTER_HARVEST_POLY" type="poly"/>
+			<Layer title="Marine Managed Areas: National Marine Fisheries Service" style="MORIS.MPA_NMFS_MA_POLY::Default" name="massgis:MORIS.MPA_NMFS_MA_POLY" type="poly"/>
+			<Layer title="Shellfish Landings: Massachusetts 1990-2001" style="MORIS.SHELLFISH_LANDINGS_POLY::Default" name="massgis:MORIS.SHELLFISH_LANDINGS_POLY" type="poly"/>
+			<Layer title="Shellfish Sampling Stations" style="GISDATA.SHLFSHST_PT::Default" name="massgis:GISDATA.SHLFSHST_PT" type="pt"/>
+			<Layer title="Shellfish Suitability" style="GISDATA.SHELLFISHSUIT_POLY::Default" name="massgis:GISDATA.SHELLFISHSUIT_POLY" type="poly"/>
+			<Layer title="Striped Bass Harvest: Massachusetts 1990-2001" style="MORIS.STRIPEDBASS_HARVEST_POLY::Default" name="massgis:MORIS.STRIPEDBASS_HARVEST_POLY" type="poly"/>
+			<Layer title="Vessel Monitoring System (VMS): &gt;25 vessels per 250x250-meter grid cell from Sept. 2007 to Sept. 2008" style="MORIS.RFI_VMS_GT25_POLY::Default" name="massgis:MORIS.RFI_VMS_GT25_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Infrastructure and Transportation">
+			<Folder title="Facilities">
+				<Layer title="Acute Care Hospitals" style="GISDATA.HOSPITALS_PT::Default" name="massgis:GISDATA.HOSPITALS_PT" type="pt"/>
+				<Layer title="Fire Stations" style="GISDATA.FIRESTATIONS_PT_MEMA::Default" name="massgis:GISDATA.FIRESTATIONS_PT_MEMA" type="pt"/>
+				<Layer title="Lighthouses" style="GISDATA.LIGHTHOUSES_PT::Default" name="massgis:GISDATA.LIGHTHOUSES_PT" type="pt"/>
+				<Layer title="Police Stations" style="GISDATA.POLICESTATIONS_PT_MEMA::Default" name="massgis:GISDATA.POLICESTATIONS_PT_MEMA" type="pt"/>
+				<Layer title="Schools - Colleges and Universities" style="GISDATA.COLLEGES_PT::Default" name="massgis:GISDATA.COLLEGES_PT" type="pt"/>
+				<Layer title="Schools - Pre-Kindergarten to High School" style="GISDATA.SCHOOLS_PT::Default" name="massgis:GISDATA.SCHOOLS_PT" type="pt"/>
+				<Layer title="United States Coast Guard Bases" style="MORIS.USCG_BASES_PT::Default" name="massgis:MORIS.USCG_BASES_PT" type="pt"/>
+			</Folder>
+			<Folder title="Transportation">
+				<Folder title="Roads">
+					<Layer title="MassDOT Exits" style="GISDATA.EXITS_PT::Default" name="massgis:GISDATA.EXITS_PT" type="pt"/>
+					<Layer title="MassDOT Major Routes" style="GISDATA.EOTMAJROADS_RTE_MAJOR::Default" name="massgis:GISDATA.EOTMAJROADS_RTE_MAJOR" type="line"/>
+					<Layer title="MassDOT Major Roads by Class" style="GISDATA.EOTMAJROADS_ARC::Default" name="massgis:GISDATA.EOTMAJROADS_ARC" type="line"/>
+					<Layer title="MassDOT Roads by Class" style="GISDATA.EOTROADS_ARC::Class" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
+					<Layer title="NAVTEQ MA Interstate Highways" style="GISDATA.NAVTEQRDS_ARC_INT::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_INT" type="line"/>
+					<Layer title="NAVTEQ MA US Highways" style="GISDATA.NAVTEQRDS_ARC_US::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_US" type="line"/>
+					<Layer title="NAVTEQ MA State Highways" style="GISDATA.NAVTEQRDS_ARC_STATE::Default" name="massgis:GISDATA.NAVTEQRDS_ARC_STATE" type="line"/>
+					<Layer title="NAVTEQ MA Other Streets" style="GISDATA.NAVTEQRDS_ARC::Default" name="massgis:GISDATA.NAVTEQRDS_ARC" type="line"/>
+				</Folder>
+				<Layer title="Airports" style="GISDATA.AIRPORTS_PT::Default" name="massgis:GISDATA.AIRPORTS_PT" type="pt"/>
+				<Layer title="Automatic Identification System (AIS): &gt;50 vessels per 250x250-meter grid cell in 2008" style="MORIS.RFI_AIS_GT50_POLY::Default" name="massgis:MORIS.RFI_AIS_GT50_POLY" type="poly"/>
+				<Layer title="Boston Harbor Water Taxi Stops" style="GISDATA.WATERTAXISTOPS_PT::Default" name="massgis:GISDATA.WATERTAXISTOPS_PT" type="pt"/>
+				<Layer title="Ferry Routes" style="GISDATA.FERRYROUTES_ARC::Default" name="massgis:GISDATA.FERRYROUTES_ARC" type="line"/>
+				<Layer title="Railroads by Freight Operation" style="GISDATA.TRAINS_ARC::Freight_Operation" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Ownership" style="GISDATA.TRAINS_ARC::Ownership" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Passenger Operation" style="GISDATA.TRAINS_ARC::Passenger_Operation" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Railroads by Type of Service" style="GISDATA.TRAINS_ARC::Type_Of_Service" name="massgis:GISDATA.TRAINS_ARC" type="line"/>
+				<Layer title="Seaports" style="GISDATA.SEAPORTS_PT::Default" name="massgis:GISDATA.SEAPORTS_PT" type="pt"/>
+				<Layer title="Shipping Lanes and Precautionary Areas" style="MORIS.SHIPPINGLANES_POLY::Default" name="massgis:MORIS.SHIPPINGLANES_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Utilities">
+				<Layer title="Algonquin Hubline LNG Pipeline" style="MORIS.ALGONQUIN_HUBLINE_LNG_ARC::Default" name="massgis:MORIS.ALGONQUIN_HUBLINE_LNG_ARC" type="line"/>
+				<Layer title="Aqueducts" style="GISDATA.AQUEDUCTS_ARC::Default" name="massgis:GISDATA.AQUEDUCTS_ARC" type="line"/>
+				<Layer title="Desalinization Plants 2006" style="MORIS.DESALINIZATION_PLANTS_POLY::Default" name="massgis:MORIS.DESALINIZATION_PLANTS_POLY" type="pt"/>
+				<Layer title="Harwich to Nantucket Electric Cable" style="MORIS.HAR_NAN_CABLE_ARC::Default" name="massgis:MORIS.HAR_NAN_CABLE_ARC" type="line"/>
+				<Layer title="Hyannis to Nantucket Electric Cable" style="MORIS.HYAN_NAN_CABLE_ARC::Default" name="massgis:MORIS.HYAN_NAN_CABLE_ARC" type="line"/>
+				<Layer title="Massachusetts Bay Outfall Diffusers" style="MORIS.DIFFUSERS_PT::Default" name="massgis:MORIS.DIFFUSERS_PT" type="pt"/>
+				<Layer title="Massachusetts Tidal Energy Co. Footprint" style="MORIS.MA_TIDAL_ENERGY_POLY::Default" name="massgis:MORIS.MA_TIDAL_ENERGY_POLY" type="poly"/>
+				<Layer title="MWRA Outfall Pipe" style="MORIS.OUTFPIPE_ARC::Default" name="massgis:MORIS.OUTFPIPE_ARC" type="line"/>
+				<Layer title="MWRA Towns with Water or Sewer" style="GISDATA.MWRASERVICE_POLY::Default" name="massgis:GISDATA.MWRASERVICE_POLY" type="poly"/>
+				<Layer title="Neptune LNG Pipeline" style="MORIS.NEPTUNE_LNG_ARC::Default" name="massgis:MORIS.NEPTUNE_LNG_ARC" type="line"/>
+				<Layer title="Northeast Gateway LNG Pipeline" style="MORIS.NE_GATEWAY_LNG_ARC::Default" name="massgis:MORIS.NE_GATEWAY_LNG_ARC" type="line"/>
+				<Layer title="Proposed Cape Wind Turbine Locations" style="MORIS.CAPE_WIND_PT::Default" name="massgis:MORIS.CAPE_WIND_PT" type="pt"/>
+				<Layer title="Transmission Lines" style="GISDATA.TRANSLINES_ARC::Default" name="massgis:GISDATA.TRANSLINES_ARC" type="line"/>
+			</Folder>
+			<Layer title="Artificial Reefs" style="MORIS.ARTIFICIAL_REEFS_PT::Default" name="massgis:MORIS.ARTIFICIAL_REEFS_PT" type="pt"/>
+			<Layer title="Community Preservation Act (CPA) Points" style="AFREEMAN.CPA_COMBINED_V_PT::Default" name="massgis:AFREEMAN.CPA_COMBINED_V_PT" type="pt"/>
+			<Layer title="Dams" style="GISDATA.DAMS_PT::Default" name="massgis:GISDATA.DAMS_PT" type="pt"/>
+			<Layer title="Dams Labels" style="GISDATA.DAMS_PT::Labels" name="massgis:GISDATA.DAMS_PT" type="pt"/>
+			<Layer title="Dredge Projects (USACE), Historical to 1998, Points" style="MORIS.DREDGE_USACE_PT::Default" name="massgis:MORIS.DREDGE_USACE_PT" type="pt"/>
+			<Layer title="Dredge Projects (USACE), Historical to 1998, Polygons" style="MORIS.DREDGE_USACE_POLY::Default" name="massgis:MORIS.DREDGE_USACE_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Society, Culture, and Demographics">
+			<Folder title="Census">
+				<Folder title="1990 Census">
+					<Layer title="1990 U.S. Census Blocks" style="GISDATA.CENSUS1990BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS1990BLOCKS_POLY" type="poly"/>
+					<Layer title="1990 U.S. Census Block Groups" style="GISDATA.CENSUS1990BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS1990BLOCKGROUPS_POLY" type="poly"/>
+					<Layer title="1990 U.S. Census Major Roads" style="GISDATA.CENSUS1990TIGER_ARC::Major_Roads" name="massgis:GISDATA.CENSUS1990TIGER_ARC" type="line"/>
+					<Layer title="1990 U.S. Census Roads" style="GISDATA.CENSUS1990TIGER_ARC::Default" name="massgis:GISDATA.CENSUS1990TIGER_ARC" type="line"/>
+				</Folder>
+				<Folder title="2000 Census">
+					<Folder title="Base Layers">
+						<Layer title="2000 U.S. Census Blocks" style="GISDATA.CENSUS2000BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKS_POLY" type="poly"/>
+						<Layer title="2000 U.S. Census Block Groups" style="GISDATA.CENSUS2000BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2000BLOCKGROUPS_POLY" type="poly"/>
+						<Layer title="2000 U.S. Census Tracts" style="GISDATA.CENSUS2000TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2000TRACTS_POLY" type="poly"/>
+						<Layer title="2000 U.S. Census Major Roads" style="GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN::Major_Roads" name="massgis:GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN" type="line"/>
+						<Layer title="2000 U.S. Census Roads" style="GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN::Default" name="massgis:GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN" type="line"/>
+						<Layer title="2000 U.S. Census Town Boundaries Lines" style="GISDATA.CENSUS2000TOWNS_ARC::Default" name="massgis:GISDATA.CENSUS2000TOWNS_ARC" type="line"/>
+						<Layer title="2000 U.S. Census Town Boundaries Polygons" style="GISDATA.CENSUS2000TOWNS_POLY::Default" name="massgis:GISDATA.CENSUS2000TOWNS_POLY" type="poly"/>
+						<Layer title="2000 U.S. Census Rivers and Streams" style="GISDATA.CENSUS2000TIGER_ARC::Rivers_Streams" name="massgis:GISDATA.CENSUS2000TIGER_ARC" type="line"/>
+						<Layer title="2000 U.S. Census Water Bodies" style="GISDATA.CENSUS2000TIGERHYDRO_POLY::Default" name="massgis:GISDATA.CENSUS2000TIGERHYDRO_POLY" type="poly"/>
+					</Folder>
+					<Folder title="Environmental Justice Populations">
+						<Layer title="Environmental Justice Populations" style="GISDATA.EJ_POLY::Default" name="massgis:GISDATA.EJ_POLY" type="poly"/>
+					</Folder>
+					<Folder title="Population/Age">
+						<Layer title="Total Population" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPop" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Male Population" style="GISDATA.CEN2000_BG_LEGATTRIB::MalePop" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Female Population" style="GISDATA.CEN2000_BG_LEGATTRIB::FemalePop" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Total Population Under Age 18" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPopUnderAge18" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Total Population Age 18 to 64" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPopAge18To64" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Total Population Age 65 and Older" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalPopAge65AndOlder" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Males Under Age 18" style="GISDATA.CEN2000_BG_LEGATTRIB::MalesUnderAge18" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Males Age 18 to 64" style="GISDATA.CEN2000_BG_LEGATTRIB::MalesAge18To64" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Males Age 65 and Older" style="GISDATA.CEN2000_BG_LEGATTRIB::MalesAge65AndOver" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Females Under Age 18" style="GISDATA.CEN2000_BG_LEGATTRIB::FemalesUnderAge18" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Females Age 18 to 64" style="GISDATA.CEN2000_BG_LEGATTRIB::FemalesAge18To64" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Females Age 65 and Older" style="GISDATA.CEN2000_BG_LEGATTRIB::FemalesAge65AndOver" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Under Age 18" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentPopUnderAge18" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Age 65 and Older" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentPopAge65AndOlder" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population - Males Age 18 and Over" style="GISDATA.CEN2000_BG_LEGATTRIB::MalesAge18AndOver" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population - Females Age 18 and Over" style="GISDATA.CEN2000_BG_LEGATTRIB::FemalesAge18AndOver" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+					<Folder title="Housing">
+						<Layer title="Total Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Owner-Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberOwnerOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Renter-Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberRenterOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Occupied Housing Units with a White Owner" style="GISDATA.CEN2000_BG_LEGATTRIB::OccupiedWhiteOwner" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Occupied Housing Units with a Non-White Owner" style="GISDATA.CEN2000_BG_LEGATTRIB::OccupiedNonWhiteOwner" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Median Value of All Owner-Occupied Housing Units" style="GISDATA.CEN2000_BG_LEGATTRIB::MedianValueOwnerOccupied" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Occupied Housing Units with a White Renter" style="GISDATA.CEN2000_BG_LEGATTRIB::OccupiedWhiteRenter" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Occupied Housing Units with a Non-White Renter" style="GISDATA.CEN2000_BG_LEGATTRIB::OccupiedNonWhiteRenter" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Housing Units with a White Owner" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentWhiteOwner" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Housing Units with a Non-White Owner" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNonWhiteOwner" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Housing Units with a White Renter" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentWhiteRenter" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Housing Units with a Non-White Renter" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNonWhiteRenter" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Median Gross Rent" style="GISDATA.CEN2000_BG_LEGATTRIB::MedianGrossRent" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Rent as Percent of Household Income" style="GISDATA.CEN2000_BG_LEGATTRIB::RentPercentIncome" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+					<Folder title="Language">
+						<Layer title="Total Number of Households" style="GISDATA.CEN2000_BG_LEGATTRIB::TotalHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="English Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::EnglishHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Non-English Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::NonEnglishHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Spanish Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::SpanishHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Indo-European Language Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::IndoEuroHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Asian Language Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::AsianHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Other Language Speaking Households" style="GISDATA.CEN2000_BG_LEGATTRIB::OtherHouseholds" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+					<Folder title="Income">
+						<Layer title="Households Earning Less than $25,000" style="GISDATA.CEN2000_BG_LEGATTRIB::IncLow" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Households Earning $25,000 to $75,000" style="GISDATA.CEN2000_BG_LEGATTRIB::IncMed" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Households Earning More than $75,000" style="GISDATA.CEN2000_BG_LEGATTRIB::IncHigh" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Households with Low Income" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentIncLow" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Households with Medium Income" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentIncMed" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Households with High Income" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentIncHigh" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+					<Folder title="Citizenship">
+						<Layer title="Number of People with US Citizenship" style="GISDATA.CEN2000_BG_LEGATTRIB::USCitizens" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of People without US Citizenship" style="GISDATA.CEN2000_BG_LEGATTRIB::NotUSCitizens" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population without US Citizenship" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNotUSCitizens" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+					<Folder title="Race">
+						<Layer title="Number of Caucasian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberCaucasian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Minority (Non-White) Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of African-American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Hispanic/Latino Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Asian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Native American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Hawaiian/Pacific Islander Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Residents of Other Race" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Number of Residents of Multi-Race Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Minority (Non-White)" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as African-American" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Hispanic/Latino" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Asian" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Native American" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Hawaiian/Pacific Islander" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Other" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+						<Layer title="Percent of Population Classified as Multi-Racial" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+					</Folder>
+				</Folder>
+				<Folder title="2010 Census">
+						<Layer title="2010 U.S. Census Blocks" style="GISDATA.CENSUS2010BLOCKS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Block Groups" style="GISDATA.CENSUS2010BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS2010BLOCKGROUPS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Tracts" style="GISDATA.CENSUS2010TRACTS_POLY::Default" name="massgis:GISDATA.CENSUS2010TRACTS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Major Roads" style="GISDATA.CENSUS2010TIGERROADS_ARC::Major_Roads" name="massgis:GISDATA.CENSUS2010TIGERROADS_ARC" type="line"/>
+						<Layer title="2010 U.S. Census Roads" style="GISDATA.CENSUS2010TIGERROADS_ARC::Default" name="massgis:GISDATA.CENSUS2010TIGERROADS_ARC" type="line"/>
+						<Layer title="2010 U.S. Census Municipal Boundaries" style="GISDATA.CENSUS2010TOWNS_ARC::Default" name="massgis:GISDATA.CENSUS2010TOWNS_ARC" type="line"/>
+						<Layer title="2010 U.S. Census Municipalities" style="GISDATA.CENSUS2010TOWNS_POLY::Default" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Municipalities Labels" style="GISDATA.CENSUS2010TOWNS_POLY::Town_Black_Labels" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Population per Square Mile" style="GISDATA.CENSUS2010TOWNS_POLY::POP2010_SQMI" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+						<Layer title="2010 U.S. Census Population Change 2000-2010" style="GISDATA.CENSUS2010TOWNS_POLY::POPCHG00_10" name="massgis:GISDATA.CENSUS2010TOWNS_POLY" type="poly"/>
+				</Folder>
+			</Folder>
+			<Folder title="Recreation and Tourism">
+				<Folder title="Boating">
+					<Layer title="Boating Usage Lines" style="MORIS.BOATING_USAGE_ARC::Default" name="massgis:MORIS.BOATING_USAGE_ARC" type="line"/>
+					<Layer title="Boating Usage Polygons" style="MORIS.BOATING_USAGE_POLY::Default" name="massgis:MORIS.BOATING_USAGE_POLY" type="poly"/>
+					<Layer title="Marinas 2007" style="MORIS.MARINAS_PT::Default" name="massgis:MORIS.MARINAS_PT" type="pt"/>
+					<Layer title="Mooring Fields" style="MORIS.MOORING_FIELDS_POLY::Default" name="massgis:MORIS.MOORING_FIELDS_POLY" type="poly"/>
+					<Layer title="Office of Fishing and Boating Access Sites" style="GISDATA.OFBA_PT::Default" name="massgis:GISDATA.OFBA_PT" type="pt"/>
+				</Folder>
+				<Folder title="Coastal Access">
+					<Layer title="Chapter 91 Points Massachusetts Public Waterfront Act" style="MORIS.CHAPTER91_PT_S_V::Default" name="massgis:MORIS.CHAPTER91_PT_S_V" type="pt"/>
+					<Layer title="Coast Guide Coastal Access Site Photos" style="MORIS.COASTGUIDE_GPS_PT::Default" name="massgis:MORIS.COASTGUIDE_GPS_PT" type="pt"/>
+					<Layer title="Public Beaches" style="GISDATA.MARINEBEACHES_ARC::Default" name="massgis:GISDATA.MARINEBEACHES_ARC" type="line"/>
+					<Layer title="Public Beaches Points" style="GISDATA.MARINEBEACHES_PT::Default" name="massgis:GISDATA.MARINEBEACHES_PT" type="pt"/>
+				</Folder>
+				<Layer title="Dive Sites 2007" style="MORIS.DIVE_SITES_PT::Default" name="massgis:MORIS.DIVE_SITES_PT" type="pt"/>
+			</Folder>
+		</Folder>
+		<Folder title="Ocean Management">
+			<Folder title="Management Areas">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Multi-Use Area" style="MORIS.OM_MULTI_USE_AREA_POLY::Default" name="massgis:MORIS.OM_MULTI_USE_AREA_POLY" type="poly"/>
+				<Layer title="Multi-Use Area (250-meter grid spacing)" style="MORIS.OM_MULTI_USE_AREA_IDS_POLY::Default" name="massgis:MORIS.OM_MULTI_USE_AREA_IDS_POLY" type="poly"/>
+				<Layer title="Potentially Suitable Locations in Federal Waters" style="MORIS.OM_POTENTIALLY_SUIT_FED_POLY::Default" name="massgis:MORIS.OM_POTENTIALLY_SUIT_FED_POLY" type="poly"/>
+				<Layer title="Prohibited Area" style="MORIS.OM_PROHIBITED_AREA_POLY::Default" name="massgis:MORIS.OM_PROHIBITED_AREA_POLY" type="poly"/>
+				<Layer title="Provisional Area" style="MORIS.OM_PROVISIONAL_AREA_POLY::Default" name="massgis:MORIS.OM_PROVISIONAL_AREA_POLY" type="poly"/>
+				<Layer title="Provisional Area (250-meter grid spacing)" style="MORIS.OM_PROVISIONAL_AREA_IDS_POLY::Default" name="massgis:MORIS.OM_PROVISIONAL_AREA_IDS_POLY" type="poly"/>
+				<Layer title="Wind Energy Areas" style="MORIS.OM_WIND_ENERGY_AREAS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_POLY" type="poly"/>
+				<Layer title="Wind Energy Areas (250-meter grid spacing)" style="MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Commercial-Scale Wind Energy Exclusionary Criteria">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Prohibited Area" style="MORIS.OM_PROHIBITED_AREA_POLY::Default" name="massgis:MORIS.OM_PROHIBITED_AREA_POLY" type="poly"/>
+				<Layer title="Exclusionary Criteria" style="MORIS.OM_EXCLUSIONARY_CRITERIA_POLY::Default" name="massgis:MORIS.OM_EXCLUSIONARY_CRITERIA_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Community-Scale Wind Energy Special, Sensitive, or Unique Resources and Existing Water-Dependent Uses">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Prohibited Area" style="MORIS.OM_PROHIBITED_AREA_POLY::Default" name="massgis:MORIS.OM_PROHIBITED_AREA_POLY" type="poly"/>
+				<Layer title="Colonial Waterbirds Important Nesting Habitat" style="MORIS.OM_COL_WB_IMP_HAB_POLY::Default" name="massgis:MORIS.OM_COL_WB_IMP_HAB_POLY" type="poly"/>
+				<Layer title="Colonial Waterbirds Important Nesting Habitat (250-meter grid spacing)" style="MORIS.OM_COL_WB_IMP_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_COL_WB_IMP_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data" style="MORIS.OM_CONC_COMMERCE_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data" style="MORIS.OM_CONC_COM_FISH_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity" style="MORIS.OM_CONC_REC_BOATING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity (250-meter grid spacing)" style="MORIS.OM_CONC_REC_BOATING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Routes" style="MORIS.OM_CONC_REC_BOATING_ROUTES_ARC::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_ROUTES_ARC" type="line"/>
+				<Layer title="Concentrated Recreational Fishing" style="MORIS.OM_CONC_REC_FISHING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing (250-meter grid spacing)" style="MORIS.OM_CONC_REC_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat" style="MORIS.OM_FIN_WHALE_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing" style="MORIS.OM_HIGH_COMM_FISHING_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing (250-meter grid spacing)" style="MORIS.OM_HIGH_COMM_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat" style="MORIS.OM_HUMPBACK_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="Leach's Storm-Petrel Important Nesting Habitat" style="MORIS.OM_LEACHS_SP_IMP_HAB_POLY::Default" name="massgis:MORIS.OM_LEACHS_SP_IMP_HAB_POLY" type="poly"/>
+				<Layer title="Leach's Storm-Petrel Important Nesting Habitat (250-meter grid spacing)" style="MORIS.OM_LEACHS_SP_IMP_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_LEACHS_SP_IMP_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Long-tailed Duck Core Habitat" style="MORIS.OM_LTDU_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_LTDU_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Long-tailed Duck Core Habitat (250-meter grid spacing)" style="MORIS.OM_LTDU_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_LTDU_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat" style="MORIS.OM_ROSEATE_TERN_CORE_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat (250-meter grid spacing)" style="MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Core Habitat" style="MORIS.OM_SC_TERN_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_SC_TERN_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Core Habitat (250-meter grid spacing)" style="MORIS.OM_SC_TERN_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_SC_TERN_CORE_HAB_IDS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Commercial-Scale Tidal Energy Special, Sensitive, or Unique Resources and Existing Water-Dependent Uses">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data" style="MORIS.OM_CONC_COMMERCE_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data" style="MORIS.OM_CONC_COM_FISH_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity" style="MORIS.OM_CONC_REC_BOATING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity (250-meter grid spacing)" style="MORIS.OM_CONC_REC_BOATING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Routes" style="MORIS.OM_CONC_REC_BOATING_ROUTES_ARC::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_ROUTES_ARC" type="line"/>
+				<Layer title="Concentrated Recreational Fishing" style="MORIS.OM_CONC_REC_FISHING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing (250-meter grid spacing)" style="MORIS.OM_CONC_REC_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing" style="MORIS.OM_HIGH_COMM_FISHING_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing (250-meter grid spacing)" style="MORIS.OM_HIGH_COMM_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas" style="MORIS.OM_IMP_FISH_RES_AREAS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas (250-meter grid spacing)" style="MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+				<Layer title="Potential Tidal Resources" style="MORIS.OM_POTENTIAL_TIDAL_RES_POLY::Default" name="massgis:MORIS.OM_POTENTIAL_TIDAL_RES_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Sand and Gravel Extraction Special, Sensitive, or Unique Resources and Existing Water-Dependent Uses">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing" style="MORIS.OM_CONC_REC_FISHING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing (250-meter grid spacing)" style="MORIS.OM_CONC_REC_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat" style="MORIS.OM_FIN_WHALE_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor" style="MORIS.OM_HARD_COMPLEX_SEAFL_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor (250-meter grid spacing)" style="MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing" style="MORIS.OM_HIGH_COMM_FISHING_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing (250-meter grid spacing)" style="MORIS.OM_HIGH_COMM_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat" style="MORIS.OM_HUMPBACK_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas" style="MORIS.OM_IMP_FISH_RES_AREAS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas (250-meter grid spacing)" style="MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat" style="MORIS.OM_ROSEATE_TERN_CORE_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat (250-meter grid spacing)" style="MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Cable Special, Sensitive, or Unique Resources and Existing Water-Dependent Uses">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat" style="MORIS.OM_FIN_WHALE_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor" style="MORIS.OM_HARD_COMPLEX_SEAFL_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor (250-meter grid spacing)" style="MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat" style="MORIS.OM_HUMPBACK_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Pipeline Special, Sensitive, or Unique Resources and Existing Water-Dependent Uses">
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing" style="MORIS.OM_CONC_REC_FISHING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing (250-meter grid spacing)" style="MORIS.OM_CONC_REC_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat" style="MORIS.OM_FIN_WHALE_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor" style="MORIS.OM_HARD_COMPLEX_SEAFL_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor (250-meter grid spacing)" style="MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing" style="MORIS.OM_HIGH_COMM_FISHING_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing (250-meter grid spacing)" style="MORIS.OM_HIGH_COMM_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat" style="MORIS.OM_HUMPBACK_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas" style="MORIS.OM_IMP_FISH_RES_AREAS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas (250-meter grid spacing)" style="MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="All Ocean Management Layers">
+				<Layer title="30-meter Contour" style="MORIS.OM_30M_CONTOUR_ARC::Default" name="massgis:MORIS.OM_30M_CONTOUR_ARC" type="line"/>
+				<Layer title="60-meter Contour" style="MORIS.OM_60M_CONTOUR_ARC::Default" name="massgis:MORIS.OM_60M_CONTOUR_ARC" type="line"/>
+				<Layer title="Active Disposal Sites" style="MORIS.OM_ACTIVE_DISPOSAL_SITES_POLY::Default" name="massgis:MORIS.OM_ACTIVE_DISPOSAL_SITES_POLY" type="poly"/>
+				<Layer title="Anchorage Areas" style="MORIS.OM_ANCHORAGE_AREAS_POLY::Default" name="massgis:MORIS.OM_ANCHORAGE_AREAS_POLY" type="poly"/>
+				<Layer title="Areas of Critical Environmental Concern in and Adjacent to the Planning Area" style="MORIS.GEOREG_ACEC_POLY::Purple_Forward_Slash" name="massgis:MORIS.GEOREG_ACEC_POLY" type="poly"/>
+				<Layer title="Automatic Identification System (AIS)" style="MORIS.OM_AUTOMATIC_ID_SYSTEM_POLY::Default" name="massgis:MORIS.OM_AUTOMATIC_ID_SYSTEM_POLY" type="poly"/>
+				<Layer title="Boston Harbor Islands National Recreation Area" style="MORIS.GEOREG_NPS_POLY::Boston_Harbor_Islands" name="massgis:MORIS.GEOREG_NPS_POLY" type="poly"/>
+				<Layer title="Cable Areas" style="MORIS.OM_CABLE_AREAS_POLY::Default" name="massgis:MORIS.OM_CABLE_AREAS_POLY" type="poly"/>
+				<Layer title="Cables" style="MORIS.OM_CABLES_POLY::Default" name="massgis:MORIS.OM_CABLES_POLY" type="poly"/>
+				<Layer title="Cape Cod National Seashore" style="MORIS.GEOREG_NPS_POLY::Cape_Cod_National_Seashore" name="massgis:MORIS.GEOREG_NPS_POLY" type="poly"/>
+				<Layer title="Colonial Nesting Waterbirds" style="MORIS.OM_COLONIAL_NESTING_WB_POLY::Default" name="massgis:MORIS.OM_COLONIAL_NESTING_WB_POLY" type="poly"/>
+				<Layer title="Colonial Waterbirds Important Nesting Habitat" style="MORIS.OM_COL_WB_IMP_HAB_POLY::Default" name="massgis:MORIS.OM_COL_WB_IMP_HAB_POLY" type="poly"/>
+				<Layer title="Colonial Waterbirds Important Nesting Habitat (250-meter grid spacing)" style="MORIS.OM_COL_WB_IMP_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_COL_WB_IMP_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Commercial Fisheries Activity" style="MORIS.OM_COMM_FISH_ACTIVITY_POLY::Default" name="massgis:MORIS.OM_COMM_FISH_ACTIVITY_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data" style="MORIS.OM_CONC_COMMERCE_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commerce Traffic, as indicated by Automatic Identification System (AIS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COMMERCE_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data" style="MORIS.OM_CONC_COM_FISH_TRAF_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_POLY" type="poly"/>
+				<Layer title="Concentrated Commercial Fishing Traffic, as indicated by Vessel Monitoring System (VMS) data (250-meter grid spacing)" style="MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_COM_FISH_TRAF_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity" style="MORIS.OM_CONC_REC_BOATING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Activity (250-meter grid spacing)" style="MORIS.OM_CONC_REC_BOATING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_IDS_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Boating Routes" style="MORIS.OM_CONC_REC_BOATING_ROUTES_ARC::Default" name="massgis:MORIS.OM_CONC_REC_BOATING_ROUTES_ARC" type="line"/>
+				<Layer title="Concentrated Recreational Fishing" style="MORIS.OM_CONC_REC_FISHING_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_POLY" type="poly"/>
+				<Layer title="Concentrated Recreational Fishing (250-meter grid spacing)" style="MORIS.OM_CONC_REC_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_CONC_REC_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="DEP Seagrass - Eelgrass Only" style="GISDATA.EELGRASS_POLY::Eelgrass_Only" name="massgis:GISDATA.EELGRASS_POLY" type="poly"/>
+				<Layer title="DEP Wetlands (1:12,000) - Tidal Flats" style="GISDATA.WETLANDSDEP_POLY::Tidal_Flats" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+				<Layer title="Eelgrass" style="MORIS.OM_EELGRASS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_POLY" type="poly"/>
+				<Layer title="Eelgrass (250-meter grid spacing)" style="MORIS.OM_EELGRASS_IDS_POLY::Default" name="massgis:MORIS.OM_EELGRASS_IDS_POLY" type="poly"/>
+				<Layer title="Exclusionary Criteria" style="MORIS.OM_EXCLUSIONARY_CRITERIA_POLY::Default" name="massgis:MORIS.OM_EXCLUSIONARY_CRITERIA_POLY" type="poly"/>
+				<Layer title="Ferry Routes (Buffered)" style="MORIS.OM_FERRY_ROUTES_POLY::Default" name="massgis:MORIS.OM_FERRY_ROUTES_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat" style="MORIS.OM_FIN_WHALE_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Fin Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_FIN_WHALE_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Fin Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_FIN_WHALES_POLY::Default" name="massgis:MORIS.OM_FIN_WHALES_POLY" type="poly"/>
+				<Layer title="Fisheries Resources" style="MORIS.OM_FISHERIES_RESOURCES_POLY::Default" name="massgis:MORIS.OM_FISHERIES_RESOURCES_POLY" type="poly"/>
+				<Layer title="Gas Pipelines" style="MORIS.OM_GAS_PIPELINES_POLY::Default" name="massgis:MORIS.OM_GAS_PIPELINES_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor" style="MORIS.OM_HARD_COMPLEX_SEAFL_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_POLY" type="poly"/>
+				<Layer title="Hard/Complex Seafloor (250-meter grid spacing)" style="MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY::Default" name="massgis:MORIS.OM_HARD_COMPLEX_SEAFL_IDS_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing" style="MORIS.OM_HIGH_COMM_FISHING_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_POLY" type="poly"/>
+				<Layer title="High Effort and Value Commercial Fishing (250-meter grid spacing)" style="MORIS.OM_HIGH_COMM_FISHING_IDS_POLY::Default" name="massgis:MORIS.OM_HIGH_COMM_FISHING_IDS_POLY" type="poly"/>
+				<Layer title="Hull Project" style="MORIS.OM_HULL_PROJECT_POLY::Default" name="massgis:MORIS.OM_HULL_PROJECT_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat" style="MORIS.OM_HUMPBACK_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Humpback Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Humpback Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_HUMPBACK_WHALES_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_WHALES_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas" style="MORIS.OM_IMP_FISH_RES_AREAS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_POLY" type="poly"/>
+				<Layer title="Important Fish Resource Areas (250-meter grid spacing)" style="MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_IMP_FISH_RES_AREAS_IDS_POLY" type="poly"/>
+				<Layer title="Inactive Disposal Sites" style="MORIS.OM_INACTIVE_DISPOSAL_SITE_POLY::Default" name="massgis:MORIS.OM_INACTIVE_DISPOSAL_SITE_POLY" type="poly"/>
+				<Layer title="Intertidal Flats" style="MORIS.OM_INTERTIDAL_FLATS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_POLY" type="poly"/>
+				<Layer title="Intertidal Flats (250-meter grid spacing)" style="MORIS.OM_INTERTIDAL_FLATS_IDS_POLY::Default" name="massgis:MORIS.OM_INTERTIDAL_FLATS_IDS_POLY" type="poly"/>
+				<Layer title="Land Use and Land Cover" style="MORIS.OM_LAND_USE_LAND_COVER_POLY::Default" name="massgis:MORIS.OM_LAND_USE_LAND_COVER_POLY" type="poly"/>
+				<Layer title="Leach's Storm-Petrel Important Nesting Habitat" style="MORIS.OM_LEACHS_SP_IMP_HAB_POLY::Default" name="massgis:MORIS.OM_LEACHS_SP_IMP_HAB_POLY" type="poly"/>
+				<Layer title="Leach's Storm-Petrel Important Nesting Habitat (250-meter grid spacing)" style="MORIS.OM_LEACHS_SP_IMP_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_LEACHS_SP_IMP_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Leach's Storm-Petrels" style="MORIS.OM_LEACHS_STORM_PETREL_POLY::Default" name="massgis:MORIS.OM_LEACHS_STORM_PETREL_POLY" type="poly"/>
+				<Layer title="Long-tailed Duck Core Habitat" style="MORIS.OM_LTDU_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_LTDU_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Long-tailed Duck Core Habitat (250-meter grid spacing)" style="MORIS.OM_LTDU_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_LTDU_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Massachusetts Aeronautics Commission (MAC) Aviation Buffers" style="MORIS.OM_MAC_AVIATION_BUFFERS_POLY::Default" name="massgis:MORIS.OM_MAC_AVIATION_BUFFERS_POLY" type="poly"/>
+				<Layer title="Massachusetts Nearshore Ocean Management Planning Area Boundary" style="MORIS.OM_NEARSHORE_BOUND_ARC::Default" name="massgis:MORIS.OM_NEARSHORE_BOUND_ARC" type="line"/>
+				<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Management Planning Area 1x1-km Grid" style="Black_Outlines" name="massgis:MORIS.OM_1000M_GRID_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Management Planning Area 1x1-km Grid (Exact)" style="Black_Outlines" name="massgis:MORIS.OM_1000M_GRID_EXACT_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Management Planning Area 250x250-meter Grid" style="MORIS.OM_250M_GRID_POLY::Default" name="massgis:MORIS.OM_250M_GRID_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Management Planning Area 250x250-meter Grid (Exact)" style="MORIS.OM_250M_GRID_EXACT_POLY::Default" name="massgis:MORIS.OM_250M_GRID_EXACT_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Management Planning Area Grid" style="MORIS.OM_PLANNING_AREA_IDS_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_IDS_POLY" type="poly"/>
+				<Layer title="Massachusetts Ocean Sanctuaries" style="MORIS.GEOREG_OSA_POLY::OSA_By_Name" name="massgis:MORIS.GEOREG_OSA_POLY" type="poly"/>
+				<Layer title="Multi-Use Area" style="MORIS.OM_MULTI_USE_AREA_POLY::Default" name="massgis:MORIS.OM_MULTI_USE_AREA_POLY" type="poly"/>
+				<Layer title="Multi-Use Area (250-meter grid spacing)" style="MORIS.OM_MULTI_USE_AREA_IDS_POLY::Default" name="massgis:MORIS.OM_MULTI_USE_AREA_IDS_POLY" type="poly"/>
+				<Layer title="Municipalities Adjacent to the Massachusetts Ocean Management Planning Area (symbolized by Regional Planning Agency)" style="MORIS.OM_MUNICIPALITIES_ADJ_PA_POLY::Default" name="massgis:MORIS.OM_MUNICIPALITIES_ADJ_PA_POLY" type="poly"/>
+				<Layer title="National Parks in and Adjacent to the Planning Area" style="MORIS.GEOREG_NPS_POLY::National_Park_Service" name="massgis:MORIS.GEOREG_NPS_POLY" type="poly"/>
+				<Layer title="National Register of Historic Places" style="MORIS.OM_NATL_REGISTER_HIS_PLACES_PT::Default" name="massgis:MORIS.OM_NATL_REGISTER_HIS_PLACES_PT" type="pt"/>
+				<Layer title="National Wildlife Refuges in and Adjacent to the Planning Area" style="MORIS.GEOREG_NWR_POLY::National_Wildlife_Refuge" name="massgis:MORIS.GEOREG_NWR_POLY" type="poly"/>
+				<Layer title="Natural Heritage and Endangered Species Program Priority Habitat of Rare Species in and Adjacent to the Planning Area" style="GISDATA.PRIHAB_POLY::Coastal" name="massgis:GISDATA.PRIHAB_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat" style="MORIS.OM_N_ATL_RIGHT_W_CORE_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whale Core Habitat (250-meter grid spacing)" style="MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_N_ATL_RIGHT_W_CORE_IDS_POLY" type="poly"/>
+				<Layer title="North Atlantic Right Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY::Default" name="massgis:MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY" type="poly"/>
+				<Layer title="One Mile from Inhabited Shoreline" style="MORIS.OM_ONE_MI_FROM_SHORELINE_POLY::Default" name="massgis:MORIS.OM_ONE_MI_FROM_SHORELINE_POLY" type="poly"/>
+				<Layer title="Pilot Boarding Areas" style="MORIS.OM_PILOT_BOARDING_AREAS_POLY::Default" name="massgis:MORIS.OM_PILOT_BOARDING_AREAS_POLY" type="poly"/>
+				<Layer title="Potential Tidal Resources" style="MORIS.OM_POTENTIAL_TIDAL_RES_POLY::Default" name="massgis:MORIS.OM_POTENTIAL_TIDAL_RES_POLY" type="poly"/>
+				<Layer title="Potentially Suitable for Deepwater Sites" style="MORIS.OM_POTENTIALLY_SUIT_DEEPW_POLY::Default" name="massgis:MORIS.OM_POTENTIALLY_SUIT_DEEPW_POLY" type="poly"/>
+				<Layer title="Potentially Suitable Locations in Federal Waters" style="MORIS.OM_POTENTIALLY_SUIT_FED_POLY::Default" name="massgis:MORIS.OM_POTENTIALLY_SUIT_FED_POLY" type="poly"/>
+				<Layer title="Precautionary Areas" style="MORIS.OM_PRECAUTIONARY_AREAS_POLY::Default" name="massgis:MORIS.OM_PRECAUTIONARY_AREAS_POLY" type="poly"/>
+				<Layer title="Prohibited Area" style="MORIS.OM_PROHIBITED_AREA_POLY::Default" name="massgis:MORIS.OM_PROHIBITED_AREA_POLY" type="poly"/>
+				<Layer title="Proposed for Screening and Feasibility Analysis" style="MORIS.OM_PROPOSED_SCREEN_FEASIB_POLY::Default" name="massgis:MORIS.OM_PROPOSED_SCREEN_FEASIB_POLY" type="poly"/>
+				<Layer title="Proposed New England Marine Renewable Energy Center (MREC) Test Area" style="MORIS.OM_PROPOSED_MREC_AREA_POLY::Default" name="massgis:MORIS.OM_PROPOSED_MREC_AREA_POLY" type="poly"/>
+				<Layer title="Proposed Tidal Energy Project Area" style="MORIS.OM_PROPOSED_TIDAL_EN_PROJ_POLY::Default" name="massgis:MORIS.OM_PROPOSED_TIDAL_EN_PROJ_POLY" type="poly"/>
+				<Layer title="Provisional Area" style="MORIS.OM_PROVISIONAL_AREA_POLY::Default" name="massgis:MORIS.OM_PROVISIONAL_AREA_POLY" type="poly"/>
+				<Layer title="Provisional Area (250-meter grid spacing)" style="MORIS.OM_PROVISIONAL_AREA_IDS_POLY::Default" name="massgis:MORIS.OM_PROVISIONAL_AREA_IDS_POLY" type="poly"/>
+				<Layer title="Public Open Space with Views of the Massachusetts Ocean Management Planning Area" style="MORIS.OM_PUBLIC_OPEN_SPACES_POLY::Default" name="massgis:MORIS.OM_PUBLIC_OPEN_SPACES_POLY" type="poly"/>
+				<Layer title="Recreational Dive Sites 2007" style="MORIS.DIVE_SITES_PT::Black_Symbols" name="massgis:MORIS.DIVE_SITES_PT" type="pt"/>
+				<Layer title="Recreational Fishing Areas Identified by MMTA Survey of Fishermen" style="MORIS.OM_REC_FISHING_MMTA_POLY::Default" name="massgis:MORIS.OM_REC_FISHING_MMTA_POLY" type="poly"/>
+				<Layer title="Regional Planning Agencies Adjacent to the Massachusetts Ocean Management Planning Area" style="MORIS.OM_REGIONAL_PLANNING_AGEN_POLY::Default" name="massgis:MORIS.OM_REGIONAL_PLANNING_AGEN_POLY" type="poly"/>
+				<Layer title="Roseate Tern Breeding and Staging Sites" style="MORIS.OM_ROSEATE_TERN_BR_ST_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_BR_ST_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat" style="MORIS.OM_ROSEATE_TERN_CORE_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_POLY" type="poly"/>
+				<Layer title="Roseate Tern Core Habitat (250-meter grid spacing)" style="MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_CORE_IDS_POLY" type="poly"/>
+				<Layer title="Roseate Tern Foraging Areas" style="MORIS.OM_ROSEATE_TERN_FORAGE_POLY::Default" name="massgis:MORIS.OM_ROSEATE_TERN_FORAGE_POLY" type="poly"/>
+				<Layer title="Separation Zone" style="MORIS.OM_SEPARATION_ZONE_POLY::Default" name="massgis:MORIS.OM_SEPARATION_ZONE_POLY" type="poly"/>
+				<Layer title="Shellfish Suitability Areas" style="GISDATA.SHELLFISHSUIT_POLY::Brown_Hatch" name="massgis:GISDATA.SHELLFISHSUIT_POLY" type="poly"/>
+				<Layer title="Shipping Lanes" style="MORIS.OM_SHIPPING_LANES_POLY::Default" name="massgis:MORIS.OM_SHIPPING_LANES_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Breeding and Staging Sites" style="MORIS.OM_SC_TERN_BREED_STAGE_POLY::Default" name="massgis:MORIS.OM_SC_TERN_BREED_STAGE_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Core Habitat" style="MORIS.OM_SC_TERN_CORE_HAB_POLY::Default" name="massgis:MORIS.OM_SC_TERN_CORE_HAB_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Core Habitat (250-meter grid spacing)" style="MORIS.OM_SC_TERN_CORE_HAB_IDS_POLY::Default" name="massgis:MORIS.OM_SC_TERN_CORE_HAB_IDS_POLY" type="poly"/>
+				<Layer title="Special Concern (Arctic, Least, and Common) Tern Foraging Areas" style="MORIS.OM_SC_TERN_FORAGE_POLY::Default" name="massgis:MORIS.OM_SC_TERN_FORAGE_POLY" type="poly"/>
+				<Layer title="Submerged Wrecks" style="MORIS.AWOIS_SUB_WRECKS_PT::Default" name="massgis:MORIS.AWOIS_SUB_WRECKS_PT" type="pt"/>
+				<Layer title="Surficial Sediments" style="MORIS.OM_SURFICIAL_SEDIMENTS_POLY::Default" name="massgis:MORIS.OM_SURFICIAL_SEDIMENTS_POLY" type="poly"/>
+				<Layer title="Vessel Monitoring System (VMS)" style="MORIS.OM_VESSEL_MONITORING_SYS_POLY::Default" name="massgis:MORIS.OM_VESSEL_MONITORING_SYS_POLY" type="poly"/>
+				<Layer title="Wind Energy Areas" style="MORIS.OM_WIND_ENERGY_AREAS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_POLY" type="poly"/>
+				<Layer title="Wind Energy Areas (250-meter grid spacing)" style="MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY" type="poly"/>
+				<Layer title="Wind Speed (meters/second)" style="MORIS.OM_WIND_SPEED_POLY::Default" name="massgis:MORIS.OM_WIND_SPEED_POLY" type="poly"/>
+			</Folder>
+			<Folder title="BOEMRE Request for Interest (RFI)">
+				<Folder title="Rhode Island and Massachusetts Area of Mutual Interest">
+					<Layer title="RI/MA Area of Mutual Interest Boundary" style="MORIS.RI_MA_AMI_ARC::Default" name="massgis:MORIS.RI_MA_AMI_ARC" type="line"/>
+					<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+					<Layer title="Rhode Island Ocean SAMP Study Area" style="MORIS.RI_SAMP_POLY::Default" name="massgis:MORIS.RI_SAMP_POLY" type="poly"/>
+					<Layer title="OCS Lease Blocks Labels" style="MORIS.BLK_CLP_POLY::Labels" name="massgis:MORIS.BLK_CLP_POLY" type="poly"/>
+					<Layer title="OCS Lease Blocks" style="MORIS.BLK_CLP_POLY::RFI_map" name="massgis:MORIS.BLK_CLP_POLY" type="poly"/>
+				</Folder>
+				<Folder title="Available Data in RFI Area">
+					<Layer title="12-nautical mile Buffer" style="MORIS.RFI_12NM_BUFFER_ARC::Default" name="massgis:MORIS.RFI_12NM_BUFFER_ARC" type="line"/>
+					<Layer title="Area of Interest for Long-tailed Ducks" style="MORIS.RFI_AREA_OF_INTEREST_LTDU_POLY::Default" name="massgis:MORIS.RFI_AREA_OF_INTEREST_LTDU_POLY" type="poly"/>
+					<Layer title="Automatic Identification System (AIS): &gt;50 vessels per 250x250-meter grid cell in 2008" style="MORIS.RFI_AIS_GT50_POLY::Default" name="massgis:MORIS.RFI_AIS_GT50_POLY" type="poly"/>
+					<Layer title="Bathymetric Contours (meters)" style="MORIS.RFI_BATHY_CONTOURS_ARC::Default" name="massgis:MORIS.RFI_BATHY_CONTOURS_ARC" type="line"/>
+					<Layer title="Bathymetry (depth in meters)" style="MORIS.RFI_BATHYMETRY_RD::Default" name="massgis:MORIS.RFI_BATHYMETRY_RD" type="raster"/>
+					<Layer title="Boundary Accompanying the MA Request for Interest (RFI)" style="MORIS.RFI_BOUNDARY_ARC::Default" name="massgis:MORIS.RFI_BOUNDARY_ARC" type="line"/>
+					<Layer title="Fin Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_FIN_WHALES_POLY::Default" name="massgis:MORIS.OM_FIN_WHALES_POLY" type="poly"/>
+					<Layer title="Humpback Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_HUMPBACK_WHALES_POLY::Default" name="massgis:MORIS.OM_HUMPBACK_WHALES_POLY" type="poly"/>
+					<Layer title="Massachusetts Ocean Management Planning Area" style="MORIS.OM_PLANNING_AREA_POLY::Default" name="massgis:MORIS.OM_PLANNING_AREA_POLY" type="poly"/>
+					<Layer title="Nantucket Lightship Closed Area" style="MORIS.MPA_NMFS_MA_POLY::NLCA" name="massgis:MORIS.MPA_NMFS_MA_POLY" type="poly"/>
+					<Layer title="Nantucket Lightship Habitat Closure Area" style="MORIS.MPA_NMFS_MA_POLY::NLHCA" name="massgis:MORIS.MPA_NMFS_MA_POLY" type="poly"/>
+					<Layer title="North Atlantic Right Whales in the Southern Gulf of Maine - Interpolation of Sightings per Unit Effort (Quantile)" style="MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY::Default" name="massgis:MORIS.OM_NORTH_ATLANTIC_RIGHT_W_POLY" type="poly"/>
+					<Layer title="OCS Lease Blocks Labels" style="MORIS.BLK_CLP_POLY::Labels" name="massgis:MORIS.BLK_CLP_POLY" type="poly"/>
+					<Layer title="OCS Lease Blocks" style="MORIS.BLK_CLP_POLY::RFI_map" name="massgis:MORIS.BLK_CLP_POLY" type="poly"/>
+					<Layer title="Official Protraction Diagrams Labels" style="MORIS.PROT_CLP_POLY::Labels" name="massgis:MORIS.PROT_CLP_POLY" type="poly"/>
+					<Layer title="Official Protraction Diagrams" style="MORIS.PROT_CLP_POLY::RFI_map" name="massgis:MORIS.PROT_CLP_POLY" type="poly"/>
+					<Layer title="Prohibited Area" style="MORIS.OM_PROHIBITED_AREA_POLY::Default" name="massgis:MORIS.OM_PROHIBITED_AREA_POLY" type="poly"/>
+					<Layer title="Rhode Island Ocean SAMP Study Area" style="MORIS.RI_SAMP_POLY::Default" name="massgis:MORIS.RI_SAMP_POLY" type="poly"/>
+					<Layer title="RI/MA Area of Mutual Interest Boundary" style="MORIS.RI_MA_AMI_ARC::Default" name="massgis:MORIS.RI_MA_AMI_ARC" type="line"/>
+					<Layer title="Shipping Lanes and Precautionary Areas" style="MORIS.SHIPPINGLANES_POLY::Default" name="massgis:MORIS.SHIPPINGLANES_POLY" type="poly"/>
+					<Layer title="Submerged Wrecks" style="MORIS.AWOIS_SUB_WRECKS_PT::Default" name="massgis:MORIS.AWOIS_SUB_WRECKS_PT" type="pt"/>
+					<Layer title="Vessel Monitoring System (VMS): &gt;25 vessels per 250x250-meter grid cell from Sept. 2007 to Sept. 2008" style="MORIS.RFI_VMS_GT25_POLY::Default" name="massgis:MORIS.RFI_VMS_GT25_POLY" type="poly"/>
+					<Layer title="Wind Energy Areas" style="MORIS.OM_WIND_ENERGY_AREAS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_POLY" type="poly"/>
+					<Layer title="Wind Energy Areas (250-meter grid spacing)" style="MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY::Default" name="massgis:MORIS.OM_WIND_ENERGY_AREAS_IDS_POLY" type="poly"/>
+				</Folder>
+			</Folder>
+		</Folder>
+	</Folder>
+</FolderSet>
