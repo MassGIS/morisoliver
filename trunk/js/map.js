@@ -5474,11 +5474,11 @@ function showBaseLayerMetadata(l) {
     ,'Custom'           : 'https://wiki.state.ma.us/confluence/display/massgis'
     ,'Bing Hybrid'      : 'http://en.wikipedia.org/wiki/Bing_Maps'
     ,'Bing Roads'       : 'http://en.wikipedia.org/wiki/Bing_Maps#Road_view'
-    ,'Bing Satellite'   : 'http://en.wikipedia.org/wiki/Bing_Maps#Aerial_view'
+    ,'Bing Aerial'   : 'http://en.wikipedia.org/wiki/Bing_Maps#Aerial_view'
     ,'Google Hybrid'    : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
-    ,'TopOSM-MA'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
+    ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
     ,'MassGIS_Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
   };
 
@@ -5865,7 +5865,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'bingAerial') {
       bm.push(
         {
-           text    : 'Bing Satellite'
+           text    : 'Bing Aerial'
           ,group   : 'basemap'
           ,checked : defaultBase == 'bingAerial'
           ,menu    : {items : [{
@@ -5873,7 +5873,7 @@ function makeBasemapMenu() {
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('Bing Satellite');
+              showBaseLayerMetadata('Bing Aerial');
             }
           }]}
           ,handler : function () {
@@ -6135,7 +6135,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'TopOSM-MA') {
       bm.push(
         {
-           text    : 'TopOSM-Massachusetts'
+           text    : 'Massachusetts Topographic Map'
           ,group   : 'basemap'
           ,checked : defaultBase == 'TopOSM-MA'
           ,menu    : {items : [{
@@ -6143,7 +6143,7 @@ function makeBasemapMenu() {
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('TopOSM-MA');
+              showBaseLayerMetadata('Massachusetts Topographic Map');
             }
           }]}
           ,handler : function () {
