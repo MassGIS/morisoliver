@@ -75,6 +75,7 @@ var exportBbox = {
   ,verts : [] // these will always be in 26986
   ,units : defaultCoordUnit == 'm' ? 'EPSG:26986' : defaultCoordUnit == 'dd' ? 'EPSG:4326' : defaultCoordUnit == 'dms' ? 'EPSG:4326dms' : ''
 };
+var singleIdentifyLayerName;
 
 Date.patterns = {
     SortableDateTime: "Y-m-d\\TH:i:s.ms"
@@ -1070,6 +1071,12 @@ Ext.onReady(function() {
     }
   });
 
+  map.events.register('removelayer',this,function(e) {
+    if (singleIdentifyLayerName == e.layer.name) {
+      singleIdentifyLayerName = false;
+    }
+  });
+
   if (defaultBase == 'custom') {
     map.setOptions({maxExtent : maxExtent26986,fractionalZoom : true,projection:"EPSG:26986"});
   }
@@ -1855,6 +1862,61 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           }
           topToolBar_items.push(
             identifyPoly
+          );
+
+        }
+
+        if (!toolSettings || !toolSettings.identifySingle || toolSettings.identifySingle.status == 'show') {
+
+          // identifySingle tool functionality
+          singleIdentify = new Ext.Toolbar.SplitButton({
+             tooltip      : 'Say something.'
+            ,scale        : 'large'
+            ,icon         : 'img/11.5_identify_single.png'
+            ,id           : 'singleIdentifyButton'
+            ,allowDepress : true
+            ,enableToggle : true
+            ,handler      : function(but) {
+              if (!singleIdentifyLayerName) {
+                olActiveLayers.getRootNode().cascade(function(n) {
+                  if (n.attributes.layer && n.getUI().getIconEl()) {
+                    singleIdentifyLayerName = n.attributes.layer.name;
+                  }
+                });
+              }
+            }
+            ,menu         : {listeners : {beforeshow : function(m) {
+              m.removeAll();
+              olActiveLayers.getRootNode().cascade(function(n) {
+                if (n.attributes.layer && n.getUI().getIconEl()) {
+                  var wms         = lyr2wms[n.attributes.layer.name];
+                  var scaleInfoOK = scaleOK(n.attributes.layer.name).isOK;
+                  var wmsOK       = String(wms).indexOf(featurePrefix + ':') == 0 && activeLyr[n.attributes.layer.name] && activeLyr[n.attributes.layer.name].visibility;
+                  m.add({ 
+                     group    : 'layers'
+                    ,text     : n.attributes.layer.name
+                    ,disabled : !(scaleInfoOK && wmsOK)
+                    ,checked  : singleIdentifyLayerName == n.attributes.layer.name
+                    ,handler  : function() {
+                      singleIdentifyLayerName = n.attributes.layer.name;
+                      Ext.getCmp('singleIdentifyButton').toggle(true);
+                    }
+                  });
+                }
+              });
+            }}}
+          });
+
+          if ( toolSettings.identifySingle.identifySingle_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identifySingle.identifySingle_keymap,
+              itemId : "identifySingle",
+              type  : "toggle"
+            });
+          }
+
+          topToolBar_items.push(
+            singleIdentify
           );
 
         }
@@ -4304,7 +4366,6 @@ function runQueryStats(bounds,lyr) {
   exportBbox.maxX = bounds.getBounds().toArray()[2];
   exportBbox.maxY = bounds.getBounds().toArray()[3];
 
-  qryWin.show();
   // populate store w/ the basics
   var queryLyrCount = 0;
   qryLyrStore.removeAll();
@@ -4316,19 +4377,23 @@ function runQueryStats(bounds,lyr) {
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       if (!lyr || (lyr && lyr.name == title)) {
         var ico   = wms2ico[lyr2wms[title]];
-        qryLyrStore.add(new qryLyrStore.recordType(
-           {
-              ico   : ico
-             ,title : title
-             ,wfs   : 'testing...'
-          }
-          ,++queryLyrCount
-        ));
+        if (!singleIdentifyLayerName || !Ext.getCmp('singleIdentifyButton').pressed || (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == title)) {
+          qryLyrStore.add(new qryLyrStore.recordType(
+             {
+                ico   : ico
+               ,title : title
+               ,wfs   : 'testing...'
+            }
+            ,++queryLyrCount
+          ));
+        }
       }
     }
   }
 
   // go back thru and fire WFS requests
+  qryWin.show();
+
   var i = 0;
   qryLyrStore.each(function(rec) {
     YUI().use("io",function(Y) {
@@ -4359,11 +4424,17 @@ function runQueryStats(bounds,lyr) {
             }
           }
           qryLyrStore.getAt(args[0]).set('busy','done');
+          if (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
+            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
+          }
           qryLyrStore.commitChanges();
         }
         else {
           qryLyrStore.getAt(args[0]).set('wfs',o.responseText.indexOf('Results') >= 0 ? '1 value' : 'no value');
           qryLyrStore.getAt(args[0]).set('busy','done');
+          if (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
+            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
+          }
           qryLyrStore.commitChanges();
         }
       }
