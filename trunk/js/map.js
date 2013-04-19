@@ -1870,7 +1870,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
           // identifySingle tool functionality
           singleIdentify = new Ext.Toolbar.SplitButton({
-             tooltip      : 'Say something.'
+             tooltip      : 'Select a single layer to identify.'
             ,scale        : 'large'
             ,icon         : 'img/11.5_identify_single.png'
             ,id           : 'singleIdentifyButton'
@@ -1887,6 +1887,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             }
             ,menu         : {listeners : {beforeshow : function(m) {
               m.removeAll();
+              m.add({text : '<b>Select a single layer to identify.</b>',canActivate : false,cls : 'menuHeader'});
               olActiveLayers.getRootNode().cascade(function(n) {
                 if (n.attributes.layer && n.getUI().getIconEl()) {
                   var wms         = lyr2wms[n.attributes.layer.name];

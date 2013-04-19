@@ -239,3 +239,7 @@
 }
 
 .olImageLoadError { display: none; }
+
+.menuHeader {
+  background : #C2D8F0;
+}
