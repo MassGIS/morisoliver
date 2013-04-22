@@ -128,6 +128,10 @@ var lyrRasterQry = new OpenLayers.Layer.Vector(
   })}
 );
 
+var lyrBufferQry = new OpenLayers.Layer.Vector(
+  'Buffer query'
+);
+
 //OpenLayers.DOTS_PER_INCH = 25.4 / 0.28;
 OpenLayers.DOTS_PER_INCH = 96;
 
@@ -401,6 +405,7 @@ var qryWin = new Ext.Window({
       featureBbox.unselectAll();
       if (Ext.getCmp('queryBox').pressed) {
         featureBoxControl.polygon.clear();
+        lyrBufferQry.removeFeatures(lyrBufferQry.features);
       }
       else if (Ext.getCmp('queryPoly').pressed) {
         // don't use the regular destroyFeatures -- do it manually here
@@ -439,34 +444,85 @@ var messageContextMenuAvailableLyr;
 var messageContextMenuFolder;
 
 var featureBoxControl = new OpenLayers.Control();
+featureBoxControl.events.register('deactivate',this,function() {
+  lyrBufferQry.removeFeatures(lyrBufferQry.features);
+});
 OpenLayers.Util.extend(featureBoxControl,{
   draw : function() {
     this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
-      {'done' : function(g) {
-        // clear any query results
-        if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
-          Ext.getCmp('featureDetails').hide();
+      {
+        'down' : function() {
+          Ext.getCmp('bufferMenu').hide();
+          lyrBufferQry.removeFeatures(lyrBufferQry.features);
         }
-        if (featureBboxGridPanel) {
-          featureBboxGridPanel.getStore().removeAll();
+        ,'done' : function(g) {
+          // clear any query results
+          if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
+            Ext.getCmp('featureDetails').hide();
+          }
+          if (featureBboxGridPanel) {
+            featureBboxGridPanel.getStore().removeAll();
+          }
+          var bounds = g.getBounds().clone();
+          var boundsArr = bounds.toArray();
+          var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
+          var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
+          var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
+          var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
+          // A 'point' query will have area of 4.  So grow it by 1 px on each side.
+          if (dx * dy <= 4) {
+            var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
+            bounds = new OpenLayers.Bounds();
+            bounds.extend(map.getLonLatFromPixel(ctr));
+            // increase the size of the query box
+            bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
+            bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
+            Ext.getCmp('bufferMenu').items.each(function(item) {
+              if (item.checked) {
+                if (item.text == 'No buffer') {
+                  runQueryStats(bounds.toGeometry());
+                }
+                else { 
+                  if (Ext.getCmp('bufferRadius').getValue() == '') {
+                    Ext.Msg.alert('Invalid buffer',"We're sorry, but you must provide a valid buffer radius.");
+                    return false;
+                  }
+                  var factor = 1;
+                  if (item.text == 'in Feet') {
+                    factor = 0.3048;
+                  }
+                  else if (item.text == 'in Miles') {
+                    factor = 1609.34;
+                  }
+                  else if (item.text == 'in Kilometers') {
+                    factor = 0.001;
+                  }
+                  else if (item.text == 'in Nautical miles') {
+                    factor = 1852;
+                  }
+                  else if (item.text == 'in Yards') {
+                    factor = 0.9144;
+                  }
+                  var buf = new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
+                     g.getCentroid()
+                    ,Ext.getCmp('bufferRadius').getValue() * factor
+                    ,20
+                    ,0
+                    ,map.getProjectionObject()
+                  );
+                  lyrBufferQry.removeFeatures(lyrBufferQry.features);
+                  lyrBufferQry.addFeatures(new OpenLayers.Feature.Vector(buf));
+                  lyrBufferQry.redraw();
+                  runQueryStats(buf);
+                }
+              }
+            });
+          }
+          else {
+            runQueryStats(bounds.toGeometry());
+          }
         }
-        var bounds = g.getBounds().clone();
-        var boundsArr = bounds.toArray();
-        var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
-        var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
-        var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
-        var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
-        // A 'point' query will have area of 4.  So grow it by 1 px on each side.
-        if (dx * dy <= 4) {
-          var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
-          bounds = new OpenLayers.Bounds();
-          bounds.extend(map.getLonLatFromPixel(ctr));
-          // increase the size of the query box
-          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
-          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
-        }
-        runQueryStats(bounds.toGeometry());
-      }}
+      }
       ,{
          persist      : true
         ,irregular    : true
@@ -1780,10 +1836,26 @@ Ext.onReady(function() {
       });
   }
 
+  function toggleIdentifyMode(activeState) {
+    Ext.getCmp('mappanel').body.setStyle('cursor','help');
+    if (activeState) {
+      featureBoxControl.polygon.activate();
+      featurePolyControl.polygon.deactivate();
+    } else {
+      featureBoxControl.polygon.deactivate();
+      featurePolyControl.polygon.deactivate();
+    }
+    // nuke any measurements
+    lengthControl.deactivate();
+    areaControl.deactivate();
+    resetMeasureTally();
+    layerRuler.removeFeatures(layerRuler.features);
+  }
+
 if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
 
           // identify tool functionality
-          identify = new GeoExt.Action({
+          identify = new GeoExt.Action(new Ext.Toolbar.SplitButton({
              itemId       : "identify"
             ,tooltip      : 'Identify features by clicking a point or drawing a box'
 	    ,scale	  : 'large'
@@ -1794,21 +1866,29 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,control      : featureBoxControl
             ,enableToggle : true
             ,toggleHandler: function(obj, activeState) {
-              Ext.getCmp('mappanel').body.setStyle('cursor','help');
-              if (activeState) {
-                featureBoxControl.polygon.activate();
-                featurePolyControl.polygon.deactivate();
-              } else {
-                featureBoxControl.polygon.deactivate();
-                featurePolyControl.polygon.deactivate();
-              }
-              // nuke any measurements
-              lengthControl.deactivate();
-              areaControl.deactivate();
-              resetMeasureTally();
-              layerRuler.removeFeatures(layerRuler.features);
+              toggleIdentifyMode(activeState);
             }
-          });
+            ,menu       : {id : 'bufferMenu',items : [
+               {text : '<b>Select whether or not to buffer your search.</b>',canActivate : false,cls : 'menuHeader'}
+              ,{text : 'No buffer',checked : true,group : 'buffer',value : 'none',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : '<b>To buffer, enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
+              ,{
+                 xtype     : 'numberfield'
+                ,emptyText : 'Buffer radius'
+                ,id        : 'bufferRadius'
+                ,cls       : 'x-menu-list-item'
+                ,iconCls   : 'buttonIcon'
+                ,width     : 200
+                ,minValue  : 0
+              }
+              ,{text : 'in Meters',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : 'in Kilometers',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : 'in Miles',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : 'in Nautical miles',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : 'in Yards',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+              ,{text : 'in Feet',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
+            ]}
+          }));
           if ( toolSettings.identify.identify_keymap) {
             topToolBar_keyMaps.push({
               keyMap:  toolSettings.identify.identify_keymap,
@@ -3091,6 +3171,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,layerRuler
       ,lyrGeoLocate
       ,lyrRasterQry
+      ,lyrBufferQry
     ]
     ,onAdd  : function(store, records, index) {
             if(!this._adding) {
@@ -6289,3 +6370,37 @@ function makeBasemapMenu() {
   }
   return bm;
 }
+
+/*
+ * APIMethod: createGeodesicPolygon
+ * Create a regular polygon around a radius. Useful for creating circles
+ * and the like.
+ *
+ * Parameters:
+ * origin - {<OpenLayers.Geometry.Point>} center of polygon.
+ * radius - {Float} distance to vertex, in map units.
+ * sides - {Integer} Number of sides. 20 approximates a circle.
+ * rotation - {Float} original angle of rotation, in degrees.
+ * projection - {<OpenLayers.Projection>} the map's projection
+ */
+OpenLayers.Geometry.Polygon.createGeodesicPolygon = function(origin, radius, sides, rotation, projection){
+
+    if (projection.getCode() !== "EPSG:4326") {
+        origin.transform(projection, new OpenLayers.Projection("EPSG:4326"));
+    }
+    var latlon = new OpenLayers.LonLat(origin.x, origin.y);
+    
+    var angle;
+    var new_lonlat, geom_point;
+    var points = [];
+    
+    for (var i = 0; i < sides; i++) {
+        angle = (i * 360 / sides) + rotation;
+        new_lonlat = OpenLayers.Util.destinationVincenty(latlon, angle, radius);
+        new_lonlat.transform(new OpenLayers.Projection("EPSG:4326"), projection);
+        geom_point = new OpenLayers.Geometry.Point(new_lonlat.lon, new_lonlat.lat);
+        points.push(geom_point);
+    }
+    var ring = new OpenLayers.Geometry.LinearRing(points);
+    return new OpenLayers.Geometry.Polygon([ring]);
+};
