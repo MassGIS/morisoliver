@@ -3275,7 +3275,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     })
     ,'-'
     ,{
-       text    : 'Query'
+       text    : 'Identify'
       ,id      : 'query'
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/info16.png'
