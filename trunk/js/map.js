@@ -1858,24 +1858,6 @@ Ext.onReady(function() {
       });
   }
 
-  function toggleIdentifyMode(activeState) {
-    Ext.getCmp('mappanel').body.setStyle('cursor','help');
-    if (activeState) {
-      featureBoxControl.polygon.activate();
-      featurePolyControl.polygon.deactivate();
-    } else {
-      featureBoxControl.polygon.deactivate();
-      featurePolyControl.polygon.deactivate();
-    }
-    // nuke any measurements
-    lengthControl.deactivate();
-    areaControl.deactivate();
-    resetMeasureTally();
-    layerRuler.removeFeatures(layerRuler.features);
-    bufferControl.polygon.deactivate();
-    lyrBufferQry.removeFeatures(lyrBufferQry.features);
-  }
-
 if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
 
           // identify tool functionality
@@ -1890,7 +1872,22 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,control      : featureBoxControl
             ,enableToggle : true
             ,toggleHandler: function(obj, activeState) {
-              toggleIdentifyMode(activeState);
+              singleIdentifyLayerName = false;
+              Ext.getCmp('mappanel').body.setStyle('cursor','help');
+              if (activeState) {
+                featureBoxControl.polygon.activate();
+                featurePolyControl.polygon.deactivate();
+              } else {
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.deactivate();
+              }
+              // nuke any measurements
+              lengthControl.deactivate();
+              areaControl.deactivate();
+              resetMeasureTally();
+              layerRuler.removeFeatures(layerRuler.features);
+              bufferControl.polygon.deactivate();
+              lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
           });
           if ( toolSettings.identify.identify_keymap) {
@@ -1921,6 +1918,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,control      : featurePolyControl
             ,enableToggle : true
             ,toggleHandler: function(obj, activeState) {
+              singleIdentifyLayerName = false;
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
               if (activeState) {
                 featureBoxControl.polygon.deactivate();
@@ -1948,62 +1946,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           }
           topToolBar_items.push(
             identifyPoly
-          );
-
-        }
-
-        if (!toolSettings || !toolSettings.identifySingle || toolSettings.identifySingle.status == 'show') {
-
-          // identifySingle tool functionality
-          singleIdentify = new Ext.Toolbar.SplitButton({
-             tooltip      : 'Select a single layer to identify.'
-            ,scale        : 'large'
-            ,icon         : 'img/11.5_identify_single.png'
-            ,id           : 'singleIdentifyButton'
-            ,allowDepress : true
-            ,enableToggle : true
-            ,handler      : function(but) {
-              if (!singleIdentifyLayerName) {
-                olActiveLayers.getRootNode().cascade(function(n) {
-                  if (n.attributes.layer && n.getUI().getIconEl()) {
-                    singleIdentifyLayerName = n.attributes.layer.name;
-                  }
-                });
-              }
-            }
-            ,menu         : {listeners : {beforeshow : function(m) {
-              m.removeAll();
-              m.add({text : '<b>Select a single layer to identify.</b>',canActivate : false,cls : 'menuHeader'});
-              olActiveLayers.getRootNode().cascade(function(n) {
-                if (n.attributes.layer && n.getUI().getIconEl()) {
-                  var wms         = lyr2wms[n.attributes.layer.name];
-                  var scaleInfoOK = scaleOK(n.attributes.layer.name).isOK;
-                  var wmsOK       = String(wms).indexOf(featurePrefix + ':') == 0 && activeLyr[n.attributes.layer.name] && activeLyr[n.attributes.layer.name].visibility;
-                  m.add({ 
-                     group    : 'layers'
-                    ,text     : n.attributes.layer.name
-                    ,disabled : !(scaleInfoOK && wmsOK)
-                    ,checked  : singleIdentifyLayerName == n.attributes.layer.name
-                    ,handler  : function() {
-                      singleIdentifyLayerName = n.attributes.layer.name;
-                      Ext.getCmp('singleIdentifyButton').toggle(true);
-                    }
-                  });
-                }
-              });
-            }}}
-          });
-
-          if ( toolSettings.identifySingle.identifySingle_keymap) {
-            topToolBar_keyMaps.push({
-              keyMap:  toolSettings.identifySingle.identifySingle_keymap,
-              itemId : "identifySingle",
-              type  : "toggle"
-            });
-          }
-
-          topToolBar_items.push(
-            singleIdentify
           );
 
         }
@@ -3292,12 +3234,14 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/zoom_in.png'
     }
+    ,'-'
     ,{
        text    : 'View metadata'
       ,id      : 'viewMetadataUrl'
       ,iconCls : 'buttonIcon'
       ,icon    : 'img/info1.png'
     }
+    ,'-'
     ,{
        text    : 'Choose a color'
       ,iconCls : 'buttonIcon'
@@ -3311,13 +3255,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,icon    : 'img/arrow_undo.png'
     }
     ,{
-       text    : 'Remove layer'
-      ,id      : 'remove'
-      ,iconCls : 'buttonIcon'
-      ,icon    : 'img/remove.png'
-    }
-    ,{
-       text        : '0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opacity&nbsp;&nbsp;&nbsp;&nbsp;100%'
+       text        : '0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Opacity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;100%'
       ,canActivate : false
       ,hideOnClick : false
       ,style       : {
@@ -3326,7 +3264,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       }
     }
     ,new Ext.Slider({
-       width    : 100
+       width    : 150
       ,minValue : 0
       ,maxValue : 100
       ,style    : {
@@ -3335,6 +3273,20 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
       ,iconCls  : 'buttonIcon'
       ,id       : 'opacitySliderLayer'
     })
+    ,'-'
+    ,{
+       text    : 'Query'
+      ,id      : 'query'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/info16.png'
+    }
+    ,'-'
+    ,{
+       text    : 'Remove layer'
+      ,id      : 'remove'
+      ,iconCls : 'buttonIcon'
+      ,icon    : 'img/remove.png'
+    }
   ]});
 
   messageContextMenuFolder = new Ext.menu.Menu({
@@ -3493,6 +3445,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
           messageContextMenuActiveLyr.findById('revertColor').disable();
           messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
           messageContextMenuActiveLyr.findById('opacitySliderLayer').disable();
+          messageContextMenuActiveLyr.findById('query').disable();
         }
         else {
           n.select();
@@ -3513,6 +3466,28 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             messageContextMenuActiveLyr.findById('viewMetadataUrl').disable();
           }
           messageContextMenuActiveLyr.findById('opacitySliderLayer').enable();
+        }
+
+        var wms         = lyr2wms[n.text];
+        var scaleInfoOK = scaleOK(n.text).isOK;
+        var wmsOK       = String(wms).indexOf(featurePrefix + ':') == 0 && activeLyr[n.text] && activeLyr[n.text].visibility;
+        if (scaleInfoOK && wmsOK) {
+          messageContextMenuActiveLyr.findById('query').enable();
+          messageContextMenuActiveLyr.findById('query').setHandler(function() {
+            singleIdentifyLayerName = n.text;
+            Ext.getCmp('mappanel').body.setStyle('cursor','help');
+            featureBoxControl.polygon.activate();
+            featurePolyControl.polygon.deactivate();
+            lengthControl.deactivate();
+            areaControl.deactivate();
+            resetMeasureTally();
+            layerRuler.removeFeatures(layerRuler.features);
+            bufferControl.polygon.deactivate();
+            lyrBufferQry.removeFeatures(lyrBufferQry.features);
+          });
+        }
+        else {
+          messageContextMenuActiveLyr.findById('query').disable();
         }
 
         messageContextMenuActiveLyr.findById('remove').setHandler(function() {
@@ -4521,7 +4496,7 @@ function runQueryStats(bounds,lyr) {
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       if (!lyr || (lyr && lyr.name == title)) {
         var ico   = wms2ico[lyr2wms[title]];
-        if (!singleIdentifyLayerName || !Ext.getCmp('singleIdentifyButton').pressed || (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == title)) {
+        if (!singleIdentifyLayerName || (singleIdentifyLayerName && singleIdentifyLayerName == title)) {
           qryLyrStore.add(new qryLyrStore.recordType(
              {
                 ico   : ico
@@ -4568,7 +4543,7 @@ function runQueryStats(bounds,lyr) {
             }
           }
           qryLyrStore.getAt(args[0]).set('busy','done');
-          if (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
+          if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
             Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
           }
           qryLyrStore.commitChanges();
@@ -4576,7 +4551,7 @@ function runQueryStats(bounds,lyr) {
         else {
           qryLyrStore.getAt(args[0]).set('wfs',o.responseText.indexOf('Results') >= 0 ? '1 value' : 'no value');
           qryLyrStore.getAt(args[0]).set('busy','done');
-          if (singleIdentifyLayerName && Ext.getCmp('singleIdentifyButton').pressed && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
+          if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
             Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
           }
           qryLyrStore.commitChanges();
