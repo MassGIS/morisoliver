@@ -405,7 +405,6 @@ var qryWin = new Ext.Window({
       featureBbox.unselectAll();
       if (Ext.getCmp('queryBox').pressed) {
         featureBoxControl.polygon.clear();
-        lyrBufferQry.removeFeatures(lyrBufferQry.features);
       }
       else if (Ext.getCmp('queryPoly').pressed) {
         // don't use the regular destroyFeatures -- do it manually here
@@ -443,27 +442,18 @@ var messageContextMenuActiveLyr;
 var messageContextMenuAvailableLyr;
 var messageContextMenuFolder;
 
-var featureBoxControl = new OpenLayers.Control();
-featureBoxControl.events.register('deactivate',this,function() {
-  lyrBufferQry.removeFeatures(lyrBufferQry.features);
-});
-OpenLayers.Util.extend(featureBoxControl,{
+var bufferControl = new OpenLayers.Control();
+OpenLayers.Util.extend(bufferControl,{
   draw : function() {
-    this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
+    this.polygon = new OpenLayers.Handler.RegularPolygon(bufferControl,
       {
         'down' : function() {
           Ext.getCmp('bufferMenu').hide();
           lyrBufferQry.removeFeatures(lyrBufferQry.features);
         }
         ,'done' : function(g) {
-          // clear any query results
-          if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
-            Ext.getCmp('featureDetails').hide();
-          }
-          if (featureBboxGridPanel) {
-            featureBboxGridPanel.getStore().removeAll();
-          }
-          var bounds = g.getBounds().clone();
+          bufferControl.polygon.clear();
+          var bounds = g.getCentroid().getBounds().clone();
           var boundsArr = bounds.toArray();
           var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
           var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
@@ -471,58 +461,89 @@ OpenLayers.Util.extend(featureBoxControl,{
           var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
           // A 'point' query will have area of 4.  So grow it by 1 px on each side.
           if (dx * dy <= 4) {
-            var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
-            bounds = new OpenLayers.Bounds();
-            bounds.extend(map.getLonLatFromPixel(ctr));
-            // increase the size of the query box
-            bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
-            bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
             Ext.getCmp('bufferMenu').items.each(function(item) {
               if (item.checked) {
-                if (item.text == 'No buffer') {
-                  runQueryStats(bounds.toGeometry());
+                if (Ext.getCmp('bufferRadius').getValue() == '') {
+                  Ext.Msg.alert('Invalid buffer',"We're sorry, but you must provide a valid buffer radius.");
+                  return false;
                 }
-                else { 
-                  if (Ext.getCmp('bufferRadius').getValue() == '') {
-                    Ext.Msg.alert('Invalid buffer',"We're sorry, but you must provide a valid buffer radius.");
-                    return false;
-                  }
-                  var factor = 1;
-                  if (item.text == 'in Feet') {
-                    factor = 0.3048;
-                  }
-                  else if (item.text == 'in Miles') {
-                    factor = 1609.34;
-                  }
-                  else if (item.text == 'in Kilometers') {
-                    factor = 0.001;
-                  }
-                  else if (item.text == 'in Nautical miles') {
-                    factor = 1852;
-                  }
-                  else if (item.text == 'in Yards') {
-                    factor = 0.9144;
-                  }
-                  var buf = new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
-                     g.getCentroid()
-                    ,Ext.getCmp('bufferRadius').getValue() * factor
-                    ,20
-                    ,0
-                    ,map.getProjectionObject()
-                  );
-                  lyrBufferQry.removeFeatures(lyrBufferQry.features);
-                  lyrBufferQry.addFeatures(new OpenLayers.Feature.Vector(buf));
-                  lyrBufferQry.redraw();
-                  runQueryStats(buf);
+                var factor = 1;
+                if (item.text == 'in Feet') {
+                  factor = 0.3048;
                 }
+                else if (item.text == 'in Miles') {
+                  factor = 1609.34;
+                }
+                else if (item.text == 'in Kilometers') {
+                  factor = 1000;
+                }
+                else if (item.text == 'in Nautical miles') {
+                  factor = 1852;
+                }
+                else if (item.text == 'in Yards') {
+                  factor = 0.9144;
+                }
+                var buf = new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
+                   g.getCentroid()
+                  ,Ext.getCmp('bufferRadius').getValue() * factor
+                  ,20
+                  ,0
+                  ,map.getProjectionObject()
+                );
+                lyrBufferQry.removeFeatures(lyrBufferQry.features);
+                lyrBufferQry.addFeatures(new OpenLayers.Feature.Vector(buf));
+                lyrBufferQry.redraw();
               }
             });
           }
-          else {
-            runQueryStats(bounds.toGeometry());
-          }
         }
       }
+      ,{
+         persist      : true
+        ,irregular    : true
+        ,layerOptions : {styleMap : new OpenLayers.StyleMap({
+          'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
+             'strokeWidth'  : 2
+            ,'strokeColor'  : '#ff0000'
+            ,'strokeOpacity': 0.5
+            ,'fillColor'    : '#ff0000'
+            ,'fillOpacity'  : 0.05
+          }))
+        })}
+      }
+    );
+  }
+});
+
+var featureBoxControl = new OpenLayers.Control();
+OpenLayers.Util.extend(featureBoxControl,{
+  draw : function() {
+    this.polygon = new OpenLayers.Handler.RegularPolygon(featureBoxControl,
+      {'done' : function(g) {
+        // clear any query results
+        if (Ext.getCmp('featureDetails') && Ext.getCmp('featureDetails').isVisible()) {
+          Ext.getCmp('featureDetails').hide();
+        }
+        if (featureBboxGridPanel) {
+          featureBboxGridPanel.getStore().removeAll();
+        }
+        var bounds = g.getBounds().clone();
+        var boundsArr = bounds.toArray();
+        var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
+        var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
+        var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
+        var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
+        // A 'point' query will have area of 4.  So grow it by 1 px on each side.
+        if (dx * dy <= 4) {
+          var ctr = map.getPixelFromLonLat(bounds.getCenterLonLat());
+          bounds = new OpenLayers.Bounds();
+          bounds.extend(map.getLonLatFromPixel(ctr));
+          // increase the size of the query box
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x + 4,ctr.y + 4)));
+          bounds.extend(map.getLonLatFromPixel(new OpenLayers.Pixel(ctr.x - 4,ctr.y - 4)));
+        }
+        runQueryStats(bounds.toGeometry());
+      }}
       ,{
          persist      : true
         ,irregular    : true
@@ -1001,6 +1022,7 @@ Ext.onReady(function() {
       ,areaControl
       ,featureBoxControl
       ,featurePolyControl
+      ,bufferControl
     ],projection:"EPSG:900913"
   });
   featureBboxSelectHover.activate();
@@ -1850,12 +1872,14 @@ Ext.onReady(function() {
     areaControl.deactivate();
     resetMeasureTally();
     layerRuler.removeFeatures(layerRuler.features);
+    bufferControl.polygon.deactivate();
+    lyrBufferQry.removeFeatures(lyrBufferQry.features);
   }
 
 if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
 
           // identify tool functionality
-          identify = new GeoExt.Action(new Ext.Toolbar.SplitButton({
+          identify = new GeoExt.Action({
              itemId       : "identify"
             ,tooltip      : 'Identify features by clicking a point or drawing a box'
 	    ,scale	  : 'large'
@@ -1868,27 +1892,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,toggleHandler: function(obj, activeState) {
               toggleIdentifyMode(activeState);
             }
-            ,menu       : {id : 'bufferMenu',items : [
-               {text : '<b>Select whether or not to buffer your search.</b>',canActivate : false,cls : 'menuHeader'}
-              ,{text : 'No buffer',checked : true,group : 'buffer',value : 'none',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : '<b>To buffer, enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
-              ,{
-                 xtype     : 'numberfield'
-                ,emptyText : 'Buffer radius'
-                ,id        : 'bufferRadius'
-                ,cls       : 'x-menu-list-item'
-                ,iconCls   : 'buttonIcon'
-                ,width     : 200
-                ,minValue  : 0
-              }
-              ,{text : 'in Meters',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : 'in Kilometers',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : 'in Miles',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : 'in Nautical miles',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : 'in Yards',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-              ,{text : 'in Feet',checked : false,group : 'buffer',handler : function() {Ext.getCmp('queryBox').toggle(true);toggleIdentifyMode(true)}}
-            ]}
-          }));
+          });
           if ( toolSettings.identify.identify_keymap) {
             topToolBar_keyMaps.push({
               keyMap:  toolSettings.identify.identify_keymap,
@@ -1930,6 +1934,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               areaControl.deactivate();
               resetMeasureTally();
               layerRuler.removeFeatures(layerRuler.features);
+              bufferControl.polygon.deactivate();
+              lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
           });
 
@@ -2597,6 +2603,14 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       type   : 'basic'
     });
     }
+
+    if (toolSettings.buffer && toolSettings.buffer.keyMap) {
+    bottomToolBar_keyMaps.push({
+      keyMap: toolSettings.buffer.keyMap,
+      itemId :'buffer' ,
+      type   : 'basic'
+    });
+    }
     
     bottomToolBar_items.push(
       new Ext.Toolbar.Button({
@@ -2627,6 +2641,8 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
           resetMeasureTally();
         }
+        bufferControl.polygon.deactivate();
+        lyrBufferQry.removeFeatures(lyrBufferQry.features);
       }
       ,menu : [
         {
@@ -2779,11 +2795,57 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,handler      : function() {
         lengthControl.cancel();
         areaControl.cancel();
+        bufferControl.polygon.clear();
         resetMeasureTally();
         layerRuler.removeFeatures(layerRuler.features);
+        lyrBufferQry.removeFeatures(lyrBufferQry.features);
       }
       });
     }
+
+    bottomToolBar_items.push(
+      {
+         itemId        : 'buffer'
+        ,scale         : 'large'
+        ,icon          : 'img/layer-shape-ellipse-icon.png'
+        ,tooltip       : 'Draw a buffer'
+        ,toggleGroup   : 'navigation'
+        ,enableToggle  : true
+        ,allowDepress  : false
+        ,toggleHandler : function(activeState) {
+          if (activeState) {
+            bufferControl.polygon.activate();
+          }
+          else {
+            bufferControl.polygon.deactivate();
+          }
+          areaControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
+          lengthControl.deactivate();
+          featurePolyControl.polygon.deactivate();
+          featureBoxControl.polygon.deactivate();
+        }
+        ,menu       : {id : 'bufferMenu',items : [
+          {text : '<b>Enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
+          ,{
+             xtype     : 'numberfield'
+            ,emptyText : 'Buffer radius'
+            ,id        : 'bufferRadius'
+            ,cls       : 'x-menu-list-item'
+            ,iconCls   : 'buttonIcon'
+            ,width     : 200
+            ,minValue  : 0
+          }
+          ,{text : 'in Meters',checked : false,group : 'buffer'}
+          ,{text : 'in Kilometers',checked : false,group : 'buffer'}
+          ,{text : 'in Miles',checked : false,group : 'buffer'}
+          ,{text : 'in Nautical miles',checked : false,group : 'buffer'}
+          ,{text : 'in Yards',checked : false,group : 'buffer'}
+          ,{text : 'in Feet',checked : false,group : 'buffer'}
+        ]}
+      }
+    );
     
     // end measure specific buttonBar code
     

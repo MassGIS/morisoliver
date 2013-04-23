@@ -25,6 +25,13 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "B"
+        };
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -62,10 +69,8 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identifySingle = {};
         toolSettings.identify.status = 'show';
         toolSettings.identifyPoly.status = 'show';
-        toolSettings.identifySingle.status = 'show';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -77,12 +82,6 @@
                 "ctrl":true,                    // not required if false
                 "alt": true,                    // not required if false
                 "key": "v"
-        };
-
-        toolSettings.identifySingle.identifySingle_keymap = {
-                "ctrl":true,                    // not required if false
-                "alt": true,                    // not required if false
-                "key": "1"
         };
 	
 	toolSettings.bingAddressSearch = {};
