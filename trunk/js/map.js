@@ -809,6 +809,11 @@ Ext.onReady(function() {
         ,tileOptions: { crossOriginKeyword: null }
     }
   );
+
+  for (l in lyrBase) {
+    lyrBase[l].transitionEffect = null;
+  }
+
 /*
      'custom'
     ,'img/bg.png'
@@ -3676,7 +3681,8 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           isBaseLayer: false,
           addToLayerSwitcher: false,
           opacity : opacity,
-	  numZoomLevels : 20
+	  numZoomLevels : 20,
+          transitionEffect : null
         });
       // Bing is evil -- its zoom index is off by 1 when compared to tiled overlays.
       // For whatever reason I can't fix this in the Bing init w/ a zoomOffset, so fix it here.  :(
@@ -3715,6 +3721,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           ,opacity            : opacity
           ,addToLayerSwitcher : false
           ,visibility         : viz && !(String(proj) != 'undefined' && map.getProjection().toLowerCase() != String(proj).toLowerCase())
+          ,transitionEffect   : null
         }
       );
     }
