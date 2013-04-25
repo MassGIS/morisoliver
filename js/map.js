@@ -406,6 +406,9 @@ var qryWin = new Ext.Window({
       if (Ext.getCmp('queryBox').pressed) {
         featureBoxControl.polygon.clear();
       }
+      if (Ext.getCmp('queryBoxSingle').pressed) {
+        featureBoxControl.polygon.clear();
+      }
       else if (Ext.getCmp('queryPoly').pressed) {
         // don't use the regular destroyFeatures -- do it manually here
         OpenLayers.Handler.Path.prototype.destroyFeature.call(featurePolyControl.polygon.layer,true);
@@ -1908,6 +1911,40 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           );
 
         }
+
+        if (true) {
+          // HIDDEN identify tool functionality that works for the single identify
+          topToolBar_items.push(new GeoExt.Action({
+             itemId       : "identifySingle"
+            ,hidden       : true
+            ,tooltip      : 'Identify features by clicking a point or drawing a box'
+            ,scale        : 'large'
+            ,icon         : 'img/10_identify.png'
+            ,toggleGroup  : 'navigation'
+            ,id           : 'queryBoxSingle'
+            ,allowDepress : false
+            ,control      : featureBoxControl
+            ,enableToggle : true
+            ,toggleHandler: function(obj, activeState) {
+              Ext.getCmp('mappanel').body.setStyle('cursor','help');
+              if (activeState) {
+                featureBoxControl.polygon.activate();
+                featurePolyControl.polygon.deactivate();
+              } else {
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.deactivate();
+              }
+              // nuke any measurements
+              lengthControl.deactivate();
+              areaControl.deactivate();
+              resetMeasureTally();
+              layerRuler.removeFeatures(layerRuler.features);
+              bufferControl.polygon.deactivate();
+              lyrBufferQry.removeFeatures(lyrBufferQry.features);
+            }
+          }));
+        }
+
 
         if (!toolSettings || !toolSettings.identifyPoly || toolSettings.identifyPoly.status == 'show') {
 
@@ -3479,16 +3516,8 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         if (scaleInfoOK && wmsOK) {
           messageContextMenuActiveLyr.findById('query').enable();
           messageContextMenuActiveLyr.findById('query').setHandler(function() {
+            Ext.getCmp('queryBoxSingle').toggle(true);
             singleIdentifyLayerName = n.text;
-            Ext.getCmp('mappanel').body.setStyle('cursor','help');
-            featureBoxControl.polygon.activate();
-            featurePolyControl.polygon.deactivate();
-            lengthControl.deactivate();
-            areaControl.deactivate();
-            resetMeasureTally();
-            layerRuler.removeFeatures(layerRuler.features);
-            bufferControl.polygon.deactivate();
-            lyrBufferQry.removeFeatures(lyrBufferQry.features);
           });
         }
         else {
