@@ -4752,7 +4752,7 @@ function printSave() {
       for (tilerow in map.layers[j].grid) {
         for (tilei in map.layers[j].grid[tilerow]) {
           var tile = map.layers[j].grid[tilerow][tilei];
-          if (tile.bounds) {
+          if (tile && tile.bounds) {
             var url      = map.layers[j].getURL(tile.bounds);
             var position = tile.position;
             a.push({
