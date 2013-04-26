@@ -489,7 +489,7 @@ OpenLayers.Util.extend(bufferControl,{
                 var buf = new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
                    g.getCentroid()
                   ,Ext.getCmp('bufferRadius').getValue() * factor
-                  ,20
+                  ,100
                   ,0
                   ,map.getProjectionObject()
                 );
