@@ -448,22 +448,15 @@ var messageContextMenuFolder;
 var bufferControl = new OpenLayers.Control();
 OpenLayers.Util.extend(bufferControl,{
   draw : function() {
-    this.polygon = new OpenLayers.Handler.RegularPolygon(bufferControl,
+    this.point = new OpenLayers.Handler.Point(bufferControl,
       {
         'down' : function() {
           Ext.getCmp('bufferMenu').hide();
           lyrBufferQry.removeFeatures(lyrBufferQry.features);
         }
         ,'done' : function(g) {
-          bufferControl.polygon.clear();
-          var bounds = g.getCentroid().getBounds().clone();
-          var boundsArr = bounds.toArray();
-          var ll = new OpenLayers.LonLat(boundsArr[0],boundsArr[1]);
-          var ur = new OpenLayers.LonLat(boundsArr[2],boundsArr[3]);
-          var dx = Math.abs(map.getPixelFromLonLat(ur).x - map.getPixelFromLonLat(ll).x);
-          var dy = Math.abs(map.getPixelFromLonLat(ur).y - map.getPixelFromLonLat(ll).y);
-          // A 'point' query will have area of 4.  So grow it by 1 px on each side.
-          if (dx * dy <= 4) {
+          bufferControl.point.destroyFeature();
+          if (true) {
             Ext.getCmp('bufferMenu').items.each(function(item) {
               if (item.checked) {
                 if (Ext.getCmp('bufferRadius').getValue() == '') {
@@ -1894,7 +1887,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               areaControl.deactivate();
               resetMeasureTally();
               layerRuler.removeFeatures(layerRuler.features);
-              bufferControl.polygon.deactivate();
+              bufferControl.point.deactivate();
               lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
           });
@@ -1939,7 +1932,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               areaControl.deactivate();
               resetMeasureTally();
               layerRuler.removeFeatures(layerRuler.features);
-              bufferControl.polygon.deactivate();
+              bufferControl.point.deactivate();
               lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
           }));
@@ -1974,7 +1967,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               areaControl.deactivate();
               resetMeasureTally();
               layerRuler.removeFeatures(layerRuler.features);
-              bufferControl.polygon.deactivate();
+              bufferControl.point.deactivate();
               lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
           });
@@ -2625,7 +2618,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
           Ext.getCmp('measureTally').emptyText = '0 ' + measureUnits + '^2';
           resetMeasureTally();
         }
-        bufferControl.polygon.deactivate();
+        bufferControl.point.deactivate();
         lyrBufferQry.removeFeatures(lyrBufferQry.features);
       }
       ,menu : [
@@ -2779,7 +2772,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
       ,handler      : function() {
         lengthControl.cancel();
         areaControl.cancel();
-        bufferControl.polygon.clear();
+        bufferControl.point.destroyFeature();
         resetMeasureTally();
         layerRuler.removeFeatures(layerRuler.features);
         lyrBufferQry.removeFeatures(lyrBufferQry.features);
@@ -2798,10 +2791,10 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         ,allowDepress  : false
         ,toggleHandler : function(activeState) {
           if (activeState) {
-            bufferControl.polygon.activate();
+            bufferControl.point.activate();
           }
           else {
-            bufferControl.polygon.deactivate();
+            bufferControl.point.deactivate();
           }
           areaControl.deactivate();
           featurePolyControl.polygon.deactivate();
