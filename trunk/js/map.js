@@ -1,4 +1,3 @@
-
 if (typeof MorisOliverApp == 'undefined') {
   MorisOliverApp = {};
 }
@@ -76,6 +75,7 @@ var exportBbox = {
   ,units : defaultCoordUnit == 'm' ? 'EPSG:26986' : defaultCoordUnit == 'dd' ? 'EPSG:4326' : defaultCoordUnit == 'dms' ? 'EPSG:4326dms' : ''
 };
 var singleIdentifyLayerName;
+var launchBufferQuery;
 
 Date.patterns = {
     SortableDateTime: "Y-m-d\\TH:i:s.ms"
@@ -403,7 +403,7 @@ var qryWin = new Ext.Window({
   ,listeners   : {
     hide : function() {
       featureBbox.unselectAll();
-      if (Ext.getCmp('queryBox').pressed) {
+      if (Ext.getCmp('queryBox').pressed || (Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed)) {
         featureBoxControl.polygon.clear();
       }
       if (Ext.getCmp('queryBoxSingle').pressed) {
@@ -1050,28 +1050,145 @@ Ext.onReady(function() {
      multiple   : true
     ,filterType : OpenLayers.Filter.Spatial.INTERSECTS
   });
+  // There is no listener for when the request is done, so stick the code here.
+  featureBbox.request = function(bounds, options) {
+      options = options || {};
+      var filter = new OpenLayers.Filter.Spatial({
+          type: this.filterType,
+          value: bounds
+      });
+
+      // Set the cursor to "wait" to tell the user we're working.
+      // doesn't reset well, so don't bother
+      // OpenLayers.Element.addClass(this.map.viewPortDiv, "olCursorWait");
+
+      var response = this.protocol.read({
+          maxFeatures: options.single == true ? this.maxFeatures : undefined,
+          filter: filter,
+          callback: function(result) {
+              if(result.success()) {
+                  if(result.features.length) {
+                      if(options.single == true) {
+                          this.selectBestFeature(result.features,
+                              bounds.getCenterLonLat(), options);
+                      } else {
+                          this.select(result.features);
+                      }
+                  } else if(options.hover) {
+                      this.hoverSelect();
+                  } else {
+                      this.events.triggerEvent("clickout");
+                      if(this.clickout) {
+                          this.unselectAll();
+                      }
+                  }
+
+                  // CUSTOM CODE
+                  if (!qryWin.findById('featureBboxGridPanel')) {
+                    qryWin.add({
+                       xtype : 'fieldset'
+                      ,id    : 'featureDetails'
+                      ,title : 'Feature details'
+                      ,items : [featureBboxGridPanel]
+                    });
+                  }
+                  else if (!Ext.getCmp('featureDetails').isVisible()) {
+                    Ext.getCmp('featureDetails').show();
+                  }
+                  if (Ext.getCmp('qryFeatureDetails')) {
+                    Ext.getCmp('qryFeatureDetails').getEl().unmask();
+                  }
+                  Ext.defer(function() {qryWin.doLayout()},100);
+                  if (launchBufferQuery) {
+                    Ext.getCmp('bufferQueryMenu').items.each(function(item) {
+                      if (item.checked) {
+                        if (Ext.getCmp('bufferQueryRadius').getValue() == '') {
+                          Ext.Msg.alert('Invalid buffer',"We're sorry, but you must provide a valid buffer radius.");
+                        }
+                        else {
+                          var factor = 1;
+                          if (item.text == 'in Feet') {
+                            factor = 0.3048;
+                          }
+                          else if (item.text == 'in Miles') {
+                            factor = 1609.34;
+                          }
+                          else if (item.text == 'in Kilometers') {
+                            factor = 1000;
+                          }
+                          else if (item.text == 'in Nautical miles') {
+                            factor = 1852;
+                          }
+                          else if (item.text == 'in Yards') {
+                            factor = 0.9144;
+                          }
+                          if (result.features.length > toolSettings.identifyBuffer.maxFeaturesAllowedToUnion) {
+                            Ext.Msg.alert('Buffer query',"We're sorry, but you have exceeded the maximum number of features (" + toolSettings.identifyBuffer.maxFeaturesAllowedToUnion + ") that you may select to buffer.  Please reduce your selection and try again.");
+                          }
+                          else if (result.features.length == 0) {
+                            Ext.Msg.alert('Buffer query',"No features are eligible for buffering.  Please retry.");
+                          }
+                          else {
+                            var filteredFeatures = [];
+                            for (var i = 0; i < result.features.length; i++) {
+                              if (toolSettings.identifyBuffer.selectDataLayerFilter(result.features[i].attributes)) {
+                                filteredFeatures.push(result.features[i].clone());
+                              }
+                            }
+                            if (result.features.length > filteredFeatures.length) {
+                              Ext.Msg.alert('Buffer query',"The number of eligible features has been automatically reduced due to filtering." + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
+                                if (filteredFeatures.length > 0) {
+                                  var b = unionFeatureGeometriesAndBuffer(filteredFeatures,Ext.getCmp('bufferQueryRadius').getValue() * factor);
+                                  // reuse the control's layer to draw the new buffered query
+                                  featureBoxControl.polygon.clear();
+                                  featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
+                                  featureBoxControl.polygon.layer.addFeatures(new OpenLayers.Feature.Vector(b));
+                                  featureBoxControl.polygon.layer.redraw();
+                                  launchBufferQuery = false;
+                                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
+                                  runQueryStats(b);
+                                }
+                              });
+                            } 
+                            else if (filteredFeatures.length == 0) {
+                              Ext.Msg.alert('Buffer query',"No features are eligible for buffering.  Please retry.");
+                            }
+                            else {
+                              var b = unionFeatureGeometriesAndBuffer(filteredFeatures,Ext.getCmp('bufferQueryRadius').getValue() * factor);
+                              // reuse the control's layer to draw the new buffered query
+                              featureBoxControl.polygon.clear();
+                              featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
+                              featureBoxControl.polygon.layer.addFeatures(new OpenLayers.Feature.Vector(b));
+                              featureBoxControl.polygon.layer.redraw();
+                              launchBufferQuery = false;
+                              singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
+                              runQueryStats(b);
+                            }
+                          }
+                        }
+                      }
+                    });
+                  }
+                  else if (Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+                    singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer;
+                    launchBufferQuery = true;
+                  }
+                }
+                // Reset the cursor.
+                // doesn't reset well, so don't bother
+                // OpenLayers.Element.removeClass(this.map.viewPortDiv, "olCursorWait");
+            },
+            scope: this
+        });
+        if(options.hover == true) {
+            this.hoverResponse = response;
+        }
+    };
   featureBbox.events.register('featureselected',this,function(e) {
     featureBboxSelect.addFeatures([e.feature]);
   });
   featureBbox.events.register('featureunselected',this,function(e) {
     featureBboxSelect.removeFeatures([e.feature]);
-  });
-  featureBboxSelect.events.register('featureadded',this,function(e) {
-    if (!qryWin.findById('featureBboxGridPanel')) {
-      qryWin.add({
-         xtype : 'fieldset'
-        ,id    : 'featureDetails'
-        ,title : 'Feature details'
-        ,items : [featureBboxGridPanel]
-      });
-    }
-    else if (!Ext.getCmp('featureDetails').isVisible()) {
-      Ext.getCmp('featureDetails').show(); 
-    }
-    if (Ext.getCmp('qryFeatureDetails')) {
-      Ext.getCmp('qryFeatureDetails').getEl().unmask();
-    }
-    qryWin.doLayout();
   });
 
   map.events.register('changelayer',this,function(e) {
@@ -1905,9 +2022,77 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 
         }
 
+if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.status != 'hide') {
+          // identifyBuffer tool functionality
+          identifyBuffer = new Ext.SplitButton({
+             tooltip       : 'Buffer'
+            ,scale         : 'large'
+            ,icon          : 'img/11.5_buffer.png'
+            ,id            : 'queryBuffer'
+            ,selectDataLayer       : toolSettings.identifyBuffer.selectDataLayer
+            ,bufferResultDataLayer : toolSettings.identifyBuffer.bufferResultDataLayer
+            ,allowDepress  : false
+            ,enableToggle  : true
+            ,toggleGroup   : 'navigation'
+            ,toggleHandler : function(activeState) {
+              Ext.getCmp('mappanel').body.setStyle('cursor','help');
+              launchBufferQuery = activeState;
+              if (activeState) {
+                singleIdentifyLayerName = this.selectDataLayer;
+                featureBoxControl.polygon.activate();
+                featurePolyControl.polygon.deactivate();
+              } else {
+                featureBoxControl.polygon.deactivate();
+                featurePolyControl.polygon.deactivate();
+              }
+              // nuke any measurements
+              lengthControl.deactivate();
+              areaControl.deactivate();
+              resetMeasureTally();
+              layerRuler.removeFeatures(layerRuler.features);
+              bufferControl.point.deactivate();
+              lyrBufferQry.removeFeatures(lyrBufferQry.features);
+            }
+            ,menu         : {id : 'bufferQueryMenu',items : [
+               {text : toolSettings.identifyBuffer.selectDataLayer + ' is your select data layer.<br>' + toolSettings.identifyBuffer.bufferResultDataLayer + ' is your buffer result data layer.',canActivate : false}
+              ,{text : '<b>Enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
+              ,{
+                 xtype     : 'numberfield'
+                ,emptyText : 'Buffer radius'
+                ,id        : 'bufferQueryRadius'
+                ,cls       : 'x-menu-list-item'
+                ,iconCls   : 'buttonIcon'
+                ,width     : 200
+                ,minValue  : 0
+                ,listeners : {specialKey : function (field,e) {
+                  if (e.getKey() == e.ENTER ) {
+                    Ext.getCmp('bufferQueryMenu').hide();
+                  }
+                }}
+              }
+              ,{text : 'in Meters',checked : true,group : 'queryBuffer'}
+              ,{text : 'in Kilometers',checked : false,group : 'queryBuffer'}
+              ,{text : 'in Miles',checked : false,group : 'queryBuffer'}
+              ,{text : 'in Nautical miles',checked : false,group : 'queryBuffer'}
+              ,{text : 'in Yards',checked : false,group : 'queryBuffer'}
+              ,{text : 'in Feet',checked : false,group : 'queryBuffer'}
+            ],listeners : {show : function() {Ext.getCmp('queryBuffer').toggle(true)}}}
+          });
+          if ( toolSettings.identifyBuffer && toolSettings.identifyBuffer.identifyBuffer_keymap) {
+            topToolBar_keyMaps.push({
+              keyMap:  toolSettings.identifyBuffer.identifyBuffer_keymap,
+              itemId : "identifyBuffer",
+              type  : "toggle"
+            });
+          }
+          topToolBar_items.push(
+            identifyBuffer
+          );
+        }
+
         if (true) {
           // HIDDEN identify tool functionality that works for the single identify
-          topToolBar_items.push(new GeoExt.Action({
+          topToolBar_items.push({
              itemId       : "identifySingle"
             ,hidden       : true
             ,tooltip      : 'Identify features by clicking a point or drawing a box'
@@ -1916,7 +2101,6 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,toggleGroup  : 'navigation'
             ,id           : 'queryBoxSingle'
             ,allowDepress : false
-            ,control      : featureBoxControl
             ,enableToggle : true
             ,toggleHandler: function(obj, activeState) {
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
@@ -1935,7 +2119,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
               bufferControl.point.deactivate();
               lyrBufferQry.removeFeatures(lyrBufferQry.features);
             }
-          }));
+          });
         }
 
 
@@ -2781,7 +2965,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
     }
 
     bottomToolBar_items.push(
-      {
+      new Ext.SplitButton({
          itemId        : 'buffer'
         ,scale         : 'large'
         ,icon          : 'img/layer-shape-ellipse-icon.png'
@@ -2789,6 +2973,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
         ,toggleGroup   : 'navigation'
         ,enableToggle  : true
         ,allowDepress  : false
+        ,id            : 'buffer'
         ,toggleHandler : function(activeState) {
           if (activeState) {
             bufferControl.point.activate();
@@ -2813,15 +2998,20 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
             ,iconCls   : 'buttonIcon'
             ,width     : 200
             ,minValue  : 0
+            ,listeners : {specialKey : function (field,e) {
+              if (e.getKey() == e.ENTER ) {
+                Ext.getCmp('bufferMenu').hide();
+              }
+            }}
           }
-          ,{text : 'in Meters',checked : false,group : 'buffer'}
+          ,{text : 'in Meters',checked : true,group : 'buffer'}
           ,{text : 'in Kilometers',checked : false,group : 'buffer'}
           ,{text : 'in Miles',checked : false,group : 'buffer'}
           ,{text : 'in Nautical miles',checked : false,group : 'buffer'}
           ,{text : 'in Yards',checked : false,group : 'buffer'}
           ,{text : 'in Feet',checked : false,group : 'buffer'}
-        ]}
-      }
+        ],listeners : {show : function() {Ext.getCmp('buffer').toggle(true)}}}
+      })
     );
     
     // end measure specific buttonBar code
@@ -4483,7 +4673,7 @@ function rasterOK(name) {
   }
 }
 
-function runQueryStats(bounds,lyr) {
+function runQueryStats(bounds) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
 
@@ -4523,18 +4713,16 @@ function runQueryStats(bounds,lyr) {
       continue;
     }
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
-      if (!lyr || (lyr && lyr.name == title)) {
-        var ico   = wms2ico[lyr2wms[title]];
-        if (!singleIdentifyLayerName || (singleIdentifyLayerName && singleIdentifyLayerName == title)) {
-          qryLyrStore.add(new qryLyrStore.recordType(
-             {
-                ico   : ico
-               ,title : title
-               ,wfs   : 'testing...'
-            }
-            ,++queryLyrCount
-          ));
-        }
+      var ico   = wms2ico[lyr2wms[title]];
+      if (!singleIdentifyLayerName || (singleIdentifyLayerName && singleIdentifyLayerName == title)) {
+        qryLyrStore.add(new qryLyrStore.recordType(
+           {
+              ico   : ico
+             ,title : title
+             ,wfs   : 'testing...'
+          }
+          ,++queryLyrCount
+        ));
       }
     }
   }
@@ -6470,3 +6658,19 @@ OpenLayers.Geometry.Polygon.createGeodesicPolygon = function(origin, radius, sid
     var ring = new OpenLayers.Geometry.LinearRing(points);
     return new OpenLayers.Geometry.Polygon([ring]);
 };
+
+function unionFeatureGeometriesAndBuffer(features,buffer) {
+  var u;
+  var reader = new jsts.io.WKTReader();
+  for (var i = 0; i < features.length; i++) {
+    if (i == 0) {
+      u = reader.read(features[i].geometry.toString());
+    }
+    else {
+      u = u.union(reader.read(features[i].geometry.toString()));
+    }
+  }
+  u = u.buffer(buffer); 
+  var parser = new jsts.io.OpenLayersParser();
+  return parser.write(u);
+}
