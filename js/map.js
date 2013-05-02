@@ -2041,6 +2041,9 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
                 singleIdentifyLayerName = this.selectDataLayer;
                 featureBoxControl.polygon.activate();
                 featurePolyControl.polygon.deactivate();
+                addLayer(lyr2wms[toolSettings.identifyBuffer.selectDataLayer],lyr2proj[toolSettings.identifyBuffer.selectDataLayer],toolSettings.identifyBuffer.selectDataLayer,true,1,wmsUrl);
+                addLayer(lyr2wms[toolSettings.identifyBuffer.bufferResultDataLayer],lyr2proj[toolSettings.identifyBuffer.bufferResultDataLayer],toolSettings.identifyBuffer.bufferResultDataLayer,true,1,wmsUrl);
+
               } else {
                 featureBoxControl.polygon.deactivate();
                 featurePolyControl.polygon.deactivate();
