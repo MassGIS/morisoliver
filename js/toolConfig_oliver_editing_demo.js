@@ -261,17 +261,22 @@
         toolSettings.editTool.layers = [
                 {
                         featureType: "AFREEMAN.GEOSERVER_TEST_PT",
-                        layerTitle : "Geoserver Editable Point" // must match whatever is found in folderset for this layer.
+                        layerTitle : "Geoserver Editable Point", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : true
                 },
                 {
                         featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
-                        layerTitle : "Geoserver Editable Line" // must match whatever is found in folderset for this layer.
+                        layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : true
                 }, 
                 {
-                      featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
-                        layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
+                        featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+                        layerTitle : "Geoserver Editable Polygon", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : false
                 } 
         ];
+
+        toolSettings.editTool.allowGeomEdit = false;
 
 	toolSettings.navigationTools.zoomIn = {};
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
