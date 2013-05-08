@@ -60,6 +60,8 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
     valueHeader: "Value",
     /* end i18n */
 
+    allowGeomEdit : true,
+
     /** api: config[feature]
      *  ``OpenLayers.Feature.Vector`` The feature to edit and display. This
      *  option ignored if a store is provided. Either this option or the
@@ -297,8 +299,8 @@ GeoExt.ux.FeatureEditorGrid = Ext.extend(Ext.grid.EditorGridPanel, {
             feature.layer,
             {standalone: true,
 			deleteCodes: [46,68],
-			mode: OpenLayers.Control.ModifyFeature.DRAG |
-               OpenLayers.Control.ModifyFeature.RESHAPE }
+			mode: this.allowGeomEdit ? (OpenLayers.Control.ModifyFeature.DRAG | OpenLayers.Control.ModifyFeature.RESHAPE) : null
+            }
         );
         feature.layer.map.addControl(this.modifyControl);
         this.modifyControl.activate();

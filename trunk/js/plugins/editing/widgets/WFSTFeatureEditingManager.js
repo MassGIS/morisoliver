@@ -1189,7 +1189,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
 
 		
 // if adding a record, add defaults to feature here?  maybe before they go to featureGrid?
-		
+	
         var featureEditorGrid = new GeoExt.ux.FeatureEditorGrid({
 			myLayerConfig: myLayerConfig,
             nameField: "name",
@@ -1199,6 +1199,7 @@ GeoExt.ux.WFSTFeatureEditingManager = Ext.extend(Ext.util.Observable, {
             allowSave: true,
             allowCancel: true,
             allowDelete: true,
+            allowGeomEdit : myLayerConfig.allowGeomEdit,
             border: false,
             listeners: {
                 done: function(panel, e) {
