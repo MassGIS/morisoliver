@@ -3993,6 +3993,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
 
 function refreshLayers() {
   var lyr = [];
+  var origSingleIdentifyLayerName = singleIdentifyLayerName;
   for (i in map.layers) {
     if (!map.layers[i].isBaseLayer && !(map.layers[i] instanceof OpenLayers.Layer.Vector) && !(map.layers[i].name == '') && !(map.layers[i].name == undefined)) {
       lyr.push({
@@ -4012,6 +4013,7 @@ function refreshLayers() {
   for (var i = 0; i < lyr.length; i++) {
     addLayer(lyr2wms[lyr[i].name],lyr2proj[lyr[i].name],lyr[i].name,lyr[i].viz,lyr[i].opacity,lyr[i].url,lyr[i].styles,lyr[i].filter);
   }
+  singleIdentifyLayerName = origSingleIdentifyLayerName;
 
   featureBbox.unselectAll();
 
