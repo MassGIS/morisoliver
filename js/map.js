@@ -459,35 +459,44 @@ OpenLayers.Util.extend(bufferControl,{
           if (true) {
             Ext.getCmp('bufferMenu').items.each(function(item) {
               if (item.checked) {
-                if (Ext.getCmp('bufferRadius').getValue() == '') {
+                if (Ext.getCmp('bufferRadius').getRawValue() == '' || Ext.getCmp('bufferRadius').getRawValue() < 0) {
                   Ext.Msg.alert('Invalid buffer',"We're sorry, but you must provide a valid buffer radius.");
                   return false;
                 }
                 var factor = 1;
-                if (item.text == 'in Feet') {
+                if (item.text == 'feet') {
                   factor = 0.3048;
                 }
-                else if (item.text == 'in Miles') {
+                else if (item.text == 'miles') {
                   factor = 1609.34;
                 }
-                else if (item.text == 'in Kilometers') {
+                else if (item.text == 'kilometers') {
                   factor = 1000;
                 }
-                else if (item.text == 'in Nautical miles') {
+                else if (item.text == 'nautical miles') {
                   factor = 1852;
                 }
-                else if (item.text == 'in Yards') {
+                else if (item.text == 'yards') {
                   factor = 0.9144;
                 }
-                var buf = new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
-                   g.getCentroid()
-                  ,Ext.getCmp('bufferRadius').getValue() * factor
-                  ,100
-                  ,0
-                  ,map.getProjectionObject()
-                );
+                var buf = [
+                  new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
+                     g.getCentroid().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'))
+                    ,Ext.getCmp('bufferRadius').getValue() * factor
+                    ,100
+                    ,0
+                    ,new OpenLayers.Projection('EPSG:900913')
+                  ))
+                  ,new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon.createGeodesicPolygon(
+                     g.getCentroid().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'))
+                    ,Ext.getCmp('bufferRadius').getValue() * factor
+                    ,100
+                    ,0
+                    ,new OpenLayers.Projection('EPSG:26986')
+                  ))
+                ];
                 lyrBufferQry.removeFeatures(lyrBufferQry.features);
-                lyrBufferQry.addFeatures(new OpenLayers.Feature.Vector(buf));
+                lyrBufferQry.addFeatures(buf);
                 lyrBufferQry.redraw();
               }
             });
@@ -1107,19 +1116,19 @@ Ext.onReady(function() {
                         }
                         else {
                           var factor = 1;
-                          if (item.text == 'in Feet') {
+                          if (item.text == 'feet') {
                             factor = 0.3048;
                           }
-                          else if (item.text == 'in Miles') {
+                          else if (item.text == 'miles') {
                             factor = 1609.34;
                           }
-                          else if (item.text == 'in Kilometers') {
+                          else if (item.text == 'kilometers') {
                             factor = 1000;
                           }
-                          else if (item.text == 'in Nautical miles') {
+                          else if (item.text == 'nautical miles') {
                             factor = 1852;
                           }
-                          else if (item.text == 'in Yards') {
+                          else if (item.text == 'yards') {
                             factor = 0.9144;
                           }
                           if (result.features.length > toolSettings.identifyBuffer.maxFeaturesAllowedToUnion) {
@@ -1262,7 +1271,14 @@ Ext.onReady(function() {
 
   map.events.register('addlayer',this,function(e) {
     // keep important stuff on top
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || new RegExp(/layergroup|externalWms|tiled_overlay/).test(lyr2type[e.layer.name]))) {
+    if (
+      !e.layer.isBaseLayer 
+      && !(e.layer instanceof OpenLayers.Layer.Vector)
+      && ( 
+        String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0
+        || new RegExp(/layergroup|externalWms|tiled_overlay/).test(lyr2type[e.layer.name])
+      )
+    ) {
       map.setLayerIndex(e.layer,map.layers.length - 1 - countTopLayers());
     }
   });
@@ -2073,12 +2089,12 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
                   }
                 }}
               }
-              ,{text : 'in Meters',checked : true,group : 'queryBuffer'}
-              ,{text : 'in Kilometers',checked : false,group : 'queryBuffer'}
-              ,{text : 'in Miles',checked : false,group : 'queryBuffer'}
-              ,{text : 'in Nautical miles',checked : false,group : 'queryBuffer'}
-              ,{text : 'in Yards',checked : false,group : 'queryBuffer'}
-              ,{text : 'in Feet',checked : false,group : 'queryBuffer'}
+              ,{text : 'meters',checked : true,group : 'queryBuffer'}
+              ,{text : 'kilometers',checked : false,group : 'queryBuffer'}
+              ,{text : 'miles',checked : false,group : 'queryBuffer'}
+              ,{text : 'nautical miles',checked : false,group : 'queryBuffer'}
+              ,{text : 'yards',checked : false,group : 'queryBuffer'}
+              ,{text : 'feet',checked : false,group : 'queryBuffer'}
             ],listeners : {show : function() {Ext.getCmp('queryBuffer').toggle(true)}}}
           });
           if ( toolSettings.identifyBuffer && toolSettings.identifyBuffer.identifyBuffer_keymap) {
@@ -3007,12 +3023,12 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               }
             }}
           }
-          ,{text : 'in Meters',checked : true,group : 'buffer'}
-          ,{text : 'in Kilometers',checked : false,group : 'buffer'}
-          ,{text : 'in Miles',checked : false,group : 'buffer'}
-          ,{text : 'in Nautical miles',checked : false,group : 'buffer'}
-          ,{text : 'in Yards',checked : false,group : 'buffer'}
-          ,{text : 'in Feet',checked : false,group : 'buffer'}
+          ,{text : 'meters',checked : true,group : 'buffer'}
+          ,{text : 'kilometers',checked : false,group : 'buffer'}
+          ,{text : 'miles',checked : false,group : 'buffer'}
+          ,{text : 'nautical miles',checked : false,group : 'buffer'}
+          ,{text : 'yards',checked : false,group : 'buffer'}
+          ,{text : 'feet',checked : false,group : 'buffer'}
         ],listeners : {show : function() {Ext.getCmp('buffer').toggle(true)}}}
       })
     );
@@ -6090,6 +6106,7 @@ function countTopLayers() {
   lyrRasterQry                     ? active++ : null;
   featureBoxControl.polygon.layer  ? active++ : null;
   featurePolyControl.polygon.layer ? active++ : null;
+  bufferControl.point.layer        ? active++ : null;
   return active;
 }
 
