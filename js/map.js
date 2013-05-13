@@ -2784,7 +2784,7 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
     });
     }
 
-    if (toolSettings.buffer && toolSettings.buffer.keyMap) {
+    if (toolSettings.buffer && toolSettings.buffer.keyMap && toolSettings.identifyBuffer.status != 'hide') {
     bottomToolBar_keyMaps.push({
       keyMap: toolSettings.buffer.keyMap,
       itemId :'buffer' ,
@@ -2982,56 +2982,57 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
       }
       });
     }
-
-    bottomToolBar_items.push(
-      new Ext.SplitButton({
-         itemId        : 'buffer'
-        ,scale         : 'large'
-        ,icon          : 'img/layer-shape-ellipse-icon.png'
-        ,tooltip       : 'Draw a buffer'
-        ,toggleGroup   : 'navigation'
-        ,enableToggle  : true
-        ,allowDepress  : false
-        ,id            : 'buffer'
-        ,toggleHandler : function(activeState) {
-          if (activeState) {
-            bufferControl.point.activate();
+    if (toolSettings.buffer && toolSettings.buffer.status != 'hide') {
+      bottomToolBar_items.push(
+        new Ext.SplitButton({
+           itemId        : 'buffer'
+          ,scale         : 'large'
+          ,icon          : 'img/layer-shape-ellipse-icon.png'
+          ,tooltip       : 'Draw a buffer'
+          ,toggleGroup   : 'navigation'
+          ,enableToggle  : true
+          ,allowDepress  : false
+          ,id            : 'buffer'
+          ,toggleHandler : function(activeState) {
+            if (activeState) {
+              bufferControl.point.activate();
+            }
+            else {
+              bufferControl.point.deactivate();
+            }
+            areaControl.deactivate();
+            featurePolyControl.polygon.deactivate();
+            featureBoxControl.polygon.deactivate();
+            lengthControl.deactivate();
+            featurePolyControl.polygon.deactivate();
+            featureBoxControl.polygon.deactivate();
           }
-          else {
-            bufferControl.point.deactivate();
-          }
-          areaControl.deactivate();
-          featurePolyControl.polygon.deactivate();
-          featureBoxControl.polygon.deactivate();
-          lengthControl.deactivate();
-          featurePolyControl.polygon.deactivate();
-          featureBoxControl.polygon.deactivate();
-        }
-        ,menu       : {id : 'bufferMenu',items : [
-          {text : '<b>Enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
-          ,{
-             xtype     : 'numberfield'
-            ,emptyText : 'Buffer radius'
-            ,id        : 'bufferRadius'
-            ,cls       : 'x-menu-list-item'
-            ,iconCls   : 'buttonIcon'
-            ,width     : 200
-            ,minValue  : 0
-            ,listeners : {specialKey : function (field,e) {
-              if (e.getKey() == e.ENTER ) {
-                Ext.getCmp('bufferMenu').hide();
-              }
-            }}
-          }
-          ,{text : 'meters',checked : true,group : 'buffer'}
-          ,{text : 'kilometers',checked : false,group : 'buffer'}
-          ,{text : 'miles',checked : false,group : 'buffer'}
-          ,{text : 'nautical miles',checked : false,group : 'buffer'}
-          ,{text : 'yards',checked : false,group : 'buffer'}
-          ,{text : 'feet',checked : false,group : 'buffer'}
-        ],listeners : {show : function() {Ext.getCmp('buffer').toggle(true)}}}
-      })
-    );
+          ,menu       : {id : 'bufferMenu',items : [
+            {text : '<b>Enter a radius and then select the units.</b>',canActivate : false,cls : 'menuHeader'}
+            ,{
+               xtype     : 'numberfield'
+              ,emptyText : 'Buffer radius'
+              ,id        : 'bufferRadius'
+              ,cls       : 'x-menu-list-item'
+              ,iconCls   : 'buttonIcon'
+              ,width     : 200
+              ,minValue  : 0
+              ,listeners : {specialKey : function (field,e) {
+                if (e.getKey() == e.ENTER ) {
+                  Ext.getCmp('bufferMenu').hide();
+                }
+              }}
+            }
+            ,{text : 'meters',checked : true,group : 'buffer'}
+            ,{text : 'kilometers',checked : false,group : 'buffer'}
+            ,{text : 'miles',checked : false,group : 'buffer'}
+            ,{text : 'nautical miles',checked : false,group : 'buffer'}
+            ,{text : 'yards',checked : false,group : 'buffer'}
+            ,{text : 'feet',checked : false,group : 'buffer'}
+          ],listeners : {show : function() {Ext.getCmp('buffer').toggle(true)}}}
+        })
+      );
+    }
     
     // end measure specific buttonBar code
     
