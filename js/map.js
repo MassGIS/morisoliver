@@ -2075,16 +2075,19 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
             ,allowDepress  : false
             ,enableToggle  : true
             ,toggleGroup   : 'navigation'
-            ,toggleHandler : function(activeState) {
+            ,handler       : function(but) {
+              addLayer(lyr2wms[toolSettings.identifyBuffer.selectDataLayer],lyr2proj[toolSettings.identifyBuffer.selectDataLayer],toolSettings.identifyBuffer.selectDataLayer,true,1,wmsUrl);
+              if (toolSettings.identifyBuffer.selectDataLayer != toolSettings.identifyBuffer.bufferResultDataLayer) {
+                addLayer(lyr2wms[toolSettings.identifyBuffer.bufferResultDataLayer],lyr2proj[toolSettings.identifyBuffer.bufferResultDataLayer],toolSettings.identifyBuffer.bufferResultDataLayer,true,1,wmsUrl);
+              }
+            }
+            ,toggleHandler : function(but) {
               Ext.getCmp('mappanel').body.setStyle('cursor','help');
-              launchBufferQuery = activeState;
-              if (activeState) {
+              launchBufferQuery = but.pressed;
+              if (but.pressed) {
                 singleIdentifyLayerName = this.selectDataLayer;
                 featureBoxControl.polygon.activate();
                 featurePolyControl.polygon.deactivate();
-                addLayer(lyr2wms[toolSettings.identifyBuffer.selectDataLayer],lyr2proj[toolSettings.identifyBuffer.selectDataLayer],toolSettings.identifyBuffer.selectDataLayer,true,1,wmsUrl);
-                addLayer(lyr2wms[toolSettings.identifyBuffer.bufferResultDataLayer],lyr2proj[toolSettings.identifyBuffer.bufferResultDataLayer],toolSettings.identifyBuffer.bufferResultDataLayer,true,1,wmsUrl);
-
               } else {
                 featureBoxControl.polygon.deactivate();
                 featurePolyControl.polygon.deactivate();

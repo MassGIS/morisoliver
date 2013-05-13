@@ -26,6 +26,7 @@
         };
 
         toolSettings.buffer = {};
+        toolSettings.buffer.status = 'hide';
         toolSettings.buffer.keyMap = {   // not required
                 "ctrl":true,                    // not required if false
                 "alt": true,                    // not required if false
@@ -39,7 +40,7 @@
                 "key": "I"
         };
         toolSettings.identifyBuffer.selectDataLayer           = 'Elementary School Districts';
-        toolSettings.identifyBuffer.bufferResultDataLayer     = 'Pre-kindergarten to High School Buildings';
+        toolSettings.identifyBuffer.bufferResultDataLayer     = 'Elementary School Districts';
         toolSettings.identifyBuffer.maxFeaturesAllowedToUnion = 3;
         toolSettings.identifyBuffer.selectDataLayerFilter     = function(attrs) {
           return attrs['DISTNAME'] != 'Weston';
