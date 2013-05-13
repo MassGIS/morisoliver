@@ -404,7 +404,7 @@ var qryWin = new Ext.Window({
                 ,footer : '</wfs:Query></wfs:GetFeature>'
                 ,title  : lyr2wms[activeLyr[title].name].replace(featurePrefix + ':','')
               };
-              featureBbox.request(qryBounds);
+              featureBbox.request(qryBounds,{filterFeatures : e.filterFeatures});
               featureBbox.deactivate();
             }
           }
@@ -1088,6 +1088,19 @@ Ext.onReady(function() {
           filter: filter,
           callback: function(result) {
               if(result.success()) {
+                  if (options && options.filterFeatures) {
+                    var features = [];
+                    for (var i = 0 ; i < result.features.length; i++) {
+                      var found = false;
+                      for (var j = 0; j < options.filterFeatures.length; j++) {
+                        found = found || result.features[i].geometry.equals(options.filterFeatures[j].geometry);
+                      }
+                      if (!found) {
+                        features.push(result.features[i]);
+                      }
+                    }
+                    result.features = features;
+                  }
                   if(result.features.length) {
                       if(options.single == true) {
                           this.selectBestFeature(result.features,
@@ -1167,7 +1180,7 @@ Ext.onReady(function() {
                                   featureBoxControl.polygon.layer.redraw();
                                   launchBufferQuery = false;
                                   singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
-                                  runQueryStats(b);
+                                  runQueryStats(b,filteredFeatures);
                                 }
                               });
                             } 
@@ -1183,7 +1196,7 @@ Ext.onReady(function() {
                               featureBoxControl.polygon.layer.redraw();
                               launchBufferQuery = false;
                               singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
-                              runQueryStats(b);
+                              runQueryStats(b,filteredFeatures);
                             }
                           }
                         }
@@ -3732,6 +3745,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
           messageContextMenuActiveLyr.findById('query').enable();
           messageContextMenuActiveLyr.findById('query').setHandler(function() {
             Ext.getCmp('queryBoxSingle').toggle(true);
+            launchBufferQuery = false;
             singleIdentifyLayerName = n.text;
           });
         }
@@ -4707,7 +4721,7 @@ function rasterOK(name) {
   }
 }
 
-function runQueryStats(bounds) {
+function runQueryStats(bounds,filterFeatures) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
 
@@ -4795,7 +4809,7 @@ function runQueryStats(bounds) {
           }
           qryLyrStore.getAt(args[0]).set('busy','done');
           if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
-            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
+            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0,{filterFeatures : filterFeatures});
           }
           qryLyrStore.commitChanges();
         }
@@ -4803,7 +4817,7 @@ function runQueryStats(bounds) {
           qryLyrStore.getAt(args[0]).set('wfs',o.responseText.indexOf('Results') >= 0 ? '1 value' : 'no value');
           qryLyrStore.getAt(args[0]).set('busy','done');
           if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
-            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0);
+            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0,{filterFeatures : filterFeatures});
           }
           qryLyrStore.commitChanges();
         }
