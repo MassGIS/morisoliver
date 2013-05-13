@@ -254,6 +254,10 @@ var qryWin = new Ext.Window({
             rowclick : function(grid,rowIndex,e) {
               if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
                 Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
+                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+                  launchBufferQuery = true;
+                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+                }
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
@@ -270,6 +274,10 @@ var qryWin = new Ext.Window({
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
                 Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
+                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+                  launchBufferQuery = true;
+                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+                }
                 return;
               }
               else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
@@ -333,6 +341,10 @@ var qryWin = new Ext.Window({
               var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
               if (p.length == 2 && p[0] > 500) {
                 Ext.Msg.alert('Identify details','This data layer has over 500 features within or overlapping the identify area. Feature details will not be provided.');
+                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+                  launchBufferQuery = true;
+                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+                }
                 return;
               }
               Ext.getCmp('qryFeatureDetails').getEl().mask('<table><tr><td>Retrieving features...&nbsp;</td><td><img src="img/loading16.gif"></td></tr></table>','mask');
