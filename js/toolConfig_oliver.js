@@ -39,12 +39,21 @@
                 "alt": true,                    // not required if false
                 "key": "I"
         };
-        toolSettings.identifyBuffer.selectDataLayer           = 'Elementary School Districts';
-        toolSettings.identifyBuffer.bufferResultDataLayer     = 'Elementary School Districts';
-        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion = 3;
-        toolSettings.identifyBuffer.selectDataLayerFilter     = function(attrs) {
+        toolSettings.identifyBuffer.selectDataLayer              = 'Elementary School Districts';
+        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Elementary School Districts';
+        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
+        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 8;
+        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
           return attrs['DISTNAME'] != 'Weston';
         };
+        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
+          return attrs['DISTNAME'] != 'Boston';
+        };
+        // If you want to show all fields, simply comment out the next few lines.
+        // Otherwise, complete a working regular expression.
+        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
+          /^(DISTRICTID|DISTNAME)$/
+        );
 
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
