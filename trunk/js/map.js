@@ -350,7 +350,12 @@ var qryWin = new Ext.Window({
               Ext.getCmp('qryFeatureDetails').getEl().mask('<table><tr><td>Retrieving features...&nbsp;</td><td><img src="img/loading16.gif"></td></tr></table>','mask');
               featureBbox.unselectAll();
               title = qryLyrStore.getAt(rowIndex).get('title');
-              loadLayerDescribeFeatureType(lyr2wms[title]);
+              if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+                loadLayerDescribeFeatureType(lyr2wms[title],toolSettings.identifyBuffer.fieldsToShow);
+              }
+              else {
+                loadLayerDescribeFeatureType(lyr2wms[title]);
+              }
               geomName = 'SHAPE';
               if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
 		        geomName = 'the_geom'; 
@@ -1100,6 +1105,13 @@ Ext.onReady(function() {
                       }
                     }
                     result.features = features;
+                    features = [];
+                    for (var i = 0; i < result.features.length; i++) {
+                      if (toolSettings.identifyBuffer.bufferDataLayerFilter(result.features[i].attributes)) {
+                        features.push(result.features[i].clone());
+                      }
+                    }
+                    result.features = features;
                   }
                   if(result.features.length) {
                       if(options.single == true) {
@@ -1172,7 +1184,11 @@ Ext.onReady(function() {
                             if (result.features.length > filteredFeatures.length) {
                               Ext.Msg.alert('Buffer query',"The number of eligible features has been automatically reduced due to filtering." + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
                                 if (filteredFeatures.length > 0) {
-                                  var b = unionFeatureGeometriesAndBuffer(filteredFeatures,Ext.getCmp('bufferQueryRadius').getValue() * factor);
+                                  var b = unionFeatureGeometriesAndBuffer(
+                                     filteredFeatures
+                                    ,Ext.getCmp('bufferQueryRadius').getValue() * factor
+                                    ,toolSettings.identifyBuffer.numberBufferQuadrantSegments
+                                  );
                                   // reuse the control's layer to draw the new buffered query
                                   featureBoxControl.polygon.clear();
                                   featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
@@ -1188,7 +1204,11 @@ Ext.onReady(function() {
                               Ext.Msg.alert('Buffer query',"No features are eligible for buffering.  Please retry.");
                             }
                             else {
-                              var b = unionFeatureGeometriesAndBuffer(filteredFeatures,Ext.getCmp('bufferQueryRadius').getValue() * factor);
+                              var b = unionFeatureGeometriesAndBuffer(
+                                 filteredFeatures
+                                ,Ext.getCmp('bufferQueryRadius').getValue() * factor
+                                ,toolSettings.identifyBuffer.numberBufferQuadrantSegments
+                              );
                               // reuse the control's layer to draw the new buffered query
                               featureBoxControl.polygon.clear();
                               featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
@@ -4336,7 +4356,7 @@ function loadLayerMetadata(wms,title,style,launchMetadataWin,addLayer,tstLyr) {
   });
 }
 
-function loadLayerDescribeFeatureType(wms) {
+function loadLayerDescribeFeatureType(wms,fieldsToShow) {
   YUI().use("io",function(Y) {
     var handleSuccess = function(ioId,o,args) {
       if (window.DOMParser) {
@@ -4367,7 +4387,11 @@ function loadLayerDescribeFeatureType(wms) {
         }
         // keep everything, including the SHAPE, internally
         fld.push({name : allEle[i].getAttribute('name'),type : typ});
-        if (!(String(allEle[i].getAttribute('type')).indexOf('gml:') == 0) && !(String(allEle[i].getAttribute('type')).indexOf(featurePrefix + ':') == 0)) {
+        if (
+          !(String(allEle[i].getAttribute('type')).indexOf('gml:') == 0)
+          && !(String(allEle[i].getAttribute('type')).indexOf(featurePrefix + ':') == 0)
+          && (!fieldsToShow || fieldsToShow.test(allEle[i].getAttribute('name')))
+        ) {
           col.push({
              header    : allEle[i].getAttribute('name')
             ,dataIndex : allEle[i].getAttribute('name')
@@ -6711,7 +6735,7 @@ OpenLayers.Geometry.Polygon.createGeodesicPolygon = function(origin, radius, sid
     return new OpenLayers.Geometry.Polygon([ring]);
 };
 
-function unionFeatureGeometriesAndBuffer(features,buffer) {
+function unionFeatureGeometriesAndBuffer(features,dist,seg) {
   var u;
   var reader = new jsts.io.WKTReader();
   for (var i = 0; i < features.length; i++) {
@@ -6722,7 +6746,7 @@ function unionFeatureGeometriesAndBuffer(features,buffer) {
       u = u.union(reader.read(features[i].geometry.toString()));
     }
   }
-  u = u.buffer(buffer); 
+  u = u.buffer(dist,seg); 
   var parser = new jsts.io.OpenLayersParser();
   return parser.write(u);
 }
