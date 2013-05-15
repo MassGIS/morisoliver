@@ -243,3 +243,11 @@
 .menuHeader {
   background : #C2D8F0;
 }
+
+.olControlAttribution {
+  font: 10px arial,helvetica,tahoma,sans-serif !important;
+  bottom : 1px !important;
+  background : rgba(255, 255, 255, 0.2);
+  border-radius : 4px;
+  padding : 2px;
+}

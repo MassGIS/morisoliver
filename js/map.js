@@ -612,6 +612,7 @@ Ext.onReady(function() {
     ,{
        numZoomLevels : 17
       ,tileOptions   : {crossOriginKeyword : null}
+      ,attribution   : 'hello!' // enter a string for custom attribution
     }
   );
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
@@ -666,6 +667,7 @@ Ext.onReady(function() {
       ,displayProjection : new OpenLayers.Projection("EPSG:4326")
       ,units             : 'm'
       ,maxExtent         : maxExtent26986
+      ,attribution       : null // enter a string for custom attribution
     }
   );
   lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.OSM(
@@ -673,8 +675,9 @@ Ext.onReady(function() {
     ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg',
       'http://170.63.206.116/tiles/Basemaps_MassGISBasemapNoLabels1/${z}/${y}/${x}.jpg']
     ,{
-	numZoomLevels : 20 
+	 numZoomLevels : 20 
         ,tileOptions: { crossOriginKeyword: null }
+        ,attribution   : null // enter a string for custom attribution
     }
   );
 
@@ -888,7 +891,7 @@ Ext.onReady(function() {
     controls : [
        new OpenLayers.Control.Navigation()
       ,new OpenLayers.Control.PanZoomBar()
-//      ,new OpenLayers.Control.Attribution()
+      ,new OpenLayers.Control.Attribution()
       ,featureBboxSelectHover
       ,mouseControl
       ,lengthControl
@@ -899,18 +902,6 @@ Ext.onReady(function() {
     ],projection:"EPSG:900913"
   });
   featureBboxSelectHover.activate();
-
-  map.events.register('changebaselayer',this,function() {
-    if (new RegExp(/Google/).test(map.baseLayer.name)) {
-      // get rid of the stupid google error link -- css won't control this!!!
-      var divs = document.getElementsByTagName('div');
-      for (var i = 0; i < divs.length; i++) {
-        if (new RegExp(/^gmnoprint$/).test(divs[i].className)) {
-          divs[i].id = 'googleMapErrorLink';
-        }
-      }
-    }
-  });
 
   var ctrl = new OpenLayers.Control.NavigationHistory({autoActivate : false});
   map.addControl(ctrl);
@@ -3809,7 +3800,8 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
           addToLayerSwitcher: false,
           opacity : opacity,
 	  numZoomLevels : 20,
-          transitionEffect : null
+          transitionEffect : null,
+          attribution      : null
         });
       // Bing is evil -- its zoom index is off by 1 when compared to tiled overlays.
       // For whatever reason I can't fix this in the Bing init w/ a zoomOffset, so fix it here.  :(
