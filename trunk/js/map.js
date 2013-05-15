@@ -77,6 +77,10 @@ var exportBbox = {
 var singleIdentifyLayerName;
 var launchBufferQuery;
 
+// I'm not sure why, but the buffer function is off by EPSG:900913 / EPSG:26986 (the native projection of the .shp's).
+// These #'s were from a test geometry, and the ratio should be consistant across all geoms.
+var radiusBufferProjectionFactor = 2460516292.0440803 / 1735037919.9479053;
+
 Date.patterns = {
     SortableDateTime: "Y-m-d\\TH:i:s.ms"
 };
@@ -1028,7 +1032,7 @@ Ext.onReady(function() {
                                 if (filteredFeatures.length > 0) {
                                   var b = unionFeatureGeometriesAndBuffer(
                                      filteredFeatures
-                                    ,Ext.getCmp('bufferQueryRadius').getValue() * factor
+                                    ,Ext.getCmp('bufferQueryRadius').getValue() * factor * (map.getProjection() == 'EPSG:900913' ? radiusBufferProjectionFactor : 1)
                                     ,toolSettings.identifyBuffer.numberBufferQuadrantSegments
                                   );
                                   // reuse the control's layer to draw the new buffered query
@@ -1048,7 +1052,7 @@ Ext.onReady(function() {
                             else {
                               var b = unionFeatureGeometriesAndBuffer(
                                  filteredFeatures
-                                ,Ext.getCmp('bufferQueryRadius').getValue() * factor
+                                ,Ext.getCmp('bufferQueryRadius').getValue() * factor * (map.getProjection() == 'EPSG:900913' ? radiusBufferProjectionFactor : 1)
                                 ,toolSettings.identifyBuffer.numberBufferQuadrantSegments
                               );
                               // reuse the control's layer to draw the new buffered query
@@ -6588,11 +6592,12 @@ function unionFeatureGeometriesAndBuffer(features,dist,seg) {
   var u;
   var reader = new jsts.io.WKTReader();
   for (var i = 0; i < features.length; i++) {
+    var g = features[i].geometry;
     if (i == 0) {
-      u = reader.read(features[i].geometry.toString());
+      u = reader.read(g.toString());
     }
     else {
-      u = u.union(reader.read(features[i].geometry.toString()));
+      u = u.union(reader.read(g.toString()));
     }
   }
   u = u.buffer(dist,seg); 
