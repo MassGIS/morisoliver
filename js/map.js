@@ -252,165 +252,7 @@ var qryWin = new Ext.Window({
           ,enableHdMenu     : false
           ,listeners        : {
             rowclick : function(grid,rowIndex,e) {
-              if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
-                Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
-                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
-                  launchBufferQuery = true;
-                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
-                }
-                return;
-              }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
-                var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
-                var lonLat = map.getLonLatFromPixel(centerPx);
-                lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
-                Ext.Msg.show({
-                   title   : 'Identify details'
-                  ,msg     : 'This raster data layer has no value in the cell you identified.'
-                  ,fn      : function() {lyrRasterQry.removeFeatures(lyrRasterQry.features)}
-                  ,buttons : Ext.Msg.OK
-                });
-                return;
-              }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
-                Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
-                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
-                  launchBufferQuery = true;
-                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
-                }
-                return;
-              }
-              else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
-                featureBbox.unselectAll();
-                title = qryLyrStore.getAt(rowIndex).get('title');
-                var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
-                var gfiUrl = activeLyr[title].getFullRequestString({INFO_FORMAT : 'text/html',BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
-                var MIF = new Ext.ux.ManagedIFramePanel({
-                   defaultSrc  : gfiUrl
-                  ,bodyBorder  : false
-                  ,bodyStyle   : 'background:white'
-                  ,listeners   : {domready : function(frame){
-                    var fbody = frame.getBody();
-                    var w = Ext.getCmp('myFrameWin');
-                    if (w && fbody){
-                      // calc current offsets for Window body border and padding
-                      var bHeightAdj = w.body.getHeight() - w.body.getHeight(true);
-                      var bWidthAdj  = w.body.getWidth()  - w.body.getWidth(true);
-                      // Window is rendered (has size) but invisible
-                      w.setSize(Math.max(w.minWidth || 0, fbody.scrollWidth  +  w.getFrameWidth() + bWidthAdj) ,
-                      Math.max(w.minHeight || 0, fbody.scrollHeight +  w.getFrameHeight() + bHeightAdj) );
-                      // then show it sized to frame document
-                      w.show();
-                    }
-                  }}
-                });
-                if (rasterQryWin[title] && rasterQryWin[title].isVisible()) {
-                  rasterQryWin[title].hide();
-                }
-                rasterQryWin[title] = new Ext.Window({
-                   title           : title
-                  ,width           : 640 / 1.5
-                  ,height          : 480 / 1.5
-                  ,hideMode        : 'visibility'
-                  ,hidden          : true   //wait till you know the size
-                  ,plain           : true
-                  ,constrainHeader : true
-                  ,minimizable     : false
-                  ,ddScroll        : false
-                  ,border          : false
-                  ,bodyBorder      : false
-                  ,layout          : 'fit'
-                  ,plain           : true
-                  ,maximizable     : true
-                  ,buttonAlign     : 'center'
-                  ,closeAction     : 'hide'
-                  ,items           : MIF
-                  ,listeners       : {
-                    show : function() {
-                      var lonLat = map.getLonLatFromPixel(centerPx);
-                      lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
-                    }
-                    ,hide : function() {
-                      lyrRasterQry.removeFeatures(lyrRasterQry.features);
-                    }
-                  }
-                });
-                rasterQryWin[title].show();
-                return;
-              }
-              var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
-              if (p.length == 2 && p[0] > 500) {
-                Ext.Msg.alert('Identify details','This data layer has over 500 features within or overlapping the identify area. Feature details will not be provided.');
-                if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
-                  launchBufferQuery = true;
-                  singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
-                }
-                return;
-              }
-              Ext.getCmp('qryFeatureDetails').getEl().mask('<table><tr><td>Retrieving features...&nbsp;</td><td><img src="img/loading16.gif"></td></tr></table>','mask');
-              featureBbox.unselectAll();
-              title = qryLyrStore.getAt(rowIndex).get('title');
-              if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
-                loadLayerDescribeFeatureType(lyr2wms[title],toolSettings.identifyBuffer.fieldsToShow);
-              }
-              else {
-                loadLayerDescribeFeatureType(lyr2wms[title]);
-              }
-              geomName = 'SHAPE';
-              if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
-		        geomName = 'the_geom'; 
- 	          }
-
-              var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
-              var filter;
-              if (xmlFilter) {
-                var xml    = new OpenLayers.Format.XML();
-                var f      = xml.read(xmlFilter);
-                var parser = new OpenLayers.Format.Filter.v1_1_0();
-                filter     = parser.read(f.documentElement);
-              }
-
-              featureBbox.protocol = OpenLayers.Protocol.WFS.fromWMSLayer(
-                 activeLyr[title]
-                ,{
-                  // geometryName  : 'line_geom'
-                   geometryName  : geomName
-                  ,featurePrefix : featurePrefix
-                  ,version       : '1.1.0'
-                  ,srs           : map.getProjection()
-                  ,defaultFilter : filter
-                }
-              );
-              featureBbox.setModifiers();
-              map.addControl(featureBbox);
-              featureBbox.activate();
-
-              // create filters for the export options
-              var exportFilter = new OpenLayers.Filter.Spatial({
-                 type  : featureBbox.filterType
-                ,value : qryBounds
-              });
-              if (filter) {
-                exportFilter = new OpenLayers.Filter.Logical({
-                   type    : OpenLayers.Filter.Logical.AND
-                  ,filters : [
-                     new OpenLayers.Filter.Spatial({
-                       type  : featureBbox.filterType
-                      ,value : qryBounds
-                    })
-                    ,filter
-                  ]
-                });
-              }
-              // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
-              featureBbox.getFeatureOutputFormatRequest = {
-                 header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
-                ,filter : exportFilter
-                ,footer : '</wfs:Query></wfs:GetFeature>'
-                ,title  : lyr2wms[activeLyr[title].name].replace(featurePrefix + ':','')
-              };
-              featureBbox.request(qryBounds,{filterFeatures : e.filterFeatures});
-              featureBbox.deactivate();
+              launchRowQuery(rowIndex);
             }
           }
         })
@@ -1108,7 +950,7 @@ Ext.onReady(function() {
                     features = [];
                     for (var i = 0; i < result.features.length; i++) {
                       if (toolSettings.identifyBuffer.bufferDataLayerFilter(result.features[i].attributes)) {
-                        features.push(result.features[i].clone());
+                        features.push(result.features[i]);
                       }
                     }
                     result.features = features;
@@ -4390,11 +4232,11 @@ function loadLayerDescribeFeatureType(wms,fieldsToShow) {
         if (
           !(String(allEle[i].getAttribute('type')).indexOf('gml:') == 0)
           && !(String(allEle[i].getAttribute('type')).indexOf(featurePrefix + ':') == 0)
-          && (!fieldsToShow || fieldsToShow.test(allEle[i].getAttribute('name')))
         ) {
           col.push({
              header    : allEle[i].getAttribute('name')
             ,dataIndex : allEle[i].getAttribute('name')
+            ,hidden    : !(!fieldsToShow || fieldsToShow.test(allEle[i].getAttribute('name')))
             ,renderer  : function(value,metaData,record,rowIndex,colIndex,store) {
               if (String(value).indexOf('http://') == 0) {
                 metaData.css = 'featureCellHref';
@@ -4406,7 +4248,6 @@ function loadLayerDescribeFeatureType(wms,fieldsToShow) {
       }
       // keep the fid internally
       fld.push({name : 'fid'});
-
       featureBboxStore = new GeoExt.data.FeatureStore({
          fields : fld
         ,layer  : featureBboxSelect
@@ -4836,7 +4677,7 @@ function runQueryStats(bounds,filterFeatures) {
           }
           qryLyrStore.getAt(args[0]).set('busy','done');
           if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
-            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0,{filterFeatures : filterFeatures});
+            launchRowQuery(0,filterFeatures);
           }
           qryLyrStore.commitChanges();
         }
@@ -4844,7 +4685,7 @@ function runQueryStats(bounds,filterFeatures) {
           qryLyrStore.getAt(args[0]).set('wfs',o.responseText.indexOf('Results') >= 0 ? '1 value' : 'no value');
           qryLyrStore.getAt(args[0]).set('busy','done');
           if (singleIdentifyLayerName && singleIdentifyLayerName == qryLyrStore.getAt(args[0]).get('title')) {
-            Ext.getCmp('qryFeatureDetails').fireEvent('rowclick',Ext.getCmp('qryFeatureDetails'),0,{filterFeatures : filterFeatures});
+            launchRowQuery(0,filterFeatures);
           }
           qryLyrStore.commitChanges();
         }
@@ -6749,4 +6590,166 @@ function unionFeatureGeometriesAndBuffer(features,dist,seg) {
   u = u.buffer(dist,seg); 
   var parser = new jsts.io.OpenLayersParser();
   return parser.write(u);
+}
+
+function launchRowQuery(rowIndex,filterFeatures) {
+  if (qryLyrStore.getAt(rowIndex).get('wfs') == '0 feature(s)') {
+    Ext.Msg.alert('Identify details','This data layer has zero features within or overlapping the identify area. Feature details will not be provided.');
+    if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+      launchBufferQuery = true;
+      singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+    }
+    return;
+  }
+  else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'no value') {
+    var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
+    var lonLat = map.getLonLatFromPixel(centerPx);
+    lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
+    Ext.Msg.show({
+       title   : 'Identify details'
+      ,msg     : 'This raster data layer has no value in the cell you identified.'
+      ,fn      : function() {lyrRasterQry.removeFeatures(lyrRasterQry.features)}
+      ,buttons : Ext.Msg.OK
+    });
+    return;
+  }
+  else if (qryLyrStore.getAt(rowIndex).get('wfs') == 'not visible at scale') {
+    Ext.Msg.alert('Identify details','This data layer is not visible at this scale. Feature details will not be provided. Please check the <a href="javascript:goHelpHTML()">Help</a> document for more information.');
+    if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+      launchBufferQuery = true;
+      singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+    }
+    return;
+  }
+  else if (qryLyrStore.getAt(rowIndex).get('wfs').indexOf('value') >= 0) {
+    featureBbox.unselectAll();
+    title = qryLyrStore.getAt(rowIndex).get('title');
+    var centerPx = map.getPixelFromLonLat(qryBounds.getBounds().getCenterLonLat());
+    var gfiUrl = activeLyr[title].getFullRequestString({INFO_FORMAT : 'text/html',BBOX : map.getExtent().toBBOX(),X : centerPx.x,Y : centerPx.y,REQUEST : 'GetFeatureInfo',QUERY_LAYERS : lyr2wms[title],WIDTH : map.div.style.width.replace('px',''),HEIGHT : map.div.style.height.replace('px',''),FOO : '',STYLE : ''}).replace('&FOO=','').replace('&STYLE=','');
+    var MIF = new Ext.ux.ManagedIFramePanel({
+       defaultSrc  : gfiUrl
+      ,bodyBorder  : false
+      ,bodyStyle   : 'background:white'
+      ,listeners   : {domready : function(frame){
+        var fbody = frame.getBody();
+        var w = Ext.getCmp('myFrameWin');
+        if (w && fbody){
+          // calc current offsets for Window body border and padding
+          var bHeightAdj = w.body.getHeight() - w.body.getHeight(true);
+          var bWidthAdj  = w.body.getWidth()  - w.body.getWidth(true);
+          // Window is rendered (has size) but invisible
+          w.setSize(Math.max(w.minWidth || 0, fbody.scrollWidth  +  w.getFrameWidth() + bWidthAdj) ,
+          Math.max(w.minHeight || 0, fbody.scrollHeight +  w.getFrameHeight() + bHeightAdj) );
+          // then show it sized to frame document
+          w.show();
+        }
+      }}
+    });
+    if (rasterQryWin[title] && rasterQryWin[title].isVisible()) {
+      rasterQryWin[title].hide();
+    }
+    rasterQryWin[title] = new Ext.Window({
+       title           : title
+      ,width           : 640 / 1.5
+      ,height          : 480 / 1.5
+      ,hideMode        : 'visibility'
+      ,hidden          : true   //wait till you know the size
+      ,plain           : true
+      ,constrainHeader : true
+      ,minimizable     : false
+      ,ddScroll        : false
+      ,border          : false
+      ,bodyBorder      : false
+      ,layout          : 'fit'
+      ,plain           : true
+      ,maximizable     : true
+      ,buttonAlign     : 'center'
+      ,closeAction     : 'hide'
+      ,items           : MIF
+      ,listeners       : {
+        show : function() {
+          var lonLat = map.getLonLatFromPixel(centerPx);
+          lyrRasterQry.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(lonLat.lon,lonLat.lat)));
+        }
+        ,hide : function() {
+          lyrRasterQry.removeFeatures(lyrRasterQry.features);
+        }
+      }
+    });
+    rasterQryWin[title].show();
+    return;
+  }
+  var p = qryLyrStore.getAt(rowIndex).get('wfs').split(' feature(s)');
+  if (p.length == 2 && p[0] > 500) {
+    Ext.Msg.alert('Identify details','This data layer has over 500 features within or overlapping the identify area. Feature details will not be provided.');
+    if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+      launchBufferQuery = true;
+      singleIdentifyLayerName = Ext.getCmp('queryBuffer').selectDataLayer
+    }
+    return;
+  }
+  Ext.getCmp('qryFeatureDetails').getEl().mask('<table><tr><td>Retrieving features...&nbsp;</td><td><img src="img/loading16.gif"></td></tr></table>','mask');
+  featureBbox.unselectAll();
+  title = qryLyrStore.getAt(rowIndex).get('title');
+  if (!launchBufferQuery && Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed) {
+    loadLayerDescribeFeatureType(lyr2wms[title],toolSettings.identifyBuffer.fieldsToShow);
+  }
+  else {
+    loadLayerDescribeFeatureType(lyr2wms[title]);
+  }
+  geomName = 'SHAPE';
+  if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
+geomName = 'the_geom'; 
+}
+
+  var xmlFilter = OpenLayers.Util.getParameters(activeLyr[title].getFullRequestString({}))['FILTER'];
+  var filter;
+  if (xmlFilter) {
+    var xml    = new OpenLayers.Format.XML();
+    var f      = xml.read(xmlFilter);
+    var parser = new OpenLayers.Format.Filter.v1_1_0();
+    filter     = parser.read(f.documentElement);
+  }
+
+  featureBbox.protocol = OpenLayers.Protocol.WFS.fromWMSLayer(
+     activeLyr[title]
+    ,{
+      // geometryName  : 'line_geom'
+       geometryName  : geomName
+      ,featurePrefix : featurePrefix
+      ,version       : '1.1.0'
+      ,srs           : map.getProjection()
+      ,defaultFilter : filter
+    }
+  );
+  featureBbox.setModifiers();
+  map.addControl(featureBbox);
+  featureBbox.activate();
+
+  // create filters for the export options
+  var exportFilter = new OpenLayers.Filter.Spatial({
+     type  : featureBbox.filterType
+    ,value : qryBounds
+  });
+  if (filter) {
+    exportFilter = new OpenLayers.Filter.Logical({
+       type    : OpenLayers.Filter.Logical.AND
+      ,filters : [
+         new OpenLayers.Filter.Spatial({
+           type  : featureBbox.filterType
+          ,value : qryBounds
+        })
+        ,filter
+      ]
+    });
+  }
+  // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
+  featureBbox.getFeatureOutputFormatRequest = {
+     header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+    ,filter : exportFilter
+    ,footer : '</wfs:Query></wfs:GetFeature>'
+    ,title  : lyr2wms[activeLyr[title].name].replace(featurePrefix + ':','')
+  };
+  featureBbox.request(qryBounds,{filterFeatures : filterFeatures});
+  featureBbox.deactivate();
 }
