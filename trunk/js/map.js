@@ -6008,6 +6008,14 @@ function countTopLayers() {
 }
 
 function saveResultsAs(request,format,extension,mode,gridPanel) {
+  // enumerate cols since some may be hidden
+  var cols = [];
+  for (var i = 0; i < gridPanel.getColumnModel().columns.length; i++) {
+    if (!gridPanel.getColumnModel().columns[i].hidden) {
+      cols.push('<ogc:PropertyName>' + gridPanel.getColumnModel().columns[i].dataIndex + '</ogc:PropertyName>');
+    }
+  }
+
   var f;
   // this will always be true
   if (gridPanel) {
@@ -6038,7 +6046,7 @@ function saveResultsAs(request,format,extension,mode,gridPanel) {
   if (f) {
     var parser = new OpenLayers.Format.Filter.v1_1_0();
     var xml    = new OpenLayers.Format.XML();
-    var filter = request.header.replace('___FORMAT___',format) + xml.write(parser.write(f)) + request.footer;
+    var filter = request.header.replace('___FORMAT___',format) + cols.join("\n") + xml.write(parser.write(f)) + request.footer;
     YUI().use("io",function(Y) {
       var handleSuccess = function(ioId,o,args) {
         Ext.MessageBox.hide();
@@ -6745,7 +6753,7 @@ geomName = 'the_geom';
   }
   // FORMAT is currently suported to be one of csv (.csv), excel (.xlsx), excel2007 (.xls)
   featureBbox.getFeatureOutputFormatRequest = {
-     header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
+     header : '<wfs:GetFeature outputFormat="___FORMAT___" xmlns:wfs="http://www.opengis.net/wfs" service="WFS" version="1.1.0" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.1.0/wfs.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ogc="http://www.opengis.net/ogc"><wfs:Query typeName="' + lyr2wms[activeLyr[title].name] + '" srsName="' + map.getProjectionObject() + '" xmlns:' + featurePrefix + '="' + namespaceUrl + '">'
     ,filter : exportFilter
     ,footer : '</wfs:Query></wfs:GetFeature>'
     ,title  : lyr2wms[activeLyr[title].name].replace(featurePrefix + ':','')
