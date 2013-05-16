@@ -26,7 +26,6 @@
         };
 
         toolSettings.buffer = {};
-        toolSettings.buffer.status = 'hide';
         toolSettings.buffer.keyMap = {   // not required
                 "ctrl":true,                    // not required if false
                 "alt": true,                    // not required if false
@@ -43,8 +42,9 @@
         toolSettings.identifyBuffer.bufferResultDataLayer        = 'Elementary School Districts';
         toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
         toolSettings.identifyBuffer.numberBufferQuadrantSegments = 8;
+        toolSettings.identifyBuffer.droppedFeaturesMessage       = "The number of eligible features has been automatically reduced due to filtering.";
         toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
-          return attrs['DISTNAME'] != 'Weston';
+          return attrs['DISTNAME'] != 'Boston';
         };
         toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
           return attrs['DISTNAME'] != 'Boston';
