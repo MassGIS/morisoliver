@@ -612,7 +612,7 @@ Ext.onReady(function() {
     ,{
        numZoomLevels : 17
       ,tileOptions   : {crossOriginKeyword : null}
-      ,attribution   : 'hello!' // enter a string for custom attribution
+      ,attribution   : '' // enter a string for custom attribution
     }
   );
   lyrBase['googleSatellite'] = new OpenLayers.Layer.Google(
