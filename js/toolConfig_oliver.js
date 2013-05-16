@@ -42,12 +42,13 @@
         toolSettings.identifyBuffer.bufferResultDataLayer        = 'Elementary School Districts';
         toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
         toolSettings.identifyBuffer.numberBufferQuadrantSegments = 8;
-        toolSettings.identifyBuffer.droppedFeaturesMessage       = "The number of eligible features has been automatically reduced due to filtering.";
+        toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "I dropped some stuff from the selected features.";
         toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
-          return attrs['DISTNAME'] != 'Boston';
+          return attrs['DISTNAME'] != 'Weston';
         };
+        toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "I dropped some stuff from the buffered features.";
         toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
-          return attrs['DISTNAME'] != 'Boston';
+          return attrs['DISTNAME'] != 'Waltham';
         };
         // If you want to show all fields, simply comment out the next few lines.
         // Otherwise, complete a working regular expression.
