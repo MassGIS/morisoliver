@@ -958,6 +958,9 @@ Ext.onReady(function() {
                         features.push(result.features[i]);
                       }
                     }
+                    if (features.length < result.features.length) {
+                      Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedBufferFeaturesMessage);
+                    }
                     result.features = features;
                   }
                   if(result.features.length) {
@@ -1029,7 +1032,7 @@ Ext.onReady(function() {
                               }
                             }
                             if (result.features.length > filteredFeatures.length) {
-                              Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedFeaturesMessage + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
+                              Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedSelectFeaturesMessage + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
                                 if (filteredFeatures.length > 0) {
                                   var b = unionFeatureGeometriesAndBuffer(
                                      filteredFeatures
