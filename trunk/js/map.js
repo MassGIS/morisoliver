@@ -416,13 +416,23 @@ OpenLayers.Util.extend(featureBoxControl,{
          persist      : true
         ,irregular    : true
         ,layerOptions : {styleMap : new OpenLayers.StyleMap({
-          'default' : new OpenLayers.Style(OpenLayers.Util.applyDefaults({
-             'strokeWidth'  : 2
-            ,'strokeColor'  : '#ff0000'
-            ,'strokeOpacity': 0.5
-            ,'fillColor'    : '#ff0000'
-            ,'fillOpacity'  : 0.05
-          }))
+          'default' : new OpenLayers.Style(
+             OpenLayers.Util.applyDefaults({
+               'strokeWidth'  : 2
+              ,'strokeColor'  : '#ff0000'
+              ,'strokeDashstyle' : "${getDashstyle}"
+              ,'strokeOpacity': 0.5
+              ,'fillColor'    : '#ff0000'
+              ,'fillOpacity'  : 0.05
+            })
+            ,{
+              context : {
+                getDashstyle : function(f) {
+                  return f.attributes.dashed ? 'dash' : 'solid';
+                }
+              }
+            }
+          )
         })}
       }
     );
@@ -1019,7 +1029,7 @@ Ext.onReady(function() {
                               }
                             }
                             if (result.features.length > filteredFeatures.length) {
-                              Ext.Msg.alert('Buffer query',"The number of eligible features has been automatically reduced due to filtering." + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
+                              Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedFeaturesMessage + (filteredFeatures.length == 0 ? '  But there are no features eligible for buffering.  Please retry.' : ''),function() {
                                 if (filteredFeatures.length > 0) {
                                   var b = unionFeatureGeometriesAndBuffer(
                                      filteredFeatures
@@ -1029,7 +1039,9 @@ Ext.onReady(function() {
                                   // reuse the control's layer to draw the new buffered query
                                   featureBoxControl.polygon.clear();
                                   featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
-                                  featureBoxControl.polygon.layer.addFeatures(new OpenLayers.Feature.Vector(b));
+                                  var f = new OpenLayers.Feature.Vector(b);
+                                  f.attributes = {dashed : true};
+                                  featureBoxControl.polygon.layer.addFeatures(f);
                                   featureBoxControl.polygon.layer.redraw();
                                   launchBufferQuery = false;
                                   singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
@@ -1049,7 +1061,9 @@ Ext.onReady(function() {
                               // reuse the control's layer to draw the new buffered query
                               featureBoxControl.polygon.clear();
                               featureBoxControl.polygon.layer.removeFeatures(featureBoxControl.polygon.layer.features);
-                              featureBoxControl.polygon.layer.addFeatures(new OpenLayers.Feature.Vector(b));
+                              var f = new OpenLayers.Feature.Vector(b);
+                              f.attributes = {dashed : true};
+                              featureBoxControl.polygon.layer.addFeatures(f);
                               featureBoxControl.polygon.layer.redraw();
                               launchBufferQuery = false;
                               singleIdentifyLayerName = Ext.getCmp('queryBuffer').bufferResultDataLayer;
