@@ -2482,6 +2482,9 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
       // end of externalWMS
       }
 
+
+  if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show')
+  {
     topToolBar_items.push(
       new Ext.Action({
        itemId   : 'permalink'
@@ -2501,10 +2504,6 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
       })
       );
 
-  if (!toolSettings || !toolSettings.permalink || toolSettings.permalink.status == 'show')
-  // if either there is no toolSetting or no toolSetting for permalink, or there is a toolSetting and it is set to status = true
-  {
-
     if (toolSettings.permalink.keyMap) {
       topToolBar_keyMaps.push({
         keyMap: toolSettings.permalink.keyMap,
@@ -2514,7 +2513,7 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
     }
   }
 
- if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show') {
+  if (!toolSettings || !toolSettings.printSave || toolSettings.printSave.status == 'show') {
    topToolBar_items.push({
        itemId   : 'printSave'
       ,scale    : 'large'
