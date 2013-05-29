@@ -359,7 +359,7 @@ toolSettings.filter = {
                 addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
                 map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0])).replace('<gml:Polygon xmlns:gml="http://www.opengis.net/gml">','<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '">')});
                 if (Ext.getCmp('queryBox')) {Ext.getCmp('queryBox').toggle(true);}
-                runQueryStats(map.getExtent().toGeometry(),map.getLayersByName(toolSettings.filter.wmsLayerName)[0]);
+                runQueryStats(map.getExtent().toGeometry(),false,map.getLayersByName(toolSettings.filter.wmsLayerName)[0]);
               }
             }
           ]
