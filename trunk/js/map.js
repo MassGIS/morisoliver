@@ -952,16 +952,18 @@ Ext.onReady(function() {
                       }
                     }
                     result.features = features;
-                    features = [];
-                    for (var i = 0; i < result.features.length; i++) {
+                    if (toolSettings.identifyBuffer) {
+                      features = [];
+                      for (var i = 0; i < result.features.length; i++) {
                       if (toolSettings.identifyBuffer.bufferDataLayerFilter(result.features[i].attributes)) {
-                        features.push(result.features[i]);
+                            features.push(result.features[i]);
+                        }
                       }
+                      if (features.length < result.features.length) {
+                        Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedBufferFeaturesMessage);
+                      }
+                      result.features = features;
                     }
-                    if (features.length < result.features.length) {
-                      Ext.Msg.alert('Buffer query',toolSettings.identifyBuffer.droppedBufferFeaturesMessage);
-                    }
-                    result.features = features;
                   }
                   if(result.features.length) {
                       if(options.single == true) {
@@ -4601,7 +4603,7 @@ function rasterOK(name) {
   }
 }
 
-function runQueryStats(bounds,filterFeatures) {
+function runQueryStats(bounds,filterFeatures,lyr) {
   qryBounds = bounds;
   var vertices = bounds.getVertices();
 
@@ -4642,7 +4644,10 @@ function runQueryStats(bounds,filterFeatures) {
     }
     if (String(lyr2wms[title]).indexOf(featurePrefix + ':') == 0 &&  activeLyr[title] && activeLyr[title].visibility) {
       var ico   = wms2ico[lyr2wms[title]];
-      if (!singleIdentifyLayerName || (singleIdentifyLayerName && singleIdentifyLayerName == title)) {
+      if ( 
+        (lyr && lyr.name == title)
+        || (!lyr && (!singleIdentifyLayerName || (singleIdentifyLayerName && singleIdentifyLayerName == title)))
+      ) {
         qryLyrStore.add(new qryLyrStore.recordType(
            {
               ico   : ico
