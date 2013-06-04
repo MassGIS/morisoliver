@@ -59,11 +59,10 @@
 		"key": "b"
 	};	
 	
-
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'show';
-        toolSettings.identifyPoly.status = 'show';
+        toolSettings.identify.status = 'hide';
+        toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -76,7 +75,32 @@
                 "alt": true,                    // not required if false
                 "key": "v"
         };
-	
+
+        toolSettings.identifyBuffer = {};
+        toolSettings.identifyBuffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "I"
+        };
+        toolSettings.identifyBuffer.tooltip                      = 'changeme tooltip';
+        toolSettings.identifyBuffer.selectDataLayer              = 'Elementary School Districts';
+        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Elementary School Districts';
+        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
+        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 8;
+        toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "I dropped some stuff from the selected features.";
+        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
+          return attrs['DISTNAME'] != 'Weston';
+        };
+        toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "I dropped some stuff from the buffered features.";
+        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
+          return attrs['DISTNAME'] != 'Waltham';
+        };
+        // If you want to show all fields, simply comment out the next few lines.
+        // Otherwise, complete a working regular expression.
+        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
+          /^(DISTRICTID|DISTNAME)$/
+        );
+
 	toolSettings.bingAddressSearch = {};
 	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required

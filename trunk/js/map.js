@@ -1942,7 +1942,7 @@ if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == '
 if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.status != 'hide') {
           // identifyBuffer tool functionality
           identifyBuffer = new Ext.SplitButton({
-             tooltip       : 'Buffer'
+             tooltip       : toolSettings.identifyBuffer.tooltip
             ,scale         : 'large'
             ,icon          : 'img/11.5_buffer.png'
             ,id            : 'queryBuffer'
@@ -1955,6 +1955,10 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               addLayer(lyr2wms[toolSettings.identifyBuffer.selectDataLayer],lyr2proj[toolSettings.identifyBuffer.selectDataLayer],toolSettings.identifyBuffer.selectDataLayer,true,1,wmsUrl);
               if (toolSettings.identifyBuffer.selectDataLayer != toolSettings.identifyBuffer.bufferResultDataLayer) {
                 addLayer(lyr2wms[toolSettings.identifyBuffer.bufferResultDataLayer],lyr2proj[toolSettings.identifyBuffer.bufferResultDataLayer],toolSettings.identifyBuffer.bufferResultDataLayer,true,1,wmsUrl);
+              }
+              if (toolSettings.filter) {
+                Ext.getCmp('filterBuilderButton').toggle(false);
+                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : ''});
               }
             }
             ,toggleHandler : function(but) {
