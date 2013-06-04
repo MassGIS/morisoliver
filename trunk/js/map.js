@@ -266,13 +266,13 @@ var qryWin = new Ext.Window({
   ,listeners   : {
     hide : function() {
       featureBbox.unselectAll();
-      if (Ext.getCmp('queryBox').pressed || (Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed)) {
+      if (Ext.getCmp('queryBox') && Ext.getCmp('queryBox').pressed || (Ext.getCmp('queryBuffer') && Ext.getCmp('queryBuffer').pressed)) {
         featureBoxControl.polygon.clear();
       }
       if (Ext.getCmp('queryBoxSingle').pressed) {
         featureBoxControl.polygon.clear();
       }
-      else if (Ext.getCmp('queryPoly').pressed) {
+      else if (Ext.getCmp('queryPoly') && Ext.getCmp('queryPoly').pressed) {
         // don't use the regular destroyFeatures -- do it manually here
         OpenLayers.Handler.Path.prototype.destroyFeature.call(featurePolyControl.polygon.layer,true);
         // also manually erase the poly
@@ -1958,7 +1958,10 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               }
               if (toolSettings.filter) {
                 Ext.getCmp('filterBuilderButton').toggle(false);
-                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : ''});
+                var lyr = map.getLayersByName(toolSettings.filter.wmsLayerName)[0];
+                if (lyr) {
+                  lyr.mergeNewParams({FILTER : ''});
+                }
               }
             }
             ,toggleHandler : function(but) {
@@ -2004,10 +2007,14 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               ,{text : 'yards',checked : false,group : 'queryBuffer'}
               ,{text : 'feet',checked : true,group : 'queryBuffer'}
             ],listeners : {show : function() {
+              addLayer(lyr2wms[toolSettings.identifyBuffer.selectDataLayer],lyr2proj[toolSettings.identifyBuffer.selectDataLayer],toolSettings.identifyBuffer.selectDataLayer,true,1,wmsUrl);
               Ext.getCmp('queryBuffer').toggle(true);
               if (toolSettings.filter) {
                 Ext.getCmp('filterBuilderButton').toggle(false);
-                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : ''});
+                var lyr = map.getLayersByName(toolSettings.filter.wmsLayerName)[0];
+                if (lyr) {
+                  lyr.mergeNewParams({FILTER : ''});
+                }
               }
             }}}
           });
@@ -2112,11 +2119,11 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
             ,handler     : function() {
               featureBbox.unselectAll();
               featureBoxControl.polygon.deactivate();
-              if (Ext.getCmp('queryBox').pressed) {
+              if (Ext.getCmp('queryBox') && Ext.getCmp('queryBox').pressed) {
                 featureBoxControl.polygon.activate();
               }
               featurePolyControl.polygon.deactivate();
-              if (Ext.getCmp('queryPoly').pressed) {
+              if (Ext.getCmp('queryPoly') && Ext.getCmp('queryPoly').pressed) {
                 featurePolyControl.polygon.activate();
               }
             }
