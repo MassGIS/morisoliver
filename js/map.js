@@ -2003,7 +2003,13 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               ,{text : 'nautical miles',checked : false,group : 'queryBuffer'}
               ,{text : 'yards',checked : false,group : 'queryBuffer'}
               ,{text : 'feet',checked : true,group : 'queryBuffer'}
-            ],listeners : {show : function() {Ext.getCmp('queryBuffer').toggle(true)}}}
+            ],listeners : {show : function() {
+              Ext.getCmp('queryBuffer').toggle(true);
+              if (toolSettings.filter) {
+                Ext.getCmp('filterBuilderButton').toggle(false);
+                map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : ''});
+              }
+            }}}
           });
           if ( toolSettings.identifyBuffer && toolSettings.identifyBuffer.identifyBuffer_keymap) {
             topToolBar_keyMaps.push({
