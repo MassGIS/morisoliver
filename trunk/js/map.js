@@ -1993,12 +1993,12 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
                   }
                 }}
               }
-              ,{text : 'meters',checked : true,group : 'queryBuffer'}
+              ,{text : 'meters',checked : false,group : 'queryBuffer'}
               ,{text : 'kilometers',checked : false,group : 'queryBuffer'}
               ,{text : 'miles',checked : false,group : 'queryBuffer'}
               ,{text : 'nautical miles',checked : false,group : 'queryBuffer'}
               ,{text : 'yards',checked : false,group : 'queryBuffer'}
-              ,{text : 'feet',checked : false,group : 'queryBuffer'}
+              ,{text : 'feet',checked : true,group : 'queryBuffer'}
             ],listeners : {show : function() {Ext.getCmp('queryBuffer').toggle(true)}}}
           });
           if ( toolSettings.identifyBuffer && toolSettings.identifyBuffer.identifyBuffer_keymap) {
