@@ -57,6 +57,10 @@ toolSettings.filter = {
             return val;
           }
 
+          if (Ext.getCmp('queryBuffer')) {
+            Ext.getCmp('queryBuffer').toggle(false);
+          }
+
           var win = Ext.getCmp('filterBuilder');
           if (win && !win.hidden) {
             win.hide();
