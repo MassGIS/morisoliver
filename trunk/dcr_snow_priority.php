@@ -1,5 +1,7 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;">
 <!--
 (c) 2010 Third Sector New England, Inc. on behalf of the Massachusetts Ocean Partnership.
 This code was developed by Applied Science Associates, Inc. and Charlton Galvarino
@@ -30,20 +32,44 @@ this license.
       //
       // site-specific variables which may be modified but MUST be set
       var foldersetLoc = '/temp/dcr_snow_priority_folderset.xml';
-var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center" <img border=none src="img/oliver_logo_lcase.jpg" alt="OLIVER logo"></td><td align="right"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts OnLIne ViewER (OLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. OLIVER can be used to search, display, and share spatial data pertaining to Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="http://lyceum.massgis.state.ma.us">MassGIS web mapping services</a>.  The project was graciously funded by SeaPlan.<br/><br/>OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">OLIVER Developer web site</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/mgis/mandate.htm">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/><a target="_blank" href="http://www.seaplan.org">SeaPlan</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated November 30, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.seaplan.org"><img border=none src="img/mop.png" alt="SeaPlan Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com" <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
-      var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
-      var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
+var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center" <img border=none src="img/oliver_logo_lcase.jpg" alt="OLIVER logo"></td><td align="right"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts OnLIne ViewER (OLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. OLIVER can be used to search, display, and share spatial data pertaining to Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis">MassGIS web mapping services</a>.  The project was graciously funded by SeaPlan.<br/><br/>OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris_developers_documentation.htm">OLIVER Developer web site</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/about-massgis/mandate.html">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/><a target="_blank" href="http://www.seaplan.org">SeaPlan</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated November 30, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.seaplan.org"><img border=none src="img/mop.png" alt="SeaPlan Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com" <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
+      var helpUrl1       = 'moris_users_documentation.htm';
+      var helpUrl2       = 'moris_users_documentation.pdf';
       var moreInfoWidth = 850;
 
-      var defaultBase         = 'custom';   
+       var availableBase       = [
+          'custom'
+         ,'googleSatellite'
+         ,'googleTerrain'
+         ,'googleRoadmap'
+         ,'googleHybrid'
+         ,'openStreetMap'
+         ,'bingRoads'
+         ,'bingAerial'
+         ,'bingHybrid'
+         ,'CloudMade'
+         ,'TopOSM-MA'
+       ];
+
+
+      var defaultBase         = 'bingRoads';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-        {wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'                         ,title : 'Massachusetts Towns Survey Boundaries Muted Colors'}
+	{wms : 'massgis:DCR.DCR_PARKWAYS_MDOT_PLOWED'			 ,title : 'DCR Parkways, plowed by MassDOT'}
+       ,{wms : 'massgis:DCR.DCR_PARKWAYS_DCR_PLOWED'                     ,title : 'DCR Parkways, plowed by DCR'}
+       ,{wms : 'massgis:DCR.CROSSWALKS'					 ,title : 'DCR Crosswalks'}
+       ,{wms : 'massgis:DCR.SIDEWALKS'                                   ,title : 'DCR Sidewalks'}
+       ,{wms : 'massgis:DCR.PEDBRDGRMP'					 ,title : 'DCR Pedestrian Bridges and Ramps'}
+       ,{wms : 'massgis:GISDATA.DCR_RINKS_PLUS'                          ,title : 'DCR Rinks Plus'}
+       ,{wms : 'massgis:GISDATA.SCHOOLS_PT'				 ,title : 'Pre-kindergarten to High School Buildings'}
+       ,{wms : 'massgis:GISDATA.TOWNSSURVEY_ARC'                         ,title : 'Massachusetts Towns Survey Boundaries Muted Colors'}
+       ,{wms : 'massgis:DCR.HYDRANTS'					 ,title : 'DCR Hydrants'}
       ];
-      var defaultBbox = [-71.61955,42.15207,-70.57249,42.56286];
-      var maxBbox     = [-71.61955,42.15207,-70.57249,42.56286];
+      var defaultBbox = [-73.69207,41.21080,-69.77006,42.87080];
+      var maxBbox     = [-73.69207,41.21080,-69.77006,42.87080];
+
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
       var wcsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wcs';
@@ -76,7 +102,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       mkzipCGI     = '/cgi-bin/mkzip';
       mkzipLoc     = 'http://maps.massgis.state.ma.us';
       bingDisabled = false;
-      bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
+      bingKey      = 'AoSoMDQG3JYNMtfp-sviYC413l6OxvGzZHq4KX7zP6qJk8R-yQPTT_pfMelyo7Ur';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
       siteTitle    = 'DCR Snow Management Plan';
       siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/dcr_snow_priority.php';
@@ -90,14 +116,14 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     </script>
     <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
 	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />
-    <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/extjs-3.3.1/resources/css/ext-all.css" />
+    <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/ext-3.4.0/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
 
 	<!-- editing tools -->
 	<link rel="stylesheet" type="text/css" href="css/statusbar.css" />
 	
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/extjs-3.3.1/ext-all.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/ext-3.4.0/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="http://maps.massgis.state.ma.us/ext-3.4.0/ext-all.js"></script>
 
 	
 	<!-- editing tools -->
@@ -114,10 +140,11 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.11/OpenLayers.js"></script>
+    <script type="text/javascript" src="js/OpenLayers-2.12-rc7-ie10-fix.js"></script>
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
+
 
 	<!-- editing tools -->
     <script type="js/plugins/editing/StatusBar.js"></script>
