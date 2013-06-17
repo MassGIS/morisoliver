@@ -385,6 +385,10 @@ toolSettings.filter = {
         return val;
       }
 
+      if (Ext.getCmp('queryBuffer')) {
+        Ext.getCmp('queryBuffer').toggle(false);
+      }
+
       var win = Ext.getCmp('filterBuilder');
       if (win && !win.hidden) {
         win.hide();
@@ -690,8 +694,8 @@ toolSettings.filter = {
 
                 addLayer(lyr2wms[toolSettings.filter.wmsLayerName],lyr2proj[toolSettings.filter.wmsLayerName],toolSettings.filter.wmsLayerName,true,1,wmsUrl);
                 map.getLayersByName(toolSettings.filter.wmsLayerName)[0].mergeNewParams({FILTER : xml.write(parser.write(f[0])).replace('<gml:Polygon xmlns:gml="http://www.opengis.net/gml">','<gml:Polygon xmlns:gml="http://www.opengis.net/gml" srsName="' + map.getProjectionObject() + '">')});
-                Ext.getCmp('queryBox').toggle(true);
-                runQueryStats(map.getExtent().toGeometry(),map.getLayersByName(toolSettings.filter.wmsLayerName)[0]);
+   		if (Ext.getCmp('queryBox')) {Ext.getCmp('queryBox').toggle(true);}
+		runQueryStats(map.getExtent().toGeometry(),false,map.getLayersByName(toolSettings.filter.wmsLayerName)[0]);
               }
             }
           ]
