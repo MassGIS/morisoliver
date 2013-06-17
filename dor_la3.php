@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
+  <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7;">
 <!--
 (c) 2010 Third Sector New England, Inc. on behalf of the Massachusetts Ocean Partnership.
 This code was developed by Applied Science Associates, Inc. and Charlton Galvarino
@@ -32,8 +33,8 @@ this license.
       // site-specific variables which may be modified but MUST be set
       var foldersetLoc = '/temp/dor_la3_folderset.xml';
       var moreInfoHTML = '<table border="0" width="100%" cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="dor_la3/DOR_LA3_Filter_Instructions.pdf">DOR LA3 Filter Instructions</a></td></tr></table>';
-      var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.htm';
-      var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/moris_users_documentation.pdf';
+      var helpUrl1       = 'moris_users_documentation.htm';
+      var helpUrl2       = 'moris_users_documentation.pdf';
       var moreInfoWidth = 300;
 
       var availableBase       = [
@@ -90,7 +91,7 @@ this license.
       mkzipCGI     = '/cgi-bin/mkzip';
       mkzipLoc     = 'http://maps.massgis.state.ma.us';
       bingDisabled = false;
-      bingKey      = 'Avo1GLPTTAaJF5bVkdgItDS4bHAjqDOp3euXU9tcQzi8fwyiWnQOlZEbTTFv3idb';
+      bingKey      = 'AoSoMDQG3JYNMtfp-sviYC413l6OxvGzZHq4KX7zP6qJk8R-yQPTT_pfMelyo7Ur';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
       siteTitle    = 'Massachusetts Real Property Verified Market Sales Mapping Application';
       siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/dor_la3.php';
@@ -128,10 +129,11 @@ this license.
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="http://maps.massgis.state.ma.us/OpenLayers-2.12-rc7/OpenLayers-closure.js"></script>
+    <script type="text/javascript" src="js/OpenLayers-2.12-rc7-ie10-fix.js"></script>
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
+
 
 	<!-- editing tools -->
     <script type="js/plugins/editing/StatusBar.js"></script>
