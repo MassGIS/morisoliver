@@ -9,6 +9,9 @@
 
 	
 	var toolSettings = {};
+
+        toolSettings.externalWMS = {}
+        toolSettings.externalWMS.status = 'show';
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
@@ -26,35 +29,7 @@
         };
 
         toolSettings.buffer = {};
-        toolSettings.buffer.keyMap = {   // not required
-                "ctrl":true,                    // not required if false
-                "alt": true,                    // not required if false
-                "key": "B"
-        };
-
-        toolSettings.identifyBuffer = {};
-        toolSettings.identifyBuffer.keyMap = {   // not required
-                "ctrl":true,                    // not required if false
-                "alt": true,                    // not required if false
-                "key": "I"
-        };
-        toolSettings.identifyBuffer.selectDataLayer              = 'Elementary School Districts';
-        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Elementary School Districts';
-        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
-        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 8;
-        toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "I dropped some stuff from the selected features.";
-        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
-          return attrs['DISTNAME'] != 'Weston';
-        };
-        toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "I dropped some stuff from the buffered features.";
-        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
-          return attrs['DISTNAME'] != 'Waltham';
-        };
-        // If you want to show all fields, simply comment out the next few lines.
-        // Otherwise, complete a working regular expression.
-        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
-          /^(DISTRICTID|DISTNAME)$/
-        );
+        toolSettings.buffer.status = 'show';
 
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';

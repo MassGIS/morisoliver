@@ -29,6 +29,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -230,6 +234,7 @@
                 {
                         featureType: "AFREEMAN.DCAM_BLDG_PTS_20120229",
                         layerTitle : "Statewide Buildings Points", // must match whatever is found in folderset for this layer.
+			allowGeomEdit : false,
                         fields : [
 				{
 					name : "ASSETCODE", 	
@@ -351,6 +356,8 @@
                         ]
                 }
 	];
+
+	toolSettings.editTool.allowGeomEdit = false;
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};

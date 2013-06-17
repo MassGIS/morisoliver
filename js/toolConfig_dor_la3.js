@@ -28,6 +28,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -96,7 +100,7 @@
         };
 	
 	toolSettings.exportData = {};
-	toolSettings.exportData.status = 'hide';	
+	toolSettings.exportData.status = 'show';	
 	toolSettings.exportData.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

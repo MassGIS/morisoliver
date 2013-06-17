@@ -9,6 +9,9 @@
 
 	
 	var toolSettings = {};
+
+        toolSettings.externalWMS = {};
+        toolSettings.externalWMS.status = 'hide';
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
@@ -24,6 +27,10 @@
                 "alt": true,                    // not required if false
                 "key": "h"
         };
+
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
 
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
@@ -63,7 +70,7 @@
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
         toolSettings.identify.status = 'show';
-        toolSettings.identifyPoly.status = 'show';
+        toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -93,7 +100,7 @@
         };
 	
 	toolSettings.exportData = {};
-	toolSettings.exportData.status = 'show';	
+	toolSettings.exportData.status = 'hide';	
 	toolSettings.exportData.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -113,7 +120,7 @@
 	toolSettings.quickZoomTools.status = 'show';
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
-		 label: 'Zoom to a municipality',
+		 label: 'Pick a town',
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
 		 sortBy : 'TOWN', // optional, fieldname
@@ -258,6 +265,7 @@
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -265,6 +273,7 @@
 	};
 	
 	toolSettings.navigationTools.zoomOut = {};
+        toolSettings.navigationTools.zoomOut.status = 'show';
 	toolSettings.navigationTools.zoomOut.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -273,6 +282,7 @@
 	
 	
 	toolSettings.navigationTools.pan = {};
+        toolSettings.navigationTools.pan.status = 'show';
 	toolSettings.navigationTools.pan.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -280,6 +290,7 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
+        toolSettings.navigationTools.nextExtent.status = 'hide';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -287,6 +298,7 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
+        toolSettings.navigationTools.maxExtent.status = 'hide';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -294,6 +306,7 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
+        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -301,6 +314,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
+        toolSettings.navigationTools.prevExtent.status = 'hide';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -308,6 +322,7 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
+        toolSettings.navigationTools.zoomScale.status = 'hide';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

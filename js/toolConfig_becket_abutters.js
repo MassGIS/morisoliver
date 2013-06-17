@@ -25,9 +25,38 @@
                 "key": "h"
         };
 
-	toolSettings.buffer = {};
+        toolSettings.buffer = {};
         toolSettings.buffer.status = 'show';
+        toolSettings.buffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "B"
+        };
 
+        toolSettings.identifyBuffer = {};
+        toolSettings.identifyBuffer.status = 'show';
+        toolSettings.identifyBuffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "I"
+        };
+        toolSettings.identifyBuffer.selectDataLayer              = 'Tax Parcels for Query';
+        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Tax Parcels for Query';
+        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
+        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 15;
+	toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "Parcels of type ROW were dropped from the selected features.";
+	toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "Parcels of type ROW or PRIV_ROW were dropped from the buffered features.";
+        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW';
+        };
+        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW' && attrs['POLY_TYPE'] != 'PRIV_ROW';
+        };
+        // If you want to show all fields, simply comment out the next few lines.
+        // Otherwise, complete a working regular expression.
+        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
+          /^(OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
+        );
 
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
@@ -66,8 +95,8 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'show';
-        toolSettings.identifyPoly.status = 'show';
+        toolSettings.identify.status = 'hide';
+        toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -82,7 +111,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -216,7 +245,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'show';
+	toolSettings.editTool.status = 'hide';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
@@ -232,14 +261,37 @@
 	
 	toolSettings.editTool.layers = [
 		{
-                        featureType: "SETB.STREETS_911_TO_EDIT",
-                        layerTitle : "911 Streets to Edit" // must match whatever is found in folderset for this layer.
+			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
+			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
+			split: true,
+			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
 		}
+/*,
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
+			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
+		}
+		*/
+		,{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
+			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
+		}
+	/*
+		,{
+			featureType: "test_geoserver_line",
+			layerTitle : "MapsOnline Geoserver Line", // must match whatever is found in folderset for this layer.
+			split: true
+		}
+*/
 	];
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
-	toolSettings.navigationTools.zoomIn.status = 'show';
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -288,7 +340,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-       toolSettings.navigationTools.prevExtent.status = 'show';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
