@@ -25,6 +25,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -297,7 +301,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-        toolSettings.navigationTools.initExtent.status = 'show';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

@@ -25,6 +25,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required

@@ -25,7 +25,7 @@
                 "key": "h"
         };
 
-	toolSettings.buffer = {};
+        toolSettings.buffer = {};
         toolSettings.buffer.status = 'show';
 
 
@@ -82,7 +82,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -232,14 +232,79 @@
 	
 	toolSettings.editTool.layers = [
 		{
-                        featureType: "SETB.STREETS_911_TO_EDIT",
-                        layerTitle : "911 Streets to Edit" // must match whatever is found in folderset for this layer.
+			featureType: "SETB.ESN_MW_PT",
+			layerTitle : "ESN Points to Edit", // must match whatever is found in folderset for this layer.
+                        split: false,
+                        fields : [
+                                {
+                                        name : "MAP_PAR_ID",
+                                        fieldLabel : "MAP_PAR_ID"
+                                },
+                                {
+                                        name : "TOWN_ID",
+                                        fieldLabel : "TOWN_ID"
+                                },
+                                {
+                                        name : "ESN",
+                                        fieldLabel : "ESN"
+                                },
+                                {
+                                        name : "ESN_FLAG",
+                                        fieldLabel : "ESN_FLAG",
+                                        triggerAction: 'all',
+                                        xtype: 'combo',
+                                        store : ["M1","A1","M2","A2","M3","A3","M4","A4"]
+                                },
+                                {
+                                        name : "NOTES",
+                                        fieldLabel : "NOTES"
+                                },
+                                {
+                                        name : "POLICE_DEP",
+                                        fieldLabel : "POLICE_DEP"
+                                },
+                                {
+                                        name : "FIRE_DEPT",
+                                        fieldLabel : "FIRE_DEPT"
+                                },
+                                {
+                                        name : "EMS_PROV",
+                                        fieldLabel : "EMS_PROV"
+                                },
+                                {
+                                        name : "REVIEW",
+                                        fieldLabel : "REVIEW",
+                                        triggerAction: 'all',
+                                        xtype: 'combo',
+                                        store : ["R","Y","N"]
+                                },
+                                {
+                                        name : "REV_NOTES",
+                                        fieldLabel : "REV_NOTES"
+                                },
+                                {
+                                        name: "EDIT_DATE",
+                                        auto_timestamp : "Y-m-d\\TH:i:s",
+                                },
+                                {
+                                        name : "REV_CONTACT",
+                                        fieldLabel : "REV_CONTACT"
+                                },
+                                {
+                                        name : "SITE_ADDR",
+                                        fieldLabel : "SITE_ADDR"
+                                },
+								                                {
+                                        name : "OWNER1",
+                                        fieldLabel : "OWNER1"
+                                }
+			]		
 		}
 	];
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
-	toolSettings.navigationTools.zoomIn.status = 'show';
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -288,7 +353,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-       toolSettings.navigationTools.prevExtent.status = 'show';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

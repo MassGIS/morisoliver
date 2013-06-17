@@ -28,6 +28,29 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'hide';
+
+        toolSettings.identifyBuffer = {};
+        toolSettings.identifyBuffer.selectDataLayer              = 'Tax Parcels for Query';
+        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Tax Parcels for Query';
+        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
+        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 15;
+        toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "Parcels of type ROW were dropped from the selected features.";
+        toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "Parcels of type ROW or PRIV_ROW were dropped from the buffered features.";
+        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW';
+        };
+        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW' && attrs['POLY_TYPE'] != 'PRIV_ROW';
+        };
+        // If you want to show all fields, simply comment out the next few lines.
+        // Otherwise, complete a working regular expression.
+        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
+          /^(OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
+        );
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -65,8 +88,8 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'show';
-        toolSettings.identifyPoly.status = 'show';
+        toolSettings.identify.status = 'hide';
+        toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false

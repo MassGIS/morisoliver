@@ -29,6 +29,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -226,11 +230,25 @@
                         split: false,
 			fields : [
 				{
-					name : "TOWN_ID", 	
-					allowBlank : false,  
-					readOnly: true,
-					value: "201"
+					name : "RTN", 	
+					required: true
 				},
+                                {
+                                        name : "NAME",
+                                        readOnly: true
+                                },
+                                {
+                                        name : "ADDRESS",
+                                        readOnly: true
+                                },
+                                {
+                                        name : "TOWN",
+                                        readOnly: true
+                                },
+                                {
+                                        name : "STATUS",
+                                        readOnly: true
+                                },
                                 {
                                         name: "TYPE_CODE",
 					allowBlank : false,
@@ -239,11 +257,8 @@
 					store: ["D","P","C"]
                                 },
 				{
-                                        name: "TYPE",
-					allowBlank : false,
-                                        triggerAction: 'all',
-                                        xtype: 'combo',
-                                        store: ["Priority Development Area","Priority Protection Area","Combined Priority Protection/Development"]
+                                        name: "ADDRESS",
+					allowBlank : false
                                 },
 				{
 					name: "DATENTERED",
@@ -258,11 +273,12 @@
 					store : ["Y","N"]
                                 }
 
-			]
+			],
+                        allowGeomEdit : true
                 }
        ];
 
-
+        toolSettings.editTool.allowGeomEdit = false;
 
 	toolSettings.navigationTools.zoomIn = {};
         toolSettings.navigationTools.zoomIn.status = 'show';

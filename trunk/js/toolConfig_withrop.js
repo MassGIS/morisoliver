@@ -9,7 +9,10 @@
 
 	
 	var toolSettings = {};
+        toolSettings.externalWMS = {}
+        toolSettings.externalWMS.status = 'hide';
 	
+
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
 	toolSettings.measureTool.keyMap =  {					// not required
@@ -25,10 +28,6 @@
                 "key": "h"
         };
 
-	toolSettings.buffer = {};
-        toolSettings.buffer.status = 'show';
-
-
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -38,7 +37,7 @@
 	};	
 	
 	toolSettings.scaleSettings = {};
-	toolSettings.scaleSettings.status = 'show';
+	toolSettings.scaleSettings.status = 'hide';
 	toolSettings.scaleSettings.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -47,7 +46,7 @@
 
 
 	toolSettings.mapUnits = {};
-	toolSettings.mapUnits.status = 'show';
+	toolSettings.mapUnits.status = 'hide';
 	toolSettings.mapUnits.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -82,7 +81,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -112,24 +111,23 @@
                 "key": "w"
         };
 
-	
-	toolSettings.quickZoomTools = {};
-	toolSettings.quickZoomTools.status = 'show';
-	toolSettings.quickZoomTools.tools = [
-		{id: 1,   						// ids must be unique
-		 label: 'Pick a town',
-		 layer: 'massgis:GISDATA.TOWNS_POLYM',
-		 valueField: 'TOWN',
-		 sortBy : 'TOWN', // optional, fieldname
-		 sortOrder : 'A', // optional, acceptable values = A, D
-		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
-		 keyMap: {					// not required
-			"ctrl":true,			// not required if false
-			"alt": true,			// not required if false
-			"key": "t"
-			}
-		}
-	];	
+        toolSettings.quickZoomTools = {};
+        toolSettings.quickZoomTools.status = 'hide';
+        toolSettings.quickZoomTools.tools = [
+                {id: 1,                                                 // ids must be unique
+                 label: 'Pick a municipality',
+                 layer: 'massgis:GISDATA.TOWNSSURVEY_POLYM',
+                 valueField: 'TOWN',
+                 sortBy : 'TOWN', // optional, fieldname
+                 sortOrder : 'A', // optional, acceptable values = A, D
+                 additionalFields : 'TOWN_ID',  // optional will be requested, often used by other restriction filters
+                 keyMap: {                                      // not required
+                        "ctrl":true,                    // not required if false
+                        "alt": true,                    // not required if false
+                        "key": "t"
+                        }
+                }
+        ];
 	
 	toolSettings.commentTool = {};
 	toolSettings.commentTool.status = 'hide';
@@ -216,7 +214,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'show';
+	toolSettings.editTool.status = 'hide';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
@@ -232,14 +230,37 @@
 	
 	toolSettings.editTool.layers = [
 		{
-                        featureType: "SETB.STREETS_911_TO_EDIT",
-                        layerTitle : "911 Streets to Edit" // must match whatever is found in folderset for this layer.
+			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
+			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
+			split: true,
+			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
 		}
+/*,
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
+		},
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
+			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
+		}
+		*/
+		,{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
+			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
+		}
+	/*
+		,{
+			featureType: "test_geoserver_line",
+			layerTitle : "MapsOnline Geoserver Line", // must match whatever is found in folderset for this layer.
+			split: true
+		}
+*/
 	];
 	
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
-	toolSettings.navigationTools.zoomIn.status = 'show';
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -288,7 +309,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-       toolSettings.navigationTools.prevExtent.status = 'show';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
