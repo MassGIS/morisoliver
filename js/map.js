@@ -5485,6 +5485,13 @@ function launchExportWizard(aoi) {
               ));
             });
 
+            if (Ext.getCmp('wizVectorFmt').disabled && !Ext.getCmp('wizRasterFmt').disabled) {
+              Ext.getCmp('radioEpsg').disable();
+            }
+            else {
+              Ext.getCmp('radioEpsg').enable();
+            }
+
             // go back thru the layers and fire off a resultType=hits request for each one
             tstLyrStore.each(function(rec) {
               var ico = wms2ico[lyr2wms[rec.get('title')]];
@@ -5648,8 +5655,7 @@ function launchExportWizard(aoi) {
                 ,border   : false
                 ,items    : [
                   {
-                     columnWidth : .4
-                    ,layout      : 'form'
+                     layout      : 'form'
                     ,border      : false
                     ,items       : [
                       {
@@ -5657,17 +5663,11 @@ function launchExportWizard(aoi) {
                         ,id         : 'wizRasterFmt'
                         ,fieldLabel : 'Format'
                         ,items      : [
-                           {boxLabel : 'GeoTIFF',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
+                           {boxLabel : 'GeoTIFF (available in NAD83/Massachusetts State Plane Coordinate System, Mainland Zone, meters - EPSG:26986 coordinate system only)',name : 'rasterFormat',inputValue : 'geoTiff',checked : true}
                           // ,{boxLabel : 'Grid'   ,name : 'rasterFormat',inputValue : 'grid'                  }
                         ]
                       }
                     ]
-                  }
-                  ,{
-                     columnWidth : .6
-                    ,layout      : 'form'
-                    ,border      : false
-                    ,items       : [{border : false,html : '&nbsp;'}]
                   }
                 ]
               }
