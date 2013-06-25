@@ -4552,7 +4552,6 @@ function mkDataWizardURL(title,ico) {
       if (new RegExp(/excel2007|excel|csv/).test(Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue())) {
         outputFormat = Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue();
       }
-// charlton
       if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
