@@ -1875,7 +1875,7 @@ Ext.onReady(function() {
                 ,id         : 'massgisState'
               })
               ,new Ext.form.TextField({
-                 fieldLabel : 'Zipcode'
+                 fieldLabel : 'ZIP code'
                 ,width      : 150
                 ,id         : 'massgisZipcode'
               })
@@ -6881,7 +6881,7 @@ function massgisAddressSearch(query,launchWin) {
     var cfg = {
        method  : "POST"
       ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
-      ,data    : '<?xml version="1.0" encoding="utf-8"?> <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <GeocodeAddress xmlns="http://tempuri.org/"> <Address>___ADDR___</Address> <City>___CITY___</City> <ZipCode>___ZIP___</ZipCode> <State>___STATE___</State> </GeocodeAddress> </soap:Body> </soap:Envelope>'.replace('___ADDR___',query.street).replace('___CITY___',query.municipality).replace('___ZIP___',query.zipcode).replace('___STATE___',query.state)
+      ,data    : '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <GeocodeAddress xmlns="http://tempuri.org/"> <Address>___ADDR___</Address> <City>___CITY___</City> <ZipCode>___ZIP___</ZipCode> <State>___STATE___</State> </GeocodeAddress> </soap:Body> </soap:Envelope>'.replace('___ADDR___',query.street).replace('___CITY___',query.municipality).replace('___ZIP___',query.zipcode).replace('___STATE___',query.state)
       ,sync    : true
     };
     var request = Y.io(proxyLoc + query.url,cfg);
