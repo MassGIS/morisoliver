@@ -148,6 +148,8 @@ var defaultOpcty = String(p['opacity']).split(',');
 // any filters
 var defaultFilter = String(p['filt']).split('|');
 
+var launchSearch = {};
+
 for (i in p) {
   if (i == 'lyrs') {
     defaultLyrs = [];
@@ -186,6 +188,24 @@ for (i in p) {
   } 
   else if ( i.indexOf('edit_') == 0 && i.length > 5) {
 	editURLParams[i.substring(5)] = p[i];
+  }
+  else if (i == 'gcType') {
+    launchSearch.gcType = p[i];
+  }
+  else if (i == 'gcAddress') {
+    launchSearch.address = p[i];
+  }
+  else if (i == 'gcCity') {
+    launchSearch.city = p[i];
+  }
+  else if (i == 'gcZipcode') {
+    launchSearch.zipcode = p[i];
+  }
+  else if (i == 'gcState') {
+    launchSearch.state = p[i];
+  }
+  else if (i == 'gcZoomTo') {
+    launchSearch.zoomTo = p[i];
   }
 }
 
@@ -1799,7 +1819,7 @@ Ext.onReady(function() {
           ,specialkey : function(f,e) {
             if (e.getKey() == e.ENTER) {
               bingAddressSearch(
-                 Ext.getCmp('searchLocation').getValue()
+                 {text : Ext.getCmp('searchLocation').getValue()}
                 ,Ext.getCmp('searchLocation')
               );
             }
@@ -3387,6 +3407,25 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
   }
  
   olMapPanel = new GeoExt.MapPanel(olMapPanelOpts);
+
+  if (launchSearch) {
+    if (launchSearch.gcType == 'MassGIS' && toolSettings && toolSettings.massgisAddressSearch && toolSettings.massgisAddressSearch.url) {
+      massgisAddressSearch({
+         street       : launchSearch.address
+        ,municipality : launchSearch.city
+        ,state        : launchSearch.state
+        ,zipcode      : launchSearch.zipcode
+        ,url          : toolSettings.massgisAddressSearch.url
+      });
+    }
+    else if (launchSearch.gcType == 'Bing' && toolSettings && toolSettings.bingAddressSearch) {
+      bingAddressSearch({
+         text         : launchSearch.address
+        ,zoomToCenter : launchSearch.zoomTo == 'center'
+        ,zoomToRegion : launchSearch.zoomTo == 'region'
+      });
+    }
+  }
 
   keyMaps = [];
   for (var k = 0; k< bottomToolBar_keyMaps.length; k++) {
@@ -6819,10 +6858,10 @@ function massgisAddressSearch(query,launchWin) {
       var y = xmlDoc.getElementsByTagName('Y')[0].innerHTML;
       if (x == 'NaN' && y == 'NaN') {
 	if (launchWin) {
-        	Ext.Msg.alert('Location search results','The address service could not find any matching results.');
-		launchWin.enable();
-        	return;
+          Ext.Msg.alert('Location search results','The address service could not find any matching results.');
+          launchWin.enable();
 	}
+        return;
       }
       var ctr = new OpenLayers.LonLat(x,y).transform(new OpenLayers.Projection('EPSG:26986'),map.getProjectionObject());
       map.setCenter(ctr);
@@ -6853,6 +6892,28 @@ function bingAddressSearch(query,launchCmp) {
   if (launchCmp) {
     launchCmp.disable();
   }
+
+  function zoomToCenter(loc,bnds,ctr) {
+    map.setCenter(ctr);
+    map.zoomToScale(1000);
+    var f = lyrGeoLocate.features;
+    for (var i = 0; i < f.length; i++) {
+      lyrGeoLocate.removeFeatures(f[i]);
+    }
+    lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
+    geoLocateLonLat = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]);
+  }
+
+  function zoomToRegion(loc,bnds,ctr) {
+    map.zoomToExtent(bnds);
+    var f = lyrGeoLocate.features;
+    for (var i = 0; i < f.length; i++) {
+      lyrGeoLocate.removeFeatures(f[i]);
+    }
+    lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
+    geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
+  }
+
   YUI().use("io","json-parse",function(Y) {
     var handleSuccess = function(ioId,o,args) {
       if (o.responseText == '') {
@@ -6879,6 +6940,16 @@ function bingAddressSearch(query,launchCmp) {
           msg.push(loc.resourceSets[0].resources[0].address[i]);
         }
       }
+
+      if (query.zoomToCenter) {
+        zoomToCenter(loc,bnds,ctr);
+        return;
+      }
+      else if (query.zoomToRegion) {
+        zoomToRegion(loc,bnds,ctr);
+        return;
+      }
+
       var locationWin = new Ext.Window({
          title       : 'Location search results'
         ,width       : 325
@@ -6897,27 +6968,14 @@ function bingAddressSearch(query,launchCmp) {
             {
                text : 'Zoom to center point'
               ,handler : function() {
-                map.setCenter(ctr);
-                map.zoomToScale(1000);
-                var f = lyrGeoLocate.features;
-                for (var i = 0; i < f.length; i++) {
-                  lyrGeoLocate.removeFeatures(f[i]);
-                }
-                lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
-                geoLocateLonLat = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]);
+                zoomToCenter(loc,bnds,ctr);
                 locationWin.close();
               }
             }
             ,{
                text : 'Zoom to region'
               ,handler : function() {
-                map.zoomToExtent(bnds);
-                var f = lyrGeoLocate.features;
-                for (var i = 0; i < f.length; i++) {
-                  lyrGeoLocate.removeFeatures(f[i]);
-                }
-                lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
-                geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
+                zoomToRegion(loc,bnds,ctr);
                 locationWin.close();
               }
             }
@@ -6936,8 +6994,8 @@ function bingAddressSearch(query,launchCmp) {
       }
     }
     Y.on('io:success',handleSuccess,this,[]);
-    if (query !== '') {
-      var request = Y.io(proxyLocBing + escape('http://70.37.131.143/REST/v1/Locations?q=' + escape(query) + '&key=' + bingKey));
+    if (query.text !== '') {
+      var request = Y.io(proxyLocBing + escape('http://70.37.131.143/REST/v1/Locations?q=' + escape(query.text) + '&key=' + bingKey));
     }
   });
 }
