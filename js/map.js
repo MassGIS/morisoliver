@@ -4583,7 +4583,7 @@ function mkDataWizardURL(title,ico) {
             ,customFilter[0]
             ,'<ogc:Intersects>'
               ,'<ogc:PropertyName>' + geomName + '</ogc:PropertyName>'
-              ,exportBbox.verts[0]
+              ,exportBbox.verts[0].replace('<gml:MultiSurface>','<gml:MultiSurface srsDimension="2" srsName="http://www.opengis.net/gml/srs/epsg.xml#26986">').replace('<gml:Polygon>','<gml:Polygon srsDimension="2" srsName="http://www.opengis.net/gml/srs/epsg.xml#26986">').replace('<gml:LinearRing>','<gml:LinearRing srsDimension="2" srsName="http://www.opengis.net/gml/srs/epsg.xml#26986">')
             ,'</ogc:Intersects>'
             ,customFilter[1]
             ,customFilter[2]
