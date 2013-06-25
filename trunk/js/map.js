@@ -5543,7 +5543,7 @@ function launchExportWizard(aoi) {
                     ,'</ogc:And>'
                   ];
                 }
-
+// charlton
                 if (exportBbox.verts.length == 5) {
                   var poly = [];
                   for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -6880,7 +6880,7 @@ function massgisAddressSearch(query,launchWin) {
     Y.on('io:success',handleSuccess,this,[]);
     var cfg = {
        method  : "POST"
-      ,headers : {'Content-Type':'application/xml; charset=UTF-8'}
+      ,headers : {'Content-Type':'text/xml; charset=UTF-8'}
       ,data    : '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"> <soap:Body> <GeocodeAddress xmlns="http://tempuri.org/"> <Address>___ADDR___</Address> <City>___CITY___</City> <ZipCode>___ZIP___</ZipCode> <State>___STATE___</State> </GeocodeAddress> </soap:Body> </soap:Envelope>'.replace('___ADDR___',query.street).replace('___CITY___',query.municipality).replace('___ZIP___',query.zipcode).replace('___STATE___',query.state)
       ,sync    : true
     };
