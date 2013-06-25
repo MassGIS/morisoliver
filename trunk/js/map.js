@@ -1855,7 +1855,7 @@ Ext.onReady(function() {
             ,modal       : true
             ,items       : [new Ext.FormPanel({bodyStyle:'padding:5px 5px 0',border : false,labelWidth : 120,items : [
               {
-                 html   : 'The street field is required along with either the municipality or ZIP code field.  State is optional.'
+                 html   : 'The Street field is required along with either the Municipality or ZIP code field.  State is optional.'
                 ,height : 35
                 ,border : false
               }
@@ -1895,7 +1895,7 @@ Ext.onReady(function() {
                       },win);
                     }
                     else {
-                      Ext.Msg.alert('Locate address error',"Either the Municipality or Zipcode field is required.");
+                      Ext.Msg.alert('Locate address error',"Either the Municipality or ZIP code field is required.");
                     }
                   }
                   else {
