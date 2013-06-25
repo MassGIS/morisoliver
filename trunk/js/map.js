@@ -3810,6 +3810,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     ,collapsible : true
     ,title       : 'Available Data Layers'
     ,tbar        : {}
+    ,collapsed   : typeof(layerPanelStartupCollapsed) == 'boolean' ? layerPanelStartupCollapsed : false
   });
 
   mapPanel = new Ext.Viewport({
