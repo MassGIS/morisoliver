@@ -6842,6 +6842,18 @@ function massgisAddressSearch(query,launchWin) {
   if (launchWin) {
     launchWin.disable();
   }
+
+  function zoomToCenter(ctr) {
+    map.setCenter(ctr);
+    map.zoomToScale(1000);
+    var f = lyrGeoLocate.features;
+    for (var i = 0; i < f.length; i++) {
+      lyrGeoLocate.removeFeatures(f[i]);
+    }
+    lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
+    geoLocateLonLat = new OpenLayers.LonLat(ctr.lon,ctr.lat);
+  }
+
   YUI().use("io",function(Y) {
     var handleSuccess = function(ioId,o,args) {
       if (window.DOMParser) {
@@ -6863,16 +6875,43 @@ function massgisAddressSearch(query,launchWin) {
         return;
       }
       var ctr = new OpenLayers.LonLat(x,y).transform(new OpenLayers.Projection('EPSG:26986'),map.getProjectionObject());
-      map.setCenter(ctr);
-      map.zoomToScale(1000);
-      var f = lyrGeoLocate.features;
-      for (var i = 0; i < f.length; i++) {
-        lyrGeoLocate.removeFeatures(f[i]);
-      }
-      lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
-      geoLocateLonLat = new OpenLayers.LonLat(ctr.lon,ctr.lat);
       if (launchWin) {
+        var locationWin = new Ext.Window({
+           title       : 'Location search results'
+          ,width       : 325
+          ,height      : 200
+          ,plain       : true
+          ,modal       : true
+          ,layout      : 'fit'
+          ,items       : [new Ext.FormPanel({
+             bodyStyle:'padding:5px 5px 0'
+            ,border : false
+            ,items     : [{
+               html : '<b>The MassGIS service found the following location with ' + xmlDoc.getElementsByTagName('Score')[0].childNodes[0].nodeValue + '% confidence:</b><br>' + xmlDoc.getElementsByTagName('MatchedAddress')[0].childNodes[0].nodeValue
+              ,border : false
+            }]
+            ,buttons : [
+              {
+                 text : 'Zoom to center point'
+                ,handler : function() {
+                  zoomToCenter(ctr);
+                  locationWin.close();
+                }
+              }
+              ,{
+                 text : 'Cancel'
+                ,handler : function() {
+                  locationWin.close();
+                }
+              }
+            ]
+          })]
+        });
+        locationWin.show();
         launchWin.close();
+      }
+      else {
+        zoomToCenter(ctr);
       }
     };
 
