@@ -4552,6 +4552,7 @@ function mkDataWizardURL(title,ico) {
       if (new RegExp(/excel2007|excel|csv/).test(Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue())) {
         outputFormat = Ext.getCmp('wizVectorFmt').items.get(0).getGroupValue();
       }
+// charlton
       if (exportBbox.verts.length == 5) {
         var poly = [];
         for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -5543,7 +5544,6 @@ function launchExportWizard(aoi) {
                     ,'</ogc:And>'
                   ];
                 }
-// charlton
                 if (exportBbox.verts.length == 5) {
                   var poly = [];
                   for (var j = 0; j < exportBbox.verts.length; j++) {
@@ -6854,8 +6854,8 @@ function massgisAddressSearch(query,launchWin) {
         xmlDoc.async = "false";
         xmlDoc.loadXML(o.responseText);
       }
-      var x = xmlDoc.getElementsByTagName('X')[0].innerHTML;
-      var y = xmlDoc.getElementsByTagName('Y')[0].innerHTML;
+      var x = xmlDoc.getElementsByTagName('X')[0].childNodes[0].nodeValue;
+      var y = xmlDoc.getElementsByTagName('Y')[0].childNodes[0].nodeValue;
       if (x == 'NaN' && y == 'NaN') {
 	if (launchWin) {
           Ext.Msg.alert('Location search results','The address service could not find any matching results.');
