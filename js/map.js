@@ -1773,9 +1773,13 @@ Ext.onReady(function() {
     topToolBar_items.push('-');
   }
 
+  if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show'
+    || !toolSettings.massgisAddressSearch || toolSettings.massgisAddressSearch.status == 'show') {
+      topToolBar_items.push(' ',' ');
+  }
+
   if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show') {
     // bing search functionality
-    
     if (toolSettings.bingAddressSearch.keyMap) {
     topToolBar_keyMaps.push({
       keyMap: toolSettings.bingAddressSearch.keyMap,
@@ -1784,25 +1788,8 @@ Ext.onReady(function() {
     });
     }
 
-    if (toolSettings.massgisAddressSearch && toolSettings.massgisAddressSearch.keyMap) {
-    topToolBar_keyMaps.push({
-      keyMap: toolSettings.massgisAddressSearch.keyMap,
-      itemId :'massgisSearch' ,
-      type   : 'text'
-    });
-    }
-
-    if (toolSettings.bingSearchClear && toolSettings.bingSearchClear.keyMap) {
-    topToolBar_keyMaps.push({
-      keyMap: toolSettings.bingSearchClear.keyMap,
-      itemId :'bingSearchClear' ,
-      type   : 'basic'
-    });
-    }
-    
-      topToolBar_items.push(' '
-      ,' '
-      ,{
+      topToolBar_items.push(
+      {
          xtype     : 'textfield'
     ,itemId    : 'bingSearch'
         ,emptyText : 'Search for a location'
@@ -1826,21 +1813,18 @@ Ext.onReady(function() {
           }
         }
       }
-      ,{
-         itemId  : 'bingSearchClear'
-        ,tooltip : 'Clear location search results from map'
-        ,scale   : 'large'
-        ,icon    : 'img/09_clear_location.png'
-        ,handler : function() {
-          Ext.getCmp('searchLocation').reset();
-          var f = lyrGeoLocate.features;
-          for (var i = 0; i < f.length; i++) {
-            lyrGeoLocate.removeFeatures(f[i]);
+      );
+  }
+
+  if (!toolSettings || !toolSettings.massgisAddressSearch || toolSettings.massgisAddressSearch.status == 'show') {
+    // massgis search functionality
+    if (toolSettings.massgisAddressSearch && toolSettings.massgisAddressSearch.keyMap) {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.massgisAddressSearch.keyMap,
+      itemId :'massgisSearch' ,
+      type   : 'text'
+    });
     }
-          geoLocateLonLat = undefined;
-          geoLocateBnds = undefined;
-        }
-      });
 
       topToolBar_items.push({
          icon    : 'img/location_pin24.png' 
@@ -1914,6 +1898,33 @@ Ext.onReady(function() {
           win.show();
         }
       });
+  }
+
+  if (!toolSettings || !toolSettings.bingAddressSearch || toolSettings.bingAddressSearch.status == 'show'
+    || !toolSettings.massgisAddressSearch || toolSettings.massgisAddressSearch.status == 'show') {
+    topToolBar_keyMaps.push({
+      keyMap: toolSettings.bingSearchClear.keyMap,
+      itemId :'bingSearchClear' ,
+      type   : 'basic'
+    });
+
+    topToolBar_items.push(
+      {
+         itemId  : 'bingSearchClear'
+        ,tooltip : 'Clear location search results from map'
+        ,scale   : 'large'
+        ,icon    : 'img/09_clear_location.png'
+        ,handler : function() {
+          Ext.getCmp('searchLocation').reset();
+          var f = lyrGeoLocate.features;
+          for (var i = 0; i < f.length; i++) {
+            lyrGeoLocate.removeFeatures(f[i]);
+          }
+          geoLocateLonLat = undefined;
+          geoLocateBnds = undefined;
+        }
+      }
+    );
   }
 
 if (!toolSettings || !toolSettings.identify || toolSettings.identify.status == 'show') {
@@ -3411,10 +3422,10 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
   if (launchSearch) {
     if (launchSearch.gcType == 'MassGIS' && toolSettings && toolSettings.massgisAddressSearch && toolSettings.massgisAddressSearch.url) {
       massgisAddressSearch({
-         street       : launchSearch.address
-        ,municipality : launchSearch.city
-        ,state        : launchSearch.state
-        ,zipcode      : launchSearch.zipcode
+         street       : launchSearch.address ? launchSearch.address : ''
+        ,municipality : launchSearch.city ? launchSearch.city : ''
+        ,state        : launchSearch.state ? launchSearch.state : ''
+        ,zipcode      : launchSearch.zipcode ? launchSearch.zipcode : ''
         ,url          : toolSettings.massgisAddressSearch.url
       });
     }
