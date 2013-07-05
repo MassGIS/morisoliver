@@ -25,6 +25,10 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'show';
 	toolSettings.permalink.keyMap =  {					// not required
@@ -92,6 +96,16 @@
                 "key": "j"
         };
 	
+
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
+
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	
 	toolSettings.exportData.keyMap =  {					// not required
@@ -263,25 +277,28 @@
                         featureType: "AFREEMAN.GEOSERVER_TEST_PT",
                         layerTitle : "Geoserver Editable Point", // must match whatever is found in folderset for this layer.
                         split: true,
-                         snapTo: ["AFREEMAN.GEOSERVER_TEST_PT","GISDATA.SCHOOLS_PT"]
+                        snapTo: ["AFREEMAN.GEOSERVER_TEST_PT","GISDATA.SCHOOLS_PT"],
+                        allowGeomEdit : true
                 }
                 , 
                 {
                         featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
                         layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
                         split: true,
-                        snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","GISDATA.TOWNS_POLY"]
+                        snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","GISDATA.TOWNS_POLY"],
+                        allowGeomEdit : false
                 }
                 ,
                {
-                      featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+                        featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
                         layerTitle : "Geoserver Editable Polygon", // must match whatever is found in folderset for this layer.
                         split: true,
-                        snapTo: ["AFREEMAN.GEOSERVER_TEST_POLY","GISDATA.COUNTIES_POLY"]
+                        snapTo: ["AFREEMAN.GEOSERVER_TEST_POLY","GISDATA.COUNTIES_POLY"],
+                        allowGeomEdit : true
                 }
         ];
 
-
+	toolSettings.editTool.allowGeomEdit = false;
 
 	toolSettings.navigationTools.zoomIn = {};
         toolSettings.navigationTools.zoomIn.status = 'show';

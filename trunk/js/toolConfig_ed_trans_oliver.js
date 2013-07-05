@@ -9,9 +9,9 @@
 
 	
 	var toolSettings = {};
+
         toolSettings.externalWMS = {}
         toolSettings.externalWMS.status = 'hide';
-
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'hide';
@@ -29,12 +29,12 @@
         };
 
 	toolSettings.permalink = {};
-	toolSettings.permalink.status = 'hide';
-//	toolSettings.permalink.keyMap =  {					// not required
-//		"ctrl":true,			// not required if false
-//		"alt": true,			// not required if false
-//		"key": "k"
-//	};	
+	toolSettings.permalink.status = 'show';
+	toolSettings.permalink.keyMap =  {					// not required
+		"ctrl":true,			// not required if false
+		"alt": true,			// not required if false
+		"key": "k"
+	};	
 	
 	toolSettings.scaleSettings = {};
 	toolSettings.scaleSettings.status = 'hide';
@@ -65,7 +65,7 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'hide';
+        toolSettings.identify.status = 'show';
         toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
@@ -123,21 +123,50 @@
 	
 	toolSettings.quickZoomTools = {};
 	toolSettings.quickZoomTools.status = 'show';
-	toolSettings.quickZoomTools.tools = [
-		{id: 1,   						// ids must be unique
-		 label: 'Pick a town',
-		 layer: 'massgis:GISDATA.TOWNS_POLYM',
-		 valueField: 'TOWN',
-		 sortBy : 'TOWN', // optional, fieldname
-		 sortOrder : 'A', // optional, acceptable values = A, D
-		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
-		 keyMap: {					// not required
-			"ctrl":true,			// not required if false
-			"alt": true,			// not required if false
-			"key": "t"
-			}
-		}
-	];	
+
+        toolSettings.quickZoomTools.tools = [
+                {id: 5,                                                 // ids must be unique
+                 label: 'Pick a Municipality',
+                 layer: 'massgis:GISDATA.TOWNSSURVEY_POLYM',
+                 valueField: 'TOWN',
+                 width : 140,
+                 sortBy : 'TOWN', // optional, fieldname
+                },
+                {id: 1,                                                 // ids must be unique
+                 label: 'Pick a MA Represenatitive',
+                 layer: 'massgis:GISDATA.HOUSE2012_POLY',
+                 valueField: 'REP',
+                 width : 165,
+                 sortBy : 'REP', // optional, fieldname
+                 sortOrder : 'A' // optional, acceptable values = A, D
+                },
+                {id: 3,                                                 // ids must be unique
+                 label: 'Pick a Rep. District',
+                 layer: 'massgis:GISDATA.HOUSE2012_POLY',
+                 valueField: 'REP_DIST',
+                 width : 185,
+                 sortBy : 'REP_DIST', // optional, fieldname
+                 sortOrder : 'A' // optional, acceptable values = A, D
+                },
+                {id: 2,                                                 // ids must be unique
+                 label: 'Pick a MA Senator',
+                 layer: 'massgis:GISDATA.SENATE2012_POLY',
+                 valueField: 'SENATOR',
+                 width : 173,
+                 sortBy : 'SENATOR',
+                 sortOrder : 'A',
+                },
+                {id: 4,                                                 // ids must be unique
+                 label: 'Pick a Senate District',
+                 layer: 'massgis:GISDATA.SENATE2012_POLY',
+                 valueField: 'SEN_DIST',
+                 width : 255,
+                 sortBy : 'SEN_DIST', // optional, fieldname
+                 sortOrder : 'A' // optional, acceptable values = A, D
+                }
+        ];
+
+
 	
 	toolSettings.commentTool = {};
 	toolSettings.commentTool.status = 'hide';

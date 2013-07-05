@@ -29,7 +29,7 @@
         };
 
         toolSettings.buffer = {};
-        toolSettings.buffer.status = 'show';
+        toolSettings.buffer.status = 'hide';
 
         toolSettings.identifyBuffer = {};
         toolSettings.identifyBuffer.selectDataLayer              = 'Tax Parcels for Query';
@@ -117,6 +117,15 @@
                 "alt": true,                    // not required if false
                 "key": "j"
         };
+
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
 	
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	

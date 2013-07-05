@@ -9,12 +9,12 @@
 
 	
 	var toolSettings = {};
-        toolSettings.externalWMS = {}
-        toolSettings.externalWMS.status = 'hide';
 
+        toolSettings.externalWMS = {}
+        toolSettings.externalWMS.status = 'show';
 	
 	toolSettings.measureTool = {};
-	toolSettings.measureTool.status = 'hide';
+	toolSettings.measureTool.status = 'show';
 	toolSettings.measureTool.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -28,16 +28,19 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
 	toolSettings.permalink = {};
 	toolSettings.permalink.status = 'hide';
-//	toolSettings.permalink.keyMap =  {					// not required
-//		"ctrl":true,			// not required if false
-//		"alt": true,			// not required if false
-//		"key": "k"
-//	};	
+	toolSettings.permalink.keyMap =  {					// not required
+		"ctrl":true,			// not required if false
+		"alt": true,			// not required if false
+		"key": "k"
+	};	
 	
 	toolSettings.scaleSettings = {};
-	toolSettings.scaleSettings.status = 'hide';
+	toolSettings.scaleSettings.status = 'show';
 	toolSettings.scaleSettings.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -46,7 +49,7 @@
 
 
 	toolSettings.mapUnits = {};
-	toolSettings.mapUnits.status = 'hide';
+	toolSettings.mapUnits.status = 'show';
 	toolSettings.mapUnits.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -55,7 +58,7 @@
 
 
 	toolSettings.basemaps = {};
-	toolSettings.basemaps.status = 'hide';
+	toolSettings.basemaps.status = 'show';
 	toolSettings.basemaps.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -65,8 +68,8 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'hide';
-        toolSettings.identifyPoly.status = 'hide';
+        toolSettings.identify.status = 'show';
+        toolSettings.identifyPoly.status = 'show';
 
         toolSettings.identify.identify_keymap = {
                 "ctrl":true,                    // not required if false
@@ -105,7 +108,7 @@
         toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
 	
 	toolSettings.exportData = {};
-	toolSettings.exportData.status = 'hide';	
+	toolSettings.exportData.status = 'show';	
 	toolSettings.exportData.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -224,7 +227,7 @@
 	];
 	
 	toolSettings.editTool = {};
-	toolSettings.editTool.status = 'hide';
+	toolSettings.editTool.status = 'show';
 
 	toolSettings.editTool.keyMap_draw = {					// not required
 		"ctrl":true,			// not required if false
@@ -240,34 +243,24 @@
 	
 	toolSettings.editTool.layers = [
 		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
-			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
-			split: true,
-			snapTo: ["AFREEMAN.GEOSERVER_TEST_LINE","AFREEMAN.GEOSERVER_TEST_PT_COMMENT"]
-		}
-/*,
-		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
-			layerTitle : "Geoserver Editable Polygon" // must match whatever is found in folderset for this layer.
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT_HTTPS",
+			layerTitle : "Geoserver Editable Point HTTPS", // must match whatever is found in folderset for this layer.
+			allowGeomEdit : false
 		},
-		{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
-			layerTitle : "Geoserver Editable Point - HTTPS" // must match whatever is found in folderset for this layer.
-		}
-		*/
-		,{
-			featureType: "AFREEMAN.GEOSERVER_TEST_PT_COMMENT",
-			layerTitle : "Geoserver Editable Comments" // must match whatever is found in folderset for this layer.
-		}
-	/*
-		,{
-			featureType: "test_geoserver_line",
-			layerTitle : "MapsOnline Geoserver Line", // must match whatever is found in folderset for this layer.
-			split: true
-		}
-*/
+                {
+                        featureType: "AFREEMAN.GEOSERVER_TEST_LINE_HTTPS",
+                        layerTitle : "Geoserver Editable Line HTTPS", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : true
+                },
+                {
+                        featureType: "AFREEMAN.GEOSERVER_TEST_POLY_HTTPS",
+                        layerTitle : "Geoserver Editable Polygon HTTPS", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : false
+                }
 	];
 	
+	toolSettings.editTool.allowGeomEdit = false;
+
 	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
         toolSettings.navigationTools.zoomIn.status = 'show';
@@ -295,7 +288,7 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
-        toolSettings.navigationTools.nextExtent.status = 'hide';
+        toolSettings.navigationTools.nextExtent.status = 'show';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -303,7 +296,7 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
-        toolSettings.navigationTools.maxExtent.status = 'hide';
+        toolSettings.navigationTools.maxExtent.status = 'show';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -311,7 +304,7 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
-        toolSettings.navigationTools.initExtent.status = 'hide';
+        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -319,7 +312,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-        toolSettings.navigationTools.prevExtent.status = 'hide';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -327,7 +320,7 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
-        toolSettings.navigationTools.zoomScale.status = 'hide';
+        toolSettings.navigationTools.zoomScale.status = 'show';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
