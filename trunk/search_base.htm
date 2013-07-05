@@ -3,7 +3,7 @@
 
 
 <!-- Title of Page -->
-<TITLE>MORIS User Guide: Data Layers with Scale Dependencies
+<TITLE>MORIS User Guide: Searching for a Location
 </title>
 
 <META NAME="search" CONTENT="Coastal Zone Management">
@@ -33,20 +33,30 @@
 </table>
 
 <p>
-<strong class="subhead"><a name="scale" id="scale">Data Layers with Scale Dependencies</a></strong>
+<strong class="subhead"><a name="search" id="search">Searching for a Location using the MassGIS base streets dataset</a></strong>
 
-<p>
-Most data layers are visible at all scales, but some data layers have scale dependencies and are only visible within certain scale ranges, such as less than 1:100,000. If a data layer has a scale dependency and the map is not within the appropriate scale range, the data layer will not draw on the map and its icon in the "Active Data Layers" window will have a yellow exclamation point. Hover the mouse over the yellow exclamation point to see the range within which the data layer will draw. To view the data layer, zoom in or out to a map scale within the available scale range.
+<ol>
+The <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/ArcGIS+Server+-+Geocoding">base streets dataset</a> may have fresher street information than the Bing search location service.  However, addresses must be entered into a form as free form address format interpretation is not available. 
+<li>Click the red pin button <img src="img/location_pin24.png" alt="MassGIS geocoder"> to open the address form.</li>
+<li>Enter two or more pieces of address information.</li>
+<br>
+<img src="img/massgis_geocoding_form.jpg" alt="Searching for a Location MassGIS geocoder" border="0">
 <br><br>
-<img src="img/data_layers_with_scale_dependencies.jpg" alt="Data Layers with Scale Dependencies" border="0">
-<br><br><br>
+<li>The search results box will appear, with a score.</li>
+<img src="img/location_search_results_massgis_geocoder.jpg" alt="Searching for a Location MassGIS geocoder" border="0">
+<br><br>
+If this is the correct results, click the "Zoom to center point" button for the map to zoom to the address. 
+<li>Click the "Clear location" button <img src="img/09_clear_location.png" alt="clear button"> to clear the location search results (the blue balloon) <img src="img/balloon_blue.png" alt="blue balloon"> from the map. 
+</ol>
+<br>
 <hr width="75%" size="1">
 <br>
-<div align="center"><strong class="bold"><a href="addlayerexternal.htm" title="Previous Section"><< Previous</a>&nbsp;&nbsp;&nbsp;<a href="reorder.htm" title="Next Section">Next >></a>
+<div align="center"><strong class="bold"><a href="metadata.htm" title="Previous Section"><< Previous</a>&nbsp;&nbsp;&nbsp;<a href="identify_single.htm" title="Next Section">Next >></a>
 <br><br>
 <a href="moris_users_documentation.htm" title="Back to Table of Contents">Back to Table of Contents</a>
 </strong>
 </div>
+<br><br>
 <!-- end main content -->
 
 

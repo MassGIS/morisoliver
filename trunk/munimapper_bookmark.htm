@@ -32,7 +32,9 @@
 
 <p>
 <strong class="subhead"><a name="bookmark" id="bookmark">Bookmarking/Sharing a Map</a></strong>
-
+<br/>
+<br/>
+<b>Using Permalink button:</b>
 <ol>
 <li>To create a bookmark to launch the application with the current map settings (e.g., data layers, extent, etc.) enabled, click the "Permalink" tool.<br><br></li>
 
@@ -41,6 +43,62 @@ This URL may be saved as a bookmark in the web browser or shared with others in 
 <img src="img/munimapper_bookmarking_a_map.jpg" alt="Bookmarking a Map" border="0"></li>
 </ol>
 <p><strong class="bold">Please note:</strong> Some software programs, such as Microsoft Outlook, limit the number of characters allowed in a URL. If the permalink URL exceeds the maximum allowed length, the link will not open automatically when clicked. Copy and paste the URL into a web browser to open it.
+<br/><br/>
+<b>Using Address:</b>
+<br/><br/>
+MORIS/OLIVER can be opened zoomed to an address by adding the address to the URL.  Two options are available:
+<br/>
+<br/>
+1) Bing geocoding service
+<br/>
+<br/>
+Add ?gcType=Bing&gcAddress=1%20Ashburton%20Pl,02108&gcZoomTo=center
+        where gcType= is an address of any format
+        and gcZoomTo= either "center" (for a blue balloon) or "region" for a more zoomed out map and a light blue outlined region box.
+<br/><br/>
+Samples:
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=1 Ashburton Pl, 02108&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=1 Ashburton Pl, 02108&gcZoomTo=center</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=1 Ashburton Pl, Boston&gcZoomTo=region">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=1 Ashburton Pl, Boston&gcZoomTo=region</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=Fenway Park&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=Fenway Park&gcZoomTo=center</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=Park St and Beacon St. Boston&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=Park St. and Beacon St. Boston&gcZoomTo=center</a> (when supplying an intersection, use "and" instead of "+" between the street names)
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=McCormack Building, Boston&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=McCormack Building, Boston&gcZoomTo=center</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=42.35935 -71.06237&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=42.35935 -71.06237&gcZoomTo=center</a>
+Latitude and Longitude may be used, either digital degrees or degrees minutes seconds format.
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=42 21 33.624  -71 03 44.568&gcZoomTo=center">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=Bing&gcAddress=42 21 33.624  -71 03 44.568&gcZoomTo=center</a>
+<br/><br/>
+2) MassGIS geocoding service using <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/ArcGIS+Server+-+Geocoding">base streets</a>
+<br/>
+<br/>
+Use up to 4 parameters:
+<br/>&gcAddress=
+<br/>&gcCity=
+<br/>&gcState=
+<br/>&gcZipcode=
+<br/><br/>
+&gcZoomTo is not applicable for the MassGIS geocoding service
+<br/>
+&gcAddress is required
+<br/>
+Either &gcCity or &gcZipcode are required
+<br/>
+&gcState is optional
+
+<br/><br/>
+Samples:
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=1 Ashburton Pl.&gcCity=Boston">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=1 Ashburton Pl.&gcCity=Boston</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=100 Willard St.&gcZipcode=03071">http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=100 Willard St.&gcZipcode=03071</a>
+<br/>
+<a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=1 Ashburton Pl&gcCity=Boston&gcState=MA&gcZipcode=02108>http://maps.massgis.state.ma.us/map_ol/oliver.php?gcType=MassGIS&gcAddress=1 Ashburton Pl&gcCity=Boston&gcState=MA&gcZipcode=02108</a>
+
 </p>
 <br>
 <hr width="75%" size="1">
