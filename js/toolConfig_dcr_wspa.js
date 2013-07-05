@@ -9,12 +9,12 @@
 
 	
 	var toolSettings = {};
+
         toolSettings.externalWMS = {}
         toolSettings.externalWMS.status = 'hide';
-
 	
 	toolSettings.measureTool = {};
-	toolSettings.measureTool.status = 'hide';
+	toolSettings.measureTool.status = 'show';
 	toolSettings.measureTool.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -28,16 +28,19 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+
 	toolSettings.permalink = {};
-	toolSettings.permalink.status = 'hide';
-//	toolSettings.permalink.keyMap =  {					// not required
-//		"ctrl":true,			// not required if false
-//		"alt": true,			// not required if false
-//		"key": "k"
-//	};	
+	toolSettings.permalink.status = 'show';
+	toolSettings.permalink.keyMap =  {					// not required
+		"ctrl":true,			// not required if false
+		"alt": true,			// not required if false
+		"key": "k"
+	};	
 	
 	toolSettings.scaleSettings = {};
-	toolSettings.scaleSettings.status = 'hide';
+	toolSettings.scaleSettings.status = 'show';
 	toolSettings.scaleSettings.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -46,7 +49,7 @@
 
 
 	toolSettings.mapUnits = {};
-	toolSettings.mapUnits.status = 'hide';
+	toolSettings.mapUnits.status = 'show';
 	toolSettings.mapUnits.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -55,7 +58,7 @@
 
 
 	toolSettings.basemaps = {};
-	toolSettings.basemaps.status = 'hide';
+	toolSettings.basemaps.status = 'show';
 	toolSettings.basemaps.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -88,13 +91,6 @@
 		"key": "l"
 	};	
 
-        toolSettings.bingSearchClear = {};
-        toolSettings.bingSearchClear.keyMap = {   // not required
-                "ctrl":true,                    // not required if false
-                "alt": true,                    // not required if false
-                "key": "j"
-        };
-
         toolSettings.massgisAddressSearch = {};
         toolSettings.massgisAddressSearch.status = 'hide';
         toolSettings.massgisAddressSearch.keyMap = {                                       // not required
@@ -103,9 +99,16 @@
                 "key": "M"
         };
         toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
+
+        toolSettings.bingSearchClear = {};
+        toolSettings.bingSearchClear.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "j"
+        };
 	
 	toolSettings.exportData = {};
-	toolSettings.exportData.status = 'hide';	
+	toolSettings.exportData.status = 'show';	
 	toolSettings.exportData.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -126,7 +129,7 @@
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
 		 label: 'Pick a town',
-		 layer: 'massgis:GISDATA.TOWNS_POLYM',
+		 layer: 'massgis:GISDATA.QWWTOWNS_POLYM',
 		 valueField: 'TOWN',
 		 sortBy : 'TOWN', // optional, fieldname
 		 sortOrder : 'A', // optional, acceptable values = A, D
@@ -295,7 +298,7 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
-        toolSettings.navigationTools.nextExtent.status = 'hide';
+        toolSettings.navigationTools.nextExtent.status = 'show';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -303,7 +306,7 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
-        toolSettings.navigationTools.maxExtent.status = 'hide';
+        toolSettings.navigationTools.maxExtent.status = 'show';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -311,7 +314,7 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
-        toolSettings.navigationTools.initExtent.status = 'hide';
+        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -319,7 +322,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
-        toolSettings.navigationTools.prevExtent.status = 'hide';
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -327,7 +330,7 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
-        toolSettings.navigationTools.zoomScale.status = 'hide';
+        toolSettings.navigationTools.zoomScale.status = 'show';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false

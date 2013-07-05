@@ -88,7 +88,7 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'show';
+        toolSettings.identify.status = 'hide';
         toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
@@ -117,6 +117,15 @@
                 "alt": true,                    // not required if false
                 "key": "j"
         };
+
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
 	
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	

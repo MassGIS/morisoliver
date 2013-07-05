@@ -89,6 +89,16 @@
 		"key": "l"
 	};	
 
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
+
+
         toolSettings.bingSearchClear = {};
         toolSettings.bingSearchClear.keyMap = {   // not required
                 "ctrl":true,                    // not required if false

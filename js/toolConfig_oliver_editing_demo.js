@@ -9,6 +9,9 @@
 
 	
 	var toolSettings = {};
+
+        toolSettings.externalWMS = {}
+        toolSettings.externalWMS.status = 'show';
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
@@ -25,8 +28,41 @@
                 "key": "h"
         };
 
+        toolSettings.buffer = {};
+        toolSettings.buffer.status = 'show';
+        toolSettings.buffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "B"
+        };
+
+        toolSettings.identifyBuffer = {};
+        toolSettings.buffer.status = 'show';
+        toolSettings.identifyBuffer.keyMap = {   // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "I"
+        };
+        toolSettings.identifyBuffer.selectDataLayer              = 'Parcels Level 3 SDE';
+        toolSettings.identifyBuffer.bufferResultDataLayer        = 'Parcels Level 3 SDE';
+        toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
+        toolSettings.identifyBuffer.numberBufferQuadrantSegments = 15;
+	toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "I dropped some stuff from the selected features.";
+	toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "I dropped some stuff from the buffered features.";
+        toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW';
+        };
+        toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
+          return attrs['POLY_TYPE'] != 'ROW' && attrs['POLY_TYPE'] != 'PRIV_ROW';
+        };
+        // If you want to show all fields, simply comment out the next few lines.
+        // Otherwise, complete a working regular expression.
+        toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
+          /^(OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
+        );
+
 	toolSettings.permalink = {};
-	toolSettings.permalink.status = 'show';
+	toolSettings.permalink.status = 'hide';
 	toolSettings.permalink.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -91,6 +127,15 @@
                 "alt": true,                    // not required if false
                 "key": "j"
         };
+
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
 	
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	
@@ -125,36 +170,6 @@
 			"key": "t"
 			}
 		}
-/*,
-		{id: 2,
-		 label: 'Pick an OpenSpace',
-		 layer: 'massgis:GISDATA.OPENSPACE_POLY',
-		 valueField: 'SITE_NAME',
-		 sortBy : 'SITE_NAME', // optional, fieldname
-		 sortOrder : 'D', // optional, acceptable values = A, D		 
-		 restrict : {
-			restrictToolId: 1,
-			restrictedValueField: 'TOWN_ID',  // name of the field in this layer
-			restrictedSourceField: 'TOWN_ID', // name of the field in the layer we're restricting based on
-			required: true
-		 },
-		 keyMap: {					// not required
-			"ctrl":true,			// not required if false
-			"alt": true,			// not required if false
-			"key": "o"
-			}		 
-		},
-		{id: 3,
-		 label: 'Pick an school',
-		 layer: 'massgis:GISDATA.SCHOOLS_PT',
-		 valueField: 'NAME',
-		 restrict : {
-			restrictToolId: 1,
-			restrictedValueField: 'TOWN',  // name of the field in this layer
-			restrictedSourceField: 'TOWN', // name of the field in the layer we're restricting based on
-			required: false
-		 }
-		}		*/
 	];	
 	
 	toolSettings.commentTool = {};
@@ -256,29 +271,35 @@
 		"key": "e"
 	};
 	
-	
-	toolSettings.navigationTools = {};
-        toolSettings.editTool.layers = [
-                {
-                        featureType: "AFREEMAN.GEOSERVER_TEST_PT",
-                        layerTitle : "Geoserver Editable Point", // must match whatever is found in folderset for this layer.
-                        allowGeomEdit : true
-                },
-                {
-                        featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
-                        layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
-                        allowGeomEdit : true
-                }, 
-                {
-                        featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
-                        layerTitle : "Geoserver Editable Polygon", // must match whatever is found in folderset for this layer.
+	toolSettings.editTool.layers = [
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_LINE",
+			layerTitle : "Geoserver Editable Line", // must match whatever is found in folderset for this layer.
                         allowGeomEdit : false
-                } 
-        ];
+		}
+		,
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_POLY",
+			layerTitle : "Geoserver Editable Polygon", // must match whatever is found in folderset for this layer.
+                        allowGeomEdit : true
+		}, 
+		{
+			featureType: "AFREEMAN.GEOSERVER_TEST_PT",
+			layerTitle : "Geoserver Editable Point", // must match whatever is found in folderset for this layer.
+			allowGeomEdit : false
+		},
+//                {
+//                        featureType: "AFREEMAN.MEDFORD_L3_TEST",
+//                        layerTitle : "Medford L3 Parcels Editable Polygon", // must match whatever is found in folderset for this layer.
+//                        allowGeomEdit : false
+//                }, 
+	];
+	
+	toolSettings.editTool.allowGeomEdit = false;
 
-        toolSettings.editTool.allowGeomEdit = false;
-
+	toolSettings.navigationTools = {};
 	toolSettings.navigationTools.zoomIn = {};
+        toolSettings.navigationTools.zoomIn.status = 'show';
 	toolSettings.navigationTools.zoomIn.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -286,6 +307,7 @@
 	};
 	
 	toolSettings.navigationTools.zoomOut = {};
+        toolSettings.navigationTools.zoomOut.status = 'show';
 	toolSettings.navigationTools.zoomOut.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -294,6 +316,7 @@
 	
 	
 	toolSettings.navigationTools.pan = {};
+        toolSettings.navigationTools.pan.status = 'show';
 	toolSettings.navigationTools.pan.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -301,6 +324,7 @@
 	};		
 	
 	toolSettings.navigationTools.nextExtent = {};
+        toolSettings.navigationTools.nextExtent.status = 'show';
 	toolSettings.navigationTools.nextExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -308,6 +332,7 @@
 	};	
 
 	toolSettings.navigationTools.maxExtent = {};
+        toolSettings.navigationTools.maxExtent.status = 'show';
 	toolSettings.navigationTools.maxExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -315,6 +340,7 @@
 	};		
 	
 	toolSettings.navigationTools.initExtent = {};
+        toolSettings.navigationTools.initExtent.status = 'show';
 	toolSettings.navigationTools.initExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -322,6 +348,7 @@
 	};	
 	
 	toolSettings.navigationTools.prevExtent = {};
+        toolSettings.navigationTools.prevExtent.status = 'show';
 	toolSettings.navigationTools.prevExtent.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -329,6 +356,7 @@
 	};	
 		
 	toolSettings.navigationTools.zoomScale = {};
+        toolSettings.navigationTools.zoomScale.status = 'show';
 	toolSettings.navigationTools.zoomScale.keyMap =  {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
