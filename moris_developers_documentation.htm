@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv=Content-Type content="text/html; charset=UTF-8">
 <meta name=Generator content="Microsoft Word 11 (filtered)">
-<title>MORIS Developers Documentation</title>
+<title>MORIS/OLIVER Developers Documentation</title>
 <style type="text/css">
 <!--
  /* Style Definitions */
@@ -39,11 +39,11 @@ span.EmailStyle24
 
 <div class=Section1>
 
-<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>MORIS Developers
-Documentation </span></b></p>
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 1/10/2012<br>
+<p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'><font size="+2">MORIS/OLIVER Developers
+Documentation</font></span></b></p>
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>Last Updated: 6/26/2013<br>
 For questions about this documentation contact <a href="mailto:Aleda.Freeman@state.ma.us">Aleda.Freeman@state.ma.us</a><br>
-<br>Please note:  MORIS is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/oliver.php">OLIVER</a> (the MassGIS Online Data Viewer) and <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">SPOLIVER</a> (the State Police Online Data Viewer). This user guide applies to all of these applications, so you may substitute OLIVER, SPOLIVER, etc. for MORIS as you read this guide.
+<br>Please note:  OLIVER is one of a family of applications, all built on the same template. Some of the other versions include <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">MORIS</a> (the MassGIS Online Data Viewer) and various MuniMappers such as <a target="_blank" href="http://maps.massgis.state.ma.us/map_ol/great_barrington.php">Great Barrington</a>. This user guide applies to all of these applications, so you may substitute MORIS, MuniMappers, etc. for OLIVER as you read this guide.
 
 </span></p>
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
@@ -53,7 +53,7 @@ For questions about this documentation contact <a href="mailto:Aleda.Freeman@sta
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>This document explains
-the technology behind the new MORIS online data viewer. 
+the technology behind the new OLIVER online data viewer. 
 The code is:
 
 (c) 2010 Third Sector New England, Inc. on behalf of the Massachusetts Ocean Partnership (now SeaPlan).
@@ -73,18 +73,21 @@ licensee agrees to be subject to this Additional Term: Licensee shall notify and
 with a copy of all "modified versions" of the earlier work that is subject this license or a work "based on"
  the earlier work that is subject to this license.
 
-<a target="_blank" href="http://code.google.com/p/morisoliver/source/checkout">Download the MORIS code</a>.</span></p>
+<a target="_blank" href="http://code.google.com/p/morisoliver/source/checkout">Download the OLIVER/MORIS code</a>.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'><a target="_blank" href="http://www.openlayers.org/">OpenLayers</a>/<a
-target="_blank" href="http://www.geoext.org/">GeoExt</a> MORIS  
+target="_blank" href="http://www.geoext.org/">GeoExt</a> OLIVER  
 is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, the <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly Massachusetts Ocean Partnership)</a>, <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a> and <a target="_blank" href="http://2creek.com">Charlton Galvarino</a>.
 
 The viewer is configurable and so currently there are several similar viewers
 sharing the same code base. We currently have these variations (others are in the planning stages): </span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>&nbsp;</span></p>
+
+
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>OLIVER: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/oliver.php</span></u></span></p>
 
 <p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>MORIS: <u><span style='color:blue'><a
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/moris.php</a>
@@ -95,17 +98,11 @@ target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://m
 target="_blank" href="http://maps.massgis.state.ma.us/map_ol/moris.php">http://maps.massgis.state.ma.us/map_ol/habitatatlas.php</a>
 </span></u></span></p>
 
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>OLIVER: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/oliver.php</span></u></span></p>
-
-<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>SPOLIVER: <u><span style='color:blue'><a
-target="_blank" href="http://maps.massgis.state.ma.us/map_ol/spoliver.php">http://maps.massgis.state.ma.us/map_ol/spoliver.php</a></span></u></span></p>
-
-<p class=MsoNormal style='margin-right:-65.95pt;text-autospace:none'><span
-style='font-size:10.0pt;font-family:Arial,sans-serif'>State Facilities OLIVER: <u><span
-style='color:blue'>http://maps.massgis.state.ma.us/<a
-target="_blank" href="http://maps.massgis.state.ma.us/map_ol/state_facilities.php">map</a>_ol/state_facilities.php</span></u></span></p>
-
+<p class=MsoNormal style='text-autospace:none'><span style='font-size:10.0pt;font-family:Arial,sans-serif'>Great Barrington MuniMapper: <u><span style='color:blue'>http://maps.massgis.state.ma.us/map_ol/great_barrington.php
+<br/>
+As of 6/26/2013, MuniMappers for 63 municipalities were available.
+</span></u></span>
+</p>
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
 <p class=MsoPlainText><b><span style='font-family:Arial,sans-serif'>Configuration</span></b></p>
@@ -450,7 +447,7 @@ Browser types and versions</span></b></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
 
-<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>As of December 2011 MORIS has been extensively tested in the latest versions of the browsers Firefox 21, Internet Explorer 10, Chrome 27 and Safari 5.1.7 
+<p class=MsoPlainText><span style='font-family:Arial,sans-serif'>As of June 2013 MORIS has been extensively tested in the latest versions of the browsers Firefox 21, Internet Explorer 10, Chrome 27 and Safari 5.1.7 
 It has been found to work well in all 4 browsers.  It should also work well in earlier versions of these browsers.</span></p>
 
 <p class=MsoPlainText><span style='font-family:Arial,sans-serif'>&nbsp;</span></p>
