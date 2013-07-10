@@ -49,6 +49,7 @@ this license.
          ,'bingHybrid'
          ,'CloudMade'
          ,'TopOSM-MA'
+         ,'Basemaps_Orthos_DigitalGlobe2011_2012'
        ];
       var defaultBase         = 'googleRoadmap';   
       var defaultBaseOpacity  = 1;
