@@ -210,7 +210,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|MassGIS_Basemap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Basemaps_Orthos_DigitalGlobe2011_2012|MassGIS_Basemap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -698,6 +698,16 @@ Ext.onReady(function() {
       ,units             : 'm'
       ,maxExtent         : maxExtent26986
       ,attribution       : null // enter a string for custom attribution
+    }
+  );
+  lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'] = new OpenLayers.Layer.OSM(
+     'Digital Globe Orthophotos 2011-2012'
+    ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_Orthos_DigitalGlobe2011_2012/${z}/${y}/${x}.jpg',
+      'http://170.63.206.116/tiles/Basemaps_Orthos_DigitalGlobe2011_2012/${z}/${y}/${x}.jpg']
+    ,{
+        numZoomLevels : 20
+        ,tileOptions: { crossOriginKeyword: null }
+        ,attribution   : '&copy;DigitalGlobe, Inc. All Rights Reserved' // enter a string for custom attribution
     }
   );
   lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.OSM(
@@ -3339,6 +3349,9 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
+                if (lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'].map) {
+                  lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'].setOpacity(newVal/100);
+                }
                 if (lyrBase['MassGIS_Basemap'].map) {
                   lyrBase['MassGIS_Basemap'].setOpacity(newVal/100);
                 }
@@ -5889,6 +5902,7 @@ function showBaseLayerMetadata(l) {
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
     ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
+    ,'Basemaps_Orthos_DigitalGlobe2011_2012' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/dg2011-12-basemap.html'
     ,'MassGIS_Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
   };
 
@@ -6579,6 +6593,45 @@ function makeBasemapMenu() {
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
               map.setBaseLayer(lyrBase['TopOSM-MA']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'Basemaps_Orthos_DigitalGlobe2011_2012') {
+      bm.push(
+        {
+           text    : 'Digital Globe Orthophotos 2011-2012'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'Basemaps_Orthos_DigitalGlobe2011_2012'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Basemaps_Orthos_DigitalGlobe2011_2012');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('Basemaps_Orthos_DigitalGlobe2011_2012');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
