@@ -31,7 +31,7 @@ this license.
 
       //
       // site-specific variables which may be modified but MUST be set
-      var foldersetLoc = '/temp/west_brookfield_folderset.xml';
+      var foldersetLoc = '/temp/northbridge_folderset.xml';
 var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/munimapper_logo.jpg" alt="MuniMapper Logo"></a></td><td align="center"><img border=none src="img/state_seal.png" alt="MA State Seal"></td><td align="right"><a target="_blank" href="http://www.mass.gov"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify">The Municipal Mapper (MuniMapper) is based on an online mapping tool called OLIVER, which was created for the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. MuniMapper can be used to search, display, and share spatial data pertaining to municipalities.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis">MassGIS web mapping services</a>.  The project was graciously funded by <a target="_blank" href="http://www.seaplan.org">SeaPlan</a>.  OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/OLIVER+and+customizations">OLIVER Developer web site</a>.<br><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/about-massgis/mandate.html">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated October 2, 2012.</p></td></tr><tr><td></td><td></td><td align=right><a target="_blank" href="http://www.mass.gov"><img border=none src="img/itd-logo-200x91.jpg" alt="ITD Logo"></a></td></tr></table>';
       var helpUrl1       = 'munimapper_users_documentation.htm';
       var helpUrl2       = 'MuniMapper_users_documentation.pdf';
@@ -54,16 +54,16 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
       var defaultLyrs         = [
          {wms : 'Basemaps_Structures'                       ,title : 'Structures'}
-        ,{wms : 'Basemaps_L3Parcels'                        ,title : 'Tax Parcels'}
+        ,{wms : 'Basemaps_L3Parcels'                        ,title : 'Tax Parcels'} 
         ,{wms : 'Basemaps_MassGISBasemapWithLabels2'        ,title : 'Detailed Features'}
-        ,{wms : 'massgis:WestBrookfieldEnvironsL3TaxParAssess'        ,title : 'Tax Parcels for Query'}
+        ,{wms : 'massgis:NorthbridgeEnvironsL3TaxParAssess'        ,title : 'Tax Parcels for Query'} 
         ,{wms : 'massgis:GISDATA.NAVTEQRDS_ARC'             ,title : 'Roads for Query'}
 //        ,{wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'         ,title : 'MA Towns Survey Boundaries'  }
       ];
 
 
-      var defaultBbox = [-72.25994,42.16641,-72.08553,42.31180];
-      var maxBbox     = [-72.25994,42.16641,-72.08553,42.31180];
+      var defaultBbox = [-71.73171,42.08508,-71.58906,42.17381];
+      var maxBbox     = [-71.73171,42.08508,-71.58906,42.17381];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
       var wcsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wcs';
@@ -71,8 +71,8 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
 
-var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><td><a target="_blank" href="http://www.wbrookfield.com"><img src="img/west_brookfield_seal.png" alt="West Brookfield, MA town seal"/></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=+3>MuniMapper: West Brookfield, MA</font><br/><font size=-1><a target="_blank" href="http://www.wbrookfield.com">Town of West Brookfield Web Site</a><br/><a target="_blank" href="munimapper_disclaimer.html">Disclaimer<font></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="img/munimapper_web.png" alt="MuniMapper logo"></td></tr>';
-      var bannerHeight = 120;
+var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><td><a target="_blank" href="http://www.northbridgemass.org"><img src="img/northbridge.png" alt="Northbridge, MA town seal"/></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=+3>MuniMapper: Northbridge, MA</font><br/><font size=-1><a target="_blank" href="http://www.northbridgemass.org">Town of Northbridge Web Site</a><br/><a target="_blank" href="munimapper_disclaimer.html">Disclaimer<font></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="img/munimapper_web.png" alt="MuniMapper logo"></td></tr>';
+      var bannerHeight = 140;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
 //         name    : 'NOAA : Marine Protected Areas'
@@ -99,13 +99,13 @@ var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><
       bingDisabled = false;
       bingKey      = 'AoSoMDQG3JYNMtfp-sviYC413l6OxvGzZHq4KX7zP6qJk8R-yQPTT_pfMelyo7Ur';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
-      siteTitle    = 'MuniMapper: West Brookfield, MA';
-      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/west_brookfield.php';
+      siteTitle    = 'MuniMapper: Northbridge, MA';
+      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/northbridge.php';
     </script>
 
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_west_brookfield.js?<?php echo time(); ?>"></script>	
-	<script type="text/javascript" src="js/toolConfig_sample_filter_west_brookfield.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_northbridge.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_sample_filter_northbridge.js?<?php echo time(); ?>"></script>	
     <script>
       document.title = siteTitle;
     </script>
@@ -139,7 +139,7 @@ var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
-    <script type="text/javascript" src="js/jsts/javascript.util.js"></script>
+    <script type="text/javascript"  src="js/jsts/javascript.util.js"></script>
     <script type="text/javascript" src="js/jsts/jsts.js"></script>
 
 

@@ -31,12 +31,11 @@ this license.
 
       //
       // site-specific variables which may be modified but MUST be set
-      var foldersetLoc = '/temp/breeding_bird_atlas_folderset.xml';
+      var foldersetLoc = '/temp/ed_trans_invest_fy14_folderset.xml';
 var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><tr><td align=left><a target="_blank" href="http://www.mass.gov/czm"><img border=none src="img/czm_sda2.png" alt="CZM Logo"></a></td><td align="center" <img border=none src="img/oliver_logo_lcase.jpg" alt="OLIVER logo"></td><td align="right"><a target="_blank" href="http://www.mass.gov/mgis"><img border=none src="img/massgis.png" alt="MassGIS Logo"></a></td></tr><tr><td colspan=3 class="dirText"><p style="text-align:justify"><a target="_blank" href="http://www.mass.gov/czm/mapping">The Massachusetts OnLIne ViewER (OLIVER)</a> is an online mapping tool created by the <a target="_blank" href="http://www.mass.gov/czm">Massachusetts Office of Coastal Zone Management (CZM)</a>, the <a target="_blank" href="http://www.mass.gov/mgis">Office of Geographic Information (MassGIS)</a>, <a target="_blank" href="http://www.seaplan.org">SeaPlan (formerly the Massachusetts Ocean Partnership)</a> and <a target="_blank" href="http://www.asascience.com">Applied Science Associates (ASA)</a>, <a href="http://2creek.com" target="_blank">Charlton Galvarino</a>, and <a href="http://peoplegis.com/" target="_blank">PeopleGIS</a>. OLIVER can be used to search, display, and share spatial data pertaining to Massachusetts.  Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).  In 2011, the OLIVER system was upgraded to a new web-based thin client using <a target="_blank" href="http://www.geoext.org">GeoExt</a> and <a target="_blank" href="http://www.openlayers.org">OpenLayers<a>.  It continues to use <a target="_blank" href="http://www.geoserver.org">GeoServer</a>-based <a target="_blank" href="http://lyceum.massgis.state.ma.us">MassGIS web mapping services</a>.  The project was graciously funded by SeaPlan.<br/><br/>OLIVER was developed using open source technology - the OLIVER codebase is free for use and modification under the GNU General Public License.  More information about the open source nature of OLIVER can be found at the <a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/OLIVER+and+customizations">OLIVER Developer web site</a>.<br><br>The mission of CZM is to balance the impacts of human activity with the protection of coastal and marine resources.  As a networked program, CZM was specifically established to work with other state agencies, federal agencies, local governments, academic institutions, nonprofit groups, and the general public to promote sound management of the Massachusetts coast.  CZM is funded primarily through the <a target="_blank" href="http://www.mass.gov">Commonwealth of Massachusetts</a>, the <a target="_blank" href="http://www.noaa.gov">National Oceanic and Atmospheric Administration (NOAA)</a> and the <a target="_blank" href="http://www.epa.gov">U.S. Environmental Protection Agency (EPA)</a>.<br/><br/><a target="_blank" href="http://www.mass.gov/mgis">MassGIS</a> is the Office of Geographic Information, within the <a target="_blank" href="http://www.mass.gov/itd">Information Technology Division (ITD)</a>.</a>  Through MassGIS, the Commonwealth has created a comprehensive, statewide database of geospatial information.  The state legislature has established MassGIS as the official state agency assigned to the collection, storage and dissemination of geographic data.  In addition, the <a target="_blank" href="http://www.mass.gov/mgis/mandate.htm">legislative mandate</a> includes coordinating GIS activity within the Commonwealth and setting standards for geographic data to ensure universal compatibility.<br/><br/><a target="_blank" href="http://www.seaplan.org">SeaPlan</a> aims to advance science-based and stakeholder informed ocean management by enhancing knowledge, relationships and management tools through effective practice of ecosystem-based coastal and marine spatial planning (CMSP) and the dissemination of its products.  The application is one example of the initiative of SeaPlan to advance an integrated data network to improve the accessibility and interoperability of coastal and marine data for ocean management and other marine related uses.<br/><br/>Please contact <a href="mailto:Paul.Nutting@state.ma.us">Paul.Nutting@state.ma.us</a> with questions or comments.  Last Updated November 30, 2011</p></td></tr><tr><td align=left><a target="_blank" href="http://www.seaplan.org"><img border=none src="img/mop.png" alt="SeaPlan Logo"></a></td><td align=center><a target="_blank" href="http://www.asascience.com" <img border=none src="img/asa.png" alt="ASA Logo"></a></td></tr></table>';
-      var helpUrl1       = 'moris_users_documentation.htm';
-      var helpUrl2       = 'moris_users_documentation.pdf';
+      var helpUrl1       = 'http://maps.massgis.state.ma.us/map_ol/ed_trans_invest_fy14_doc.ppt';
+      var helpUrl2       = 'http://maps.massgis.state.ma.us/map_ol/ed_trans_invest_fy14_doc.pdf';
       var moreInfoWidth = 850;
-
        var availableBase       = [
           'custom'
          ,'googleSatellite'
@@ -50,32 +49,50 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'CloudMade'
          ,'TopOSM-MA'
          ,'Basemaps_Orthos_DigitalGlobe2011_2012'
+	 ,'MassGIS_Basemap'
        ];
+
 
       var defaultBase         = 'custom';   
       var defaultBaseOpacity  = 1;
-      var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
-      var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
+      var defaultCoordUnit    = 'dd';    // can be one of 'dms','dd','m'
+      var defaultMeasureUnit  = 'mi';      // can be one of 'm','mi','nm','yd','ft'
       var defaultLyrs         = [
-         {wms : 'massgis:GISDATA.TOWNSSURVEY_POLYM'          ,title : 'Towns'}
-         ,{wms : 'massgis:AFREEMAN.AUDUBON_BIRD_S_V'     ,title : 'All Birds Grid'}
+       {wms : 'massgis:GISDATA.NEMASK_POLY'   ,title : 'Surrounding States'}
+       ,{wms : 'massgis:GISDATA.TOWNS_POLY_TRANSP_EDU' ,title : 'Mass. Cities and Towns'}
+       ,{wms : 'massgis:GISDATA.HYDRO100K_POLY', title : 'Major Lakes and Ponds'}
+      ,{wms : 'massgis:GISDATA.HYDRO100K_ARC', title : 'Major Rivers'}
+       ,{wms : 'massgis:GISDATA.EOTROADS_ARC', title : 'MassDOT Roads'}
+       ,{wms : 'massgis:GISDATA.EOTMAJROADS_ARC' ,title : 'MassDOT Major Roads'}
+       ,{wms : 'massgis:GISDATA.EOTMAJROADS_RTE_MAJOR' ,title : 'Highways'}
+       ,{wms : 'massgis:GISDATA.RAIL_EXPANSION_ARC' ,title : 'Rail Expansion Projects'}
+       ,{wms : 'massgis:GISDATA.RTAS_POLY_FUNDING', title : 'Regional Transit Authorities'}
+       ,{wms : 'massgis:GISDATA.SCHOOL_DISTRICTS_POLY' ,title : 'School Districts'}
+       ,{wms : 'massgis:GISDATA.BRIDGES_PROJECTS_PT' ,title : 'Bridge Projects'}
+       ,{wms : 'massgis:GISDATA.COLLEGES_PT'   ,title : 'Public Colleges and Universities'}
       ];
-      var defaultBbox = [-73.939378,41.041696,-69.177200,43.038347];
-      var maxBbox     = [-76.211689,39.586711,-67.191604,44.798225];
+
+      var defaultBbox = [-73.72946,41.15860,-69.64804,42.93893];
+      var maxBbox     = [-73.72946,41.15860,-69.64804,42.93893];
       var wfsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wfs';
       var wmsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms';
       var wcsUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wcs';
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table border="0" style="font-family:Arial"><tr><td><a target="_blank" href="http://www.massaudubon.org"><img src="../images/audubon_logo.gif" alt="MA Audubon logo"/></a></td><td>&nbsp;&nbsp;</td><td><font size="+1">Massachusetts Breeding Bird Atlas:<br/>Data from Atlas 1 (1974-1979) and Atlas 2 Block Maps</font></td><td>&nbsp;</td><td><img src="../images/bluejay_thumb.jpg" alt="Blue Jay"/></td><td>Blue Jay</td><td>&nbsp;&nbsp;</td><td><a target="_blank" href="http://massaudubon.org/birdatlas/bba2/index.php">About the Atlas</a><br/><a target="_blank" href="../images/bird_atlas_legend.gif">Map Legend</a><td></td><td>&nbsp;&nbsp;</td><td><a target="_blank" href="http://www.mass.gov/mgis"><img src="../images/massgis.gif" alt="MassGIS Logo"/></a></td></tr>';
-      var bannerHeight = 75;
+      var bannerHTML = '<table style="font-family:Arial"><tr><td>&nbsp;&nbsp;</td><td><font size="+3">Governor Patrick Education and Transportation Investments for FY14<font></td></tr>';
+      var bannerHeight = 40;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
 //         name    : 'NOAA : Marine Protected Areas'
 //         ,getcaps : 'noaa_marine_protected_areas_getcaps.xml'
 //         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
 //       },
+        'http://mhc-macris.net:8080/geoserver/wms' : {
+         name    : 'MHC Historic Inventory'
+         ,getcaps : 'mhc_getcaps.xml'
+         ,proj    : {'EPSG:900913' : 'EPSG:3857'}
+       },
         'http://egisws02.nos.noaa.gov/ArcGIS/services/RNC/NOAA_RNC/MapServer/WMSServer' : {
          name    : 'NOAA Charts (RNC)'
          ,getcaps : 'noaa_charts_wms_getcaps.xml'
@@ -96,12 +113,12 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       bingDisabled = false;
       bingKey      = 'AoSoMDQG3JYNMtfp-sviYC413l6OxvGzZHq4KX7zP6qJk8R-yQPTT_pfMelyo7Ur';
       xmlCacheLoc  = '/temp/OL_MORIS_cache/';  // don't forget to change the src path to getCapsBbox.js down below to /temp/OL_MORIS_cache/getCapsBbox.js
-      siteTitle    = 'MA Breeding Bird Atlas';
-      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/breeding_bird_atlas.php';
+      siteTitle    = 'Education_and_Transportation Investments for FY1';
+      siteUrl      = 'http://maps.massgis.state.ma.us/map_ol/ed_trans_invest_fy14.php';
     </script>
 
 	<!-- include a set of tool configs -->
-	<script type="text/javascript" src="js/toolConfig_breeding_bird_atlas.js?<?php echo time(); ?>"></script>	
+	<script type="text/javascript" src="js/toolConfig_ed_trans_oliver.js?<?php echo time(); ?>"></script>	
 	
     <script>
       document.title = siteTitle;
@@ -136,7 +153,6 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
-
 
 	<!-- editing tools -->
     <script type="js/plugins/editing/StatusBar.js"></script>
