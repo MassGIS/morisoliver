@@ -701,7 +701,7 @@ Ext.onReady(function() {
     }
   );
   lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'] = new OpenLayers.Layer.OSM(
-     'Digital Globe Orthophotos 2011-2012'
+     'Basemaps_Orthos_DigitalGlobe2011_2012'
     ,['http://gisprpxy.itd.state.ma.us/tiles/Basemaps_Orthos_DigitalGlobe2011_2012/${z}/${y}/${x}.jpg',
       'http://170.63.206.116/tiles/Basemaps_Orthos_DigitalGlobe2011_2012/${z}/${y}/${x}.jpg']
     ,{
