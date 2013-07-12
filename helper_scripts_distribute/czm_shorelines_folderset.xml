@@ -8,7 +8,7 @@
 	<Folder title="Boundaries">
 		<Folder title="Assessor's Parcels">
 			<Layer title="Assessor's Parcel Status" name="massgis:GISDATA.PARCEL_STATUS" style="GISDATA.PARCEL_STATUS::Default" type="poly"/>
-			<Layer title="Assessor's Parcels Level 3" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Default" type="poly"/>
+			<Layer title="Assessor's Parcels Level 3" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Default" type="poly" shp="false"/>
 			<Layer title="Assessor's Parcels Level 3 - FTP Download Links by Town" name="massgis:GISDATA.L3_PARCEL_FTP_LINKS" style="Black_Outlines" type="poly"/>
 			<Layer title="Assessor's Parcels Level 3 - Map Block Lot Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID" type="poly"/>
 			<Layer title="Assessor's Parcels Level 3 - Map Block Lot Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Yellow_Labels" type="poly"/>
@@ -16,14 +16,21 @@
 			<Layer title="Assessor's Parcels Level 3 - Other Legal Interests" name="massgis:GISDATA.L3_OTHLEG_POLY" style="GISDATA.L3_OTHLEG_POLY::Default" type="poly"/>
 			<Layer title="Assessor's Parcels Level 3 - Site Address Black Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address" type="poly"/>
 			<Layer title="Assessor's Parcels Level 3 - Site Address Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Yellow_Labels" type="poly"/>
-			<Layer title="Assessor's Parcels Level II" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC::Default" type="poly"/>
-			<Layer title="Assessor's Parcels Level II - For Orthophotos" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos" type="poly"/>
-			<Layer title="Assessor's Parcels Level II - Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id" type="poly"/>
-			<Layer title="Assessor's Parcels Level II - Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address" type="poly"/>
 			<Layer title="Assessor's Parcels Level 0" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Default" type="poly"/>
 			<Layer title="Assessor's Parcels Level 0 - For Orthophotos" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Yellow_Outlines" type="poly"/>
 			<Layer title="Assessor's Parcels Level 0 - Map Block Lot Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id" type="poly"/>
 			<Layer title="Assessor's Parcels Level 0 - Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr" type="poly"/>
+		</Folder>
+		<Folder title="Public Waterfront Act (Chapter 91)">
+			<Layer title="Public Waterfront Act (Chapter 91) - Contemporary High Water" style="GISDATA.CZM_CONTEMP_HIGHWATER::Default" name="massgis:GISDATA.CZM_CONTEMP_HIGHWATER" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Historic High Water" style="GISDATA.CZM_HISTORIC_HIGHWATER::Default" name="massgis:GISDATA.CZM_HISTORIC_HIGHWATER" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Inferred Contemporary High Water" style="GISDATA.CZM_INFERRED_CONTEMP::Default" name="massgis:GISDATA.CZM_INFERRED_CONTEMP" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Inferred Historic High Water" style="GISDATA.CZM_INFERRED_HISTORIC::Default" name="massgis:GISDATA.CZM_INFERRED_HISTORIC" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Jurisdiction" style="GISDATA.CZM_JURISDICTION::Default" name="massgis:GISDATA.CZM_JURISDICTION" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Landlocked Tidelands" style="GISDATA.CZM_LANDLOCK::Default" name="massgis:GISDATA.CZM_LANDLOCK" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Marsh Boundary (Landward)" style="GISDATA.CZM_MARSHPERIMETER::Default" name="massgis:GISDATA.CZM_MARSHPERIMETER" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Marsh Boundary (Seaward)" style="GISDATA.CZM_CONTEMP_MARSH::Default" name="massgis:GISDATA.CZM_CONTEMP_MARSH" type="line"/>
+			<Layer title="Public Waterfront Act (Chapter 91) - Public Way" style="GISDATA.CZM_PUBLICWAY::Default" name="massgis:GISDATA.CZM_PUBLICWAY" type="line"/>
 		</Folder>
 		<Layer title="DEP Wetlands (1:12,000) - General" style="GISDATA.WETLANDSDEP_POLY::General_Categories" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
 		<Layer title="FEMA National Flood Hazard Layer" style="GISDATA.FEMA_NFHL_POLY::Default" name="massgis:GISDATA.FEMA_NFHL_POLY" type="poly"/>
@@ -120,18 +127,18 @@
 				<Layer title="Number of Caucasian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberCaucasian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of Minority (Non-White) Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of African-American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-				<Layer title="Number of Hispanic/Latino Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+				<Layer title="Number of Hispanic or Latino Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of Asian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of Native American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-				<Layer title="Number of Hawaiian/Pacific Islander Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+				<Layer title="Number of Native Hawaiian and Other Pacific Islander Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of Residents of Other Race" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Number of Residents of Multi-Race Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as Minority (Non-White)" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as African-American" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-				<Layer title="Percent of Population Classified as Hispanic/Latino" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+				<Layer title="Percent of Population Classified as Hispanic or Latino" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as Asian" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as Native American" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-				<Layer title="Percent of Population Classified as Hawaiian/Pacific Islander" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+				<Layer title="Percent of Population Classified as Native Hawaiian and Other Pacific Islander" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as Other" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 				<Layer title="Percent of Population Classified as Multi-Racial" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			</Folder>
@@ -198,9 +205,11 @@
 		</Folder>
 		<Layer title="Dredge Projects (USACE), Historical to 1998, Points" style="MORIS.DREDGE_USACE_PT::Default" name="massgis:MORIS.DREDGE_USACE_PT" type="pt"/>
 		<Layer title="Dredge Projects (USACE), Historical to 1998, Polygons" style="MORIS.DREDGE_USACE_POLY::Default" name="massgis:MORIS.DREDGE_USACE_POLY" type="poly"/>
+		<Layer title="Private Shoreline Stabilization Structures, 2013" style="MORIS.CSI_PRIVATE_ARC::Default" name="massgis:MORIS.CSI_PRIVATE_ARC" type="line"/>
 	</Folder>
 	<Folder title="Land Use/Land Cover">
-		<Layer title="Building Footprints" style="GISDATA.BUILDINGFP_POLY::Default" name="massgis:GISDATA.BUILDINGFP_POLY" type="poly"/>
+		<Layer title="Building Footprints (from 2002 LIDAR data)" style="GISDATA.BUILDINGFP_POLY::Default" name="massgis:GISDATA.BUILDINGFP_POLY" type="poly"/>
+		<Layer title="Building Roofprints (from 2011-2012 Orthophotos)" name="massgis:GISDATA.STRUCTURES_POLY" style="GISDATA.STRUCTURES_POLY::Default" type="poly"/>
 		<Layer title="Impervious Surface" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" type="raster"/>
 		<Layer title="Land Use 1951 21 Classes (Cape Cod)" style="GISDATA.LANDUSE_POLY_1951::Default" name="massgis:GISDATA.LANDUSE_POLY_1951" type="poly"/>
 		<Layer title="Land Use 1971 21 Classes" style="GISDATA.LANDUSE_POLY::21_Classes_1971_Solid" name="massgis:GISDATA.LANDUSE_POLY" type="poly"/>
@@ -223,11 +232,11 @@
 		<Layer title="Protected and Recreational Open Space by Primary Purpose" style="GISDATA.OPENSPACE_POLY::Primary_Purpose" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
 		<Layer title="Protected and Recreational Open Space Legal Interests" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
 	</Folder>
-	<Folder title="Orthophotos (Aerial Photography)">
+<!--	<Folder title="Orthophotos (Aerial Photography)">
 		<Layer title="USGS 2009 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2009_30CM::Default" name="massgis:GISDATA.IMG_COQ2009_30CM" type="raster"/>
 		<Layer title="USGS 2008 Color Orthophotos (30-cm resolution)" style="GISDATA.IMG_COQ2008_30CM::Default" name="massgis:GISDATA.IMG_COQ2008_30CM" type="raster"/>
 		<Layer title="2005 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2005::Default" name="massgis:GISDATA.IMG_COQ2005" type="raster"/>
 		<Layer title="2001 Color Orthophotos (0.5-meter resolution)" style="GISDATA.IMG_COQ2001::Default" name="massgis:GISDATA.IMG_COQ2001" type="raster"/>
 		<Layer title="1990s Black and White Orthophotos" style="GISDATA.IMG_BWORTHOS::Default" name="massgis:GISDATA.IMG_BWORTHOS" type="raster"/>
-	</Folder>
+	</Folder> -->
 </FolderSet>

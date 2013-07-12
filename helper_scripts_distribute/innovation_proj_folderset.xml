@@ -1,0 +1,11 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+<!--        <Layer title="More than 60% households less than $75,000" style="GISDATA.ACS0610_HH_LOW_INC_POLY::Default" name="massgis:GISDATA.ACS0610_HH_LOW_INC_POLY" type="poly"/> -->
+<!--        <Layer title="Gateway Cities" style="Dark_Blue_Lines_Width_2" name="massgis:GISDATA.GATEWAY_CITIES_POLY" type="poly"/> -->
+        <Layer title="Gateway Cities" style="GISDATA.GATEWAY_CITIES_POLY::Blue_Transparent" name="massgis:GISDATA.GATEWAY_CITIES_POLY" type="poly"/>
+	<Folder title="Tiled Layers">
+           <Layer title="Structures" style="" name="Basemaps_Structures" type="tiled_overlay"/>
+           <Layer title="Tax Parcels" style="" name="Basemaps_L3Parcels" type="tiled_overlay"/>  
+           <Layer title="Detailed Features" style="" name="Basemaps_MassGISBasemapWithLabels2" type="tiled_overlay"/>
+	</Folder>
+</FolderSet>

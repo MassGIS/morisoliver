@@ -1,0 +1,23 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+                        <Layer title="Public Colleges and Universities" name="massgis:GISDATA.COLLEGES_PT" style="GISDATA.COLLEGES_PT::Public_Colleges" type="pt"/>
+                        <Layer title="School Districts" name="massgis:GISDATA.SCHOOL_DISTRICTS_POLY" style="GISDATA.SCHOOL_DISTRICTS_POLY::Default" type="poly"/>
+                        <Layer title="Bridge Projects" name="massgis:GISDATA.BRIDGES_PROJECTS_PT" style="GISDATA.BRIDGES_PROJECTS_PT::Default" type="pt"/>
+                        <Layer title="Regional Transit Authorities" name="massgis:GISDATA.RTAS_POLY_FUNDING" style="GISDATA.RTAS_POLY_FUNDING::Default" type="poly"/>
+                        <Layer title="Rail Expansion Projects" name="massgis:GISDATA.RAIL_EXPANSION_ARC" style="GISDATA.RAIL_EXPANSION_ARC::Default" type="line"/>
+                        <Layer title="Mass. Cities and Towns" name="massgis:GISDATA.TOWNS_POLY_TRANSP_EDU" style="GISDATA.TOWNS_POLY_TRANSP_EDU::Default" type="poly"/>
+			<Folder title="MA State Legislative Districts">
+                                <Layer title="State Representative House Districts 2012 Polygons Outlines" name="massgis:GISDATA.HOUSE2012_POLY" style="GISDATA.HOUSE2012_POLY::Default" type="poly"/>
+                                <Layer title="State Representative House Districts 2012 Rep and Districts Labels"  style="GISDATA.HOUSE2012_POLY::Labels_Both" name="massgis:GISDATA.HOUSE2012_POLY" type="poly"/>
+                                <Layer title="State Senate Districts 2012 Polygons Outlines" name="massgis:GISDATA.SENATE2012_POLY" style="GISDATA.SENATE2012_POLY::Default" type="poly"/>
+                                <Layer title="State Senate Districts 2012 Senator and Districts Labels" style="GISDATA.SENATE2012_POLY::Labels_Both" name="massgis:GISDATA.SENATE2012_POLY" type="poly"/>
+			</Folder>
+                        <Folder title="MassDOT Roads">
+                                <Layer title="Highways" name="massgis:GISDATA.EOTMAJROADS_RTE_MAJOR" style="GISDATA.EOTMAJROADS_RTE_MAJOR::Gray_Min_150000" type="line"/>
+                                <Layer title="MassDOT Major Roads" name="massgis:GISDATA.EOTMAJROADS_ARC" style="GISDATA.EOTMAJROADS_ARC::Road_Type_Gray_Min_40000_Max_150000" type="line"/>
+                                <Layer title="MassDOT Roads" name="massgis:GISDATA.EOTROADS_ARC" style="GISDATA.EOTROADS_ARC::Gray_Max_40000" type="line"/>
+                        </Folder>
+                        <Layer title="Major Rivers" name="massgis:GISDATA.HYDRO100K_ARC" style="GISDATA.HYDRO100K_ARC::Max_100000" type="line"/>
+                        <Layer title="Major Lakes and Ponds" name="massgis:GISDATA.HYDRO100K_POLY" style="GISDATA.HYDRO100K_POLY::Max_100000" type="poly"/>
+                        <Layer title="Surrounding States" name="massgis:GISDATA.NEMASK_POLY" style="Med_Grey_Polys_Black_Outlines" type="poly"/>
+</FolderSet>

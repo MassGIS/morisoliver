@@ -14,7 +14,7 @@
               <Layer title="Detailed Features" style="" name="Basemaps_MassGISBasemapWithLabels2" type="tiled_overlay"/>
 	   </Folder>
 	   <Folder title="Layers for Query">
-              <Layer title="Tax Parcels for Query" name="massgis:GreatBarringtonEnvironsL3TaxParAssess" style="Blank_Polys_Max_18057" type="poly" shp="true"/>
+              <Layer title="Tax Parcels for Query" name="massgis:GreatBarringtonEnvironsL3TaxParAssess" style="Blank_Polys" type="poly" shp="true"/>
               <Layer title="Roads for Query" name="massgis:GISDATA.NAVTEQRDS_ARC" style="Blank_Lines_Max_50000" type="line"/>
 	   </Folder>
            <Folder title="Assessors Parcels">
@@ -87,7 +87,7 @@
 			    <Layer title="MA Towns Survey Boundaries Arcs" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Non_Coast_Max_150000" type="line"/> 
 			    <Layer title="MA Towns Survey Boundaries" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Thick_Dashed_Yellow_Outlines" type="poly"/>				
 				<Layer title="MA Towns Survey Points" name="massgis:GISDATA.TOWNSSURVEY_PT" style="GISDATA.TOWNSSURVEY_PT::Default" type="pt"/>
-				<Layer title="MA Towns Survey Boundaries Quality/Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+				<Layer title="MA Towns Survey Boundaries Quality or Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
 				<Layer title="CT Towns" name="massgis:GISDATA.CTTOWNS_POLY" style="Black_Outlines" type="poly"/>
 				<Layer title="CT Towns Labels" style="GISDATA.CTTOWNS_POLY::Brown_Italic_Labels" name="massgis:GISDATA.CTTOWNS_POLY" type="poly"/>
 				<Layer title="NY Towns" name="massgis:GISDATA.NYTOWNS_POLY" style="Black_Outlines" type="poly"/>
@@ -95,19 +95,12 @@
 			</Folder>
 			<Folder title="Congressional Districts">
 				<Layer title="Congressional Districts 113th" name="massgis:GISDATA.CONGRESS113_POLY" style="GISDATA.CONGRESS113_POLY::Default" type="poly"/>
-				<Layer title="Congressional Districts 108th" name="massgis:GISDATA.CONGRESS108_POLY" style="GISDATA.CONGRESS108_POLY::Default" type="poly"/>
 			</Folder>
-			<Folder title="Legislative Districts NEW 2012">
+			<Folder title="Legislative Districts 2012">
 				<Layer title="Representative Districts 2012" name="massgis:GISDATA.HOUSE2012_POLY" style="GISDATA.HOUSE2012_POLY::Default" type="poly"/>
 				<Layer title="Representative Districts 2012 District Labels" style="GISDATA.HOUSE2012_POLY::Labels_District" name="massgis:GISDATA.HOUSE2012_POLY" type="poly"/>
 				<Layer title="Senate Districts 2012" name="massgis:GISDATA.SENATE2012_POLY" style="GISDATA.SENATE2012_POLY::Default" type="poly"/>
 				<Layer title="Senate Districts 2012 District Labels" style="GISDATA.SENATE2012_POLY::Labels_District" name="massgis:GISDATA.SENATE2012_POLY" type="poly"/>
-			</Folder>
-			<Folder title="Legislative Districts OLD 2002">	
-				<Layer title="Representative Districts 2002" name="massgis:GISDATA.HOUSE02_POLY" style="GISDATA.HOUSE02_POLY::Default" type="poly"/>
-				<Layer title="Representative Districts 2002 Member Names" style="GISDATA.HOUSE02_POLY::Labels" name="massgis:GISDATA.HOUSE02_POLY" type="poly"/>
-				<Layer title="Senate Districts 2002" name="massgis:GISDATA.SENATE02_POLY" style="GISDATA.SENATE02_POLY::Default" type="poly"/>
-				<Layer title="Senate Districts 2002 Member Names" style="GISDATA.SENATE02_POLY::Labels" name="massgis:GISDATA.SENATE02_POLY" type="poly"/>
 			</Folder>
 			<Folder title="Regional Transit Authorities">
 				<Layer title="Non MBTA RTAs" name="massgis:GISDATA.RTASNONMBTA_POLY" style="GISDATA.RTASNONMBTA_POLY::Default" type="poly"/>

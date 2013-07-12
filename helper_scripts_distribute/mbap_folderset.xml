@@ -83,13 +83,13 @@
            <Layer title="Pipevine Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Pipevine_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Question Mark" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Question_Mark" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Red Admiral" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Red_Admiral" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
-           <Layer title="Red Spotted Purple/White Admiral" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Red_Spotted_Purple_White_Admiral" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Red Spotted Purple or White Admiral" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Red_Spotted_Purple_White_Admiral" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Regal Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Regal_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Silver-bordered Fritillary" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Silver_Bordered_Fritillary" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Silver-spotted Skipper" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Silver_Spotted_Skipper" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Sleepy Duskywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Sleepy_Duskywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Southern Cloudywing" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Southern_Cloudywing" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
-           <Layer title="Southern/Northern/Oak Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Southern_Northern_Oak_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
+           <Layer title="Southern or Northern or Oak Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Southern_Northern_Oak_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Spicebush Swallowtail" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Spicebush_Swallowtail" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Spring Azure" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Spring_Azure" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>
            <Layer title="Striped Hairstreak" style="AFREEMAN.AUDUBON_BUTTERFLY_S_V::Striped_Hairstreak" name="massgis:AFREEMAN.AUDUBON_BUTTERFLY_S_V" type="poly"/>

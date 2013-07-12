@@ -1,7 +1,7 @@
 <!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
 <FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
         <Folder title="General Geography">
-           <Layer title="495/MetroWest Compact Plan Region" name="massgis:EOHED.REGION_495_POLY" style="Tan_Polys" type="poly"/>
+           <Layer title="495 or MetroWest Compact Plan Region" name="massgis:EOHED.REGION_495_POLY" style="Tan_Polys" type="poly"/>
            <Layer title="Massachusetts Cities and Towns" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Thick_Dashed_Yellow_Non_Coast" type="poly"/>
            <Layer title="Massachusetts Cities and Towns - Labels" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Black_Labels" type="poly"/>
            <Layer title="Regional Planning Agencies - Outline" name="massgis:GISDATA.RPAS_POLY" style="GISDATA.RPAS_POLY::Outlines_With_Labels" type="poly"/>
