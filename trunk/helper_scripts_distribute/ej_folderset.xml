@@ -15,9 +15,6 @@
            <Layer title="Census 2000 Roads Labels" name="massgis:GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN" style="GISDATA.CENSUS2000TIGER_ARC_ROADS_GEN::Labels" type="line"/>
         </Folder>
         <Folder title="Other MassGIS Layers">
-        <Folder title="MassGIS Default Map">
-           <Layer title="MassGIS Default Map" style="" name="massgis_basemap" type="layergroup" only_project="EPSG:26986"/>
-        </Folder>
 	<Folder title="Census 1990">
 		<Folder title="Base Layers">
 			<Layer title="1990 Block Groups" style="GISDATA.CENSUS1990BLOCKGROUPS_POLY::Default" name="massgis:GISDATA.CENSUS1990BLOCKGROUPS_POLY" type="poly"/>
@@ -105,18 +102,18 @@
 			<Layer title="Number of Caucasian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberCaucasian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of Minority (Non-White) Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of African-American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-			<Layer title="Number of Hispanic/Latino Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="Number of Hispanic or Latino Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of Asian Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of Native American Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-			<Layer title="Number of Hawaiian/Pacific Islander Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="Number of Hawaiian or Pacific Islander Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of Residents of Other Race" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Number of Residents of Multi-Race Residents" style="GISDATA.CEN2000_BG_LEGATTRIB::NumberMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As Minority (Non-White)" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMinorityNonWhite" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As African-American" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAfricanAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-			<Layer title="Percent of Population Classified As Hispanic/Latino" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="Percent of Population Classified As Hispanic or Latino" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHispanicOrLatino" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As Asian" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentAsian" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As NativeAmerican" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentNativeAmerican" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
-			<Layer title="Percent of Population Classified As Hawaiian/Pacific Islander" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
+			<Layer title="Percent of Population Classified As Hawaiian or Pacific Islander" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentHawaiianOrPI" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As Other" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentOther" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 			<Layer title="Percent of Population Classified As Multi-Racial" style="GISDATA.CEN2000_BG_LEGATTRIB::PercentMulti" name="massgis:GISDATA.CEN2000_BG_LEGATTRIB" type="poly"/>
 		</Folder>
@@ -401,7 +398,7 @@
 			<Layer title="NOAA Chart Gloucester Harbor And Annisquam River" name="massgis:NOAA.NOAA_13281_1" style="NOAA.NOAA_13281_1::Default" type="raster"/>
 			<Layer title="NOAA Chart Newburyport Harbor and Plum Island Sound" name="massgis:NOAA.NOAA_13282_1" style="NOAA.NOAA_13282_1::Default" type="raster"/>
 		</Folder>
-		<Folder title="Orthophotos">
+<!--		<Folder title="Orthophotos">
 			<Folder title="Color Coastal Orthos 10k Index">
 				<Layer style="GISDATA.COQMAIN_POLY::Default" title="Color Coastal Orthos 10k Index" name="massgis:GISDATA.COQMAIN_POLY" type="poly"/>
 			</Folder>
@@ -410,9 +407,9 @@
 			<Layer title="2005 Color Orthos" name="massgis:GISDATA.IMG_COQ2005" style="GISDATA.IMG_COQ2005::Default" type="raster"/>
 			<Layer title="2001 Color Orthos" name="massgis:GISDATA.IMG_COQ2001" style="GISDATA.IMG_COQ2001::Default" type="raster"/>
 			<Layer title="1990s Black and White Orthos" name="massgis:GISDATA.IMG_BWORTHOS" style="GISDATA.IMG_BWORTHOS::Default" type="raster"/>
-<!--			<Layer title="1994 Coastal Color Ortho Mainland" name="massgis:GISDATA.IMG_COLOROQ1" style="GISDATA.IMG_COLOROQ1::Default" type="raster"/>
-			<Layer title="1994 Coastal Color Ortho Island" name="massgis:GISDATA.IMGCAT_COLOROQ1" style="GISDATA.IMGCAT_COLOROQ1::Default" type="raster"/> -->
-		</Folder>
+			<Layer title="1994 Coastal Color Ortho Mainland" name="massgis:GISDATA.IMG_COLOROQ1" style="GISDATA.IMG_COLOROQ1::Default" type="raster"/>
+			<Layer title="1994 Coastal Color Ortho Island" name="massgis:GISDATA.IMGCAT_COLOROQ1" style="GISDATA.IMGCAT_COLOROQ1::Default" type="raster"/> 
+		</Folder> -->
 		<Folder title="USGS Topographic Maps">
 			<Layer style="GISDATA.QUADS_POLY_REVDATE::Default" title="USGS Quads Last Revised" name="massgis:GISDATA.QUADS_POLY_REVDATE" type="poly"/>
 			<Layer title="USGS Topographic Maps" name="massgis:GISDATA.IMG_USGSQUADM" style="GISDATA.IMG_USGSQUADM::Default" type="raster"/>
@@ -621,76 +618,76 @@
 	</Folder>
 	<Folder title="MEPA">
 		<Folder title="MEPA 05 Q4">
-			<Layer title="MEPA 05 Q4 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA05_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 05 Q4 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA05_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 05 Q4 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA05_Q4" type="pt"/>
 			<Layer title="MEPA 05 Q4 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA05_Q4" type="pt"/>
 			<Layer title="MEPA 05 Q4 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA05_Q4" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 06 Q1">
-			<Layer title="MEPA 06 Q1 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA06_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 06 Q1 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA06_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 06 Q1 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA06_Q1" type="pt"/>
 			<Layer title="MEPA 06 Q1 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA06_Q1" type="pt"/>
 			<Layer title="MEPA 06 Q1 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA06_Q1" type="pt"/>
 			<Layer title="MEPA 06 Q1 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA06_Q1" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 06 Q2">
-			<Layer title="MEPA 06 Q2 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA06_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 06 Q2 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA06_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 06 Q2 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA06_Q2" type="pt"/>
 			<Layer title="MEPA 06 Q2 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA06_Q2" type="pt"/>
 			<Layer title="MEPA 06 Q2 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA06_Q2" type="pt"/>
 			<Layer title="MEPA 06 Q2 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA06_Q2" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 06 Q3">
-			<Layer title="MEPA 06 Q3 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA06_Q3" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 06 Q3 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA06_Q3" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 06 Q3 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA06_Q3" type="pt"/>
 			<Layer title="MEPA 06 Q3 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA06_Q3" type="pt"/>
 			<Layer title="MEPA 06 Q3 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA06_Q3" type="pt"/>
 			<Layer title="MEPA 06 Q3 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA06_Q3" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 06 Q4">
-			<Layer title="MEPA 06 Q4 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA06_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 06 Q4 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA06_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 06 Q4 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA06_Q4" type="pt"/>
 			<Layer title="MEPA 06 Q4 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA06_Q4" type="pt"/>
 			<Layer title="MEPA 06 Q4 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA06_Q4" type="pt"/>
 			<Layer title="MEPA 06 Q4 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA06_Q4" type="pt"/>
 		</Folder>
                 <Folder title="MEPA 07 Q1">
-                        <Layer title="MEPA 07 Q1 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA07_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+                        <Layer title="MEPA 07 Q1 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA07_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
                         <Layer title="MEPA 07 Q1 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA07_Q1" type="pt"/>
                         <Layer title="MEPA 07 Q1 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA07_Q1" type="pt"/>
                         <Layer title="MEPA 07 Q1 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA07_Q1" type="pt"/>
                         <Layer title="MEPA 07 Q1 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA07_Q1" type="pt"/>
                 </Folder>
 		<Folder title="MEPA 07 Q2">
-			<Layer title="MEPA 07 Q2 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA07_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 07 Q2 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA07_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 07 Q2 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA07_Q2" type="pt"/>
 			<Layer title="MEPA 07 Q2 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA07_Q2" type="pt"/>
 			<Layer title="MEPA 07 Q2 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA07_Q2" type="pt"/>
 			<Layer title="MEPA 07 Q2 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA07_Q2" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 07 Q3">
-			<Layer title="MEPA 07 Q3 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA07_Q3" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 07 Q3 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA07_Q3" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 07 Q3 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA07_Q3" type="pt"/>
 			<Layer title="MEPA 07 Q3 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA07_Q3" type="pt"/>
 			<Layer title="MEPA 07 Q3 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA07_Q3" type="pt"/>
 			<Layer title="MEPA 07 Q3 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA07_Q3" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 07 Q4">
-			<Layer title="MEPA 07 Q4 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA07_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 07 Q4 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA07_Q4" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 07 Q4 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA07_Q4" type="pt"/>
 			<Layer title="MEPA 07 Q4 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA07_Q4" type="pt"/>
 			<Layer title="MEPA 07 Q4 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA07_Q4" type="pt"/>
 			<Layer title="MEPA 07 Q4 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA07_Q4" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 08 Q1">
-			<Layer title="MEPA 08 Q1 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA08_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 08 Q1 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA08_Q1" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 08 Q1 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA08_Q1" type="pt"/>
 			<Layer title="MEPA 08 Q1 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA08_Q1" type="pt"/>
 			<Layer title="MEPA 08 Q1 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA08_Q1" type="pt"/>
 			<Layer title="MEPA 08 Q1 Supergroups" style="DMARRIER.MEPAXX_QX::Supergroups" name="massgis:DMARRIER.MEPA08_Q1" type="pt"/>
 		</Folder>
 		<Folder title="MEPA 08 Q2">
-			<Layer title="MEPA 08 Q2 Effect/Change in Water Use" name="massgis:DMARRIER.MEPA08_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
+			<Layer title="MEPA 08 Q2 Effect or Change in Water Use" name="massgis:DMARRIER.MEPA08_Q2" style="DMARRIER.MEPAXX_QX::Change_In_Water_Use" type="pt"/>
 			<Layer title="MEPA 08 Q2 Change in Vehicle Trips Per Day" style="DMARRIER.MEPAXX_QX::Change_In_Vehicle_Trips_Per_Day" name="massgis:DMARRIER.MEPA08_Q2" type="pt"/>
 			<Layer title="MEPA 08 Q2 Effect on Housing" style="DMARRIER.MEPAXX_QX::Effect_On_Housing" name="massgis:DMARRIER.MEPA08_Q2" type="pt"/>
 			<Layer title="MEPA 08 Q2 Areas of Newly Developed Land" style="DMARRIER.MEPAXX_QX::Areas_Of_Newly_Developed_Land" name="massgis:DMARRIER.MEPA08_Q2" type="pt"/>
@@ -886,15 +883,6 @@
                         <Layer title="Parcels Level 3 Site Address Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Yellow_Labels" type="poly"/>
                         <Layer title="Parcels Level 3 Map Par Id Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Yellow_Labels" type="poly"/>
                         <Layer title="Parcels Level 3 FTP Download Links by Town" name="massgis:GISDATA.L3_PARCEL_FTP_LINKS" style="Black_Outlines" type="poly"/>
-                        <Layer title="Parcels Level 2 No Roads" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC::Default" type="poly"/>
-                        <Layer title="Parcels Level 2 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address" type="poly"/>
-                        <Layer title="Parcels Level 2 No Roads Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id" type="poly"/>
-                        <Layer title="Parcels Level 2 No Roads For Ortho" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos" type="poly"/>
-                        <Layer title="Parcels Level 0 No Roads" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Default" type="poly"/>
-                        <Layer title="Parcels Level 0 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr" type="poly"/>
-                        <Layer title="Parcels Level 0 No Roads Map Id Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id" type="poly"/>
-                        <Layer title="Parcels Level 0 No Roads Acres Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Acres" type="poly"/>
-                        <Layer title="Parcels Level 0 No Roads Yellow Outlines" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Yellow_Outlines" type="poly"/>
                 </Folder>
 		<Folder title="Community Health Network Areas">
 			<Layer title="Community Health Network Areas Boundaries" name="massgis:GISDATA.CHNA_ARC" style="GISDATA.CHNA_ARC::Default" type="line"/>
@@ -965,7 +953,7 @@
 			<Layer title="Massachusetts Towns Survey Boundaries" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Default" type="line"/>
 			<Layer title="Massachusetts Towns Survey Polygons Filled" name="massgis:GISDATA.TOWNSSURVEY_POLY" style="GISDATA.TOWNSSURVEY_POLY::Default" type="poly"/>
 			<Layer title="Massachusetts Towns From Survey Points Multipart Polygons" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Default" type="poly"/>
-			<Layer title="Massachusetts Towns Survey Boundaries Quality/Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+			<Layer title="Massachusetts Towns Survey Boundaries Quality or Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
 			<Layer title="Massachusetts Towns" name="massgis:GISDATA.TOWNS_POLY" style="GISDATA.TOWNS_POLY::Default" type="poly"/>
 			<Layer title="Massachusetts Towns Multipart Polygons" name="massgis:GISDATA.TOWNS_POLYM" style="GISDATA.TOWNS_POLYM::Default" type="poly"/>
 			<Layer title="Massachusetts Towns Black Labels" style="GISDATA.TOWNS_POLY::Labels" name="massgis:GISDATA.TOWNS_POLY" type="poly"/>
@@ -1059,7 +1047,7 @@
 			<Layer title="DEP BWP Major Facilities Hazardous Waste Treatment, Storage and Disposal" style="GISDATA.BWPMAJOR_PT::TSDF" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
 			<Layer title="DEP BWP Major Facilities Hazardous Waste Recyclers" style="GISDATA.BWPMAJOR_PT::HWR" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
 			<Layer title="DEP BWP Major Facilities Large Quantity Generators of Hazardous Waste MA Regulated" style="GISDATA.BWPMAJOR_PT::LQG_MA" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
-			<Layer title="DEP BWP Major Facilities Large Quantity Generators of Hazardous Waste EPA/RCRA Regulated" style="GISDATA.BWPMAJOR_PT::LQG_RCRA" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
+			<Layer title="DEP BWP Major Facilities Large Quantity Generators of Hazardous Waste EPA-RCRA Regulated" style="GISDATA.BWPMAJOR_PT::LQG_RCRA" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
 			<Layer title="DEP BWP Major Facilities Large Quantity Toxic Users" style="GISDATA.BWPMAJOR_PT::LQTU" name="massgis:GISDATA.BWPMAJOR_PT" type="pt"/>
 		</Folder>
 		<Folder title="FEMA Flood Zones">
@@ -1073,11 +1061,11 @@
                                 <Layer title="Active Resource Recovery Facilities" style="GISDATA.BWP_PT_COMBUSTION::Default" name="massgis:GISDATA.BWP_PT_COMBUSTION" type="pt"/>
                                 <Layer title="Historic Municipal Incinerators" style="GISDATA.BWP_PT_COMBUSTION_HISTORIC::Default" name="massgis:GISDATA.BWP_PT_COMBUSTION_HISTORIC" type="pt"/>
                         </Folder>
-                        <Folder title="Handling/Transfer Facilities by Type">
-                                <Layer title="Handling/Transfer Facilities - Construction and Demolition Processors" style="GISDATA.BWP_PT_HF_CD_PROC::Default" name="massgis:GISDATA.BWP_PT_HF_CD_PROC" type="pt"/>
-                                <Layer title="Handling/Transfer Facilities - Small Transfer Stations" style="GISDATA.BWP_PT_HF_TRANS_SM::Default" name="massgis:GISDATA.BWP_PT_HF_TRANS_SM" type="pt"/>
-                                <Layer title="Handling/Transfer Facilities - Large Transfer Stations" style="GISDATA.BWP_PT_HF_TRANSFER::Default" name="massgis:GISDATA.BWP_PT_HF_TRANSFER" type="pt"/>
-                                <Layer title="Handling/Transfer Facilities - Woodwaste, Compost and Other" style="GISDATA.BWP_PT_HF_WWCOOTH::Default" name="massgis:GISDATA.BWP_PT_HF_WWCOOTH" type="pt"/>
+                        <Folder title="Handling or Transfer Facilities by Type">
+                                <Layer title="Handling or Transfer Facilities - Construction and Demolition Processors" style="GISDATA.BWP_PT_HF_CD_PROC::Default" name="massgis:GISDATA.BWP_PT_HF_CD_PROC" type="pt"/>
+                                <Layer title="Handling or Transfer Facilities - Small Transfer Stations" style="GISDATA.BWP_PT_HF_TRANS_SM::Default" name="massgis:GISDATA.BWP_PT_HF_TRANS_SM" type="pt"/>
+                                <Layer title="Handling or Transfer Facilities - Large Transfer Stations" style="GISDATA.BWP_PT_HF_TRANSFER::Default" name="massgis:GISDATA.BWP_PT_HF_TRANSFER" type="pt"/>
+                                <Layer title="Handling or Transfer Facilities - Woodwaste, Compost and Other" style="GISDATA.BWP_PT_HF_WWCOOTH::Default" name="massgis:GISDATA.BWP_PT_HF_WWCOOTH" type="pt"/>
                         </Folder>
                         <Layer title="Land Disposal Polygons" style="GISDATA.SW_LD_POLY::Default" name="massgis:GISDATA.SW_LD_POLY" type="poly"/>
                         <Folder title="Landfills by Cap">
@@ -1132,11 +1120,10 @@
                         <Layer title="Availability of USGS Color Orthos 2008 30cm Index Labels" name="massgis:GISDATA.COQ2008INDEX_POLY" style="GISDATA.COQ2008INDEX_POLY::Labels" type="poly"/>
 			<Layer title="Availability of Color Coastal Orthos" name="massgis:GISDATA.COQMAIN_POLY" style="GISDATA.COQMAIN_POLY::Green" type="poly"/>
 			<Layer title="Year of Black and White Ortho Imagery" name="massgis:GISDATA.OQMAIN_POLY" style="GISDATA.OQMAIN_POLY::Year_BW_Ortho" type="poly"/>
-			<Layer title="USGS 1992/1995 BW 1:12,000 Ortho Availability" name="massgis:GISDATA.OQMAIN_POLY" style="GISDATA.OQMAIN_POLY::USGS_Ortho_Availability" type="poly"/>
+			<Layer title="USGS 1992 and 1995 BW 1:12,000 Ortho Availability" name="massgis:GISDATA.OQMAIN_POLY" style="GISDATA.OQMAIN_POLY::USGS_Ortho_Availability" type="poly"/>
 		</Folder>
 		<Folder title="Parcels">
-                        <Layer title="Parcel Status - Compliant (Level 0) Available" name="massgis:GISDATA.ASSESSPARNC_POLY_STATUS" style="GISDATA.ASSESSPARNC_POLY_STATUS::Default" type="poly"/>
-			<Layer title="Parcel Status - Compliant (Level 2) Available" name="massgis:GISDATA.ASSESSPAR_POLY_STATUS" style="GISDATA.ASSESSPAR_POLY_STATUS::Default" type="poly"/>
+                        <Layer title="Parcel Status" name="massgis:GISDATA.PARCEL_STATUS" style="GISDATA.PARCEL_STATUS::Default" type="poly"/>
 		</Folder>
 		<Folder title="Surficial Geology 24k">
 			<Layer title="Surficial Geology 24k Status" name="massgis:GISDATA.SURFGEO24KSTATUS_POLY" style="GISDATA.SURFGEO24KSTATUS_POLY::Default" type="poly"/>

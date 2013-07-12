@@ -30,15 +30,6 @@
            <Layer title="Parcels Level 3 Site Address Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Yellow_Labels" type="poly"/>
            <Layer title="Parcels Level 3 Map Par Id Yellow Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Yellow_Labels" type="poly"/>
            <Layer title="Parcels Level 3 FTP Download Links by Town" name="massgis:GISDATA.L3_PARCEL_FTP_LINKS" style="Black_Outlines" type="poly"/>
-           <Layer title="Parcels Level 2 No Roads" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC::Default" type="poly"/>
-           <Layer title="Parcels Level 2 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address" type="poly"/>
-           <Layer title="Parcels Level 2 No Roads Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id" type="poly"/>
-           <Layer title="Parcels Level 2 No Roads For Ortho" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos" type="poly"/>
-           <Layer title="Parcels Level 0 No Roads" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Default" type="poly"/>
-           <Layer title="Parcels Level 0 No Roads Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr" type="poly"/>
-           <Layer title="Parcels Level 0 No Roads Map Id Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id" type="poly"/>
-           <Layer title="Parcels Level 0 No Roads Acres Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Acres" type="poly"/>
-           <Layer title="Parcels Level 0 No Roads Yellow Outlines" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Yellow_Outlines" type="poly"/>
            <Layer title="Major MassDOT Routes" name="massgis:GISDATA.EOTMAJROADS_RTE_MAJOR" style="GISDATA.EOTMAJROADS_RTE_MAJOR::Admin_Min_300000" type="line"/>
            <Layer title="MassDOT Roads by Admin" style="GISDATA.EOTROADS_ARC::Admin_Max_300000" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>
            <Layer title="MassDOT Roads Shields" style="GISDATA.EOTROADS_ARC::Shields_Max_300000" name="massgis:GISDATA.EOTROADS_ARC" type="line"/>

@@ -1,0 +1,39 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (Executive Office of Environmental Affairs, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="2 - Complete DataViewer Menu">
+                <Folder title="DFW Trout Stocking Sites">
+                       <Layer title="DFW Trout Stocked Ponds and Lakes" name="massgis:DFG.TROUTSTOCK_POND_POLY" style="DFG.TROUTSTOCK_POND_POLY::Default" type="poly"/>
+                       <Layer title="DFW Trout Stocked Streams and Rivers" name="massgis:DFG.TROUTSTOCK_STRM_ARC" style="DFG.TROUTSTOCK_STRM_ARC::Default" type="line"/> 
+                       <Layer title="DFW Trout Stocked Pond Center Points" name="massgis:DFG.TROUTSTOCK_POND_CTR_PT" style="DFG.TROUTSTOCK_POND_CTR_PT::Default" type="pt"/>
+                       <Layer title="DFW Trout Approximate Stream Stocking Locations" name="massgis:DFG.TROUTSTOCK_STRM_STK_PT" style="DFG.TROUTSTOCK_STRM_STK_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="Office of Fishing and Boating Access Sites">
+			<Layer title="Office of Fishing and Boating Access Sites" name="massgis:GISDATA.OFBA_PT" style="GISDATA.OFBA_PT::Default" type="pt"/>
+		</Folder>
+		<Folder title="Openspace">
+			<Folder title="All Openspace by Ownership Solid">
+				<Layer title="OS Restrictions" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Arcs Grey" style="GISDATA.OPENSPACE_ARC::Grey" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+				<Layer title="Openspace by Ownership Solid" name="massgis:GISDATA.OPENSPACE_POLY" style="GISDATA.OPENSPACE_POLY::Default" type="poly"/>
+			</Folder>
+			<Layer title="Openspace by Ownership Solid" name="massgis:GISDATA.OPENSPACE_POLY" style="GISDATA.OPENSPACE_POLY::Default" type="poly"/>
+			<Layer title="Openspace Boundary Lines" style="GISDATA.OPENSPACE_ARC::Default" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+			<Layer title="Legal Interests" style="GISDATA.OPENSPACE_POLY::Restrictions" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="DFG Lands" style="GISDATA.OPENSPACE_POLY::DFG_Lands" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+                        <Layer title="MDAR Agricultural Preservation Restrictions" style="GISDATA.OPENSPACE_POLY::MDAR_APR" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+                        <Layer title="MDAR Agricultural Preservation Restrictions Labels" style="GISDATA.OPENSPACE_POLY::MDAR_APR_Labels" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Openspace Boundaries by Type" style="GISDATA.OPENSPACE_ARC::Bounds_Type" name="massgis:GISDATA.OPENSPACE_ARC" type="line"/>
+			<Layer title="Openspace by Level of Protection" style="GISDATA.OPENSPACE_POLY::Level_Protection" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Openspace by Primary Purpose" style="GISDATA.OPENSPACE_POLY::Primary_Purpose" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Outlines Protected" style="GISDATA.OPENSPACE_POLY::Outlines_Protected" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Outlines Non-Protected" style="GISDATA.OPENSPACE_POLY::Outlines_Non_Protected" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			<Layer title="Openspace Site Labels" style="GISDATA.OPENSPACE_POLY::Site_Labels" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+		</Folder>
+		<Folder title="Boundaries">
+                        <Layer title="DFW Districts" name="massgis:GISDATA.DFWDISTRICTS_POLY" style="GISDATA.DFWDISTRICTS_POLY::Trout" type="poly"/>
+                        <Layer title="DFW Districts Boundaries" name="massgis:GISDATA.DFWDISTRICTS_ARC" style="GISDATA.DFWDISTRICTS_ARC::Trout" type="line"/>
+                        <Layer title="Massachusetts Towns Survey Boundaries" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Default" type="line"/>
+		</Folder>
+        <Folder title="Tiled Layers">
+           <Layer title="Detailed Features" style="" name="Basemaps_MassGISBasemapWithLabels2" type="tiled_overlay"/>
+        </Folder>
+</FolderSet>

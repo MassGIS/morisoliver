@@ -1,0 +1,127 @@
+<!-- edited with XML Spy v3.5 NT (http://www.xmlspy.com) by Aleda Freeman (MassGIS, ITD, Commonwealth of MA) -->
+<FolderSet xmlns="http://massgis.state.ma.us/oliver" id="MuniMapper Menu">
+           <Folder title="Northbridge Local Data">
+              <Layer title="Northbridge Zoning" name="massgis:GISDATA.ZONING_POLY_M216" style="GISDATA.ZONING_POLY_M216::Default" type="poly"/>
+              <Layer title="Northbridge Aquifer Protection District Zone 1 (Article XII)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Aquifer_Prot_Dist_1" type="poly"/>
+              <Layer title="Northbridge Aquifer Protection District Zone 2 (Article XII)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Aquifer_Prot_Dist_2" type="poly"/>
+              <Layer title="Northbridge Flood Plain District (Section 173-18)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Flood_Plain" type="poly"/>
+              <Layer title="Northbridge Floodway (Section 173-18)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Floodway" type="poly"/>
+              <Layer title="Northbridge Route 146 Overlay District (Article XVI)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Route_146" type="poly"/>
+              <Layer title="Northbridge Forest Products Overlay District (173-16.1)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Forest_Products" type="poly"/>
+              <Layer title="Northbridge Open Space Development Overlay District (Article XV)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::OpenSpace" type="poly"/>
+              <Layer title="Northbridge Historic Mill Adaptive Reuse Overlay (Article XIX)" name="massgis:GISDATA.ZONING_OVERLAY_POLY_M216" style="GISDATA.ZONING_OVERLAY_POLY_M216::Historic_Mill" type="poly"/>
+           </Folder>
+	   <Folder title="Tiled Layers">
+              <Layer title="Structures" style="" name="Basemaps_Structures" type="tiled_overlay"/>
+              <Layer title="Tax Parcels" style="" name="Basemaps_L3Parcels" type="tiled_overlay"/>   
+              <Layer title="Detailed Features" style="" name="Basemaps_MassGISBasemapWithLabels2" type="tiled_overlay"/>
+	   </Folder>
+	   <Folder title="Layers for Query">
+              <Layer title="Tax Parcels for Query" name="massgis:NorthbridgeEnvironsL3TaxParAssess" style="Blank_Polys" type="poly" shp="true"/> 
+              <Layer title="Roads for Query" name="massgis:GISDATA.NAVTEQRDS_ARC" style="Blank_Lines_Max_50000" type="line"/>
+	   </Folder>
+           <Folder title="Assessors Parcels">
+                        <Layer title="Northbridge Tax Parcels" name="massgis:NorthbridgeEnvironsL3TaxParAssess" style="Thick_Magenta_Polys_Max_18000" type="poly" shp="true"/>
+                        <Layer title="Northbridge Tax Parcels Other Legal Interests" name="massgis:GISDATA.L3_OTHLEG_POLY" style="GISDATA.L3_OTHLEG_POLY::Default" type="poly"/>
+                        <Layer title="Northbridge Tax Parcels Miscellaneous Features" name="massgis:GISDATA.L3_MISC_POLY" style="GISDATA.L3_MISC_POLY::Default" type="poly"/>
+                        <Layer title="Northbridge Tax Parcels Ids Black" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID" type="poly"/>
+                        <Layer title="Northbridge Tax Parcels Ids Magenta" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Magenta_Labels" type="poly"/>
+                        <Layer title="Northbridge Tax Parcels Site Address Magenta" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Magenta_Labels" type="poly"/>
+                        <Layer title="Northbridge Tax Parcels Assessor Records Fiscal Year" name="massgis:GISDATA.L3_TOWNFY" style="GISDATA.L3_TOWNFY::Default" type="poly"/>
+           </Folder>
+	       <Folder title="Buldings">
+                    <Folder title="Police Stations">
+                        	<Layer title="Police Stations" name="massgis:GISDATA.POLICESTATIONS_PT_MEMA" style="GISDATA.POLICESTATIONS_PT_MEMA::Default" type="pt"/>
+                        	<Layer title="Police Stations Labels" style="GISDATA.POLICESTATIONS_PT_MEMA::Labels" name="massgis:GISDATA.POLICESTATIONS_PT_MEMA" type="pt"/>
+               		</Folder>
+                	<Folder title="Fire Stations">
+                        	<Layer title="Fire Stations" name="massgis:GISDATA.FIRESTATIONS_PT_MEMA" style="GISDATA.FIRESTATIONS_PT_MEMA::Default" type="pt"/>
+                        	<Layer title="Fire Stations Labels" style="GISDATA.FIRESTATIONS_PT_MEMA::Labels" name="massgis:GISDATA.FIRESTATIONS_PT_MEMA" type="pt"/>
+                	</Folder>
+                	<Folder title="Schools">
+                        	<Layer title="Colleges and Universities Buildings" name="massgis:GISDATA.COLLEGES_PT" style="GISDATA.COLLEGES_PT::Default" type="pt"/>
+                        	<Layer title="Colleges and Universities Labels" style="GISDATA.COLLEGES_PT::Labels" name="massgis:GISDATA.COLLEGES_PT" type="pt"/>
+                        	<Layer title="Pre-kindergarten to High School Buildings" name="massgis:GISDATA.SCHOOLS_PT" style="GISDATA.SCHOOLS_PT::Default" type="pt"/>
+                        	<Layer title="Pre-kindergarten to High School Labels" style="GISDATA.SCHOOLS_PT::Labels" name="massgis:GISDATA.SCHOOLS_PT" type="pt"/>
+                	</Folder>
+                	<Folder title="Town Halls">
+                        	<Layer title="Town Halls" name="massgis:GISDATA.TOWNHALLS_PT_MEMA" style="GISDATA.TOWNHALLS_PT_MEMA::Default" type="pt"/>
+                        	<Layer title="Town Halls Labels" style="GISDATA.TOWNHALLS_PT_MEMA::Labels" name="massgis:GISDATA.TOWNHALLS_PT_MEMA" type="pt"/>
+                	</Folder>
+					<Folder title="All Buildings (Roof Outlines)">
+						<Layer title="Building Structures (2-D, from 2011-2012 Ortho Imagery)" name="massgis:GISDATA.STRUCTURES_POLY" style="GISDATA.STRUCTURES_POLY::Default" type="poly"/>
+					</Folder>
+           </Folder>
+		   <Folder title="Conservation">
+		     <Folder title="Openspace">
+				<Layer title="Openspace by Ownership" name="massgis:GISDATA.OPENSPACE_POLY" style="GISDATA.OPENSPACE_POLY::Ownership_Transparent" type="poly"/>
+				<Layer title="Openspace by Level of Protection" style="GISDATA.OPENSPACE_POLY::Level_Protection" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="Openspace Site Labels Black" style="GISDATA.OPENSPACE_POLY::Site_Labels" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="MDAR Agricultural Preservation Restrictions" style="GISDATA.OPENSPACE_POLY::MDAR_APR" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+				<Layer title="MDAR Agricultural Preservation Restrictions Labels Black" style="GISDATA.OPENSPACE_POLY::MDAR_APR_Labels" name="massgis:GISDATA.OPENSPACE_POLY" type="poly"/>
+			 </Folder>
+			 <Folder title="Natural Heritage and Endangered Species Program (NHESP) layers">
+				<Layer title="NHESP Certified Vernal Pools" name="massgis:GISDATA.CVP_PT" style="GISDATA.CVP_PT::Default" type="pt"/>
+				<Layer title="NHESP Potential Vernal Pools" name="massgis:GISDATA.PVP_PT" style="GISDATA.PVP_PT::Default" type="pt"/>
+				<Layer title="NHESP Priority Habitats of Rare Species" name="massgis:GISDATA.PRIHAB_POLY" style="GISDATA.PRIHAB_POLY::Default" type="poly"/>
+				<Layer title="NHESP Estimated Habitats of Rare Wildlife" name="massgis:GISDATA.ESTHAB_POLY" style="GISDATA.ESTHAB_POLY::Default" type="poly"/>
+			 </Folder>
+		   </Folder>
+		<Folder title="Regulatory Areas">
+			<Folder title="Title 5 Buffers">
+				<Layer title="Title 5 Buffers" name="massgis:GISDATA.TITLE5_POLY" style="GISDATA.TITLE5_POLY::Default" type="poly"/>
+			</Folder>
+			<Folder title="Wellhead Protection Areas">
+				<Layer title="IWPAs" name="massgis:GISDATA.IWPA_POLY" style="GISDATA.IWPA_POLY::Default" type="poly"/>
+				<Layer title="Zone IIs" name="massgis:GISDATA.ZONE2_POLY_DISSOLVE" style="GISDATA.ZONE2_POLY_DISSOLVE::Default" type="poly"/>
+			</Folder>
+			<Folder title="Surface Water Protection Areas">
+				<Layer title="Zone A" name="massgis:GISDATA.SWP_ZONES_POLY" style="GISDATA.SWP_ZONES_POLY::Zone_A" type="poly"/>
+				<Layer title="Zone B" name="massgis:GISDATA.SWP_ZONES_POLY" style="GISDATA.SWP_ZONES_POLY::Zone_B" type="poly"/>
+				<Layer title="Zone C" name="massgis:GISDATA.SWP_ZONES_POLY" style="GISDATA.SWP_ZONES_POLY::Zone_C" type="poly"/>
+			</Folder>
+			<Folder title="DEP Tier Classified 21E Sites">
+				<Layer title="DEP Tier Classified 21E Sites" style="GISDATA.C21E_PT::Default" name="massgis:GISDATA.C21E_PT" type="pt"/>
+			</Folder>
+		</Folder>
+		<Folder title="Municipal and Other Boundaries">
+			<Folder title="Town Boundaries">
+	            <Layer title="MA Towns Yellow Labels" style="GISDATA.TOWNS_POLY::Yellow_Labels" name="massgis:GISDATA.TOWNS_POLY" type="poly"/>
+			    <Layer title="MA Towns Survey Boundaries Arcs" name="massgis:GISDATA.TOWNSSURVEY_ARC" style="GISDATA.TOWNSSURVEY_ARC::Non_Coast_Max_150000" type="line"/> 
+			    <Layer title="MA Towns Survey Boundaries" name="massgis:GISDATA.TOWNSSURVEY_POLYM" style="GISDATA.TOWNSSURVEY_POLYM::Thick_Dashed_Yellow_Outlines" type="poly"/>				
+				<Layer title="MA Towns Survey Points" name="massgis:GISDATA.TOWNSSURVEY_PT" style="GISDATA.TOWNSSURVEY_PT::Default" type="pt"/>
+				<Layer title="MA Towns Survey Boundaries Quality or Source" style="GISDATA.TOWNSSURVEY_ARC::Boundary_Info" name="massgis:GISDATA.TOWNSSURVEY_ARC" type="line"/>
+				<Layer title="NY Towns" name="massgis:GISDATA.NYTOWNS_POLY" style="Black_Outlines" type="poly"/>
+				<Layer title="NY Towns Labels" style="GISDATA.NYTOWNS_POLY::Brown_Italic_Labels" name="massgis:GISDATA.NYTOWNS_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Congressional Districts">
+				<Layer title="Congressional Districts 113th" name="massgis:GISDATA.CONGRESS113_POLY" style="GISDATA.CONGRESS113_POLY::Default" type="poly"/>
+			</Folder>
+			<Folder title="Legislative Districts 2012">
+				<Layer title="Representative Districts 2012" name="massgis:GISDATA.HOUSE2012_POLY" style="GISDATA.HOUSE2012_POLY::Default" type="poly"/>
+				<Layer title="Representative Districts 2012 District Labels" style="GISDATA.HOUSE2012_POLY::Labels_District" name="massgis:GISDATA.HOUSE2012_POLY" type="poly"/>
+				<Layer title="Senate Districts 2012" name="massgis:GISDATA.SENATE2012_POLY" style="GISDATA.SENATE2012_POLY::Default" type="poly"/>
+				<Layer title="Senate Districts 2012 District Labels" style="GISDATA.SENATE2012_POLY::Labels_District" name="massgis:GISDATA.SENATE2012_POLY" type="poly"/>
+			</Folder>
+			<Folder title="Regional Transit Authorities">
+				<Layer title="Non MBTA RTAs" name="massgis:GISDATA.RTASNONMBTA_POLY" style="GISDATA.RTASNONMBTA_POLY::Default" type="poly"/>
+				<Layer title="Non MBTA RTAs Labels" style="GISDATA.RTASNONMBTA_POLY::Labels" name="massgis:GISDATA.RTASNONMBTA_POLY" type="poly"/>
+			</Folder>
+		</Folder>
+		<Folder title="Water Related">
+			<Folder title="DEP 1:12,000 Wetlands">
+                        	<Layer title="DEP Wetlands Change" name="massgis:GISDATA.WETCHANGE_POLY" style="GISDATA.WETCHANGE_POLY::Default" type="poly"/>
+                        	<Layer title="DEP Wetlands" style="GISDATA.WETLANDSDEP_POLY::Detailed_With_Outlines" name="massgis:GISDATA.WETLANDSDEP_POLY" type="poly"/>
+                        	<Layer title="DEP Wetlands Detailed Linear Features" style="GISDATA.WETLANDSDEP_ARC::Linear_Features" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+                       	 	<Layer title="DEP Wetlands Hydrologic Connections" style="GISDATA.WETLANDSDEP_ARC::Hydrologic_Connections" name="massgis:GISDATA.WETLANDSDEP_ARC" type="line"/>
+            </Folder>
+		    <Folder title="DEP 1:25,000 Rivers and Water Bodies">
+		 		<Layer title="DEP Rivers and Streams" name="massgis:GISDATA.HYDRO25K_ARC" style="GISDATA.HYDRO25K_ARC::Default" type="line"/>
+				<Layer title="DEP Water Bodies" name="massgis:GISDATA.HYDRO25K_POLY" style="GISDATA.HYDRO25K_POLY::Default" type="poly"/>
+			</Folder>
+			<Folder title="Dams">
+				<Layer title="Dams (by Hazard Code)" name="massgis:GISDATA.DAMS_PT" style="GISDATA.DAMS_PT::Default" type="pt"/>
+				<Layer title="Dams (by Hazard Code) Labels" name="massgis:GISDATA.DAMS_PT" style="GISDATA.DAMS_PT::Labels" type="pt"/>
+			</Folder>
+		</Folder>
+</FolderSet>

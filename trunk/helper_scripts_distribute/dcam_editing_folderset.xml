@@ -17,7 +17,7 @@
 		<Folder title="Impervious Surface">
 			<Layer title="Impervious Surface" name="massgis:GISDATA.IMG_IMPERVIOUSSURFACE" style="GISDATA.IMG_IMPERVIOUSSURFACE::Default" type="raster"/>
 		</Folder>
-		<Folder title="Orthophotos">
+<!--		<Folder title="Orthophotos">
 			<Folder title="Color Coastal Orthos 10k Index">
 				<Layer style="GISDATA.COQMAIN_POLY::Default" title="Color Coastal Orthos 10k Index" name="massgis:GISDATA.COQMAIN_POLY" type="poly"/>
 			</Folder>
@@ -26,9 +26,9 @@
 			<Layer title="2005 Color Orthos" name="massgis:GISDATA.IMG_COQ2005" style="GISDATA.IMG_COQ2005::Default" type="raster"/>
 			<Layer title="2001 Color Orthos" name="massgis:GISDATA.IMG_COQ2001" style="GISDATA.IMG_COQ2001::Default" type="raster"/>
 			<Layer title="1990s Black and White Orthos" name="massgis:GISDATA.IMG_BWORTHOS" style="GISDATA.IMG_BWORTHOS::Default" type="raster"/>
-<!--			<Layer title="1994 Coastal Color Ortho Mainland" name="massgis:GISDATA.IMG_COLOROQ1" style="GISDATA.IMG_COLOROQ1::Default" type="raster"/>
-			<Layer title="1994 Coastal Color Ortho Island" name="massgis:GISDATA.IMGCAT_COLOROQ1" style="GISDATA.IMGCAT_COLOROQ1::Default" type="raster"/>  -->
-		</Folder>
+			<Layer title="1994 Coastal Color Ortho Mainland" name="massgis:GISDATA.IMG_COLOROQ1" style="GISDATA.IMG_COLOROQ1::Default" type="raster"/>
+			<Layer title="1994 Coastal Color Ortho Island" name="massgis:GISDATA.IMGCAT_COLOROQ1" style="GISDATA.IMGCAT_COLOROQ1::Default" type="raster"/> 
+		</Folder>  -->
 		<Folder title="USGS Topographic Maps">
 			<Layer style="GISDATA.QUADS_POLY_REVDATE::Default" title="USGS Quads Last Revised" name="massgis:GISDATA.QUADS_POLY_REVDATE" type="poly"/>
 			<Layer title="USGS Topographic Maps" name="massgis:GISDATA.IMG_USGSQUADM" style="GISDATA.IMG_USGSQUADM::Default" type="raster"/>
@@ -166,17 +166,6 @@
         	                <Layer title="Parcels Level 3 Miscellaneous Features" name="massgis:GISDATA.L3_MISC_POLY" style="GISDATA.L3_MISC_POLY::Default" type="poly"/>
                 	        <Layer title="Parcels Level 3 Site Address Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::Site_Address_Magenta_Labels" type="poly"/>
                         	<Layer title="Parcels Level 3 Map Par Id Labels" name="massgis:GISDATA.L3_TAXPAR_POLY_ASSESS" style="GISDATA.L3_TAXPAR_POLY_ASSESS::MAP_PAR_ID_Magenta_Labels" type="poly"/>
-			</Folder>
-			<Folder title="Level 2">
-	                        <Layer title="Parcels Level 2" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::For_Orthos_Magenta" type="poly"/>
-        	                <Layer title="Parcels Level 2 Site Address Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Site_Address_Magenta" type="poly"/>
-                	        <Layer title="Parcels Level 2 Map Block Lot Labels" name="massgis:GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS" style="GISDATA.ASSESSPAR_POLY_PUBLIC_NOROADS::Map_Par_Id_Magenta" type="poly"/>
-			</Folder>
-			<Folder title="Level 0">
-	                        <Layer title="Parcels Level 0" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUBLIC::Magenta_Outlines" type="poly"/>
-        	                <Layer title="Parcels Level 0 Site Address Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Site_Addr_Magenta" type="poly"/>
-                	        <Layer title="Parcels Level 0 Map Id Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Map_Id_Magenta" type="poly"/>
-                        	<Layer title="Parcels Level 0 Acres Labels" name="massgis:GISDATA.ASSESSPARNC_POLY_PUB_NOROADS" style="GISDATA.ASSESSPARNC_POLY_PUB_NOROADS::Acres_Magenta" type="poly"/>
 			</Folder>
 		</Folder>
 		<Folder title="MA Town Boundaries">
