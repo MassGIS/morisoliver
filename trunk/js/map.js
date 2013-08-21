@@ -4944,39 +4944,47 @@ function printSave() {
   var l = {};
   var leg = {};
   var hits = 0;
+  var sortedLayers = [];
   for (var j = 0; j < map.layers.length; j++) {
-    if (map.layers[j].isBaseLayer && map.layers[j].grid && map.layers[j].visibility) {
+    sortedLayers.push(map.layers[j]);
+  }
+  sortedLayers.sort(function(obj1, obj2) {
+    return obj1.isBaseLayer ? -1 : 1;
+  });
+
+  for (var j = 0; j < sortedLayers.length; j++) {
+    if (sortedLayers[j].isBaseLayer && sortedLayers[j].grid && sortedLayers[j].visibility) {
       var a = [];
-      for (tilerow in map.layers[j].grid) {
-        for (tilei in map.layers[j].grid[tilerow]) {
-          var tile = map.layers[j].grid[tilerow][tilei];
+      for (tilerow in sortedLayers[j].grid) {
+        for (tilei in sortedLayers[j].grid[tilerow]) {
+          var tile = sortedLayers[j].grid[tilerow][tilei];
           if (tile && tile.bounds) {
-            var url      = map.layers[j].getURL(tile.bounds);
+            var url      = sortedLayers[j].getURL(tile.bounds);
             var position = tile.position;
             a.push({
                url     : url
               ,x       : position.x
               ,y       : position.y
-              ,opacity : map.layers[j].opacity
+              ,opacity : sortedLayers[j].opacity
               ,grid    : true
             });
           }
         }
       }
-      l[map.layers[j].name] = a;
+      l[sortedLayers[j].name] = a;
       hits++;
     }
-    else if (map.layers[j].isBaseLayer && map.layers[j].DEFAULT_PARAMS && map.layers[j].visibility) {
-      l[map.layers[j].name] = [{
-         url     : activeLyr[map.layers[j].name].getFullRequestString({})
+    else if (sortedLayers[j].isBaseLayer && sortedLayers[j].DEFAULT_PARAMS && sortedLayers[j].visibility) {
+      l[sortedLayers[j].name] = [{
+         url     : activeLyr[sortedLayers[j].name].getFullRequestString({})
         ,x       : 0
         ,y       : 0
-        ,opacity : activeLyr[map.layers[j].name].opacity
+        ,opacity : activeLyr[sortedLayers[j].name].opacity
       }];
       hits++;
     }
     for (var i in activeLyr) {
-      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK) {
+      if (sortedLayers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && sortedLayers[j].visibility && scaleOK(i).isOK) {
         l[i] = [{
            url     : activeLyr[i].getFullRequestString({})
           ,x       : 0
@@ -4986,19 +4994,19 @@ function printSave() {
         hits++;
         leg[i] = activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=');
       }
-      else if (map.layers[j].name == i && map.layers[j].visibility && scaleOK(i).isOK && map.layers[j].grid) {
+      else if (sortedLayers[j].name == i && sortedLayers[j].visibility && scaleOK(i).isOK && sortedLayers[j].grid) {
         var a = [];
-        for (tilerow in map.layers[j].grid) {
-          for (tilei in map.layers[j].grid[tilerow]) {
-            var tile = map.layers[j].grid[tilerow][tilei];
+        for (tilerow in sortedLayers[j].grid) {
+          for (tilei in sortedLayers[j].grid[tilerow]) {
+            var tile = sortedLayers[j].grid[tilerow][tilei];
             if (tile && tile.bounds) {
-              var url      = map.layers[j].getURL(tile.bounds);
+              var url      = sortedLayers[j].getURL(tile.bounds);
               var position = tile.position;
               a.push({
                  url     : url
                 ,x       : position.x
                 ,y       : position.y
-                ,opacity : map.layers[j].opacity
+                ,opacity : sortedLayers[j].opacity
                 ,grid    : true
               });
             }
