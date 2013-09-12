@@ -158,6 +158,6 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
 
     <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?<?php echo time()?>"></script>
-    <script type="text/javascript" src="js/map_test_dg.js?<?php echo time()?>"></script>
+    <script type="text/javascript" src="js/map.js?<?php echo time()?>"></script>
   </head>
 </html>

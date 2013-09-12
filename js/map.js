@@ -4944,47 +4944,49 @@ function printSave() {
   var l = {};
   var leg = {};
   var hits = 0;
-  var sortedLayers = [];
-  for (var j = 0; j < map.layers.length; j++) {
-    sortedLayers.push(map.layers[j]);
-  }
-  sortedLayers.sort(function(obj1, obj2) {
-    return obj1.isBaseLayer ? -1 : 1;
-  });
 
-  for (var j = 0; j < sortedLayers.length; j++) {
-    if (sortedLayers[j].isBaseLayer && sortedLayers[j].grid && sortedLayers[j].visibility) {
+  // go through all visible layers and pick out the base layer -- don't want it to be
+  // added to the end of the stack since it shows up as an activeLyr
+  for (var j = 0; j < map.layers.length; j++) {
+    if (map.layers[j].isBaseLayer && map.layers[j].grid && map.layers[j].visibility) {
       var a = [];
-      for (tilerow in sortedLayers[j].grid) {
-        for (tilei in sortedLayers[j].grid[tilerow]) {
-          var tile = sortedLayers[j].grid[tilerow][tilei];
+      for (tilerow in map.layers[j].grid) {
+        for (tilei in map.layers[j].grid[tilerow]) {
+          var tile = map.layers[j].grid[tilerow][tilei];
           if (tile && tile.bounds) {
-            var url      = sortedLayers[j].getURL(tile.bounds);
+            var url      = map.layers[j].getURL(tile.bounds);
             var position = tile.position;
             a.push({
                url     : url
               ,x       : position.x
               ,y       : position.y
-              ,opacity : sortedLayers[j].opacity
+              ,opacity : map.layers[j].opacity
               ,grid    : true
             });
           }
         }
       }
-      l[sortedLayers[j].name] = a;
+      l[map.layers[j].name] = a;
       hits++;
     }
-    else if (sortedLayers[j].isBaseLayer && sortedLayers[j].DEFAULT_PARAMS && sortedLayers[j].visibility) {
-      l[sortedLayers[j].name] = [{
-         url     : activeLyr[sortedLayers[j].name].getFullRequestString({})
+    else if (map.layers[j].isBaseLayer && map.layers[j].DEFAULT_PARAMS && map.layers[j].visibility) {
+      l[map.layers[j].name] = [{
+         url     : activeLyr[map.layers[j].name].getFullRequestString({})
         ,x       : 0
         ,y       : 0
-        ,opacity : activeLyr[sortedLayers[j].name].opacity
+        ,opacity : activeLyr[map.layers[j].name].opacity
       }];
       hits++;
     }
+  }
+
+  // grab everything else
+  for (var j = 0; j < map.layers.length; j++) {
+    if (l[i]) {
+      continue;
+    }
     for (var i in activeLyr) {
-      if (sortedLayers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && sortedLayers[j].visibility && scaleOK(i).isOK) {
+      if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK) {
         l[i] = [{
            url     : activeLyr[i].getFullRequestString({})
           ,x       : 0
@@ -4994,19 +4996,19 @@ function printSave() {
         hits++;
         leg[i] = activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=');
       }
-      else if (sortedLayers[j].name == i && sortedLayers[j].visibility && scaleOK(i).isOK && sortedLayers[j].grid) {
+      else if (map.layers[j].name == i && map.layers[j].visibility && scaleOK(i).isOK && map.layers[j].grid) {
         var a = [];
-        for (tilerow in sortedLayers[j].grid) {
-          for (tilei in sortedLayers[j].grid[tilerow]) {
-            var tile = sortedLayers[j].grid[tilerow][tilei];
+        for (tilerow in map.layers[j].grid) {
+          for (tilei in map.layers[j].grid[tilerow]) {
+            var tile = map.layers[j].grid[tilerow][tilei];
             if (tile && tile.bounds) {
-              var url      = sortedLayers[j].getURL(tile.bounds);
+              var url      = map.layers[j].getURL(tile.bounds);
               var position = tile.position;
               a.push({
                  url     : url
                 ,x       : position.x
                 ,y       : position.y
-                ,opacity : sortedLayers[j].opacity
+                ,opacity : map.layers[j].opacity
                 ,grid    : true
               });
             }
@@ -5018,6 +5020,7 @@ function printSave() {
       }
     }
   }
+
   if (hits > 0) {
     YUI().use("io","json-parse","json-stringify",function(Y) {
       var handleSuccess = function(ioId,o,args) {
