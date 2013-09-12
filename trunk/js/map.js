@@ -4982,10 +4982,10 @@ function printSave() {
 
   // grab everything else
   for (var j = 0; j < map.layers.length; j++) {
+    if (l[map.layers[j].name]) {
+      continue;
+    }
     for (var i in activeLyr) {
-      if (l[i]) {
-        continue;
-      }
       if (map.layers[j].name == i && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 && map.layers[j].visibility && scaleOK(i).isOK) {
         l[i] = [{
            url     : activeLyr[i].getFullRequestString({})
