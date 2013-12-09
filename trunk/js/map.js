@@ -4945,6 +4945,8 @@ function printSave() {
   var leg = {};
   var hits = 0;
 
+  pokeMap()
+
   // go through all visible layers and pick out the base layer -- don't want it to be
   // added to the end of the stack since it shows up as an activeLyr
   for (var j = 0; j < map.layers.length; j++) {
@@ -7113,3 +7115,16 @@ function bingAddressSearch(query,launchCmp) {
     }
   });
 }
+
+function pokeMap() {
+  // the basemaps may get out of step before a print, so poke it
+  if (map.getZoom() > 1) {
+    map.zoomIn();
+    map.zoomOut();
+  }
+  else {
+    map.zoomOut();
+    map.zoomIn();
+  }
+}
+
