@@ -594,6 +594,7 @@ Ext.onReady(function() {
      key  : bingKey
     ,type : 'Road'
     ,name : 'bingRoads'
+    ,tileOptions   : {crossOriginKeyword : null}
   });
   (function() {
     var origGetUrl = lyrBase['bingRoads'].getURL;
@@ -607,6 +608,7 @@ Ext.onReady(function() {
      key  : bingKey
     ,type : 'Aerial'
     ,name : 'bingAerial'
+    ,tileOptions   : {crossOriginKeyword : null}
   });
   (function() {
     var origGetUrl = lyrBase['bingAerial'].getURL;
@@ -620,6 +622,7 @@ Ext.onReady(function() {
      key  : bingKey
     ,type : 'AerialWithLabels'
     ,name : 'bingHybrid'
+    ,tileOptions   : {crossOriginKeyword : null}
   });
   (function() {
     var origGetUrl = lyrBase['bingHybrid'].getURL;
@@ -698,6 +701,7 @@ Ext.onReady(function() {
       ,units             : 'm'
       ,maxExtent         : maxExtent26986
       ,attribution       : null // enter a string for custom attribution
+      ,tileOptions   : {crossOriginKeyword : null}
     }
   );
   lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'] = new OpenLayers.Layer.OSM(
@@ -2315,7 +2319,7 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
           "service" : "wfs",
           "propertyname" : fieldList.join(',') ,  
           "typename" : thisTool.layer,
-          "outputformat" : "json",
+          "outputformat" : "text/javascript",
           "sortBy" : sort
         },
         proxy : new Ext.data.Geoserver_ScriptTagProxy ({
@@ -7127,4 +7131,3 @@ function pokeMap() {
     map.zoomIn();
   }
 }
-
