@@ -1,3 +1,14 @@
+<?php
+if  ( $_SERVER['HTTPS'] )
+        {
+                $host = $_SERVER['HTTP_HOST'];
+                $request_uri = $_SERVER['REQUEST_URI'];
+                $good_url = "http://" . $host . $request_uri;
+
+                header( "Location: $good_url" );
+                exit;
+        }
+?> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
   <head>
@@ -47,7 +58,6 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'bingAerial'
          ,'bingHybrid'
          ,'CloudMade'
-         ,'TopOSM-MA'
 	 ,'Basemaps_Orthos_DigitalGlobe2011_2012'
 	 ,'MassGIS_Basemap'
        ];
@@ -71,7 +81,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/oliver_small.png" alt="small OLIVER icon"/></td><td>&nbsp;&nbsp;</td><td>OLIVER: MassGIS\'s Online Mapping Tool</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/Updates+for+Web+Mapping+Services#UpdatesforWebMappingServices-OLIVER_Updates"><font size=-1>What\'s New in OLIVER</font></a></td></tr>';
+      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/oliver_small.png" alt="small OLIVER icon"/></td><td>&nbsp;&nbsp;</td><td>OLIVER: MassGIS\'s Online Mapping Tool</td><td>&nbsp;&nbsp;<font color="red">2/20/2014: Address search: Use red pin temporarily</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/Updates+for+Web+Mapping+Services#UpdatesforWebMappingServices-OLIVER_Updates">OLIVER Updates</a></td></td></tr>';
       var bannerHeight = 30;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
