@@ -210,7 +210,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Basemaps_Orthos_DigitalGlobe2011_2012|MassGIS_Basemap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|AGOL_Orthos_2013|Basemaps_Orthos_DigitalGlobe2011_2012|MassGIS_Basemap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -702,6 +702,40 @@ Ext.onReady(function() {
       ,maxExtent         : maxExtent26986
       ,attribution       : null // enter a string for custom attribution
       ,tileOptions   : {crossOriginKeyword : null}
+    }
+  );
+  lyrBase['AGOL_Orthos_2013'] = new OpenLayers.Layer.ArcGISCache(
+     'AGOL_Orthos_2013'
+    ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/Orthos/MapServer'
+    ,{
+       isBaseLayer : true
+      ,resolutions : [
+         156543.03392800014
+        ,78271.51696399994
+        ,39135.75848200009
+        ,19567.87924099992
+        ,9783.93962049996
+        ,4891.96981024998
+        ,2445.98490512499
+        ,1222.992452562495
+        ,611.4962262813797
+        ,305.74811314055756
+        ,152.87405657041106
+        ,76.43702828507324
+        ,38.21851414253662
+        ,19.10925707126831
+        ,9.554628535634155
+        ,4.77731426794937
+        ,2.388657133974685
+        ,1.1943285668550503
+        ,0.5971642835598172
+        ,0.29858214164761665
+        ,0.14929107082380833
+      ]
+      ,tileSize   : new OpenLayers.Size(256,256)
+      ,tileOrigin : new OpenLayers.LonLat(-2.00377E7,3.02411E7)
+      ,maxExtent  : new OpenLayers.Bounds(-8127003.119268231,5081499.066784813,-7833363.482456842,5308073.810462161)
+      ,projection : 'EPSG:3857'
     }
   );
   lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'] = new OpenLayers.Layer.OSM(
@@ -3353,6 +3387,9 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
+                if (lyrBase['AGOL_Orthos_2013'].map) {
+                  lyrBase['AGOL_Orthos_2013'].setOpacity(newVal/100);
+                }
                 if (lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'].map) {
                   lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'].setOpacity(newVal/100);
                 }
@@ -5919,6 +5956,7 @@ function showBaseLayerMetadata(l) {
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
     ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
+    ,'AGOL_Orthos_2013' : 'http://massgis.maps.arcgis.com/home/item.html?id=3dbb839b26ec40f991379cda90912399'
     ,'Basemaps_Orthos_DigitalGlobe2011_2012' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/dg2011-12-basemap.html'
     ,'MassGIS_Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
   };
@@ -6610,6 +6648,45 @@ function makeBasemapMenu() {
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
               map.setBaseLayer(lyrBase['TopOSM-MA']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'AGOL_Orthos_2013') {
+      bm.push(
+        {
+           text    : 'AGOL Orthophotos 2013'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'AGOL_Orthos_2013'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('AGOL_Orthos_2013');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('AGOL_Orthos_2013');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['AGOL_Orthos_2013']);
+              Ext.getCmp('customScale').setDisabled(true);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['AGOL_Orthos_2013']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
