@@ -709,32 +709,10 @@ Ext.onReady(function() {
     ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/Orthos/MapServer'
     ,{
        isBaseLayer : true
-      ,resolutions : [
-         156543.03392800014
-        ,78271.51696399994
-        ,39135.75848200009
-        ,19567.87924099992
-        ,9783.93962049996
-        ,4891.96981024998
-        ,2445.98490512499
-        ,1222.992452562495
-        ,611.4962262813797
-        ,305.74811314055756
-        ,152.87405657041106
-        ,76.43702828507324
-        ,38.21851414253662
-        ,19.10925707126831
-        ,9.554628535634155
-        ,4.77731426794937
-        ,2.388657133974685
-        ,1.1943285668550503
-        ,0.5971642835598172
-        ,0.29858214164761665
-        ,0.14929107082380833
-      ]
+      ,resolutions : [156543.03392800014, 78271.51696399994, 39135.75848200009, 19567.87924099992, 9783.93962049996, 4891.96981024998, 2445.98490512499, 1222.992452562495, 611.4962262813797, 305.74811314055756, 152.87405657041106, 76.43702828507324, 38.21851414253662, 19.10925707126831, 9.554628535634155, 4.77731426794937, 2.388657133974685, 1.1943285668550503, 0.5971642835598172, 0.29858214164761665, 0.14929107082380833]
       ,tileSize   : new OpenLayers.Size(256,256)
-      ,tileOrigin : new OpenLayers.LonLat(-2.00377E7,3.02411E7)
-      ,maxExtent  : new OpenLayers.Bounds(-8127003.119268231,5081499.066784813,-7833363.482456842,5308073.810462161)
+      ,tileOrigin : new OpenLayers.LonLat(-20037700,30241100)
+      ,maxExtent  : new OpenLayers.Bounds(-8113655.863049531,5091797.9187701475,-7846710.738675542,5297774.958476827)
       ,projection : 'EPSG:3857'
     }
   );
@@ -980,6 +958,14 @@ Ext.onReady(function() {
     ],projection:"EPSG:900913"
   });
   featureBboxSelectHover.activate();
+
+  map.events.register('zoomend',undefined,function() {
+    // the AGOL orthos aren't always in sync, so force a refresh :(
+    var lyr = map.getLayersByName('AGOL_Orthos_2013')[0];
+    if (lyr && lyr.visibility) {
+      lyr.redraw();
+    }
+  });
 
   var ctrl = new OpenLayers.Control.NavigationHistory({autoActivate : false});
   map.addControl(ctrl);
