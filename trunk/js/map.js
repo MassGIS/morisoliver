@@ -713,7 +713,7 @@ Ext.onReady(function() {
       ,tileSize   : new OpenLayers.Size(256,256)
       ,tileOrigin : new OpenLayers.LonLat(-20037700,30241100)
       ,maxExtent  : new OpenLayers.Bounds(-8113655.863049531,5091797.9187701475,-7846710.738675542,5297774.958476827)
-      ,projection : 'EPSG:3857'
+      ,projection : 'EPSG:900913'
     }
   );
   lyrBase['Basemaps_Orthos_DigitalGlobe2011_2012'] = new OpenLayers.Layer.OSM(
