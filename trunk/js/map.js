@@ -1160,7 +1160,12 @@ Ext.onReady(function() {
   });
 
   map.events.register('preaddlayer',this,function(e) {
-    if (!e.layer.isBaseLayer && !(e.layer instanceof OpenLayers.Layer.Vector) && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] == 'layergroup' || lyr2type[e.layer.name] == 'externalWms') || lyr2type[e.layer.name] == 'tiled_overlay') {
+    if (
+      !e.layer.isBaseLayer && 
+      !(e.layer instanceof OpenLayers.Layer.Vector)
+      && (String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0 || lyr2type[e.layer.name] && (lyr2type[e.layer.name][0] == 'layergroup' || lyr2type[e.layer.name][0] == 'externalWms'))
+      || (lyr2type[e.layer.name] && lyr2type[e.layer.name][0] == 'tiled_overlay')
+    ) {
       e.layer.events.register('loadstart',this,function(e) {
         if (document.getElementById(e.object.name + '.loading')) {
           document.getElementById(e.object.name + '.loading').src = 'img/loading.gif';
@@ -1179,7 +1184,7 @@ Ext.onReady(function() {
                   a.push(cn[i]);
                 }
               }
-              e.object.layer.name && lyr2type[e.object.layer.name] == 'tiled_overlay' && a.push('type' + wms2ico[wms] + 'Red');
+              e.object.layer.name && lyr2type[e.object.layer.name] && lyr2type[e.object.layer.name][0] == 'tiled_overlay' && a.push('type' + wms2ico[wms] + 'Red');
               n.getUI().getIconEl().className = a.join(' ');
               n.getUI().getIconEl().qtip = 'There was an error drawing this data layer.';
               if (document.getElementById(n.attributes.layer.name + '.loading')) {
@@ -1231,7 +1236,7 @@ Ext.onReady(function() {
       && !(e.layer instanceof OpenLayers.Layer.Vector)
       && ( 
         String(lyr2wms[e.layer.name]).indexOf(featurePrefix + ':') == 0
-        || new RegExp(/layergroup|externalWms|tiled_overlay/).test(lyr2type[e.layer.name])
+        || (lyr2type[e.layer.name] && new RegExp(/layergroup|externalWms|tiled_overlay/).test(lyr2type[e.layer.name][0]))
       )
     ) {
       map.setLayerIndex(e.layer,map.layers.length - 1 - countTopLayers());
@@ -1281,7 +1286,10 @@ Ext.onReady(function() {
         allLyr.push(attr.title);
         lyr2wms[attr.title]  = attr.name;
         lyr2proj[attr.title] = attr.only_project;
-        lyr2type[attr.title] = attr.type;
+        lyr2type[attr.title] = [attr.type];
+        if (attr.agol) {
+          lyr2type[attr.title].push({agol : attr.agol});
+        }
         wmsStyl[attr.title]  = attr.style;
       }
     }
@@ -3609,7 +3617,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active data layers on'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
+            if ((!activeLyr[i] == '') && String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || (lyr2type[i] && (lyr2type[i][0] == 'externalWms' || lyr2type[i][0] == 'tiled_overlay'))) {
               activeLyr[i].setVisibility(true);
             }
           }
@@ -3625,7 +3633,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,tooltip      : 'Turn all active data layers off'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
+            if (String(lyr2wms[i]).indexOf(featurePrefix + ':') == 0 || (lyr2type[i] && (lyr2type[i][0] == 'externalWms' || lyr2type[i][0] == 'tiled_overlay'))) {
               if (activeLyr[i].visibility) {
                 activeLyr[i].setVisibility(false);
               }
@@ -3642,7 +3650,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,text         : 'Remove all'
         ,handler      : function() {
           for (var i in activeLyr) {
-            if (String(lyr2wms[i]).indexOf(featurePrefix) == 0 || lyr2type[i] == 'externalWms' || lyr2type[i] == 'tiled_overlay') {
+            if (String(lyr2wms[i]).indexOf(featurePrefix) == 0 || (lyr2type[i] && (lyr2type[i][0] == 'externalWms' || lyr2type[i][0] == 'tiled_overlay'))) {
               map.removeLayer(activeLyr[i]);
               delete activeLyr[i];
             }
@@ -3717,7 +3725,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             messageContextMenuActiveLyr.findById('setColor').disable();
             messageContextMenuActiveLyr.findById('revertColor').disable();
           }
-          if (lyr2type[n.text] != 'externalWms') {
+          if (lyr2type[n.text] && lyr2type[n.text][0] != 'externalWms') {
             messageContextMenuActiveLyr.findById('viewMetadataUrl').enable();
           }
           else {
@@ -3902,7 +3910,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
 
 function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
   if (!activeLyr[title]) {
-    if (lyr2type[title] == 'tiled_overlay') {
+    if (lyr2type[title].length == 1 && lyr2type[title][0] == 'tiled_overlay') {
       activeLyr[title] = new OpenLayers.Layer.OSM(
         title
         ,['http://gisprpxy.itd.state.ma.us/tiles/' + wms + '/${z}/${y}/${x}.png',
@@ -3949,7 +3957,47 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
       activeLyr[title].layer = {
         name : title
       };
-    } else {
+    }
+    else if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay') {
+      // this is an AGOL dataset, so fetch the required metadata and create the OL object
+      OpenLayers.Request.issue({
+         url      : lyr2type[title][1].agol
+        ,async    : false
+        ,callback : function(r) {
+          var json = new OpenLayers.Format.JSON().read(r.responseText);
+          if (json) {
+            var maxExtent = new OpenLayers.Bounds(
+              json.fullExtent.xmin, 
+              json.fullExtent.ymin, 
+              json.fullExtent.xmax, 
+              json.fullExtent.ymax  
+            );
+            var resolutions = [];
+            for (var i = 0; i < json.tileInfo.lods.length; i++) {
+              resolutions.push(json.tileInfo.lods[i].resolution);
+            }
+            activeLyr[title] = new OpenLayers.Layer.ArcGISCache(title,json.tileServers,{
+               resolutions : resolutions
+              ,tileSize    : new OpenLayers.Size(json.tileInfo.cols,json.tileInfo.rows)
+              ,tileOrigin  : new OpenLayers.LonLat(json.tileInfo.origin.x,json.tileInfo.origin.y)
+              ,maxExtent   : maxExtent
+              ,projection  : 'EPSG:900913'
+              ,visibility  : true
+              ,isBaseLayer : false
+              ,addToLayerSwitcher : false
+              ,opacity            : opacity
+              ,transitionEffect   : null
+              ,attribution        : null
+            });
+            // need this fake layer object for loading events (tilesets aren't layers)
+            activeLyr[title].layer = {
+              name : title
+            };
+          }
+        }
+      });
+    }
+    else {
       activeLyr[title] = new OpenLayers.Layer.WMS(
          title
         ,url + (url.indexOf('?') < 0 ? '?' : '')
@@ -4060,7 +4108,7 @@ function syncIconScale() {
       var qtip = undefined;
       if (
         (map.getProjection().toLowerCase() != String(lyr2proj[n.attributes.layer.name]).toLowerCase() && String(lyr2proj[n.attributes.layer.name]) != 'undefined')
-        || (lyr2type[n.attributes.layer.name] == 'tiled_overlay' && map.getProjection().toLowerCase() != 'epsg:900913')
+        || (lyr2type[n.attributes.layer.name] && lyr2type[n.attributes.layer.name][0] == 'tiled_overlay' && map.getProjection().toLowerCase() != 'epsg:900913')
       ) {
         var p = n.getUI().getIconEl().className.split(' ');
         var found = false;
@@ -4670,7 +4718,7 @@ function mkDataWizardURL(title,ico) {
 }
 
 function scaleOK(name) {
-  if (!lyrMetadata[name] || lyrMetadata[name].customStyle || lyr2type[name] == 'externalWms') {
+  if (!lyrMetadata[name] || lyrMetadata[name].customStyle || (lyr2type[name] && lyr2type[name][0] == 'externalWms')) {
     return {isOK : true,range : ['']};
   }
   var ok  = true;
@@ -4687,7 +4735,7 @@ function scaleOK(name) {
 }
 
 function rasterOK(name) {
-  if (lyr2type[name] == 'externalWms') {
+  if (lyr2type[name] && lyr2type[name][0] == 'externalWms') {
     return true;
   }
   // continue using bbox for rasters
@@ -4921,7 +4969,7 @@ function mkPermalink() {
       opcty.push(map.layers[i].opacity);
       filt.push(escape(OpenLayers.Util.getParameters(map.layers[i].getFullRequestString({}))['FILTER']));
     }
-    else if (lyr2type[map.layers[i].name] == 'tiled_overlay' && map.layers[i].visibility) {
+    else if (lyr2type[map.layers[i].name] && lyr2type[map.layers[i].name][0] == 'tiled_overlay' && map.layers[i].visibility) {
       lyrs.push(map.layers[i].name + '~' + lyr2wms[map.layers[i].name] + '~' + '');
       opcty.push(map.layers[i].opacity);
       filt.push('undefined');
@@ -6002,7 +6050,7 @@ function addRemoteWmsLayer(rec) {
       ,top    : bbox[3]
     }
   };
-  lyr2type[lyr.name] = 'externalWms';
+  lyr2type[lyr.name] = ['externalWms'];
   lyr2wms[lyr.name]  = rec.get('name');
   wmsStyl[lyr.name]  = '';
   wms2ico[rec.get('name')] = 'layergroup';
