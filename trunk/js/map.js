@@ -943,6 +943,9 @@ Ext.onReady(function() {
     ,renderIntent   : "temporary"
   });
 
+  // No slippy panning (preparing for a possible OL 2.13.x upgrade.
+  OpenLayers.Control.DragPan.prototype.enableKinetic = false;
+
   map = new OpenLayers.Map('',{
     controls : [
        new OpenLayers.Control.Navigation()
