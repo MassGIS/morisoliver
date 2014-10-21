@@ -1432,6 +1432,8 @@ Ext.onReady(function() {
               if (Ext.getCmp('myFrameWin')) {
                 Ext.getCmp('myFrameWin').close();
               }
+              window.open(lyrMetadata[n.attributes.text].metadataUrl);
+              return;
               var MIF = new Ext.ux.ManagedIFramePanel({
                  defaultSrc  : lyrMetadata[n.attributes.text].metadataUrl
                 ,bodyBorder  : false
@@ -3805,6 +3807,8 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
             if (Ext.getCmp('myFrameWin')) {
               Ext.getCmp('myFrameWin').close();
             }
+            window.open(lyrMetadata[n.text].metadataUrl);
+            return;
             var MIF = new Ext.ux.ManagedIFramePanel({
                defaultSrc  : lyrMetadata[n.text].metadataUrl
               ,bodyBorder  : false
@@ -4322,6 +4326,8 @@ function loadLayerMetadata(wms,title,style,launchMetadataWin,addLayer,tstLyr) {
         if (Ext.getCmp('myFrameWin')) {
           Ext.getCmp('myFrameWin').close();
         }
+        window.open(lyrMetadata[args[1]].metadataUrl);
+        return;
         var MIF = new Ext.ux.ManagedIFramePanel({
            defaultSrc  : lyrMetadata[args[1]].metadataUrl
           ,bodyBorder  : false
