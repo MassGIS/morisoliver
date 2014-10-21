@@ -6707,7 +6707,7 @@ function makeBasemapMenu() {
     else if (availableBase[i] == 'AGOL_Orthos_2013') {
       bm.push(
         {
-           text    : 'AGOL Orthophotos 2013'
+           text    : 'Orthos 2013 (USGS)'
           ,group   : 'basemap'
           ,checked : defaultBase == 'AGOL_Orthos_2013'
           ,menu    : {items : [{
