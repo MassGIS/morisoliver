@@ -6007,6 +6007,8 @@ function showBaseLayerMetadata(l) {
   if (Ext.getCmp('baseLayerMetadataWin')) {
     Ext.getCmp('baseLayerMetadataWin').close();
   }
+  window.open(l2m[l]);
+  return;
   var MIF = new Ext.ux.ManagedIFramePanel({
      defaultSrc  : l2m[l]
     ,bodyBorder  : false
