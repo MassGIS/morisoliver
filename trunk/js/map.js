@@ -7237,7 +7237,7 @@ function bingAddressSearch(query,launchCmp) {
     }
     Y.on('io:success',handleSuccess,this,[]);
     if (query.text !== '') {
-      var request = Y.io(proxyLocBing + escape('http://70.37.131.143/REST/v1/Locations?q=' + escape(query.text) + '&key=' + bingKey));
+      var request = Y.io(proxyLocBing + escape('http://65.52.108.59/REST/v1/Locations?q=' + escape(query.text) + '&key=' + bingKey));
     }
   });
 }
