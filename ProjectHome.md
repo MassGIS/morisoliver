@@ -1,0 +1,2 @@
+MORIS (aka OLIVER) is a customizable online mapping application that uses several toolkits and accesses web mapping services.  MORIS was created by the Massachusetts Office of Coastal Zone Management (CZM), the Office of Geographic Information (MassGIS),
+SeaPlan (formerly Massachusetts Ocean Partnership) and Applied Science Associates (ASA) and Charlton Galvarino. MORIS can be used to search, display, and share spatial data pertaining to Massachusetts. Users can quickly create and share maps and download data for use in a Geographic Information System (GIS).
