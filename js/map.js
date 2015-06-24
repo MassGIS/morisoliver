@@ -7155,16 +7155,15 @@ function bingAddressSearch(query,launchCmp) {
     lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
     geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
   }
-
-  YUI().use("io","json-parse",function(Y) {
-    var handleSuccess = function(ioId,o,args) {
-      if (o.responseText == '') {
+  YUI().use('jsonp', 'jsonp-url', function (Y) {
+    var handleSuccess = function(o) {
+      if (!o) {
         if (launchCmp) {
           Ext.getCmp('searchLocation').enable();
         }
         return;
       }
-      var loc = Y.JSON.parse(o.responseText);
+      var loc = o;
       if (loc.resourceSets[0].estimatedTotal == 0) {
         Ext.Msg.alert('Location search results','The Bing service could not find any matching results.');
         if (launchCmp) {
@@ -7235,9 +7234,8 @@ function bingAddressSearch(query,launchCmp) {
         launchCmp.enable();
       }
     }
-    Y.on('io:success',handleSuccess,this,[]);
     if (query.text !== '') {
-      var request = Y.io(proxyLocBing + escape('http://65.52.108.59/REST/v1/Locations?q=' + escape(query.text) + '&key=' + bingKey));
+      var service = new Y.jsonp('http://dev.virtualearth.net/REST/v1/Locations?jsonp={callback}&key=' + bingKey + '&q=' + encodeURIComponent(query.text),handleSuccess);
     }
   });
 }
