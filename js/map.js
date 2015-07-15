@@ -3482,7 +3482,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,url          : toolSettings.massgisAddressSearch.url
       });
     }
-    else if (launchSearch.gcType == 'Bing' && toolSettings && toolSettings.bingAddressSearch) {
+    else if (launchSearch.gcType == 'Google' && toolSettings && toolSettings.bingAddressSearch) {
       bingAddressSearch({
          text         : launchSearch.address
         ,zoomToCenter : launchSearch.zoomTo == 'center'
