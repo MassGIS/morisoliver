@@ -54,11 +54,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'googleRoadmap'
          ,'googleHybrid'
          ,'openStreetMap'
-         ,'bingRoads'
-         ,'bingAerial'
-         ,'bingHybrid'
-         ,'CloudMade'
-	 ,'Basemaps_Orthos_DigitalGlobe2011_2012'
+	 ,'Orthos_2013_2014'
 	 ,'MassGIS_Basemap'
        ];
 
@@ -81,7 +77,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var kmlUrl = 'http://giswebservices.massgis.state.ma.us/geoserver/wms/kml';
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
-      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/oliver_small.png" alt="small OLIVER icon"/></td><td>&nbsp;&nbsp;</td><td>OLIVER: MassGIS\'s Online Mapping Tool</td><td>&nbsp;&nbsp;<font color="red">2/20/2014: Address search: Use red pin temporarily</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/Updates+for+Web+Mapping+Services#UpdatesforWebMappingServices-OLIVER_Updates">OLIVER Updates</a></td></td></tr>';
+      var bannerHTML = '<table style="font-family:Arial"><tr><td><img src="img/oliver_small.png" alt="small OLIVER icon"/></td><td>&nbsp;&nbsp;</td><td>OLIVER: MassGIS\'s Online Mapping Tool</td><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="https://wiki.state.ma.us/confluence/display/massgis/Updates+for+Web+Mapping+Services#UpdatesforWebMappingServices-OLIVER_Updates">OLIVER Updates</a></td><td>&nbsp;&nbsp;&nbsp;<font color="red">Please use the red pushpin instead of the "Search for location" window.</font></td></tr>';
       var bannerHeight = 30;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
@@ -151,7 +147,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="js/OpenLayers-2.12-rc7-ie10-fix.js"></script>
+    <script type="text/javascript" src="js/OpenLayers-2.13.1.js"></script>
 
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
