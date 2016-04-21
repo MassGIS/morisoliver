@@ -84,7 +84,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'show';
+	toolSettings.bingAddressSearch.status = 'hide';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -97,7 +97,16 @@
                 "alt": true,                    // not required if false
                 "key": "j"
         };
-	
+
+        toolSettings.massgisAddressSearch = {};
+        toolSettings.massgisAddressSearch.status = 'show';
+        toolSettings.massgisAddressSearch.keyMap = {                                       // not required
+                "ctrl":true,                    // not required if false
+                "alt": true,                    // not required if false
+                "key": "M"
+        };
+        toolSettings.massgisAddressSearch.url = 'http://gisprpxy.itd.state.ma.us/MassGISGeocodeServiceApplication/MassGISCustomGeocodeService.asmx';
+
 	toolSettings.exportData = {};
 	toolSettings.exportData.status = 'show';	
 	toolSettings.exportData.keyMap =  {					// not required
@@ -119,7 +128,7 @@
 	toolSettings.quickZoomTools.status = 'show';
 	toolSettings.quickZoomTools.tools = [
 		{id: 1,   						// ids must be unique
-		 label: 'Pick a town',
+		 label: 'Zoom to a town',
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
 		 valueField: 'TOWN',
 		 sortBy : 'TOWN', // optional, fieldname
