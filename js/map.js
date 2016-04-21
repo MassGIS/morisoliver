@@ -1946,7 +1946,7 @@ Ext.onReady(function() {
         ,scale   : 'large'
         ,icon    : 'img/09_clear_location.png'
         ,handler : function() {
-          Ext.getCmp('searchLocation').reset();
+          Ext.getCmp('searchLocation') && Ext.getCmp('searchLocation').reset();
           var f = lyrGeoLocate.features;
           for (var i = 0; i < f.length; i++) {
             lyrGeoLocate.removeFeatures(f[i]);
