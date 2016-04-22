@@ -590,48 +590,58 @@ Ext.onReady(function() {
   });
 
   Ext.QuickTips.init();
-  lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'Road'
-    ,name : 'bingRoads'
-    ,tileOptions   : {crossOriginKeyword : null}
-  });
-  (function() {
-    var origGetUrl = lyrBase['bingRoads'].getURL;
-    lyrBase['bingRoads'].getURL = function(bounds) {
-      var url = origGetUrl.apply(this,arguments).replace("http","https");
-      //console.log(url);
-      return url;
-    };
-  })();
-  lyrBase['bingAerial'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'Aerial'
-    ,name : 'bingAerial'
-    ,tileOptions   : {crossOriginKeyword : null}
-  });
-  (function() {
-    var origGetUrl = lyrBase['bingAerial'].getURL;
-    lyrBase['bingAerial'].getURL = function(bounds) {
-      var url = origGetUrl.apply(this,arguments).replace("http","https");
-      //console.log(url);
-      return url;
-    };
-  })();
-  lyrBase['bingHybrid'] = new OpenLayers.Layer.Bing({
-     key  : bingKey
-    ,type : 'AerialWithLabels'
-    ,name : 'bingHybrid'
-    ,tileOptions   : {crossOriginKeyword : null}
-  });
-  (function() {
-    var origGetUrl = lyrBase['bingHybrid'].getURL;
-    lyrBase['bingHybrid'].getURL = function(bounds) {
-      var url = origGetUrl.apply(this,arguments).replace("http","https");
-      //console.log(url);
-      return url;
-    };
-  })();
+
+  if (availableBase.indexOf('bingRoads') >= 0) {
+    lyrBase['bingRoads'] = new OpenLayers.Layer.Bing({
+       key  : bingKey
+      ,type : 'Road'
+      ,name : 'bingRoads'
+      ,tileOptions   : {crossOriginKeyword : null}
+    });
+    (function() {
+      var origGetUrl = lyrBase['bingRoads'].getURL;
+      lyrBase['bingRoads'].getURL = function(bounds) {
+        var url = origGetUrl.apply(this,arguments).replace("http","https");
+        //console.log(url);
+        return url;
+      };
+    })();
+  }
+
+  if (availableBase.indexOf('bingAerial') >= 0) {
+    lyrBase['bingAerial'] = new OpenLayers.Layer.Bing({
+       key  : bingKey
+      ,type : 'Aerial'
+      ,name : 'bingAerial'
+      ,tileOptions   : {crossOriginKeyword : null}
+    });
+    (function() {
+      var origGetUrl = lyrBase['bingAerial'].getURL;
+      lyrBase['bingAerial'].getURL = function(bounds) {
+        var url = origGetUrl.apply(this,arguments).replace("http","https");
+        //console.log(url);
+        return url;
+      };
+    })();
+  }
+
+  if (availableBase.indexOf('bingHybrid') >= 0) {
+    lyrBase['bingHybrid'] = new OpenLayers.Layer.Bing({
+       key  : bingKey
+      ,type : 'AerialWithLabels'
+      ,name : 'bingHybrid'
+      ,tileOptions   : {crossOriginKeyword : null}
+    });
+    (function() {
+      var origGetUrl = lyrBase['bingHybrid'].getURL;
+      lyrBase['bingHybrid'].getURL = function(bounds) {
+        var url = origGetUrl.apply(this,arguments).replace("http","https");
+        //console.log(url);
+        return url;
+      };
+    })();
+  }
+
   lyrBase['CloudMade'] = new OpenLayers.Layer.CloudMade("CloudMade",{
      key     : '08c529c870d246baa3b9ddcdecdc1c3c'
     ,styleId : 1
@@ -3379,13 +3389,13 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['TopOSM-MA'].map) {
                   lyrBase['TopOSM-MA'].setOpacity(newVal/100);
                 }
-                if (lyrBase['bingAerial'].map) {
+                if (lyrBase['bingAerial'] && lyrBase['bingAerial'].map) {
                   lyrBase['bingAerial'].setOpacity(newVal/100);
                 }
-                if (lyrBase['bingRoads'].map) {
+                if (lyrBase['bingRoads'] && lyrBase['bingRoads'].map) {
                   lyrBase['bingRoads'].setOpacity(newVal/100);
                 }
-                if (lyrBase['bingHybrid'].map) {
+                if (lyrBase['bingHybrid'] && lyrBase['bingHybrid'].map) {
                   lyrBase['bingHybrid'].setOpacity(newVal/100);
                 }
               }
