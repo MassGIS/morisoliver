@@ -14,6 +14,7 @@ if (typeof MorisOliverApp.quickZoomDefn == 'undefined') {
   MorisOliverApp.quickZoomDefn ={};
 }
 
+var olLegendPanel;
 var maxAllowedFeatures = 25000;
 var map;
 var lyrBase          = [];
@@ -1495,7 +1496,7 @@ Ext.onReady(function() {
     }
   });
   
-  var olLegendPanel = new GeoExt.LegendPanel({
+  olLegendPanel = new GeoExt.LegendPanel({
      title       : 'Legend'
   ,tabIndex : -1   
     ,region      : 'south'
@@ -3986,6 +3987,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
               ,opacity            : opacity
               ,transitionEffect   : null
               ,attribution        : null
+              ,legend_img         : json.legend_img
             });
             // need this fake layer object for loading events (tilesets aren't layers)
             activeLyr[title].layer = {
@@ -5092,7 +5094,7 @@ function printSave() {
           }
         }
         l[i] = a;
-        leg[i] = '';
+        leg[i] = activeLyr[i].legend_img ? activeLyr[i].legend_img : '';
         hits++;
       }
     }

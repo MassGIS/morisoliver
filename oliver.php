@@ -151,7 +151,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
-    <script type="text/javascript" src="js/GeoExt.js"></script>
+    <script type="text/javascript" src="js/geoext-compressed.js"></script>
 
 
 	<!-- editing tools -->
