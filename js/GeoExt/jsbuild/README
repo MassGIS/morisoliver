@@ -1,0 +1,3 @@
+jsbuild -o /tmp app.cfg
+That will create /tmp/geoext.js which needs to be copied over to wherever it needs to go.
+Usually http://morisoliver/js/geoext.js.
