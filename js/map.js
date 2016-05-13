@@ -211,7 +211,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|openStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos_2013_2014|MassGIS_Basemap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|OpenStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos 2013-2014|MassGIS Statewide Basemap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -695,10 +695,11 @@ Ext.onReady(function() {
       ,maxZoomLevel        : 20
     }
   );
-  lyrBase['openStreetMap'] = new OpenLayers.Layer.OSM(
-     'openStreetMap'
+  lyrBase['OpenStreetMap'] = new OpenLayers.Layer.OSM(
+     'OpenStreetMap'
     ,'http://tile.openstreetmap.org/${z}/${x}/${y}.png'
   );
+  lyrBase['OpenStreetMap'].attribution = 'Say somthing nice about me!';
   lyrBase['custom'] = new OpenLayers.Layer.WMS(
      'custom'
     ,'img/bg.png'
@@ -715,8 +716,8 @@ Ext.onReady(function() {
       ,tileOptions   : {crossOriginKeyword : null}
     }
   );
-  lyrBase['Orthos_2013_2014'] = new OpenLayers.Layer.ArcGISCache(
-     'Orthos_2013_2014'
+  lyrBase['Orthos 2013-2014'] = new OpenLayers.Layer.ArcGISCache(
+     'Orthos 2013-2014'
     ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/USGS_Orthos_2013_2014/MapServer'
     ,{
        isBaseLayer : true
@@ -725,10 +726,11 @@ Ext.onReady(function() {
       ,tileOrigin : new OpenLayers.LonLat(-20037508.3427870,20037508.3427870)
       ,maxExtent  : new OpenLayers.Bounds(-8354758.545259952,4858731.935224323,-7582815.991004959,5522904.142066518)
       ,projection : 'EPSG:900913'
+      ,attribution: 'Say something nice about me!'
     }
   );
-  lyrBase['MassGIS_Basemap'] = new OpenLayers.Layer.ArcGISCache(
-     'MassGIS_Basemap'
+  lyrBase['MassGIS Statewide Basemap'] = new OpenLayers.Layer.ArcGISCache(
+     'MassGIS Statewide Basemap'
     ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/MassGIS_Topographic_Features_for_Basemap/MapServer'
     ,{
        isBaseLayer : true
@@ -737,6 +739,7 @@ Ext.onReady(function() {
       ,tileOrigin : new OpenLayers.LonLat(-20037508.3427870,20037508.3427870)
       ,maxExtent  : new OpenLayers.Bounds(-8354758.545259952,4858731.935224323,-7582815.991004959,5522904.142066518)
       ,projection : 'EPSG:900913'
+      ,attribution: 'Say something nice about me!'
     }
   );
 
@@ -3375,17 +3378,17 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['googleHybrid'].map) {
                   lyrBase['googleHybrid'].setOpacity(newVal/100);
                 }
-                if (lyrBase['openStreetMap'].map) {
-                  lyrBase['openStreetMap'].setOpacity(newVal/100);
+                if (lyrBase['OpenStreetMap'].map) {
+                  lyrBase['OpenStreetMap'].setOpacity(newVal/100);
                 }
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
-                if (lyrBase['Orthos_2013_2014'].map) {
-                  lyrBase['Orthos_2013_2014'].setOpacity(newVal/100);
+                if (lyrBase['Orthos 2013-2014'].map) {
+                  lyrBase['Orthos 2013-2014'].setOpacity(newVal/100);
                 }
-                if (lyrBase['MassGIS_Basemap'].map) {
-                  lyrBase['MassGIS_Basemap'].setOpacity(newVal/100);
+                if (lyrBase['MassGIS Statewide Basemap'].map) {
+                  lyrBase['MassGIS Statewide Basemap'].setOpacity(newVal/100);
                 }
                 if (lyrBase['TopOSM-MA'].map) {
                   lyrBase['TopOSM-MA'].setOpacity(newVal/100);
@@ -5028,6 +5031,9 @@ function printSave() {
   // added to the end of the stack since it shows up as an activeLyr
   for (var j = 0; j < map.layers.length; j++) {
     if (map.layers[j].isBaseLayer && map.layers[j].grid && map.layers[j].visibility) {
+      if (map.layers[j].attribution) {
+        leg[map.layers[j].name] = {text: map.layers[j].attribution};
+      }
       var a = [];
       for (tilerow in map.layers[j].grid) {
         for (tilei in map.layers[j].grid[tilerow]) {
@@ -5073,7 +5079,7 @@ function printSave() {
           ,opacity : activeLyr[i].opacity
         }];
         hits++;
-        leg[i] = activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=');
+        leg[i] = {img: activeLyr[i].getFullRequestString({}).replace('GetMap','GetLegendGraphic').replace('LAYERS=','LAYER=')};
       }
       else if (map.layers[j].name == i && map.layers[j].visibility && scaleOK(i).isOK && map.layers[j].grid) {
         var a = [];
@@ -5094,7 +5100,7 @@ function printSave() {
           }
         }
         l[i] = a;
-        leg[i] = activeLyr[i].legend_img ? activeLyr[i].legend_img : '';
+        leg[i] = {img: activeLyr[i].legend_img ? activeLyr[i].legend_img : ''};
         hits++;
       }
     }
@@ -5992,8 +5998,8 @@ function showBaseLayerMetadata(l) {
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
     ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
-    ,'Orthos_2013_2014' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/colororthos2013.html'
-    ,'MassGIS_Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
+    ,'Orthos 2013-2014' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/colororthos2013.html'
+    ,'MassGIS Statewide Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
@@ -6619,12 +6625,12 @@ function makeBasemapMenu() {
         }
       );
     }
-    else if (availableBase[i] == 'openStreetMap') {
+    else if (availableBase[i] == 'OpenStreetMap') {
       bm.push(
         {
            text    : 'OpenStreetMap'
           ,group   : 'basemap'
-          ,checked : defaultBase == 'openStreetMap'
+          ,checked : defaultBase == 'OpenStreetMap'
           ,menu    : {items : [{
              text : 'View metadata'
             ,iconCls : 'buttonIcon'
@@ -6635,17 +6641,17 @@ function makeBasemapMenu() {
           }]}
           ,handler : function () {
             map.setOptions({fractionalZoom : false});
-            addBaseLayer('openStreetMap');
+            addBaseLayer('OpenStreetMap');
             Ext.getCmp('opacitySliderBaseLayer').setValue(100);
             if (map.getProjection() == 'EPSG:900913') {
-              map.setBaseLayer(lyrBase['openStreetMap']);
+              map.setBaseLayer(lyrBase['OpenStreetMap']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-              map.setBaseLayer(lyrBase['openStreetMap']);
+              map.setBaseLayer(lyrBase['OpenStreetMap']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6696,26 +6702,26 @@ function makeBasemapMenu() {
         }
       );
     }
-    else if (availableBase[i] == 'Orthos_2013_2014') {
+    else if (availableBase[i] == 'Orthos 2013-2014') {
       bm.push(
         {
            text    : 'Orthos 2013-2014'
           ,group   : 'basemap'
-          ,checked : defaultBase == 'Orthos_2013_2014'
+          ,checked : defaultBase == 'Orthos 2013-2014'
           ,menu    : {items : [{
              text : 'View metadata'
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('Orthos_2013_2014');
+              showBaseLayerMetadata('Orthos 2013-2014');
             }
           }]}
           ,handler : function () {
             map.setOptions({fractionalZoom : false});
-            addBaseLayer('Orthos_2013_2014');
+            addBaseLayer('Orthos 2013-2014');
             Ext.getCmp('opacitySliderBaseLayer').setValue(100);
             if (map.getProjection() == 'EPSG:900913') {
-              map.setBaseLayer(lyrBase['Orthos_2013_2014']);
+              map.setBaseLayer(lyrBase['Orthos 2013-2014']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6723,7 +6729,7 @@ function makeBasemapMenu() {
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-              map.setBaseLayer(lyrBase['Orthos_2013_2014']);
+              map.setBaseLayer(lyrBase['Orthos 2013-2014']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6735,26 +6741,26 @@ function makeBasemapMenu() {
         }
       );
     }
-    else if (availableBase[i] == 'MassGIS_Basemap') {
+    else if (availableBase[i] == 'MassGIS Statewide Basemap') {
       bm.push(
         {
            text    : 'MassGIS Statewide Basemap'
           ,group   : 'basemap'
-          ,checked : defaultBase == 'MassGIS_Basemap'
+          ,checked : defaultBase == 'MassGIS Statewide Basemap'
           ,menu    : {items : [{
              text : 'View metadata'
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('MassGIS_Basemap');
+              showBaseLayerMetadata('MassGIS Statewide Basemap');
             }
           }]}
           ,handler : function () {
             map.setOptions({fractionalZoom : false});
-            addBaseLayer('MassGIS_Basemap');
+            addBaseLayer('MassGIS Statewide Basemap');
             Ext.getCmp('opacitySliderBaseLayer').setValue(100);
             if (map.getProjection() == 'EPSG:900913') {
-              map.setBaseLayer(lyrBase['MassGIS_Basemap']);
+              map.setBaseLayer(lyrBase['MassGIS Statewide Basemap']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6762,7 +6768,7 @@ function makeBasemapMenu() {
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-              map.setBaseLayer(lyrBase['MassGIS_Basemap']);
+              map.setBaseLayer(lyrBase['MassGIS Statewide Basemap']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);

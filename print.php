@@ -65,7 +65,7 @@
 
   foreach ($json->{'legends'} as $k => $v) {
     $handle = fopen($tmp_dir.$id.'.'.count($legends).'.png','w');
-    fwrite($handle,@file_get_contents(mkLegendUrl($v)));
+    fwrite($handle,@file_get_contents(mkLegendUrl($v->{'img'})));
     fclose($handle);
     // use a blank image if no real legend came through
     if (!getimagesize($tmp_dir.$id.'.'.count($legends).'.png')) {
@@ -81,6 +81,10 @@
 
   $i = 0;
   foreach ($json->{'legends'} as $k => $v) {
+    $name = $k;
+    if (isset($v->{'text'})) {
+      $k .= "\n".$v->{'text'};
+    }
     array_push($titles,wordwrap($k,$legSize[0] / 6.5));
     $p = explode("\n",wordwrap($k,$legSize[0] / 6.5));
     $legSize[1] += $legends[$i++]->getImageHeight() + 20 + 12 * (count($p) - 1);
