@@ -53,13 +53,13 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'googleTerrain'
          ,'googleRoadmap'
          ,'googleHybrid'
-         ,'openStreetMap'
-	 ,'Orthos_2013_2014'
-	 ,'MassGIS_Basemap'
+         ,'OpenStreetMap'
+	 ,'Orthos 2013-2014'
+	 ,'MassGIS Statewide Basemap'
        ];
 
 
-      var defaultBase         = 'MassGIS_Basemap';   
+      var defaultBase         = 'MassGIS Statewide Basemap';   
       var defaultBaseOpacity  = 1;
       var defaultCoordUnit    = 'm';    // can be one of 'dms','dd','m'
       var defaultMeasureUnit  = 'm';      // can be one of 'm','mi','nm','yd','ft'
