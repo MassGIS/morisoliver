@@ -56,6 +56,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'OpenStreetMap'
 	 ,'Orthos 2013-2014'
 	 ,'MassGIS Statewide Basemap'
+         ,'Google 2014-2015 Orthoimagery'
        ];
 
 
@@ -164,6 +165,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
 
     <script type="text/javascript" src="/temp/OL_MORIS_cache/getCapsBbox.js?<?php echo time()?>"></script>
-    <script type="text/javascript" src="js/map.js?<?php echo time()?>"></script>
+    <script type="text/javascript" src="js/wmts.js"></script>
+    <script type="text/javascript" src="js/map.js"></script>
   </head>
 </html>

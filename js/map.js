@@ -211,7 +211,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|OpenStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos 2013-2014|MassGIS Statewide Basemap)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|OpenStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos 2013-2014|MassGIS Statewide Basemap|Google 2014-2015 Orthoimagery)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -742,6 +742,17 @@ Ext.onReady(function() {
       ,attribution: 'Say something nice about me!'
     }
   );
+  lyrBase['Google 2014-2015 Orthoimagery'] = new OpenLayers.Layer.WMTS({
+     name:        'Google 2014-2015 Orthoimagery'
+    ,url:         wmts[0].url
+    ,layer:       wmts[0].layer
+    ,matrixSet:   wmts[0].matrix_set
+    ,matrixIds:   wmts[0].matrix_ids
+    ,format:      'image/png'
+    ,style:       '_null'
+    ,attribution: 'Say something nice about me!'
+    ,projection:  'EPSG:900913'
+  });
 
   for (l in lyrBase) {
     lyrBase[l].transitionEffect = null;
@@ -3390,6 +3401,9 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['MassGIS Statewide Basemap'].map) {
                   lyrBase['MassGIS Statewide Basemap'].setOpacity(newVal/100);
                 }
+                if (lyrBase['Google 2014-2015 Orthoimagery'].map) {
+                  lyrBase['Google 2014-2015 Orthoimagery'].setOpacity(newVal/100);
+                }
                 if (lyrBase['TopOSM-MA'].map) {
                   lyrBase['TopOSM-MA'].setOpacity(newVal/100);
                 }
@@ -6000,6 +6014,7 @@ function showBaseLayerMetadata(l) {
     ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
     ,'Orthos 2013-2014' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/colororthos2013.html'
     ,'MassGIS Statewide Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
+    ,'Google 2014-2015 Orthoimagery'  : 'http://www.openstreetmap.org/'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
@@ -6769,6 +6784,45 @@ function makeBasemapMenu() {
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
               map.setBaseLayer(lyrBase['MassGIS Statewide Basemap']);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              map.setOptions({maxExtent : maxExtent900913});
+              map.zoomToExtent(ext);
+              refreshLayers();
+            }
+          }
+        }
+      );
+    }
+    else if (availableBase[i] == 'Google 2014-2015 Orthoimagery') {
+      bm.push(
+        {
+           text    : 'Google 2014-2015 Orthoimagery'
+          ,group   : 'basemap'
+          ,checked : defaultBase == 'Google 2014-2015 Orthoimagery'
+          ,menu    : {items : [{
+             text : 'View metadata'
+            ,iconCls : 'buttonIcon'
+            ,icon    : 'img/info1.png'
+            ,handler : function() {
+              showBaseLayerMetadata('Google 2014-2015 Orthoimagery');
+            }
+          }]}
+          ,handler : function () {
+            map.setOptions({fractionalZoom : false});
+            addBaseLayer('Google 2014-2015 Orthoimagery');
+            Ext.getCmp('opacitySliderBaseLayer').setValue(100);
+            if (map.getProjection() == 'EPSG:900913') {
+              map.setBaseLayer(lyrBase['Google 2014-2015 Orthoimagery']);
+              Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
+              Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
+              Ext.getCmp('zoomToAScale').setDisabled(true);
+              return;
+            }
+            else {
+              var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
+              map.setBaseLayer(lyrBase['Google 2014-2015 Orthoimagery']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
