@@ -4028,6 +4028,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
         ,format:    'image/png'
         ,style:     '_null'
         ,projection: 'EPSG:900913'
+        ,numZoomLevels: wmts[0].matrix_ids.length
         ,tileOptions: {
             crossOriginKeyword: null,
             eventListeners: {
