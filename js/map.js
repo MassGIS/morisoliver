@@ -752,6 +752,7 @@ Ext.onReady(function() {
     ,style:       '_null'
     ,attribution: 'Say something nice about me!'
     ,projection:  'EPSG:900913'
+    ,numZoomLevels: wmts[0].matrix_ids.length
   });
 
   for (l in lyrBase) {
