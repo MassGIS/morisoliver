@@ -56,7 +56,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'OpenStreetMap'
 	 ,'Orthos 2013-2014'
 	 ,'MassGIS Statewide Basemap'
-         ,'Google 2014-2015 Orthoimagery'
+         // ,'Google 2014-2015 Orthoimagery'
        ];
 
 
