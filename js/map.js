@@ -1302,6 +1302,9 @@ Ext.onReady(function() {
         if (attr.agol) {
           lyr2type[attr.title].push({agol : attr.agol});
         }
+        else if (attr.wmts) {
+          lyr2type[attr.title].push({wmts : true});
+        }
         wmsStyl[attr.title]  = attr.style;
       }
     }
@@ -3974,7 +3977,7 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
         name : title
       };
     }
-    else if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay') {
+    else if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay' && lyr2type[title][1].agol) {
       // this is an AGOL dataset, so fetch the required metadata and create the OL object
       OpenLayers.Request.issue({
          url      : lyr2type[title][1].agol
@@ -4012,6 +4015,42 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
             };
           }
         }
+      });
+    }
+    else if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay' && lyr2type[title][1].wmts) {
+      // this is an WMTS dataset
+      activeLyr[title] = new OpenLayers.Layer.WMTS({
+         name:      title
+        ,url:       wmts[0].url
+        ,layer:     wmts[0].layer
+        ,matrixSet: wmts[0].matrix_set
+        ,matrixIds: wmts[0].matrix_ids
+        ,format:    'image/png'
+        ,style:     '_null'
+        ,projection: 'EPSG:900913'
+        ,tileOptions: {
+            crossOriginKeyword: null,
+            eventListeners: {
+              'loaderror': function(evt) {
+                this.layer.errorTiles && this.layer.errorTiles.push(evt.object.url);
+                !this.layer.errorTiles && (this.layer.errorTiles = [evt.object.url]);
+                //console.log("error loading tile ",evt.object.url);
+              },
+              'loadend': function(evt) {
+                if (this.layer.errorTiles && this.layer.errorTiles.indexOf(evt.object.url) !== -1) {
+                  //console.log("tried to re-load tile with known bum url");
+                  evt.object.imgDiv.parentNode.removeChild(evt.object.imgDiv);
+                }
+                //console.log("loaded tile", evt);
+              }
+            }
+        }
+        ,visibility: true
+        ,isBaseLayer: false
+        ,addToLayerSwitcher: false
+        ,opacity : opacity
+        ,transitionEffect : null
+        ,attribution      : null
       });
     }
     else {
