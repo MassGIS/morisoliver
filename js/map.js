@@ -4020,40 +4020,45 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
     }
     else if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay' && lyr2type[title][1].wmts) {
       // this is an WMTS dataset
-      activeLyr[title] = new OpenLayers.Layer.WMTS({
-         name:      title
-        ,url:       wmts[0].url
-        ,layer:     wmts[0].layer
-        ,matrixSet: wmts[0].matrix_set
-        ,matrixIds: wmts[0].matrix_ids
-        ,format:    'image/png'
-        ,style:     '_null'
-        ,projection: 'EPSG:900913'
-        ,numZoomLevels: wmts[0].matrix_ids.length
-        ,tileOptions: {
-            crossOriginKeyword: null,
-            eventListeners: {
-              'loaderror': function(evt) {
-                this.layer.errorTiles && this.layer.errorTiles.push(evt.object.url);
-                !this.layer.errorTiles && (this.layer.errorTiles = [evt.object.url]);
-                //console.log("error loading tile ",evt.object.url);
-              },
-              'loadend': function(evt) {
-                if (this.layer.errorTiles && this.layer.errorTiles.indexOf(evt.object.url) !== -1) {
-                  //console.log("tried to re-load tile with known bum url");
-                  evt.object.imgDiv.parentNode.removeChild(evt.object.imgDiv);
+      if (map.getProjection() != 'EPSG:900913') {
+        Ext.Msg.alert('Incompatible layer', "This layer is incompatible with your current projection.");
+      }
+      else {
+        activeLyr[title] = new OpenLayers.Layer.WMTS({
+           name:      title
+          ,url:       wmts[0].url
+          ,layer:     wmts[0].layer
+          ,matrixSet: wmts[0].matrix_set
+          ,matrixIds: wmts[0].matrix_ids
+          ,format:    'image/png'
+          ,style:     '_null'
+          ,projection: 'EPSG:900913'
+          ,numZoomLevels: wmts[0].matrix_ids.length
+          ,tileOptions: {
+              crossOriginKeyword: null,
+              eventListeners: {
+                'loaderror': function(evt) {
+                  this.layer.errorTiles && this.layer.errorTiles.push(evt.object.url);
+                  !this.layer.errorTiles && (this.layer.errorTiles = [evt.object.url]);
+                  //console.log("error loading tile ",evt.object.url);
+                },
+                'loadend': function(evt) {
+                  if (this.layer.errorTiles && this.layer.errorTiles.indexOf(evt.object.url) !== -1) {
+                    //console.log("tried to re-load tile with known bum url");
+                    evt.object.imgDiv.parentNode.removeChild(evt.object.imgDiv);
+                  }
+                  //console.log("loaded tile", evt);
                 }
-                //console.log("loaded tile", evt);
               }
-            }
-        }
-        ,visibility: true
-        ,isBaseLayer: false
-        ,addToLayerSwitcher: false
-        ,opacity : opacity
-        ,transitionEffect : null
-        ,attribution      : null
-      });
+          }
+          ,visibility: true
+          ,isBaseLayer: false
+          ,addToLayerSwitcher: false
+          ,opacity : opacity
+          ,transitionEffect : null
+          ,attribution      : null
+        });
+      }
     }
     else {
       activeLyr[title] = new OpenLayers.Layer.WMS(
@@ -6330,6 +6335,21 @@ function saveResultsAs(request,format,extension,mode,gridPanel) {
   }
 }
 
+function checkForWMTS() {
+  var hits = 0;
+  for (var title in activeLyr) {
+    if (lyr2type[title].length == 2 && lyr2type[title][0] == 'tiled_overlay' && lyr2type[title][1].wmts) {
+      map.removeLayer(activeLyr[title]);
+      delete activeLyr[title];
+      hits++;
+    }
+  }
+
+  if (hits > 0) {
+    Ext.Msg.alert('Incompatible layer', "One or more layers have been removed due to projection incompatibility issues.");
+  }
+}
+
 function makeBasemapMenu() {
   var bm = [];
   for (i = 0; i < availableBase.length; i++) {
@@ -6357,6 +6377,7 @@ function makeBasemapMenu() {
               Ext.getCmp('zoomToAScale').setDisabled(false);
             }
             else {
+              checkForWMTS();
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:26986'));
               map.setBaseLayer(lyrBase['custom']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
