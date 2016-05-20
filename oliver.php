@@ -56,7 +56,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
          ,'OpenStreetMap'
 	 ,'Orthos 2013-2014'
 	 ,'MassGIS Statewide Basemap'
-         // ,'Google 2014-2015 Orthoimagery'
+         ,'Google 2014-2015 Orthoimagery'
        ];
 
 
@@ -104,6 +104,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <!-- maps.massgis.state.ma.us -->
     <script>
       proxyLoc     = '/cgi-bin/proxy.cgi?url=';
+proxyLoc = 'proxy.php?url=';
       //proxyLocBing = 'http://maps.massgis.state.ma.us/cgi-bin/get?';
 	  proxyLocBing = proxyLoc;
       mkzipCGI     = '/cgi-bin/mkzip';
@@ -148,7 +149,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="js/OpenLayers-2.13.1.js"></script>
+    <script type="text/javascript" src="/OpenLayers-2.13/lib/OpenLayers.js"></script>
 
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>

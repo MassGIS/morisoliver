@@ -32,6 +32,7 @@
         toolSettings.buffer.status = 'hide';
 
         toolSettings.identifyBuffer = {};
+        toolSettings.identifyBuffer.tooltip                      = 'Generate abutters list';
         toolSettings.identifyBuffer.selectDataLayer              = 'Tax Parcels for Query';
         toolSettings.identifyBuffer.bufferResultDataLayer        = 'Tax Parcels for Query';
         toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
@@ -47,7 +48,7 @@
         // If you want to show all fields, simply comment out the next few lines.
         // Otherwise, complete a working regular expression.
         toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
-          /^(OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
+          /^(MAP_PAR_ID|OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
         );
 
 
@@ -88,7 +89,7 @@
 
         toolSettings.identify = {};
         toolSettings.identifyPoly = {};
-        toolSettings.identify.status = 'hide';
+        toolSettings.identify.status = 'show';
         toolSettings.identifyPoly.status = 'hide';
 
         toolSettings.identify.identify_keymap = {
@@ -104,7 +105,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'show';
+	toolSettings.bingAddressSearch.status = 'hide';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -119,7 +120,7 @@
         };
 
         toolSettings.massgisAddressSearch = {};
-        toolSettings.massgisAddressSearch.status = 'hide';
+        toolSettings.massgisAddressSearch.status = 'show';
         toolSettings.massgisAddressSearch.keyMap = {                                       // not required
                 "ctrl":true,                    // not required if false
                 "alt": true,                    // not required if false
