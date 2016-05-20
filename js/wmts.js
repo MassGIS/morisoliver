@@ -27,4 +27,4 @@ var wmts = {
         "title": "Google_2014_2015_WMTS",
         "url": "https://wms.appgeo.com/login/path/sonata-alpine-vienna-oasis/wmts?"
     }
-}
+};

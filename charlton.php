@@ -39,10 +39,9 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
 
        var availableBase       = [
          'openStreetMap'
-         ,'bingAerial'
-         ,'bingHybrid'
-         ,'TopOSM-MA'
-         ,'Basemaps_Orthos_DigitalGlobe2011_2012'
+         ,'googleSatellite'
+         ,'googleHybrid'
+         ,'Orthos_2013_2014'
          ,'MassGIS_Basemap'
        ];
 
@@ -71,7 +70,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
       var namespaceUrl = 'http://massgis.state.ma.us/featuretype';
       var featurePrefix = 'massgis';
 
-var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><td><a target="_blank" href="http://www.townofcharlton.net"><img src="img/charlton.png" alt="Charlton, MA town seal"/></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=+3>MuniMapper: Charlton, MA</font><br/><font size=-1><a target="_blank" href="http://www.townofcharlton.net">Town of Charlton Web Site</a><br/><a target="_blank" href="munimapper_disclaimer.html">Disclaimer<font></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="img/munimapper_web.png" alt="MuniMapper logo"></td></tr>';
+var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><td><a target="_blank" href="http://www.townofcharlton.net"><img src="img/charlton.png" alt="Charlton, MA town seal"/></a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><font size=+3>MuniMapper: Charlton, MA</font><br/><font size=-1><a target="_blank" href="http://www.townofcharlton.net">Town of Charlton Web Site</a><br/><a target="_blank" href="munimapper_disclaimer.html">Disclaimer<font></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><img src="img/munimapper_web.png" alt="MuniMapper logo"></td><td>&nbsp;</td><td></td><td>&nbsp;</td><td>&nbsp;&nbsp;&nbsp;<font color="red">Please use the red pushpin instead of the "Search for location" window.</font></td></tr>';
       var bannerHeight = 125;
       var externalGetCaps = {
 //        'http://egisws02.nos.noaa.gov/ArcGIS/services/MPA/MPA_Inventory/MapServer/WMSServer' : {
@@ -92,6 +91,7 @@ var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><
     <!-- maps.massgis.state.ma.us -->
     <script>
       proxyLoc     = '/cgi-bin/proxy.cgi?url=';
+      proxyLoc = 'proxy.php?url=';
       //proxyLocBing = 'http://maps.massgis.state.ma.us/cgi-bin/get?';
 	  proxyLocBing = proxyLoc;
       mkzipCGI     = '/cgi-bin/mkzip';
@@ -135,7 +135,7 @@ var bannerHTML = '<table border="0" style="font-family:Arial;font-size:22"><tr><
     <script type="text/javascript" src="js/XmlTreeLoader.js"></script>
     <link rel="stylesheet" type="text/css" href="css/ogcsearch.css?20100805a">
     <script src="http://maps.massgis.state.ma.us/proj4js/proj4js-compressed.js"></script>
-    <script type="text/javascript" src="js/OpenLayers-2.12-rc7-ie10-fix.js"></script>
+    <script type="text/javascript" src="js/OpenLayers-2.13.1.js"></script>
     <script type="text/javascript" src="js/cloudmade.js"></script>
     <script type="text/javascript" src="js/util.js?<?php echo time()?>"></script>
     <script type="text/javascript" src="js/GeoExt.js"></script>
