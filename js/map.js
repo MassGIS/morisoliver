@@ -744,15 +744,15 @@ Ext.onReady(function() {
   );
   lyrBase['Google 2014-2015 Orthoimagery'] = new OpenLayers.Layer.WMTS({
      name:        'Google 2014-2015 Orthoimagery'
-    ,url:         wmts[0].url
-    ,layer:       wmts[0].layer
-    ,matrixSet:   wmts[0].matrix_set
-    ,matrixIds:   wmts[0].matrix_ids
+    ,url:         wmts['Google 2014-2015 Orthoimagery'].url
+    ,layer:       wmts['Google 2014-2015 Orthoimagery'].layer
+    ,matrixSet:   wmts['Google 2014-2015 Orthoimagery'].matrix_set
+    ,matrixIds:   wmts['Google 2014-2015 Orthoimagery'].matrix_ids
     ,format:      'image/png'
     ,style:       '_null'
     ,attribution: 'Say something nice about me!'
     ,projection:  'EPSG:900913'
-    ,numZoomLevels: wmts[0].matrix_ids.length
+    ,numZoomLevels: wmts['Google 2014-2015 Orthoimagery'].matrix_ids.length
   });
 
   for (l in lyrBase) {
@@ -4022,14 +4022,14 @@ function addLayer(wms,proj,title,viz,opacity,url,styles,filter) {
       // this is an WMTS dataset
       activeLyr[title] = new OpenLayers.Layer.WMTS({
          name:      title
-        ,url:       wmts[0].url
-        ,layer:     wmts[0].layer
-        ,matrixSet: wmts[0].matrix_set
-        ,matrixIds: wmts[0].matrix_ids
+        ,url:       wmts[title].url
+        ,layer:     wmts[title].layer
+        ,matrixSet: wmts[title].matrix_set
+        ,matrixIds: wmts[title].matrix_ids
         ,format:    'image/png'
         ,style:     '_null'
         ,projection: 'EPSG:900913'
-        ,numZoomLevels: wmts[0].matrix_ids.length
+        ,numZoomLevels: wmts[title].matrix_ids.length
         ,tileOptions: {
             crossOriginKeyword: null,
             eventListeners: {

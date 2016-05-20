@@ -1,5 +1,5 @@
-var wmts = [
-    {
+var wmts = {
+    "Google 2014-2015 Orthoimagery": {
         "layer": "massachusetts_level19qa",
         "matrix_ids": [
             "0to19:00",
@@ -27,4 +27,4 @@ var wmts = [
         "title": "Google_2014_2015_WMTS",
         "url": "https://wms.appgeo.com/login/path/sonata-alpine-vienna-oasis/wmts?"
     }
-];
+}
