@@ -830,6 +830,8 @@ Ext.onReady(function() {
           this.textNodes = [];
           layerRuler.removeFeatures(layerRuler.features);
           mouseMovements = 0;
+          // Keep this layer on top, DARNIT!
+          layerRuler && layerRuler.setZIndex(1000);
         }
         ,modify : function(point,line) {
           if (mouseMovements++ < 5) {
