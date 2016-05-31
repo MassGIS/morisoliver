@@ -5872,12 +5872,13 @@ function launchExportWizard(aoi) {
           }
           ,{
              xtype : 'fieldset'
-            ,title : 'Name of the ZIP file to download (do not use spaces)'
+            ,title : 'Name of the ZIP file to download'
             ,items : new Ext.form.TextField({
                name       : 'zipName'
               ,id         : 'zipName'
               ,allowBlank : false
               ,fieldLabel : 'File name'
+              ,maskRe     : /[a-zA-Z0-9|\-|_|\.]+/
             })
           }
         ]
