@@ -7318,7 +7318,7 @@ function bingAddressSearch(query,launchCmp) {
     }
     Y.on('io:success',handleSuccess,this,[]);
     if (query.text !== '') {
-      var googleAPIKey = 'AIzaSyBuB8P_e6vQcucjnE64Kh2Fwu6WzhMXZzI';
+      var googleAPIKey = 'AIzaSyC4G4ARDM7upvUuG8wXOHqqQsH7EZIli8k';
       var request = Y.io(proxyLocBing + escape('https://maps.googleapis.com/maps/api/geocode/json?key=' + googleAPIKey + '&address=' + escape(query.text)));
     }
   });
