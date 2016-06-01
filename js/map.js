@@ -3497,7 +3497,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
         ,url          : toolSettings.massgisAddressSearch.url
       });
     }
-    else if (launchSearch.gcType == 'Bing' && toolSettings && toolSettings.bingAddressSearch) {
+    else if (launchSearch.gcType == 'Google' && toolSettings && toolSettings.bingAddressSearch) {
       bingAddressSearch({
          text         : launchSearch.address
         ,zoomToCenter : launchSearch.zoomTo == 'center'
@@ -7221,7 +7221,7 @@ function bingAddressSearch(query,launchCmp) {
       lyrGeoLocate.removeFeatures(f[i]);
     }
     lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Point(ctr.lon,ctr.lat)));
-    geoLocateLonLat = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]);
+    geoLocateLonLat = ctr.clone();
   }
 
   function zoomToRegion(loc,bnds,ctr) {
@@ -7231,7 +7231,7 @@ function bingAddressSearch(query,launchCmp) {
       lyrGeoLocate.removeFeatures(f[i]);
     }
     lyrGeoLocate.addFeatures(new OpenLayers.Feature.Vector(bnds.toGeometry()));
-    geoLocateBnds =  new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]);
+    geoLocateBnds = bnds.clone();
   }
 
   YUI().use("io","json-parse",function(Y) {
@@ -7243,23 +7243,26 @@ function bingAddressSearch(query,launchCmp) {
         return;
       }
       var loc = Y.JSON.parse(o.responseText);
-      if (loc.resourceSets[0].estimatedTotal == 0) {
-        Ext.Msg.alert('Location search results','The Bing service could not find any matching results.');
+      if (!loc || loc.status != 'OK' || loc.results.length == 0) {
+        Ext.Msg.alert('Location search results','The Google service could not find any matching results.');
         if (launchCmp) {
           Ext.getCmp('searchLocation').enable();
         }
         return;
       }
-      var bnds = new OpenLayers.Bounds(loc.resourceSets[0].resources[0].bbox[1],loc.resourceSets[0].resources[0].bbox[0],loc.resourceSets[0].resources[0].bbox[3],loc.resourceSets[0].resources[0].bbox[2]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
-      var ctr = new OpenLayers.LonLat(loc.resourceSets[0].resources[0].point.coordinates[1],loc.resourceSets[0].resources[0].point.coordinates[0]).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+      var bnds = new OpenLayers.Bounds(
+         loc.results[0].geometry.viewport.southwest.lng
+        ,loc.results[0].geometry.viewport.southwest.lat
+        ,loc.results[0].geometry.viewport.northeast.lng
+        ,loc.results[0].geometry.viewport.northeast.lat
+      ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+      var ctr = new OpenLayers.LonLat(
+         loc.results[0].geometry.location.lng
+        ,loc.results[0].geometry.location.lat
+      ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
       geoLocateLonLat = undefined;
       geoLocateBnds = undefined;
-      var msg = [];
-      for (var i in loc.resourceSets[0].resources[0].address) {
-        if (loc.resourceSets[0].resources[0].address[i] !== '') {
-          msg.push(loc.resourceSets[0].resources[0].address[i]);
-        }
-      }
+      var msg = [loc.results[0].formatted_address];
 
       if (query.zoomToCenter) {
         zoomToCenter(loc,bnds,ctr);
@@ -7281,7 +7284,7 @@ function bingAddressSearch(query,launchCmp) {
            bodyStyle:'padding:5px 5px 0'
           ,border : false
           ,items     : [{
-             html : '<b>The Bing service found the following location with ' + loc.resourceSets[0].resources[0].confidence + ' confidence:</b><br>' + msg.join('<br>')
+             html : '<b>The Google service found the following location:</b><br>' + msg.join('<br>')
             ,border : false
           }]
           ,buttons : [
@@ -7315,7 +7318,8 @@ function bingAddressSearch(query,launchCmp) {
     }
     Y.on('io:success',handleSuccess,this,[]);
     if (query.text !== '') {
-      var request = Y.io(proxyLocBing + escape('http://65.52.108.59/REST/v1/Locations?q=' + escape(query.text) + '&key=' + bingKey));
+      var googleAPIKey = 'AIzaSyBuB8P_e6vQcucjnE64Kh2Fwu6WzhMXZzI';
+      var request = Y.io(proxyLocBing + escape('https://maps.googleapis.com/maps/api/geocode/json?key=' + googleAPIKey + '&address=' + escape(query.text)));
     }
   });
 }
