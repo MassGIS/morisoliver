@@ -7209,11 +7209,14 @@ function massgisAddressSearch(query,launchWin) {
 }
 
 function bingAddressSearch(query,launchCmp) {
-  if (launchCmp) {
+  if (launchCmp && query.text != '') {
     launchCmp.disable();
   }
 
-  function zoomToCenter(loc,bnds,ctr) {
+  // This is really GOOGLE MAP's Geocoding Service.
+  geocoder = geocoder || new google.maps.Geocoder(); 
+
+  function zoomToCenter(bnds,ctr) {
     map.setCenter(ctr);
     map.zoomToScale(1000);
     var f = lyrGeoLocate.features;
@@ -7224,7 +7227,7 @@ function bingAddressSearch(query,launchCmp) {
     geoLocateLonLat = ctr.clone();
   }
 
-  function zoomToRegion(loc,bnds,ctr) {
+  function zoomToRegion(bnds,ctr) {
     map.zoomToExtent(bnds);
     var f = lyrGeoLocate.features;
     for (var i = 0; i < f.length; i++) {
@@ -7234,42 +7237,34 @@ function bingAddressSearch(query,launchCmp) {
     geoLocateBnds = bnds.clone();
   }
 
-  YUI().use("io","json-parse",function(Y) {
-    var handleSuccess = function(ioId,o,args) {
-      if (o.responseText == '') {
-        if (launchCmp) {
-          Ext.getCmp('searchLocation').enable();
-        }
-        return;
-      }
-      var loc = Y.JSON.parse(o.responseText);
-      if (!loc || loc.status != 'OK' || loc.results.length == 0) {
-        Ext.Msg.alert('Location search results','The Google service could not find any matching results.');
-        if (launchCmp) {
-          Ext.getCmp('searchLocation').enable();
-        }
-        return;
-      }
+  query.text != '' && geocoder.geocode({address: query.text}, function(results, status) {
+    launchCmp && Ext.getCmp('searchLocation').enable();
+    if (status != google.maps.GeocoderStatus.OK) {
+      Ext.Msg.alert('Location search results','The Google service could not find any matching results.');
+    }
+    else {
+      var geoBounds = results[0].geometry.bounds.toJSON();
       var bnds = new OpenLayers.Bounds(
-         loc.results[0].geometry.viewport.southwest.lng
-        ,loc.results[0].geometry.viewport.southwest.lat
-        ,loc.results[0].geometry.viewport.northeast.lng
-        ,loc.results[0].geometry.viewport.northeast.lat
+         geoBounds.west
+        ,geoBounds.south
+        ,geoBounds.east
+        ,geoBounds.north
       ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
+      var geoCenter = results[0].geometry.location.toJSON();
       var ctr = new OpenLayers.LonLat(
-         loc.results[0].geometry.location.lng
-        ,loc.results[0].geometry.location.lat
+         geoCenter.lng
+        ,geoCenter.lat
       ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
       geoLocateLonLat = undefined;
       geoLocateBnds = undefined;
-      var msg = [loc.results[0].formatted_address];
+      var msg = [results[0].formatted_address];
 
       if (query.zoomToCenter) {
-        zoomToCenter(loc,bnds,ctr);
+        zoomToCenter(bnds,ctr);
         return;
       }
       else if (query.zoomToRegion) {
-        zoomToRegion(loc,bnds,ctr);
+        zoomToRegion(bnds,ctr);
         return;
       }
 
@@ -7280,6 +7275,7 @@ function bingAddressSearch(query,launchCmp) {
         ,plain       : true
         ,modal       : true
         ,layout      : 'fit'
+        ,geoCoder    : {bnds: bnds, ctr: ctr}
         ,items       : [new Ext.FormPanel({
            bodyStyle:'padding:5px 5px 0'
           ,border : false
@@ -7291,14 +7287,14 @@ function bingAddressSearch(query,launchCmp) {
             {
                text : 'Zoom to center point'
               ,handler : function() {
-                zoomToCenter(loc,bnds,ctr);
+                zoomToCenter(bnds,ctr);
                 locationWin.close();
               }
             }
             ,{
                text : 'Zoom to region'
               ,handler : function() {
-                zoomToRegion(loc,bnds,ctr);
+                zoomToRegion(bnds,ctr);
                 locationWin.close();
               }
             }
@@ -7315,11 +7311,6 @@ function bingAddressSearch(query,launchCmp) {
       if (launchCmp) {
         launchCmp.enable();
       }
-    }
-    Y.on('io:success',handleSuccess,this,[]);
-    if (query.text !== '') {
-      var googleAPIKey = 'AIzaSyC4G4ARDM7upvUuG8wXOHqqQsH7EZIli8k';
-      var request = Y.io(proxyLocBing + escape('https://maps.googleapis.com/maps/api/geocode/json?key=' + googleAPIKey + '&address=' + escape(query.text)));
     }
   });
 }

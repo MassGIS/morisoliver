@@ -35,6 +35,7 @@ this license.
       var mkzipCGI     = false;
       var mkzipLoc     = false;
       var bingDisabled = true;
+      var geocoder     = false;
       var bingKey;
       var xmlCacheLoc;
       var siteTitle;
@@ -122,7 +123,7 @@ var moreInfoHTML = '<table border="0" width=100% cellpadding=0 cellspacing=10><t
     <script>
       document.title = siteTitle;
     </script>
-    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>       
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA_HfNnWoFZIPvaYG2_GkNcJdAfIWTnpSM"></script>       
 	<link rel="stylesheet" type="text/css" href="css/morisoliver.css?<?php echo time(); ?>" />
     <link rel="stylesheet" type="text/css" href="http://maps.massgis.state.ma.us/ext-3.4.0/resources/css/ext-all.css" />
     <link rel="stylesheet" type="text/css" href="css/ext-ux-wiz.css" />
