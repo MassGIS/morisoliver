@@ -7125,10 +7125,6 @@ function massgisAddressSearch(query,launchWin) {
     launchWin.disable();
   }
 
-  if (query.text == '') {
-    return;
-  }
-
   function zoomToCenter(ctr) {
     map.setCenter(ctr);
     map.zoomToScale(1000);
