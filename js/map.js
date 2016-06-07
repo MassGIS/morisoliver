@@ -3499,7 +3499,7 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
     }
     else if (launchSearch.gcType == 'Google' && toolSettings && toolSettings.bingAddressSearch) {
       bingAddressSearch({
-         text         : launchSearch.address
+         text         : typeof launchSearch.address == 'object' ? launchSearch.address.join(' ') : launchSearch.address
         ,zoomToCenter : launchSearch.zoomTo == 'center'
         ,zoomToRegion : launchSearch.zoomTo == 'region'
       });
