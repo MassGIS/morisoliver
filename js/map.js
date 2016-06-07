@@ -7243,15 +7243,15 @@ function bingAddressSearch(query,launchCmp) {
       Ext.Msg.alert('Location search results','The Google service could not find any matching results.');
     }
     else {
-      var geoBounds = results[0].geometry.bounds.toJSON();
-      var bnds = new OpenLayers.Bounds(
+      var geoBounds = results[0].geometry.bounds && results[0].geometry.bounds.toJSON();
+      var bnds = geoBounds && new OpenLayers.Bounds(
          geoBounds.west
         ,geoBounds.south
         ,geoBounds.east
         ,geoBounds.north
       ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
-      var geoCenter = results[0].geometry.location.toJSON();
-      var ctr = new OpenLayers.LonLat(
+      var geoCenter = results[0].geometry.location && results[0].geometry.location.toJSON();
+      var ctr = geoCenter && new OpenLayers.LonLat(
          geoCenter.lng
         ,geoCenter.lat
       ).transform(new OpenLayers.Projection("EPSG:4326"),map.getProjectionObject());
@@ -7266,6 +7266,37 @@ function bingAddressSearch(query,launchCmp) {
       else if (query.zoomToRegion) {
         zoomToRegion(bnds,ctr);
         return;
+      }
+
+      var buttons = [
+        {
+           text : 'Cancel'
+          ,handler : function() {
+            locationWin.close();
+          }
+        }
+      ];
+      if (bnds) {
+        buttons.unshift(
+          {
+             text : 'Zoom to region'
+            ,handler : function() {
+              zoomToRegion(bnds,ctr);
+              locationWin.close();
+            }
+          }
+        );
+      }
+      if (ctr) {
+        buttons.unshift(
+          {
+             text : 'Zoom to center point'
+            ,handler : function() {
+              zoomToCenter(bnds,ctr);
+              locationWin.close();
+            }
+          }
+        );
       }
 
       var locationWin = new Ext.Window({
@@ -7283,28 +7314,7 @@ function bingAddressSearch(query,launchCmp) {
              html : '<b>The Google service found the following location:</b><br>' + msg.join('<br>')
             ,border : false
           }]
-          ,buttons : [
-            {
-               text : 'Zoom to center point'
-              ,handler : function() {
-                zoomToCenter(bnds,ctr);
-                locationWin.close();
-              }
-            }
-            ,{
-               text : 'Zoom to region'
-              ,handler : function() {
-                zoomToRegion(bnds,ctr);
-                locationWin.close();
-              }
-            }
-            ,{
-               text : 'Cancel'
-              ,handler : function() {
-                locationWin.close();
-              }
-            }
-          ]
+          ,buttons : buttons
         })]
       });
       locationWin.show();
