@@ -1,0 +1,12 @@
+<?xml version='1.0' standalone='yes'?>
+<Layer queryable="0">
+  <BoundingBox SRS="EPSG:26986" maxx="334279.393" maxy="961705.21" minx="29517.435" miny="775607.662" />
+  <KeywordList>
+    <Keyword>MassgisMetadataUrl=http://docs.digital.mass.gov/dataset/massgis-data-usgs-color-ortho-imagery-2019</Keyword>
+  </KeywordList>
+  <LatLonBoundingBox maxx="-69.85598707440859" maxy="42.90575948520038" minx="-73.58706326502185" miny="41.212256335503035" />
+  <Name>Orthos_2019</Name>
+  <SRS>EPSG:900913</SRS>
+  <Title>Orthos 2019</Title>
+  <Scale maxScaleDenominator="4700000" minScaleDenominator="564" />
+</Layer>
