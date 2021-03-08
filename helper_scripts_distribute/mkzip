@@ -64,7 +64,7 @@ my @cmd_args;
 foreach (@{$doc->{layer}}) {
   my %h = %{$_};
   # the urls in the following line should match the geoserver and metadata-webserver host names
-  if (!(unsafeXML($h{baseURL}) =~ /^($httpmeth):\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us|170.63.93.152|170.63.98.114|wsgw.mass.gov)/)) {
+  if (!(unsafeXML($h{baseURL}) =~ /^($httpmeth):\/\/(maps.massgis.state.ma.us|10.202.26.209|maps.massgis.digital.mass.gov|gis-prod.digital.mass.gov|giswebservices.dev.maps.digital.mass.gov|giswebservices.massgis.state.ma.us|10.202.25.161|170.63.93.152|170.63.98.114|wsgw.mass.gov|10.202.18.217)/)) {
     next;
   }
   #$h{baseURL} =~ s/^($httpmeth):\/\/maps.massgis.state.ma.us/http:\/\/127.0.0.1/;
@@ -164,12 +164,15 @@ foreach (@{$doc->{layer}}) {
     my $u = unsafeXML($_);
 
     #if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
-    if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
+    #if (!(unsafeXML($u) =~ /^http:\/\/(maps.massgis.state.ma.us|giswebservices.massgis.state.ma.us)/)) {
+    if (!(unsafeXML($u) =~ /^http:\/\/(10.202.26.209|10.202.25.161|giswebservices.dev.maps.digital.mass.gov)/)) {
       next;
     }
 
-    $u =~ s/^http:\/\/maps.massgis.state.ma.us/http:\/\/127.0.0.1/;
-    $u =~ s/^http:\/\/giswebservices.state.ma.us/http:\/\/170.63.93.153/;
+    #$u =~ s/^http:\/\/maps.massgis.state.ma.us/http:\/\/127.0.0.1/;
+    #$u =~ s/^http:\/\/giswebservices.state.ma.us/http:\/\/170.63.93.153/;
+    $u =~ s/^http:\/\/10.202.26.209/http:\/\/127.0.0.1/;
+    $u =~ s/^http:\/\/giswebservices.dev.maps.digital.mass.gov/http:\/\/10.202.25.161/;
 
     my @p = split(/\//,$u);
     my @cmd_args = ("wget",

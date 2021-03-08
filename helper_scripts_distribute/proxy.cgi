@@ -20,7 +20,7 @@ import base64
 #                'sigma.openplans.org', 'maps.massgis.state.ma.us', 'giswebservices.massgis.state.ma.us',
 #                'giswebservices.massgis.state.ma.us:80', 'www.openstreetmap.org', '170.63.93.152', '170.63.93.153', '170.63.170.148', '170.63.170.149']
 
-allowedHosts = ['www.mapsonline.net','egisws02.nos.noaa.gov','170.63.98.114','170.63.93.152','dev.virtualearth.net','70.37.131.143','wsgw.mass.gov','giswebservices.massgis.state.ma.us','209.80.128.252']
+allowedHosts = ['maps.massgis.digital.mass.gov','gis-prod.digital.mass.gov','giswebservices.dev.maps.digital.mass.gov','10.202.25.161:8080','10.202.26.28','www.mapsonline.net','egisws02.nos.noaa.gov','lindalino:8080','170.63.98.114','170.63.93.152','dev.virtualearth.net','wsgw.mass.gov','giswebservices.massgis.state.ma.us','209.80.128.252','maps.massgis.state.ma.us:8080','maps.massgis.state.ma.us','65.52.108.59','170.63.93.155','gisprpxy.itd.state.ma.us','tiles.arcgis.com','services1.arcgis.com','www.mass.gov','maps.googleapis.com','10.202.18.217:8080','10.202.18.217:8000']
 
 method = os.environ["REQUEST_METHOD"]
 	
@@ -37,20 +37,20 @@ if method == "POST":
 else:
     fs = cgi.FieldStorage()
     url = fs.getvalue('url', "http://www.openlayers.org")
-#    sys.stderr.write('url from request - ' + url)
+    #sys.stderr.write('url from request - ' + url)
 
 try:
     try:
         ref = os.environ["HTTP_REFERER"]
-        #sys.stderr.write('referer: ' + ref + "\n")
+        sys.stderr.write('referer: ' + ref + "\n")
 
     except Exception:
-        #sys.stderr.write('referrer is empty' + "\n")
+        sys.stderr.write('referrer is empty' + "\n")
         ref = ""
 
     host = url.split("/")[2]
     if allowedHosts and not host in allowedHosts:
-        sys.stderr.write("host " + host + " not allowed via this proxy")
+        #sys.stderr.write("host " + host + " not allowed via this proxy")
         print "Status: 502 Bad Gateway"
         print "Content-Type: text/plain"
         print
@@ -64,14 +64,23 @@ try:
             length = int(os.environ["CONTENT_LENGTH"])
 
             headers = {"Content-Type": os.environ["CONTENT_TYPE"], "Referer": ref}
-            if os.environ["HTTP_AUTHORIZATION"] != '':
+	    sys.stderr.write("headers: " + str(headers) + "\n")
+	    sys.stderr.write("os.environ: " + str(os.environ) + "\n")
+            
+	    auth_header =  os.environ["HTTP_AUTHORIZATION"]
+	    sys.stderr.write("Here is the auth header [MLH]: " + auth_header)
+
+	    if os.environ["HTTP_AUTHORIZATION"] != '':
                 headers["Authorization"] = os.environ["HTTP_AUTHORIZATION"]
                 sys.stderr.write("From Header - " + os.environ["HTTP_AUTHORIZATION"] + "\n")
-                #sys.stderr.write("adding auth header\n")
-            #else:
-                #sys.stderr.write(str(os.environ))
+                sys.stderr.write("adding auth header\n")
+            else:
+                sys.stderr.write("Here for MLH: " + str(os.environ))
+		sys.stderr.write("headers: " + str(headers) + "\n")
 
+	    sys.stderr.write("Here for MLH: Passed the If Else on auth headers ")
             body = sys.stdin.read(length)
+	    sys.stderr.write("body: " + body)
             r = urllib2.Request(url, body, headers)
             y = urllib2.urlopen(r)
         else:
@@ -97,15 +106,24 @@ try:
 
 except Exception, E:
     try:
+	sys.stderr.write("code is " + str(E.code) + "\n")
+
         if E.code == 401:
             print "Status: 401 Unauthorized"
             print "WWW-Authenticate: Basic realm=''"
  	    #y.close()
             #sys.stderr.write("401 when accessing redirect url")
+        elif E.code == 403:
+		print "Status: 403 Forbidden"
+		print "Not allowed to request this. MLH"
+	elif E.code == 503:
+		print "Status: 503 Service Unavailable"
+		print "Couldn't get the service from the backend serer. MLH"		
         else:
             raise Exception
     except:
         #sys.stderr.write("code is " + str(E.code) + "\n")
+	
         print "Status: 500 Unknown Error"
         sys.stderr.write("Some unexpected error occurred using proxy.cgi. Error text was: " + str(E))
 
