@@ -1,7 +1,7 @@
 toolSettings.filter = {
    wmsLayerName : 'Tax Parcels for Query'
   ,columns      : {
-    'TOWN_ID' : {
+    'town_id' : {
        type     : 'multiSelect'
       ,label    : 'Town'
       ,required : false
@@ -361,7 +361,7 @@ toolSettings.filter = {
 ,['351','YARMOUTH']
       ]
     }
-    ,'USE_CODE' : {
+    ,'use_code' : {
        type     : 'multiSelect'
       ,label    : 'Property type'
       ,required : true
@@ -685,7 +685,7 @@ toolSettings.filter = {
                 ,['9970','997-Other']
       ]
     }
-    ,'TOTAL_VAL' : {
+    ,'total_val' : {
        type     : 'number'
       ,label    : 'Total value ($)'
       ,required : false
@@ -696,7 +696,7 @@ toolSettings.filter = {
       ]
 */
     }
-    ,'LS_DATE' : {
+    ,'ls_date' : {
        type     : 'number'
       ,label    : 'Last sale date (YYYYMMDD)'
       ,required : false
@@ -707,7 +707,7 @@ toolSettings.filter = {
       ]
 */
     }
-    ,'LS_PRICE' : {
+    ,'ls_price' : {
        type     : 'number'
       ,label    : 'Last sale price ($)'
       ,required : false
@@ -718,7 +718,7 @@ toolSettings.filter = {
       ]
 */
     }
-    ,'LOT_SIZE' : {
+    ,'lot_size' : {
        type     : 'number'
       ,label    : 'Lot size (acres)'
       ,required : false
@@ -729,7 +729,7 @@ toolSettings.filter = {
       ]
 */
     }
-    ,'BLDG_VAL' : {
+    ,'bldg_val' : {
        type     : 'number'
       ,label    : 'Building value($)'
       ,required : false
@@ -1061,7 +1061,7 @@ toolSettings.filter = {
 
                     f.unshift(new OpenLayers.Filter.Spatial({
                        type     : OpenLayers.Filter.Spatial.INTERSECTS
-                      ,property : lyr2shp[toolSettings.filter.wmsLayerName] == 'true' ? 'the_geom' : 'SHAPE'
+                      ,property : lyr2shp[toolSettings.filter.wmsLayerName] == 'true' ? 'the_geom' : 'shape'
                       ,value    : map.getExtent().toGeometry()
                     }));
 

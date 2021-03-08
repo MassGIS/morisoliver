@@ -32,6 +32,7 @@
         toolSettings.buffer.status = 'hide';
 
         toolSettings.identifyBuffer = {};
+        toolSettings.identifyBuffer.tooltip                      = 'Generate abutters list';
         toolSettings.identifyBuffer.selectDataLayer              = 'Tax Parcels for Query';
         toolSettings.identifyBuffer.bufferResultDataLayer        = 'Tax Parcels for Query';
         toolSettings.identifyBuffer.maxFeaturesAllowedToUnion    = 3;
@@ -39,15 +40,15 @@
         toolSettings.identifyBuffer.droppedSelectFeaturesMessage = "Parcels of type ROW were dropped from the selected features.";
         toolSettings.identifyBuffer.droppedBufferFeaturesMessage = "Parcels of type ROW or PRIV_ROW were dropped from the buffered features.";
         toolSettings.identifyBuffer.selectDataLayerFilter        = function(attrs) {
-          return attrs['POLY_TYPE'] != 'ROW';
+          return attrs['poly_type'] != 'ROW';
         };
         toolSettings.identifyBuffer.bufferDataLayerFilter        = function(attrs) {
-          return attrs['POLY_TYPE'] != 'ROW' && attrs['POLY_TYPE'] != 'PRIV_ROW';
+          return attrs['poly_type'] != 'ROW' && attrs['poly_type'] != 'PRIV_ROW';
         };
         // If you want to show all fields, simply comment out the next few lines.
         // Otherwise, complete a working regular expression.
         toolSettings.identifyBuffer.fieldsToShow              = new RegExp(
-          /^(OWNER1|OWN_ADDR|OWN_CITY|OWN_STATE|OWN_ZIP|OWN_CO)$/
+          /^(map_par_id|owner1|own_addr|own_city|own_state|own_zip|own_co)$/
         );
 
 
