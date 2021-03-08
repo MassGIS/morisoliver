@@ -211,7 +211,7 @@ for (i in p) {
 }
 
 // make sure we have a base
-var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|OpenStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos 2013-2014|MassGIS Statewide Basemap|Google 2014-2015 Orthoimagery)$/;
+var okBase = /^(custom|googleSatellite|googleTerrain|googleRoadmap|googleHybrid|OpenStreetMap|bingRoads|bingAerial|bingHybrid|CloudMade|TopOSM-MA|Orthos 2019|MassGIS Statewide Basemap)$/;
 if (!okBase.test(defaultBase)) {
   defaultBase = 'custom';
 }
@@ -699,7 +699,7 @@ Ext.onReady(function() {
      'OpenStreetMap'
     ,'http://tile.openstreetmap.org/${z}/${x}/${y}.png'
   );
-  lyrBase['OpenStreetMap'].attribution = 'Say somthing nice about me!';
+  lyrBase['OpenStreetMap'].attribution = 'OpenStreetMap';
   lyrBase['custom'] = new OpenLayers.Layer.WMS(
      'custom'
     ,'img/bg.png'
@@ -716,9 +716,9 @@ Ext.onReady(function() {
       ,tileOptions   : {crossOriginKeyword : null}
     }
   );
-  lyrBase['Orthos 2013-2014'] = new OpenLayers.Layer.ArcGISCache(
-     'Orthos 2013-2014'
-    ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/USGS_Orthos_2013_2014/MapServer'
+  lyrBase['Orthos 2019'] = new OpenLayers.Layer.ArcGISCache(
+     'Orthos 2019'
+    ,'https://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/USGS_Orthos_2019/MapServer'
     ,{
        isBaseLayer : true
        ,resolutions: [156543.033928, 78271.5169639999, 39135.7584820001, 19567.8792409999, 9783.93962049996, 4891.96981024998, 2445.98490512499, 1222.99245256249, 611.49622628138, 305.748113140558, 152.874056570411, 76.4370282850732, 38.2185141425366, 19.1092570712683, 9.55462853563415, 4.77731426794937, 2.38865713397468, 1.19432856685505, 0.597164283559817, 0.29858214169740677, 0.14929107082380833]
@@ -726,12 +726,13 @@ Ext.onReady(function() {
       ,tileOrigin : new OpenLayers.LonLat(-20037508.3427870,20037508.3427870)
       ,maxExtent  : new OpenLayers.Bounds(-8354758.545259952,4858731.935224323,-7582815.991004959,5522904.142066518)
       ,projection : 'EPSG:900913'
-      ,attribution: 'Say something nice about me!'
+      ,attribution: '2019 Color Orthos (USGS)'
     }
   );
   lyrBase['MassGIS Statewide Basemap'] = new OpenLayers.Layer.ArcGISCache(
      'MassGIS Statewide Basemap'
-    ,'http://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/MassGIS_Topographic_Features_for_Basemap/MapServer'
+    ,'https://tiles.arcgis.com/tiles/hGdibHYSPO59RG1h/arcgis/rest/services/MassGIS_Topographic_Features_for_Basemap/MapServer'
+//    ,'http://gisprpxy.itd.state.ma.us/arcgisserver/rest/services/AGOL/MassGIS_Topographic_Features_for_Basemap/MapServer'
     ,{
        isBaseLayer : true
        ,resolutions: [156543.033928, 78271.5169639999, 39135.7584820001, 19567.8792409999, 9783.93962049996, 4891.96981024998, 2445.98490512499, 1222.99245256249, 611.49622628138, 305.748113140558, 152.874056570411, 76.4370282850732, 38.2185141425366, 19.1092570712683, 9.55462853563415, 4.77731426794937, 2.38865713397468, 1.19432856685505, 0.597164283559817, 0.29858214169740677]
@@ -739,20 +740,20 @@ Ext.onReady(function() {
       ,tileOrigin : new OpenLayers.LonLat(-20037508.3427870,20037508.3427870)
       ,maxExtent  : new OpenLayers.Bounds(-8354758.545259952,4858731.935224323,-7582815.991004959,5522904.142066518)
       ,projection : 'EPSG:900913'
-      ,attribution: 'Say something nice about me!'
+      ,attribution: 'MassGIS Topographic Features Basemap'
     }
   );
-  lyrBase['Google 2014-2015 Orthoimagery'] = new OpenLayers.Layer.WMTS({
-     name:        'Google 2014-2015 Orthoimagery'
-    ,url:         wmts['Google 2014-2015 Orthoimagery'].url
-    ,layer:       wmts['Google 2014-2015 Orthoimagery'].layer
-    ,matrixSet:   wmts['Google 2014-2015 Orthoimagery'].matrix_set
-    ,matrixIds:   wmts['Google 2014-2015 Orthoimagery'].matrix_ids
+  lyrBase['Google Orthoimagery'] = new OpenLayers.Layer.WMTS({
+     name:        'Google Orthoimagery'
+    ,url:         wmts['Google Orthoimagery'].url
+    ,layer:       wmts['Google Orthoimagery'].layer
+    ,matrixSet:   wmts['Google Orthoimagery'].matrix_set
+    ,matrixIds:   wmts['Google Orthoimagery'].matrix_ids
     ,format:      'image/png'
     ,style:       '_null'
-    ,attribution: 'Say something nice about me!'
+    ,attribution: 'Google Orthoimagery'
     ,projection:  'EPSG:900913'
-    ,numZoomLevels: wmts['Google 2014-2015 Orthoimagery'].matrix_ids.length
+    ,numZoomLevels: wmts['Google Orthoimagery'].matrix_ids.length
   });
 
   for (l in lyrBase) {
@@ -2371,7 +2372,9 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
           "sortBy" : sort
         },
         proxy : new Ext.data.Geoserver_ScriptTagProxy ({
-          url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+        //url: 'https://gis-prod.digital.mass.gov/geoserver/wfs',
+        url: 'https://giswebservices.massgis.state.ma.us/geoserver/wfs',
+	//url: 'http://10.202.18.217:8000/geoserver/wfs',
           "method":"GET"  
         }),
         reader : new Ext.data.JsonReader ({
@@ -2394,7 +2397,7 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
 		}.createDelegate(thisTool);
 		
 		thisStoreConfig.proxy = new Ext.data.Geoserver_ScriptTagProxy ({
-          url: 'http://giswebservices.massgis.state.ma.us/geoserver/wfs',
+          url: 'https://giswebservices.massgis.state.ma.us/geoserver/wfs',
           "method":"GET", 
 		  autoAbort : true
         }),
@@ -2743,8 +2746,8 @@ if (toolSettings && toolSettings.identifyBuffer && toolSettings.identifyBuffer.s
               }
             })
             ,new Ext.Action({
-               text     : 'About ' + siteTitle + ' (v. 2.24)'  // version
-              ,tooltip  : 'About ' + siteTitle + ' (v. 2.24)'  // version
+               text     : 'About ' + siteTitle + ' (v. 3.0)'  // version
+              ,tooltip  : 'About ' + siteTitle + ' (v. 3.0)'  // version
               ,handler  : function() {
                 var winAbout = new Ext.Window({
                    id          : 'extAbout'
@@ -3401,14 +3404,14 @@ if (!toolSettings || !toolSettings.commentTool || toolSettings.commentTool.statu
                 if (lyrBase['CloudMade'].map) {
                   lyrBase['CloudMade'].setOpacity(newVal/100);
                 }
-                if (lyrBase['Orthos 2013-2014'].map) {
-                  lyrBase['Orthos 2013-2014'].setOpacity(newVal/100);
+                if (lyrBase['Orthos 2019'].map) {
+                  lyrBase['Orthos 2019'].setOpacity(newVal/100);
                 }
                 if (lyrBase['MassGIS Statewide Basemap'].map) {
                   lyrBase['MassGIS Statewide Basemap'].setOpacity(newVal/100);
                 }
-                if (lyrBase['Google 2014-2015 Orthoimagery'].map) {
-                  lyrBase['Google 2014-2015 Orthoimagery'].setOpacity(newVal/100);
+                if (lyrBase['Google Orthoimagery'].map) {
+                  lyrBase['Google Orthoimagery'].setOpacity(newVal/100);
                 }
                 if (lyrBase['TopOSM-MA'].map) {
                   lyrBase['TopOSM-MA'].setOpacity(newVal/100);
@@ -4697,7 +4700,7 @@ function mkDataWizardURL(title,ico) {
     }
   }
   else {
-    geomName = 'SHAPE';
+    geomName = 'shape';
     if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
       geomName = 'the_geom';
     }
@@ -4942,7 +4945,7 @@ function runQueryStats(bounds,filterFeatures,lyr) {
       }
       poly.push(vertices[0].x + ' ' + vertices[0].y);
 
-      geomName = 'SHAPE';
+      geomName = 'shape';
       if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
         geomName = 'the_geom';
       }
@@ -5717,7 +5720,7 @@ function launchExportWizard(aoi) {
                 var title = rec.get('title');
                 Y.on('io:success',handleSuccess,this,[title,ico]);
      
-                geomName = 'SHAPE'; 
+                geomName = 'shape'; 
                 if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
                    geomName = 'the_geom';
                 }
@@ -6061,9 +6064,9 @@ function showBaseLayerMetadata(l) {
     ,'Google Roadmap'   : 'http://en.wikipedia.org/wiki/Google_Maps'
     ,'CloudMade'        : 'http://wiki.openstreetmap.org/wiki/CloudMade'
     ,'Massachusetts Topographic Map'        : 'http://wiki.openstreetmap.org/wiki/TopOSM' 
-    ,'Orthos 2013-2014' : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/datalayers/colororthos2013.html'
+    ,'Orthos 2019' : 'http://docs.digital.mass.gov/dataset/massgis-data-usgs-color-ortho-imagery-2019'
     ,'MassGIS Statewide Basemap'  : 'http://www.mass.gov/anf/research-and-tech/it-serv-and-support/application-serv/office-of-geographic-information-massgis/online-mapping/massgis-basemap.html'
-    ,'Google 2014-2015 Orthoimagery'  : 'http://www.openstreetmap.org/'
+    ,'Google Orthoimagery'  : 'http://www.mass.gov/massit/googleimagery'
   };
 
   if (Ext.getCmp('baseLayerMetadataWin')) {
@@ -6782,26 +6785,26 @@ function makeBasemapMenu() {
         }
       );
     }
-    else if (availableBase[i] == 'Orthos 2013-2014') {
+    else if (availableBase[i] == 'Orthos 2019') {
       bm.push(
         {
-           text    : 'Orthos 2013-2014'
+           text    : 'Orthos 2019'
           ,group   : 'basemap'
-          ,checked : defaultBase == 'Orthos 2013-2014'
+          ,checked : defaultBase == 'Orthos 2019'
           ,menu    : {items : [{
              text : 'View metadata'
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('Orthos 2013-2014');
+              showBaseLayerMetadata('Orthos 2019');
             }
           }]}
           ,handler : function () {
             map.setOptions({fractionalZoom : false});
-            addBaseLayer('Orthos 2013-2014');
+            addBaseLayer('Orthos 2019');
             Ext.getCmp('opacitySliderBaseLayer').setValue(100);
             if (map.getProjection() == 'EPSG:900913') {
-              map.setBaseLayer(lyrBase['Orthos 2013-2014']);
+              map.setBaseLayer(lyrBase['Orthos 2019']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6809,7 +6812,7 @@ function makeBasemapMenu() {
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-              map.setBaseLayer(lyrBase['Orthos 2013-2014']);
+              map.setBaseLayer(lyrBase['Orthos 2019']);
               Ext.getCmp('customScale').setDisabled(true);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6860,26 +6863,26 @@ function makeBasemapMenu() {
         }
       );
     }
-    else if (availableBase[i] == 'Google 2014-2015 Orthoimagery') {
+    else if (availableBase[i] == 'Google Orthoimagery') {
       bm.push(
         {
-           text    : 'Google 2014-2015 Orthoimagery'
+           text    : 'Google Orthoimagery'
           ,group   : 'basemap'
-          ,checked : defaultBase == 'Google 2014-2015 Orthoimagery'
+          ,checked : defaultBase == 'Google Orthoimagery'
           ,menu    : {items : [{
              text : 'View metadata'
             ,iconCls : 'buttonIcon'
             ,icon    : 'img/info1.png'
             ,handler : function() {
-              showBaseLayerMetadata('Google 2014-2015 Orthoimagery');
+              showBaseLayerMetadata('Google Orthoimagery');
             }
           }]}
           ,handler : function () {
             map.setOptions({fractionalZoom : false});
-            addBaseLayer('Google 2014-2015 Orthoimagery');
+            addBaseLayer('Google Orthoimagery');
             Ext.getCmp('opacitySliderBaseLayer').setValue(100);
             if (map.getProjection() == 'EPSG:900913') {
-              map.setBaseLayer(lyrBase['Google 2014-2015 Orthoimagery']);
+              map.setBaseLayer(lyrBase['Google Orthoimagery']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -6887,7 +6890,7 @@ function makeBasemapMenu() {
             }
             else {
               var ext = map.getExtent().transform(map.getProjectionObject(),new OpenLayers.Projection('EPSG:900913'));
-              map.setBaseLayer(lyrBase['Google 2014-2015 Orthoimagery']);
+              map.setBaseLayer(lyrBase['Google Orthoimagery']);
               Ext.getCmp('customScale') && Ext.getCmp('customScale').setDisabled(false);
               Ext.getCmp('customScaleHeader').setText('Custom scale disabled for current map projection.');
               Ext.getCmp('zoomToAScale').setDisabled(true);
@@ -7063,7 +7066,7 @@ function launchRowQuery(rowIndex,filterFeatures) {
   else {
     loadLayerDescribeFeatureType(lyr2wms[title]);
   }
-  geomName = 'SHAPE';
+  geomName = 'shape';
   if (lyr2shp[title] && lyr2shp[title].indexOf('true') !== -1) {
 geomName = 'the_geom'; 
 }

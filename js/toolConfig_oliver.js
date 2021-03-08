@@ -11,7 +11,7 @@
 	var toolSettings = {};
 
         toolSettings.externalWMS = {}
-        toolSettings.externalWMS.status = 'show';
+        toolSettings.externalWMS.status = 'hide';
 	
 	toolSettings.measureTool = {};
 	toolSettings.measureTool.status = 'show';
@@ -84,7 +84,7 @@
         };
 	
 	toolSettings.bingAddressSearch = {};
-	toolSettings.bingAddressSearch.status = 'hide';
+	toolSettings.bingAddressSearch.status = 'show';
 	toolSettings.bingAddressSearch.keyMap = {					// not required
 		"ctrl":true,			// not required if false
 		"alt": true,			// not required if false
@@ -99,7 +99,7 @@
         };
 
         toolSettings.massgisAddressSearch = {};
-        toolSettings.massgisAddressSearch.status = 'show';
+        toolSettings.massgisAddressSearch.status = 'hide';
         toolSettings.massgisAddressSearch.keyMap = {                                       // not required
                 "ctrl":true,                    // not required if false
                 "alt": true,                    // not required if false
@@ -130,10 +130,10 @@
 		{id: 1,   						// ids must be unique
 		 label: 'Zoom to a town',
 		 layer: 'massgis:GISDATA.TOWNS_POLYM',
-		 valueField: 'TOWN',
-		 sortBy : 'TOWN', // optional, fieldname
+		 valueField: 'town',
+		 sortBy : 'town', // optional, fieldname
 		 sortOrder : 'A', // optional, acceptable values = A, D
-		 additionalFields : 'TOWN_ID',	// optional will be requested, often used by other restriction filters
+		 additionalFields : 'town_id',	// optional will be requested, often used by other restriction filters
 		 keyMap: {					// not required
 			"ctrl":true,			// not required if false
 			"alt": true,			// not required if false
@@ -149,7 +149,7 @@
 		commentDesc: "Leave a comment about an error in the data",
 		layerName: 'AFREEMAN.GEOSERVER_TEST_PT_COMMENT',
 		srs : 'EPSG:26986',
-		geometryName : "SHAPE"
+		geometryName : "shape"
 		};
 
 	toolSettings.commentTool.keyMap = {					// not required
